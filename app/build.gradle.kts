@@ -48,18 +48,5 @@ android {
 
 dependencies {
     // Kotlin
-    implementation(Dependencies.Kotlin.stdlibJvm)
-    implementation(Dependencies.Kotlin.coroutines)
-    implementation(Dependencies.Kotlin.androidCoroutinesDispatcher)
-    // AndroidX
-    implementation(Dependencies.AndroidX.appCompat)
-    implementation(Dependencies.AndroidX.constraint)
-    // AndroidX Navigation
-    implementation(Dependencies.AndroidX.Navigation.runtime)
-    implementation(Dependencies.AndroidX.Navigation.fragment)
-    implementation(Dependencies.AndroidX.Navigation.ui)
-    implementation(Dependencies.AndroidX.Navigation.runtimeKtx)
-    implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
-    // AndroidX coreKtx
-    implementation(Dependencies.AndroidX.coreKtx)
+    implementation(project(":home"))
 }

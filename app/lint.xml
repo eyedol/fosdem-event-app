@@ -8,4 +8,6 @@
         <ignore path="src/main/AndroidManifest.xml"/>
         <ignore path="src/debug/AndroidManifest.xml"/>
     </issue>
+
+    <issue id="ObsoleteLintCustomCheck" severity="ignore"/>
 </lint>

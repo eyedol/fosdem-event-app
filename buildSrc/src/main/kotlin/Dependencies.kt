@@ -1,7 +1,10 @@
 object Dependencies {
 
+    val timber = "com.jakewharton.timber:timber:4.7.1"
+
     object GradlePlugin {
-        val android = "com.android.tools.build:gradle:3.4.0-beta05"
+        val version = "3.4.0-beta05"
+        val android = "com.android.tools.build:gradle:$version"
         val r8 = "com.android.tools:r8:1.3.52"
         val kotlin = Kotlin.version
         val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
@@ -31,8 +34,13 @@ object Dependencies {
         val preference = "androidx.preference:preference:1.0.0"
         val fragment = "androidx.fragment:fragment:1.1.0-alpha03"
 
-        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
-        val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata:2.0.0"
+        object Lifecycle {
+            val version = "2.0.0"
+            val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
+            val liveData = "androidx.lifecycle:lifecycle-livedata:$version"
+            val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
+            val compiler = "androidx.lifecycle:lifecycle-compiler:$version"
+        }
 
         object Room {
             val version = "2.1.0-alpha03"
@@ -56,5 +64,30 @@ object Dependencies {
             val runtime = "android.arch.work:work-runtime:$version"
             val runtimeKtx = "android.arch.work:work-runtime-ktx:$version"
         }
+    }
+
+    object Dagger {
+        val version = "2.21"
+        val core = "com.google.dagger:dagger:$version"
+        val android = "com.google.dagger:dagger-android:$version"
+        val support = "com.google.dagger:dagger-android-support:$version"
+        val compiler = "com.google.dagger:dagger-compiler:$version"
+        val processor = "com.google.dagger:dagger-android-processor:$version"
+    }
+
+    object Glide {
+        val version = "4.9.0"
+        val core = "com.github.bumptech.glide:glide:$version"
+        val okhttp3 = "com.github.bumptech.glide:okhttp3-integration:$version"
+        val compiler = "com.github.bumptech.glide:compiler:$version"
+    }
+
+    object Databinding {
+        val compiler = "androidx.databinding:databinding-compiler:${GradlePlugin.version}"
+    }
+
+    object Test {
+        val junit = "junit:junit:4.12"
+        val testRunner = "androidx.test:runner:1.1.0"
     }
 }
