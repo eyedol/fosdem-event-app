@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.session
+package com.addhen.fosdem.di.module
 
-import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.model.Session
-import javax.inject.Inject
+import com.addhen.fosdem.data.repository.session.SessionDataRepository
+import com.addhen.fosdem.data.repository.session.SessionRepository
+import dagger.Module
+import dagger.Provides
 import javax.inject.Singleton
 
-@Singleton
-class SessionDataRepository @Inject constructor(val local: LocalDataSource) : SessionRepository {
+/**
+ * Development related dagger modules.
+ */
+@Module(includes = [AppModule::class])
+internal object DevelopmentAppModule {
 
-    suspend fun getSessions() = getSessions(10, 0)
-
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return emptyList()
-    }
-
-    @WorkerThread
-    override suspend fun getSession(id: Long): Session {
-        TODO()
-    }
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideSessionRepository(sessionRepository: SessionDataRepository): SessionRepository = sessionRepository
 }

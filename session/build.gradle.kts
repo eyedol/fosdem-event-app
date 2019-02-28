@@ -14,8 +14,8 @@ android {
 }
 
 dependencies {
-    api(project(":base"))
-    implementation(project(":data:repository"))
+    implementation(project(":base"))
+    api(project(":data:repository"))
     // Tests
     testImplementation(Dependencies.Test.junit)
     kapt(Dependencies.Databinding.compiler)

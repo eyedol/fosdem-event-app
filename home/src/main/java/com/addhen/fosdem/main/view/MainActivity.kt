@@ -27,10 +27,10 @@ package com.addhen.fosdem.main.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.addhen.fosdem.base.view.BaseActivity
 import com.addhen.fosdem.main.R
 import com.addhen.fosdem.main.databinding.MainActivityBinding
@@ -42,8 +42,6 @@ class MainActivity : BaseActivity<MainActivityViewModel, MainActivityBinding>(
     MainActivityViewModel::class.java
 ) {
 
-    private lateinit var postsFragment: Fragment
-    private lateinit var postsMapFragment: Fragment
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +56,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, MainActivityBinding>(
         binding.bottomNavigation.disableShiftMode()
         navController = findNavController(this, R.id.main_nav_host_fragment)
         setupActionBarWithNavController(this, navController)
-        //binding.bottomNavigation.setupWithNavController(navController)
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
     companion object {

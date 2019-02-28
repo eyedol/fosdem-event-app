@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.post
+package com.addhen.fosdem.data.repository.session
 
 import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.db.SessionDatabase
 import com.addhen.fosdem.data.model.Session
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val sessionDatabase: SessionDatabase) {
+class LocalDataSource @Inject constructor() {
 
     @WorkerThread
     suspend fun getSessions(limit: Int, page: Int): List<Session> {

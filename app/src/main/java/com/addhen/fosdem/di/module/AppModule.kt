@@ -22,24 +22,35 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.session
+package com.addhen.fosdem.di.module
 
-import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.model.Session
-import javax.inject.Inject
+import com.addhen.fosdem.AppUtilities
+import com.addhen.fosdem.FosdemApp
+import com.addhen.fosdem.TimberUtility
+import com.addhen.fosdem.base.CoroutineDispatchers
+import dagger.Module
+import dagger.Provides
 import javax.inject.Singleton
 
-@Singleton
-class SessionDataRepository @Inject constructor(val local: LocalDataSource) : SessionRepository {
+/**
+ * Dagger module generally available for the entire lifecycle of the app.
+ */
 
-    suspend fun getSessions() = getSessions(10, 0)
+@Module
+internal object AppModule {
 
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return emptyList()
-    }
+    @Singleton
+    @Provides
+    @JvmStatic
+    fun provideAppContext(app: FosdemApp) = app.applicationContext
 
-    @WorkerThread
-    override suspend fun getSession(id: Long): Session {
-        TODO()
-    }
+    @Provides
+    @JvmStatic
+    fun provideAppUtilities(
+        timberUtility: TimberUtility
+    ): AppUtilities = AppUtilities(timberUtility)
+
+    @Provides
+    @JvmStatic
+    fun provideCoroutineDispatchers() = CoroutineDispatchers()
 }

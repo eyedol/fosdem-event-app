@@ -22,24 +22,16 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.session
+package com.addhen.fosdem.di.scope
 
-import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.model.Session
-import javax.inject.Inject
-import javax.inject.Singleton
+import javax.inject.Scope
 
-@Singleton
-class SessionDataRepository @Inject constructor(val local: LocalDataSource) : SessionRepository {
-
-    suspend fun getSessions() = getSessions(10, 0)
-
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return emptyList()
-    }
-
-    @WorkerThread
-    override suspend fun getSession(id: Long): Session {
-        TODO()
-    }
-}
+/**
+ * Activity linked dependencies scope. Used to provide dependencies linked to activities lifecycle.
+ *
+ * All dagger components that should live depending on the lifecycle of the activity should be
+ * annotated with this scope.
+ */
+@Scope
+@Retention
+annotation class ActivityScope

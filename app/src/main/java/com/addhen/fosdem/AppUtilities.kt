@@ -22,24 +22,27 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.session
+package com.addhen.fosdem
 
-import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.model.Session
+import android.app.Application
+import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SessionDataRepository @Inject constructor(val local: LocalDataSource) : SessionRepository {
+class AppUtilities(vararg params: AppUtility) : AppUtility {
 
-    suspend fun getSessions() = getSessions(10, 0)
+    private val appUtilities = params.asList()
 
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return emptyList()
+    override fun init(application: Application) {
+        for (appUtility in appUtilities) {
+            appUtility.init(application)
+        }
     }
+}
 
-    @WorkerThread
-    override suspend fun getSession(id: Long): Session {
-        TODO()
+class TimberUtility @Inject constructor() : AppUtility {
+
+    override fun init(application: Application) {
+        val tree = Timber.DebugTree()
+        Timber.plant(tree)
     }
 }

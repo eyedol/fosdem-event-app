@@ -6,6 +6,7 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 
+val env = "env"
 android {
     compileSdkVersion(Project.COMPILE_SDK)
     dataBinding.isEnabled = true
@@ -44,9 +45,28 @@ android {
         setSourceCompatibility(Project.SOURCE_COMPATIBILITY)
         setTargetCompatibility(Project.SOURCE_COMPATIBILITY)
     }
+
+    flavorDimensions(env)
+
+    productFlavors {
+        create("development") {
+            setDimension(env)
+            applicationId = "${Project.APPLICATION_ID}.dev"
+            testApplicationId = "${Project.APPLICATION_ID}dev.test"
+        }
+
+        create("production") {
+            setDimension(env)
+        }
+    }
 }
 
 dependencies {
     // Kotlin
     implementation(project(":home"))
+
+    kapt(Dependencies.Databinding.compiler)
+    kapt(Dependencies.Dagger.compiler)
+    kapt(Dependencies.Dagger.processor)
+
 }

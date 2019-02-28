@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.post
+package com.addhen.fosdem.data.repository.session
 
 import androidx.annotation.WorkerThread
 import com.addhen.fosdem.data.model.Session
 
 interface SessionRepository {
 
-  @WorkerThread
-  suspend fun getSessions(limit: Int, page: Int): List<Session>
+    @WorkerThread
+    suspend fun getSessions(limit: Int, page: Int): List<Session>
 
-  @WorkerThread
-  suspend fun getSession(id: Long): Session
+    @WorkerThread
+    suspend fun getSession(id: Long): Session
 }

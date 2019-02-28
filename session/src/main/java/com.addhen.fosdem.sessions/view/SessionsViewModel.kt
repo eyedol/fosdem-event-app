@@ -32,7 +32,7 @@ import com.addhen.fosdem.base.CoroutineDispatchers
 import com.addhen.fosdem.base.Resource
 import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.data.model.Session
-import com.addhen.fosdem.data.repository.post.SessionRepository
+import com.addhen.fosdem.data.repository.session.SessionRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber

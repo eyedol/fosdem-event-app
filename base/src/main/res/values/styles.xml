@@ -26,7 +26,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Toolbar & Actionbar -->
     <style name="BaseToolbar" parent="@style/Widget.AppCompat.Toolbar">
-        <!-- Don't change to `@color/toolbar_background`. This is a workaround for a bug in API 16. -->
         <item name="android:background">@drawable/bg_toolbar</item>
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_2dp</item>
         <item name="android:theme">@style/ToolbarTheme</item>

@@ -13,7 +13,6 @@
       <module fileurl="file://$PROJECT_DIR$/data/model/model.iml" filepath="$PROJECT_DIR$/data/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/repository/repository.iml" filepath="$PROJECT_DIR$/data/repository/repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/session/session.iml" filepath="$PROJECT_DIR$/session/session.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sessions/sessions.iml" filepath="$PROJECT_DIR$/sessions/sessions.iml" />
     </modules>
   </component>
 </project>

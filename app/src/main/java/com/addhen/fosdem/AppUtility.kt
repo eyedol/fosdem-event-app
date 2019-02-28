@@ -22,24 +22,11 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.data.repository.session
+package com.addhen.fosdem
 
-import androidx.annotation.WorkerThread
-import com.addhen.fosdem.data.model.Session
-import javax.inject.Inject
-import javax.inject.Singleton
+import android.app.Application
 
-@Singleton
-class SessionDataRepository @Inject constructor(val local: LocalDataSource) : SessionRepository {
+interface AppUtility {
 
-    suspend fun getSessions() = getSessions(10, 0)
-
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return emptyList()
-    }
-
-    @WorkerThread
-    override suspend fun getSession(id: Long): Session {
-        TODO()
-    }
+    fun init(application: Application)
 }
