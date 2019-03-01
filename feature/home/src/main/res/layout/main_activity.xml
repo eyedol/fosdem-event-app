@@ -35,10 +35,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
+                app:contentInsetStartWithNavigation="0dp"
                 style="@style/BaseToolbar"/>
 
         <fragment
