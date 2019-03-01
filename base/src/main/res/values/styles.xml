@@ -47,39 +47,6 @@
         <item name="queryBackground">@null</item>
         <item name="submitBackground">@null</item>
     </style>
-
-    <style name="BaseActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <!-- Don't change to `@color/toolbar_background`. This is workaround for a bug on API 16. -->
-        <item name="android:background">@drawable/bg_toolbar</item>
-        <item name="android:titleTextStyle">@style/BaseActionBarTitle</item>
-        <item name="android:subtitleTextStyle">@style/BaseActionBarSubtitle</item>
-        <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_2dp</item>
-        <!-- support library compatibility -->
-        <!-- Don't change to `@color/toolbar_background`. This is workaround for a bug on API 16. -->
-        <item name="background">@drawable/bg_toolbar</item>
-        <item name="titleTextStyle">@style/BaseActionBarTitle</item>
-        <item name="subtitleTextStyle">@style/BaseActionBarSubtitle</item>
-        <item name="elevation">@dimen/elevation_2dp</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
-
-    <style name="BaseActionBarTitle">
-        <item name="android:textColor">@color/toolbar_text</item>
-        <item name="android:textSize">@dimen/text_20sp</item>
-    </style>
-
-    <style name="BaseActionBarSubtitle">
-        <item name="android:textColor">@color/toolbar_sub_text</item>
-        <item name="android:textSize">@dimen/text_12sp</item>
-    </style>
-    <!-- Line -->
-    <dimen name="line_1dp">1dp</dimen>
-    <!-- Border -->
-    <style name="Border">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/line_1dp</item>
-        <item name="android:background">@color/grey200</item>
-    </style>
     <!-- Text -->
     <style name="TextEmpty" parent="Base.TextAppearance.AppCompat.Subhead">
         <item name="android:textStyle">bold</item>
@@ -89,16 +56,6 @@
 
     <style name="TextCaption">
         <item name="android:textSize">@dimen/text_14sp</item>
-    </style>
-
-    <style name="TextSubheading" parent="Base.TextAppearance.AppCompat.Subhead">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextBody1" parent="Base.TextAppearance.AppCompat.Body1">
-        <item name="android:textSize">@dimen/text_14sp</item>
-        <item name="android:letterSpacing" tools:targetApi="lollipop">0.01</item>
     </style>
     <!-- Component -->
     <style name="BaseRecyclerView">
@@ -112,7 +69,7 @@
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:layout_marginRight">@dimen/fab_margin</item>
         <item name="android:layout_marginBottom">@dimen/fab_margin</item>
-        <item name="backgroundTint">@color/dark_theme</item>
+        <item name="backgroundTint">@color/colorPrimaryDark</item>
     </style>
 
     <style name="BaseEmptyView">
@@ -121,16 +78,5 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textAppearance">@style/TextEmpty</item>
-    </style>
-
-    <style name="MetaTextCaption">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAppearance">@style/TextCaption</item>
-        <item name="android:textColor">@color/grey600</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:focusable">true</item>
-        <item name="android:focusableInTouchMode">true</item>
-        <item name="android:lines">1</item>
     </style>
 </resources>

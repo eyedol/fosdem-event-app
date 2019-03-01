@@ -25,23 +25,15 @@
 
 <resources>
     <!-- Vivid -->
-    <color name="red">#f30c16</color>
-    <color name="dark_red">#cb171e</color>
-    <color name="shamrock_green">#00cb67</color>
+    <color name="pink">#a91991</color>
+    <color name="pink_dark">#76005e</color>
+    <color name="sea_blue">#387bc2</color>
     <color name="black">#000000</color>
-    <color name="shamrock_green_dark">#006633</color>
-    <!-- Pale -->
-    <color name="rouge_54">#cb171e</color>
     <!-- Greyscales -->
     <color name="grey200">#EEEEEE</color>
-    <color name="grey300">#E0E0E0</color>
     <color name="grey400">#BDBDBD</color>
     <color name="grey500">#9E9E9E</color>
     <color name="grey600">#757575</color>
     <color name="black_alpha_9">#8a000000</color>
-    <color name="black_alpha_10">#99000000</color>
-    <color name="black_alpha_12">#1F000000</color>
-    <color name="black_alpha_13">#44000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="white_alpha_95">#F2FFFFFF</color>
 </resources>

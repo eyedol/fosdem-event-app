@@ -25,20 +25,23 @@
 
 <resources>
     <!-- Theme & Accent -->
-    <color name="theme">@color/red</color>
-    <color name="dark_theme">@color/dark_red</color>
-    <color name="accent">@color/black</color>
+    <color name="colorPrimary">@color/pink</color>
+    <color name="colorPrimaryDark">@color/pink_dark</color>
+    <color name="colorSecondary">#C2185B</color>
+    <color name="colorSecondary_50">#E91E63</color>
+
+    <color name="accent">@color/sea_blue</color>
     <!-- Toolbar-->
-    <color name="toolbar_background">@color/theme</color>
+    <color name="toolbar_background">@color/colorPrimary</color>
     <color name="toolbar_text">@color/white</color>
     <color name="toolbar_sub_text">@color/white</color>
     <!-- Navigation -->
     <color name="nav_background">@color/white</color>
-    <color name="nav_active">@color/theme</color>
+    <color name="nav_active">@color/colorPrimary</color>
     <color name="nav_inactive">@color/grey400</color>
     <!-- Progressbar -->
     <integer-array name="progressBarColors">
-        <item>@color/theme</item>
+        <item>@color/colorPrimary</item>
         <item>@color/accent</item>
     </integer-array>
     <!-- Auth -->
