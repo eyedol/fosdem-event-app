@@ -8,11 +8,12 @@
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/db/db.iml" filepath="$PROJECT_DIR$/data/db/db.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/db-room/db-room.iml" filepath="$PROJECT_DIR$/data/db-room/db-room.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feature/feature.iml" filepath="$PROJECT_DIR$/feature/feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/fosdem.iml" filepath="$PROJECT_DIR$/fosdem.iml" />
-      <module fileurl="file://$PROJECT_DIR$/home/home.iml" filepath="$PROJECT_DIR$/home/home.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feature/home/home.iml" filepath="$PROJECT_DIR$/feature/home/home.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/model/model.iml" filepath="$PROJECT_DIR$/data/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/repository/repository.iml" filepath="$PROJECT_DIR$/data/repository/repository.iml" />
-      <module fileurl="file://$PROJECT_DIR$/session/session.iml" filepath="$PROJECT_DIR$/session/session.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feature/session/session.iml" filepath="$PROJECT_DIR$/feature/session/session.iml" />
     </modules>
   </component>
 </project>

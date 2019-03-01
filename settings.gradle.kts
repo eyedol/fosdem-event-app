@@ -1,7 +1,7 @@
 include(
     ":app",
-    ":home",
-    ":session",
+    ":feature:home",
+    ":feature:session",
     ":base",
     ":data:db",
     ":data:db-room",

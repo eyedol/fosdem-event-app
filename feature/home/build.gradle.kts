@@ -15,7 +15,7 @@ android {
 
 dependencies {
     api(project(":base"))
-    api(project(":session"))
+    api(project(":feature:session"))
     // Tests
     testImplementation(Dependencies.Test.junit)
     kapt(Dependencies.Databinding.compiler)

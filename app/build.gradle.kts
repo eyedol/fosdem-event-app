@@ -63,7 +63,7 @@ android {
 
 dependencies {
     // Kotlin
-    implementation(project(":home"))
+    implementation(project(":feature:home"))
 
     kapt(Dependencies.Databinding.compiler)
     kapt(Dependencies.Dagger.compiler)
