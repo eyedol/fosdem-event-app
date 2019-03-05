@@ -28,16 +28,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
-import com.addhen.fosdem.sessions.databinding.SessionsFragmentBinding
+import com.addhen.fosdem.sessions.databinding.SessionFilterFragmentBinding
 
-class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding>(
-    clazz = SessionsViewModel::class.java
+class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilterFragmentBinding>(
+    clazz = SessionFilterViewModel::class.java
 ) {
 
     override fun onCreateView(
@@ -45,7 +42,7 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SessionsFragmentBinding.inflate(layoutInflater, container, false)
+        binding = SessionFilterFragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -55,44 +52,23 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
     }
 
     private fun initView() {
-        binding.sessionsTabLayout.setupWithViewPager(binding.sessionsViewpager)
-        binding.sessionsViewpager.pageMargin = resources.getDimensionPixelSize(R.dimen.space_16dp)
-        binding.sessionsViewpager.adapter = object : FragmentStatePagerAdapter(
-            childFragmentManager
-        ) {
-            override fun getItem(position: Int): Fragment {
-                return SessionFilterFragment.newInstance()
-            }
-
-            override fun getPageTitle(position: Int) = "Day one"
-            override fun getCount(): Int = 2
-        }
-        binding.sessionsViewpager.addOnPageChangeListener(
-            object : ViewPager.SimpleOnPageChangeListener() {
-                override fun onPageSelected(position: Int) {
-                    // TODO set selection
-                }
-            }
-        )
-
-        (0 until binding.sessionsTabLayout.tabCount).forEach { tabIndex ->
-            val tab = binding.sessionsTabLayout.getTabAt(tabIndex)
-            tab?.let {
-                val view = layoutInflater.inflate(
-                    R.layout.tab_item, binding.sessionsTabLayout, false
-                ) as? TextView
-                view?.let { textView ->
-                    textView.text = tab.text
-                    it.customView = textView
-                }
-            }
-        }
+        setupSessionBottomSheetDialogFragment()
         lifecycle.addObserver(viewModel)
+    }
+
+    private fun setupSessionBottomSheetDialogFragment() {
+        val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance()
+
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.sessions_sheet, fragment, "Room 1")
+            .disallowAddToBackStack()
+            .commit()
     }
 
     companion object {
 
-        const val TAG: String = "SessionsFragment"
-        fun newInstance(): SessionsFragment = SessionsFragment()
+        const val TAG: String = "SessionFilterFragment"
+        fun newInstance(): SessionFilterFragment = SessionFilterFragment()
     }
 }

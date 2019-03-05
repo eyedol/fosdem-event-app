@@ -29,7 +29,7 @@
             app:startDestination="@id/menu_list">
 
     <fragment android:id="@+id/menu_list"
-              android:name="com.addhen.fosdem.sessions.view.SessionsFragment"
+              android:name="com.addhen.fosdem.sessions.view.SessionFilterFragment"
               android:label="@string/bottom_nav_menu_list"/>
 
     <fragment android:id="@+id/menu_map"

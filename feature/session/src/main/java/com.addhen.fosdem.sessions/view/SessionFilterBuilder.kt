@@ -22,38 +22,23 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.di.component
+package com.addhen.fosdem.sessions.view
 
-import com.addhen.fosdem.FosdemApp
-import com.addhen.fosdem.base.di.module.ViewModelBuilder
-import com.addhen.fosdem.di.module.DevelopmentAppModule
-import com.addhen.fosdem.di.scope.ActivityScope
-import com.addhen.fosdem.main.view.MainBuilder
-import com.addhen.fosdem.sessions.view.SessionBottomSheetBuilder
-import com.addhen.fosdem.sessions.view.SessionFilterBuilder
-import com.addhen.fosdem.sessions.view.SessionsBuilder
-import dagger.Component
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
+import androidx.lifecycle.ViewModel
+import com.addhen.fosdem.base.di.module.ViewModelKey
+import dagger.Binds
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+import dagger.multibindings.IntoMap
 
-/**
- * Initializes development flavor related dagger components.
- */
-@ActivityScope
-@Singleton
-@Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        DevelopmentAppModule::class,
-        ViewModelBuilder::class,
-        MainBuilder::class,
-        SessionFilterBuilder::class,
-        SessionBottomSheetBuilder::class,
-        SessionsBuilder::class]
-)
-interface AppComponent : AndroidInjector<FosdemApp> {
+@Module
+abstract class SessionFilterBuilder {
 
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<FosdemApp>()
+    @ContributesAndroidInjector
+    abstract fun sessionFilterFragment(): SessionFilterFragment
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SessionFilterViewModel::class)
+    abstract fun sessionFilterViewModel(viewModel: SessionFilterViewModel): ViewModel
 }

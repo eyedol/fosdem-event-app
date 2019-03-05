@@ -22,38 +22,29 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.di.component
+package com.addhen.fosdem.sessions.view
 
-import com.addhen.fosdem.FosdemApp
-import com.addhen.fosdem.base.di.module.ViewModelBuilder
-import com.addhen.fosdem.di.module.DevelopmentAppModule
-import com.addhen.fosdem.di.scope.ActivityScope
-import com.addhen.fosdem.main.view.MainBuilder
-import com.addhen.fosdem.sessions.view.SessionBottomSheetBuilder
-import com.addhen.fosdem.sessions.view.SessionFilterBuilder
-import com.addhen.fosdem.sessions.view.SessionsBuilder
-import dagger.Component
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
+import com.addhen.fosdem.base.CoroutineDispatchers
+import com.addhen.fosdem.base.Resource
+import com.addhen.fosdem.base.view.BaseViewModel
+import com.addhen.fosdem.data.model.Session
+import javax.inject.Inject
 
-/**
- * Initializes development flavor related dagger components.
- */
-@ActivityScope
-@Singleton
-@Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        DevelopmentAppModule::class,
-        ViewModelBuilder::class,
-        MainBuilder::class,
-        SessionFilterBuilder::class,
-        SessionBottomSheetBuilder::class,
-        SessionsBuilder::class]
-)
-interface AppComponent : AndroidInjector<FosdemApp> {
+class SessionBottomSheetViewModel @Inject constructor(
+    private val dispatchers: CoroutineDispatchers
+) : BaseViewModel(dispatchers), LifecycleObserver {
 
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<FosdemApp>()
+    val sessions = MutableLiveData<Resource<List<Session>>>()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onSwipeRefresh() {
+        loadFilters()
+    }
+
+    private fun loadFilters() {
+    }
 }

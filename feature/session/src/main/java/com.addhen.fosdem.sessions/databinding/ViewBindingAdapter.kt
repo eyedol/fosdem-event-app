@@ -22,38 +22,13 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.di.component
+package com.addhen.fosdem.sessions.databinding
 
-import com.addhen.fosdem.FosdemApp
-import com.addhen.fosdem.base.di.module.ViewModelBuilder
-import com.addhen.fosdem.di.module.DevelopmentAppModule
-import com.addhen.fosdem.di.scope.ActivityScope
-import com.addhen.fosdem.main.view.MainBuilder
-import com.addhen.fosdem.sessions.view.SessionBottomSheetBuilder
-import com.addhen.fosdem.sessions.view.SessionFilterBuilder
-import com.addhen.fosdem.sessions.view.SessionsBuilder
-import dagger.Component
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
+import android.view.View
+import androidx.core.view.isVisible
+import androidx.databinding.BindingAdapter
 
-/**
- * Initializes development flavor related dagger components.
- */
-@ActivityScope
-@Singleton
-@Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        DevelopmentAppModule::class,
-        ViewModelBuilder::class,
-        MainBuilder::class,
-        SessionFilterBuilder::class,
-        SessionBottomSheetBuilder::class,
-        SessionsBuilder::class]
-)
-interface AppComponent : AndroidInjector<FosdemApp> {
-
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<FosdemApp>()
+@BindingAdapter(value = ["isVisible"])
+fun showHide(view: View, show: Boolean) {
+    view.isVisible = show
 }

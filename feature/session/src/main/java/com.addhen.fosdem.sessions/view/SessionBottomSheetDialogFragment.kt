@@ -22,13 +22,41 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.base.databinding
+package com.addhen.fosdem.sessions.view
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.core.view.isVisible
-import androidx.databinding.BindingAdapter
+import android.view.ViewGroup
+import com.addhen.fosdem.base.view.BaseFragment
+import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
 
-@BindingAdapter(value = ["isVisible"])
-fun showHide(view: View, show: Boolean) {
-    view.isVisible = show
+class SessionBottomSheetDialogFragment :
+    BaseFragment<SessionBottomSheetViewModel, SessionBottomSheetDialogFragmentBinding>(
+        clazz = SessionBottomSheetViewModel::class.java
+    ) {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = SessionBottomSheetDialogFragmentBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        lifecycle.addObserver(viewModel)
+    }
+
+    companion object {
+
+        const val TAG: String = "SessionFilterFragment"
+        fun newInstance(): SessionBottomSheetDialogFragment = SessionBottomSheetDialogFragment()
+    }
 }
