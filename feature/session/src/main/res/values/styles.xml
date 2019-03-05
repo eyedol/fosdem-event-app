@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.App.ChipGroup.SessionFilter" parent="Widget.MaterialComponents.ChipGroup">
+        <item name="chipSpacingHorizontal">@dimen/space_8dp</item>
+        <item name="chipSpacingVertical">@dimen/space_16dp</item>
+    </style>
+</resources>

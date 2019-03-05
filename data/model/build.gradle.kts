@@ -35,6 +35,9 @@ android {
         minSdkVersion(Project.MIN_SDK)
         targetSdkVersion(Project.TARGET_SDK)
     }
+    lintOptions {
+        disable("GradleCompatible", "ObsoleteLintCustomCheck")
+    }
 }
 
 dependencies {

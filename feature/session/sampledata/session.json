@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "session_name": "Welcome to FOSDEM 2019",
+      "time_room": "30min / Room A",
+      "session_notice": "Room not full"
+    },
+    {
+      "session_name": "The Cloud is Just Another Sun",
+      "time_room": "20min / Room B",
+      "session_notice": "Room full to capacity"
+    },
+    {
+      "session_name": "Closing FOSDEM 2019",
+      "time_room": "25min / Room Cs",
+      "session_notice": "Room not full"
+    }
+  ]
+}

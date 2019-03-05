@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/filter_coodinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            tools:context="com.addhen.fosdem.sessions.view.SessionsFragment">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp"
+                android:scrollbars="none">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="40dp">
+
+                <TextView
+                        android:id="@+id/sessions_filter_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_16dp"
+                        android:layout_marginTop="@dimen/space_44dp"
+                        android:text="@string/filter"
+                        android:textAppearance="?textAppearanceHeadline5"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toStartOf="@id/sessions_filter_reset"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/sessions_filter_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_16dp"
+                        android:text="@string/reset"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical|start"
+                        app:chipBackgroundColor="#d12016"
+                        app:layout_constraintBottom_toBottomOf="@id/sessions_filter_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/sessions_filter_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_room_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_24dp"
+                        android:text="@string/room"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_title"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_room_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_room_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_keynote_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/keynote"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_room_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_keynote_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_keynote_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_main_track_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/main_tracks"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_keynote_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_main_track_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_main_track_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_developer_room_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/developer_rooms"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_main_track_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_developer_room_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_developer_room_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_lightning_talk_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/lightning_talks"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_developer_room_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_lightning_talk_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_lightning_talk_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_communication_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/communication"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_lightning_talk_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_communication_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_communication_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_certification_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/certification"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_communication_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_certification_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_certification_title"/>
+
+                <TextView
+                        android:id="@+id/sessions_filter_other_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_32dp"
+                        android:text="@string/other"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_certification_chip"/>
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sessions_filter_other_chip"
+                        style="@style/Widget.App.ChipGroup.SessionFilter"
+                        android:layout_width="@dimen/space_0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16dp"
+                        app:layout_constraintEnd_toEndOf="@id/sessions_filter_reset"
+                        app:layout_constraintStart_toStartOf="@id/sessions_filter_title"
+                        app:layout_constraintTop_toBottomOf="@id/sessions_filter_other_title"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <FrameLayout
+                android:id="@+id/sessions_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="@dimen/space_64dp"
+                app:behavior_skipCollapsed="false"
+                tools:layout="@layout/session_bottom_sheet_dialog_fragment"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

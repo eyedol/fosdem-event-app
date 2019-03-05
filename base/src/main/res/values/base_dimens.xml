@@ -30,10 +30,12 @@
     <dimen name="space_8dp">8dp</dimen>
     <dimen name="space_16dp">16dp</dimen>
     <dimen name="space_24dp">24dp</dimen>
+    <dimen name="space_32dp">32dp</dimen>
     <dimen name="space_64dp">64dp</dimen>
     <dimen name="space_70dp">70dp</dimen>
     <dimen name="space_54dp">54dp</dimen>
     <dimen name="icon_space_4dp">4dp</dimen>
+    <dimen name="space_44dp">44dp</dimen>
     <!-- Border -->
     <dimen name="border_1dp">1dp</dimen>
     <!-- Text -->

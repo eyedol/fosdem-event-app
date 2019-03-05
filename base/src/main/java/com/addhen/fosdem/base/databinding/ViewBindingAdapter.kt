@@ -1,4 +1,3 @@
-val kotlin_version: String by extra
 /*
  * MIT License
  *
@@ -23,25 +22,13 @@ val kotlin_version: String by extra
  * SOFTWARE.
  */
 
-plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-}
+package com.addhen.fosdem.base.databinding
 
-android {
-    compileSdkVersion(Project.COMPILE_SDK)
-    defaultConfig {
-        minSdkVersion(Project.MIN_SDK)
-        targetSdkVersion(Project.TARGET_SDK)
-    }
+import android.view.View
+import androidx.core.view.isVisible
+import androidx.databinding.BindingAdapter
 
-    lintOptions {
-        disable("GradleCompatible", "ObsoleteLintCustomCheck")
-    }
-}
-dependencies {
-    api(project(":data:model"))
-    api(Dependencies.Kotlin.stdlibJvm)
-    api(Dependencies.Kotlin.coroutines)
+@BindingAdapter(value = ["isVisible"])
+fun showHide(view: View, show: Boolean) {
+    view.isVisible = show
 }

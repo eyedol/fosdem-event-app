@@ -12,7 +12,7 @@ android {
         minSdkVersion(Project.MIN_SDK)
     }
     lintOptions {
-        disable("GradleCompatible")
+        disable("GradleCompatible", "ObsoleteLintCustomCheck", "IconMissingDensityFolder")
     }
 }
 

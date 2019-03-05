@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="sessions_load_failed">Failed to load posts.</string>
+    <string name="sessions_load_failed">Failed to load sessions.</string>
     <string name="sessions">Sessions</string>
     <string name="empty_session_list">No session yet.</string>
+    <string name="filter">Filter</string>
+    <string name="reset">Reset</string>
+    <string name="room">Room</string>
+    <string name="keynote">Keynote</string>
+    <string name="main_tracks">Main tracks</string>
+    <string name="developer_rooms">Developer rooms</string>
+    <string name="lightning_talks">Lightning talks</string>
+    <string name="certification">Certification</string>
+    <string name="communication">Communication</string>
+    <string name="other">Other</string>
+    <string name="session_description_favorite_image" translatable="false">favorite image</string>
+    <string name="session_favorite_empty">Add sessions to your bookmark list\nby tapping the bookmark button.</string>
+    <string name="ongoing">Ongoing</string>
 </resources>

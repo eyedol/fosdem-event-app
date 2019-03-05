@@ -11,6 +11,9 @@ android {
     defaultConfig {
         minSdkVersion(Project.MIN_SDK)
     }
+    lintOptions {
+        disable("GradleCompatible", "ObsoleteLintCustomCheck")
+    }
 }
 
 dependencies {

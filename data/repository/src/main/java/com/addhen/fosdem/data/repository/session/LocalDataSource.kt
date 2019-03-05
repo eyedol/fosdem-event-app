@@ -32,7 +32,7 @@ class LocalDataSource @Inject constructor() {
 
     @WorkerThread
     suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        TODO()
+        return emptyList()
     }
 
     @WorkerThread

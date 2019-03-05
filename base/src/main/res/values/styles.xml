@@ -54,8 +54,14 @@
         <item name="android:letterSpacing" tools:targetApi="lollipop">0.01</item>
     </style>
 
-    <style name="TextCaption">
-        <item name="android:textSize">@dimen/text_14sp</item>
+    <style name="TextCaption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/grey700</item>
+    </style>
+    <style name="TextHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/grey700</item>
+    </style>
+    <style name="TextSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/grey700</item>
     </style>
     <!-- Component -->
     <style name="BaseRecyclerView">

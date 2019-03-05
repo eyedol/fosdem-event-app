@@ -24,7 +24,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.addhen.fosdem.main">
-    <application>
+    <application android:supportsRtl="true">
         <activity android:name="com.addhen.fosdem.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

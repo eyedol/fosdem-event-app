@@ -36,7 +36,7 @@ android {
 
     lintOptions {
         setLintConfig(file("${project.projectDir}/lint.xml"))
-        disable("AppCompatResource")
+        disable("AppCompatResource", "ObsoleteLintCustomCheck")
         textReport = true
         textOutput("stdout")
     }

@@ -43,7 +43,7 @@ android {
         }
     }
     lintOptions {
-        disable("GradleCompatible")
+        disable("GradleCompatible", "ObsoleteLintCustomCheck")
     }
 }
 
