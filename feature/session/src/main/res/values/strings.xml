@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="sessions_load_failed">Failed to load sessions.</string>
-    <string name="sessions">Sessions</string>
     <string name="empty_session_list">No session yet.</string>
     <string name="filter">Filter</string>
     <string name="reset">Reset</string>

@@ -29,12 +29,16 @@
             app:startDestination="@id/menu_list">
 
     <fragment android:id="@+id/menu_list"
-              android:name="com.addhen.fosdem.sessions.view.SessionFilterFragment"
-              android:label="@string/bottom_nav_menu_list"/>
+              android:name="com.addhen.fosdem.sessions.view.SessionsFragment"
+              android:label="@string/sessions"/>
 
     <fragment android:id="@+id/menu_map"
-              android:name="com.addhen.fosdem.sessions.view.SessionsFragment"
-              android:label="@string/bottom_nav_menu_map"/>
+              android:name="com.addhen.fosdem.sessions.view.SessionFilterFragment"
+              android:label="@string/map">
+        <argument
+                android:name="tabIndex"
+                app:argType="integer"/>
+    </fragment>
     <deepLink app:uri="https://fosdem.addhen.com/home"
               android:autoVerify="true"/>
 </navigation>

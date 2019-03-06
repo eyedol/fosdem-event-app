@@ -58,10 +58,9 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
 
     private fun setupSessionBottomSheetDialogFragment() {
         val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance()
-
         childFragmentManager
             .beginTransaction()
-            .replace(R.id.sessions_sheet, fragment, "Room 1")
+            .replace(R.id.sessions_sheet, fragment, TAG)
             .disallowAddToBackStack()
             .commit()
     }
@@ -69,6 +68,11 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
     companion object {
 
         const val TAG: String = "SessionFilterFragment"
-        fun newInstance(): SessionFilterFragment = SessionFilterFragment()
+
+        fun newInstance(args: SessionFilterFragmentArgs): SessionFilterFragment {
+            return SessionFilterFragment().apply {
+                arguments = args.toBundle()
+            }
+        }
     }
 }

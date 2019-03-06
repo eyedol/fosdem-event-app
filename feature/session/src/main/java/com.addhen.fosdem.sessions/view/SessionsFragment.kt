@@ -35,6 +35,7 @@ import androidx.viewpager.widget.ViewPager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
 import com.addhen.fosdem.sessions.databinding.SessionsFragmentBinding
+import com.addhen.fosdem.sessions.model.Screen
 
 class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding>(
     clazz = SessionsViewModel::class.java
@@ -54,6 +55,11 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         initView()
     }
 
+    override fun onDestroyView() {
+        binding.sessionsTabLayout.setupWithViewPager(null)
+        super.onDestroyView()
+    }
+
     private fun initView() {
         binding.sessionsTabLayout.setupWithViewPager(binding.sessionsViewpager)
         binding.sessionsViewpager.pageMargin = resources.getDimensionPixelSize(R.dimen.space_16dp)
@@ -61,11 +67,14 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
             childFragmentManager
         ) {
             override fun getItem(position: Int): Fragment {
-                return SessionFilterFragment.newInstance()
+                return SessionFilterFragment.newInstance(
+                    SessionFilterFragmentArgs(position)
+                )
             }
 
-            override fun getPageTitle(position: Int) = "Day one"
-            override fun getCount(): Int = 2
+            override fun getPageTitle(position: Int) = Screen.tabs[position].title
+
+            override fun getCount(): Int = Screen.tabs.size
         }
         binding.sessionsViewpager.addOnPageChangeListener(
             object : ViewPager.SimpleOnPageChangeListener() {

@@ -50,13 +50,12 @@ object Dependencies {
         }
 
         object Navigation {
-            val version = "1.0.0-alpha08"
+            val version = "1.0.0-rc02"
             val runtime = "android.arch.navigation:navigation-runtime:$version"
             val runtimeKtx = "android.arch.navigation:navigation-runtime-ktx:$version"
-            val fragment = "android.arch.navigation:navigation-fragment:$version"
-            val ui = "android.arch.navigation:navigation-ui:1.0.0-alpha10"
+            val ui = "android.arch.navigation:navigation-ui:$version"
             val fragmentKtx = "android.arch.navigation:navigation-fragment-ktx:$version"
-            val uiKtx = "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha10"
+            val uiKtx = "android.arch.navigation:navigation-ui-ktx:$version"
         }
 
         object Work {

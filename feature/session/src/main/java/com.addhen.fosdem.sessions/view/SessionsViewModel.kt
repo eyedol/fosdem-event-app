@@ -31,11 +31,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.addhen.fosdem.base.CoroutineDispatchers
 import com.addhen.fosdem.base.Resource
 import com.addhen.fosdem.base.view.BaseViewModel
-import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.data.repository.session.SessionRepository
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import com.addhen.fosdem.sessions.model.Screen
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
@@ -43,35 +40,14 @@ class SessionsViewModel @Inject constructor(
     private val sessionRepository: SessionRepository
 ) : BaseViewModel(dispatchers), LifecycleObserver {
 
-    val sessions = MutableLiveData<Resource<List<SessionItemViewModel>>>()
+    val screens = MutableLiveData<Resource<List<Screen.Tab>>>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onSwipeRefresh() {
-        loadSessions()
+        loadScreens()
     }
 
-    private fun loadSessions() {
-        scope.launch {
-            sessions.value = Resource.loading()
-            var sessions = emptyList<Session>()
-            withContext(dispatchers.computation) {
-                try {
-                    sessions = sessionRepository.getSessions(10, 1)
-                } catch (e: Exception) {
-                    onError(e)
-                }
-            }
-            onSessionLoaded(sessions)
-        }
-    }
-
-    private fun onSessionLoaded(sessions: List<Session>) {
-        val sessionItemViewModels = sessions.map { SessionItemViewModel(dispatchers, it) }
-        this.sessions.value = Resource.success(sessionItemViewModels)
-    }
-
-    private fun onError(throwable: Throwable) {
-        Timber.e(throwable)
-        this.sessions.postValue(Resource.error(throwable.message ?: return))
+    private fun loadScreens() {
+        screens.value = Resource.success(Screen.tabs)
     }
 }

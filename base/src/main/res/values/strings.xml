@@ -26,4 +26,6 @@
 <resources>
     <string name="app_name">FOSDEM</string>
     <string name="logo_description">App logo</string>
+    <string name="sessions">Sessions</string>
+    <string name="map">Map</string>
 </resources>

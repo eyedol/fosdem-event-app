@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("androidx.navigation.safeargs")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -28,7 +28,6 @@ dependencies {
     api(Dependencies.AndroidX.coreKtx)
     // AndroidX Navigation
     api(Dependencies.AndroidX.Navigation.runtime)
-    api(Dependencies.AndroidX.Navigation.fragment)
     api(Dependencies.AndroidX.Navigation.ui)
     api(Dependencies.AndroidX.Navigation.runtimeKtx)
     api(Dependencies.AndroidX.Navigation.fragmentKtx)

@@ -56,7 +56,7 @@ class SessionBottomSheetDialogFragment :
 
     companion object {
 
-        const val TAG: String = "SessionFilterFragment"
+        const val TAG: String = "SessionBottomSheetDialogFragment"
         fun newInstance(): SessionBottomSheetDialogFragment = SessionBottomSheetDialogFragment()
     }
 }
