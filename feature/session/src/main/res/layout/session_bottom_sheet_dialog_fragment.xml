@@ -43,7 +43,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="2019.2.7"/>
+                    tools:text="2019.2.3"/>
 
             <com.google.android.material.chip.Chip
                     android:id="@+id/sessions_bottom_sheet_show_filter_button"

@@ -63,13 +63,9 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
     private fun initView() {
         binding.sessionsTabLayout.setupWithViewPager(binding.sessionsViewpager)
         binding.sessionsViewpager.pageMargin = resources.getDimensionPixelSize(R.dimen.space_16dp)
-        binding.sessionsViewpager.adapter = object : FragmentStatePagerAdapter(
-            childFragmentManager
-        ) {
+        binding.sessionsViewpager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment {
-                return SessionFilterFragment.newInstance(
-                    SessionFilterFragmentArgs(position)
-                )
+                return SessionFilterFragment.newInstance(SessionFilterFragmentArgs(position))
             }
 
             override fun getPageTitle(position: Int) = Screen.tabs[position].title
