@@ -28,7 +28,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
 
@@ -54,7 +53,6 @@ class SessionBottomSheetDialogFragment :
     private fun initFilterButton() {
         val onFilterButtonClick: (View) -> Unit = {
             // TODO toggle button sheet
-            Toast.makeText(requireContext(), "filter button clicked", Toast.LENGTH_LONG).show()
         }
         binding.sessionsBottomSheetShowFilterButton.setOnClickListener(onFilterButtonClick)
         binding.sessionsBottomSheetHideFilterButton.setOnClickListener(onFilterButtonClick)
