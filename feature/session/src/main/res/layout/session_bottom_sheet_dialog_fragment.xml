@@ -15,6 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="sessions_empty_state_view"
+                app:isVisible="@{true}"
         />
 
         <androidx.constraintlayout.widget.Group

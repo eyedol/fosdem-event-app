@@ -22,13 +22,18 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.sessions.databinding
+package com.addhen.fosdem.base.databinding
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 
-@BindingAdapter(value = ["isVisible"])
-fun showHide(view: View, show: Boolean) {
-    view.isVisible = show
+object ViewBindingAdapter {
+
+    @BindingAdapter("isVisible")
+    @JvmStatic
+    fun showOrHide(view: View, show: Boolean) {
+        view.isVisible = show
+    }
 }
+
