@@ -24,6 +24,7 @@
 
 package com.addhen.fosdem.sessions.view
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
@@ -39,6 +40,8 @@ class SessionBottomSheetViewModel @Inject constructor(
 ) : BaseViewModel(dispatchers), LifecycleObserver {
 
     val sessions = MutableLiveData<Resource<List<Session>>>()
+    val isEmptyViewShown = ObservableBoolean()
+    val isBottomSheetCollapsed = ObservableBoolean()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onSwipeRefresh() {

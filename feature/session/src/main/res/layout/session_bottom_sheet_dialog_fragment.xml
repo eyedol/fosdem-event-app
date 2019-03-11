@@ -4,6 +4,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+                name="viewModel"
+                type="com.addhen.fosdem.sessions.view.SessionBottomSheetViewModel"
+        />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -15,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="sessions_empty_state_view"
-                app:isVisible="@{true}"
+                app:isVisible="@{safeUnbox(viewModel.isEmptyViewShown)}"
         />
 
         <androidx.constraintlayout.widget.Group
@@ -23,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="sessions_list_header, sessions_recycler_wrapper"
+                app:isVisible="@{!safeUnbox(viewModel.isEmptyViewShown)}"
         />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_16dp"
                     android:textAppearance="@style/TextHeadline5"
-                    android:textColor="@color/grey200"
+                    android:textColor="@color/sea_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -50,15 +57,17 @@
                     android:id="@+id/sessions_bottom_sheet_show_filter_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="@dimen/space_16dp"
                     android:gravity="center_vertical|start"
                     android:textColor="@color/grey500"
+                    android:text="@string/filtered"
                     app:chipBackgroundColor="@color/grey300"
                     app:chipIcon="@drawable/ic_filter_list_black_24dp"
                     app:chipIconTint="@color/grey400"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:isVisible="@{!safeUnbox(viewModel.isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
                     tools:text="Filtered"/>
 
             <com.google.android.material.chip.Chip
@@ -79,6 +88,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:textEndPadding="@dimen/space_0dp"
                     app:textStartPadding="@dimen/space_0dp"
+                    app:isVisible="@{safeUnbox(viewModel.isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
             />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
