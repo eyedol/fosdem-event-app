@@ -24,6 +24,7 @@
 
 package com.addhen.fosdem.base.view
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
@@ -61,6 +62,11 @@ abstract class BaseActivity<out T : BaseViewModel, out B : ViewDataBinding>(
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.lifecycleOwner = this
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

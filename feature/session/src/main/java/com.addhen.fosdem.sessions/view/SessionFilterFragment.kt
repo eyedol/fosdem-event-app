@@ -43,6 +43,7 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
         savedInstanceState: Bundle?
     ): View? {
         binding = SessionFilterFragmentBinding.inflate(layoutInflater, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 

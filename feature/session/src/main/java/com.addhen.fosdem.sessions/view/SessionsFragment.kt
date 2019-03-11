@@ -47,6 +47,7 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         savedInstanceState: Bundle?
     ): View? {
         binding = SessionsFragmentBinding.inflate(layoutInflater, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 

@@ -42,6 +42,7 @@ class SessionBottomSheetDialogFragment :
         savedInstanceState: Bundle?
     ): View? {
         binding = SessionBottomSheetDialogFragmentBinding.inflate(layoutInflater, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
