@@ -30,6 +30,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SessionBottomSheetDialogFragment :
     BaseFragment<SessionBottomSheetViewModel, SessionBottomSheetDialogFragmentBinding>(

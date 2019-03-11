@@ -28,10 +28,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
 import com.addhen.fosdem.sessions.databinding.SessionFilterFragmentBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+
 
 class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilterFragmentBinding>(
     clazz = SessionFilterViewModel::class.java
@@ -47,6 +51,9 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
         return binding.root
     }
 
+    private val bottomSheetBehavior: BottomSheetBehavior<*>
+        get() = BottomSheetBehavior.from(binding.sessionsSheet)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -54,6 +61,7 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
 
     private fun initView() {
         setupSessionBottomSheetDialogFragment()
+        setupBottomSheetBehavior()
         lifecycle.addObserver(viewModel)
     }
 
@@ -65,6 +73,31 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
             .disallowAddToBackStack()
             .commit()
     }
+
+    private fun setupBottomSheetBehavior() {
+        bottomSheetBehavior.isHideable = false
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        binding.sessionsSheet.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    binding.sessionsSheet.viewTreeObserver.removeOnPreDrawListener(this)
+                    if (isDetached) return false
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    return false
+                }
+            }
+        )
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(@NonNull bottomSheet: View, newState: Int) {
+                // Propagate new state change
+            }
+
+            override fun onSlide(@NonNull bottomSheet: View, slideOffset: Float) {
+                // Do nothing
+            }
+        })
+    }
+
 
     companion object {
 

@@ -229,6 +229,7 @@
                 app:behavior_hideable="false"
                 app:behavior_peekHeight="@dimen/space_64dp"
                 app:behavior_skipCollapsed="false"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
                 tools:layout="@layout/session_bottom_sheet_dialog_fragment"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
