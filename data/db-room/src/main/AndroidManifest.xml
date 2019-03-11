@@ -22,4 +22,4 @@
   ~ SOFTWARE.
   -->
 
-<manifest package="com.addhen.fosdem.data.db"/>
+<manifest package="com.addhen.fosdem.data.db.room"/>
