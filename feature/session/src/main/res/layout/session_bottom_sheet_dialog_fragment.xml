@@ -7,7 +7,7 @@
     <data>
         <variable
                 name="viewModel"
-                type="com.addhen.fosdem.sessions.view.SessionBottomSheetViewModel"
+                type="com.addhen.fosdem.sessions.view.SessionFilterViewModel"
         />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

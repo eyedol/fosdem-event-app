@@ -32,6 +32,15 @@
               android:name="com.addhen.fosdem.sessions.view.SessionsFragment"
               android:label="@string/sessions"/>
 
+    <fragment
+            android:id="@+id/bottom_session_day"
+            android:name="com.addhen.fosdem.sessions.view.SessionBottomSheetDialogFragment"
+            android:label="@string/sessions">
+        <argument
+                android:name="tag"
+                app:argType="string"/>
+    </fragment>
+
     <fragment android:id="@+id/menu_map"
               android:name="com.addhen.fosdem.sessions.view.SessionFilterFragment"
               android:label="@string/map">

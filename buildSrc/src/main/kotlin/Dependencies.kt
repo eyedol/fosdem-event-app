@@ -3,7 +3,7 @@ object Dependencies {
     val timber = "com.jakewharton.timber:timber:4.7.1"
 
     object GradlePlugin {
-        val version = "3.4.0-rc01"
+        val version = "3.4.0-rc02"
         val android = "com.android.tools.build:gradle:$version"
         val r8 = "com.android.tools:r8:1.3.52"
         val kotlin = Kotlin.version
@@ -40,6 +40,7 @@ object Dependencies {
             val liveData = "androidx.lifecycle:lifecycle-livedata:$version"
             val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
             val compiler = "androidx.lifecycle:lifecycle-compiler:$version"
+            val liveDataKtx = "com.shopify:livedata-ktx:3.0.0"
         }
 
         object Room {

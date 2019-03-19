@@ -35,7 +35,7 @@ import androidx.viewpager.widget.ViewPager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
 import com.addhen.fosdem.sessions.databinding.SessionsFragmentBinding
-import com.addhen.fosdem.sessions.model.Screen
+import com.addhen.fosdem.sessions.model.SessionScreen
 
 class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding>(
     clazz = SessionsViewModel::class.java
@@ -69,9 +69,9 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
                 return SessionFilterFragment.newInstance(SessionFilterFragmentArgs(position))
             }
 
-            override fun getPageTitle(position: Int) = Screen.tabs[position].title
+            override fun getPageTitle(position: Int) = SessionScreen.tabs[position].title
 
-            override fun getCount(): Int = Screen.tabs.size
+            override fun getCount(): Int = SessionScreen.tabs.size
         }
         binding.sessionsViewpager.addOnPageChangeListener(
             object : ViewPager.SimpleOnPageChangeListener() {

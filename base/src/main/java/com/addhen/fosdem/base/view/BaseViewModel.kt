@@ -25,22 +25,24 @@
 package com.addhen.fosdem.base.view
 
 import androidx.lifecycle.ViewModel
-import com.addhen.fosdem.base.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
 /**
  * BaseViewModel base class that is bound to Activity lifecycle and disposes subscriptions on pause
  * call.
  */
-abstract class BaseViewModel(dispatchers: CoroutineDispatchers) : ViewModel() {
+abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     private val job = Job()
 
-    protected val scope = CoroutineScope(job + dispatchers.main)
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     override fun onCleared() {
-        super.onCleared()
         job.cancel()
+        super.onCleared()
     }
 }

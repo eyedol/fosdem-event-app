@@ -24,21 +24,27 @@
 
 package com.addhen.fosdem.sessions.view
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.OnLifecycleEvent
-import com.addhen.fosdem.base.CoroutineDispatchers
-import com.addhen.fosdem.base.Resource
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.*
 import com.addhen.fosdem.base.view.BaseViewModel
-import com.addhen.fosdem.data.model.Session
+import com.addhen.fosdem.base.view.state.Action
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import timber.log.Timber
 import javax.inject.Inject
 
-class SessionFilterViewModel @Inject constructor(
-    private val dispatchers: CoroutineDispatchers
-) : BaseViewModel(dispatchers), LifecycleObserver {
+class SessionFilterViewModel @Inject constructor() : BaseViewModel(), LifecycleObserver {
 
-    val sessions = MutableLiveData<Resource<List<Session>>>()
+    val viewState: LiveData<SessionState.ViewState>
+        get() = mutableViewState
+
+    private val mutableViewState = MutableLiveData<SessionState.ViewState>()
+    private var currentViewState = SessionState.ViewState()
+        set(value) {
+            field = value
+            mutableViewState.value = value
+        }
+    val isEmptyViewShown = ObservableBoolean()
+    val isBottomSheetCollapsed = ObservableBoolean()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onSwipeRefresh() {
@@ -46,5 +52,14 @@ class SessionFilterViewModel @Inject constructor(
     }
 
     private fun loadFilters() {
+    }
+
+    fun onAction(action: Action) {
+        when (action) {
+            is SessionAction.BottomSheetFilterToggled -> {
+                Timber.d("actionToggle ${action.sessionScreen.tag}")
+                currentViewState = currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
+            }
+        }
     }
 }

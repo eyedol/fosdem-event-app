@@ -24,16 +24,13 @@
 
 package com.addhen.fosdem.sessions.view
 
-import com.addhen.fosdem.base.CoroutineDispatchers
 import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.data.model.Session
-
 import javax.inject.Inject
 
 class SessionItemViewModel @Inject constructor(
-    dispatchers: CoroutineDispatchers,
     val session: Session
-) : BaseViewModel(dispatchers) {
+) : BaseViewModel() {
 
     fun onClickSession() {
         // TODO navigate to session details page

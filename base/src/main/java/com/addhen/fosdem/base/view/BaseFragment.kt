@@ -43,7 +43,7 @@ abstract class BaseFragment<out T : BaseViewModel, B : ViewDataBinding>(
     lateinit var viewModelFactory: ViewModelProvider.Factory
     protected lateinit var binding: B
     val viewModel: T by lazy {
-        ViewModelProviders.of(this@BaseFragment, viewModelFactory).get(clazz)
+        ViewModelProviders.of(requireActivity(), viewModelFactory).get(clazz)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

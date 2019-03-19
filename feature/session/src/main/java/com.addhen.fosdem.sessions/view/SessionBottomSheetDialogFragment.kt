@@ -28,14 +28,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
+import com.addhen.fosdem.sessions.model.SessionScreen
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SessionBottomSheetDialogFragment :
-    BaseFragment<SessionBottomSheetViewModel, SessionBottomSheetDialogFragmentBinding>(
-        clazz = SessionBottomSheetViewModel::class.java
+    BaseFragment<SessionFilterViewModel, SessionBottomSheetDialogFragmentBinding>(
+        clazz = SessionFilterViewModel::class.java
     ) {
+
+    private val args: SessionBottomSheetDialogFragmentArgs by lazy {
+        SessionBottomSheetDialogFragmentArgs.fromBundle(arguments ?: Bundle())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +62,7 @@ class SessionBottomSheetDialogFragment :
 
     private fun initFilterButton() {
         val onFilterButtonClick: (View) -> Unit = {
-            // TODO toggle button sheet
+            viewModel.onAction(SessionAction.BottomSheetFilterToggled(SessionScreen.Saturday))
         }
         binding.sessionsBottomSheetShowFilterButton.setOnClickListener(onFilterButtonClick)
         binding.sessionsBottomSheetHideFilterButton.setOnClickListener(onFilterButtonClick)
@@ -62,12 +70,36 @@ class SessionBottomSheetDialogFragment :
 
     private fun initView() {
         initFilterButton()
+        observeViewStateChanges()
         lifecycle.addObserver(viewModel)
+    }
+
+    private fun observeViewStateChanges() {
+        viewModel.viewState.observe(this, Observer {
+            if (it.bottomSheetState == BottomSheetBehavior.STATE_EXPANDED ||
+                it.bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED
+            ) {
+                TransitionManager.beginDelayedTransition(
+                    binding.root as ViewGroup, AutoTransition().apply {
+                        excludeChildren(binding.sessionsBottomSheetTitle, true)
+                        excludeChildren(binding.sessionsRecycler, true)
+                    })
+                val isCollapsed = it.bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED
+                viewModel.isBottomSheetCollapsed.set(isCollapsed)
+            }
+        })
     }
 
     companion object {
 
         const val TAG: String = "SessionBottomSheetDialogFragment"
-        fun newInstance(): SessionBottomSheetDialogFragment = SessionBottomSheetDialogFragment()
+
+        fun newInstance(
+            args: SessionBottomSheetDialogFragmentArgs
+        ): SessionBottomSheetDialogFragment {
+            return SessionBottomSheetDialogFragment().apply {
+                arguments = args.toBundle()
+            }
+        }
     }
 }

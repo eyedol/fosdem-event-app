@@ -38,6 +38,8 @@ dependencies {
     api(Dependencies.Glide.okhttp3)
     // Architecture components lifecycle
     api(Dependencies.AndroidX.Lifecycle.runtime)
+    api(Dependencies.AndroidX.Lifecycle.liveData)
+    api(Dependencies.AndroidX.Lifecycle.liveDataKtx)
     api(Dependencies.AndroidX.Lifecycle.extensions)
     // Utility
     api(Dependencies.Dagger.core)

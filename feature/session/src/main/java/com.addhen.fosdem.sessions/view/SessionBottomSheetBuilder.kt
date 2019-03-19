@@ -24,21 +24,12 @@
 
 package com.addhen.fosdem.sessions.view
 
-import androidx.lifecycle.ViewModel
-import com.addhen.fosdem.base.di.module.ViewModelKey
-import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dagger.multibindings.IntoMap
 
 @Module
 abstract class SessionBottomSheetBuilder {
 
     @ContributesAndroidInjector
     abstract fun sessionBottomSheetFragment(): SessionBottomSheetDialogFragment
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SessionBottomSheetViewModel::class)
-    abstract fun sessionBottomSheetViewModel(viewModel: SessionBottomSheetViewModel): ViewModel
 }

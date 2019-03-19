@@ -1,12 +1,12 @@
 package com.addhen.fosdem.sessions.model
 
-sealed class Screen {
+sealed class SessionScreen {
 
     abstract val title: String
 
     abstract val tag: String
 
-    open class Tab(override val title: String, override val tag: String) : Screen()
+    open class Tab(override val title: String, override val tag: String) : SessionScreen()
 
     object Saturday : Tab("Saturday", "sat")
     object Sunday : Tab("Sunday", "sun")

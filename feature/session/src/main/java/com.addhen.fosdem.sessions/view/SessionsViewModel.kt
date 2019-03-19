@@ -28,19 +28,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
-import com.addhen.fosdem.base.CoroutineDispatchers
 import com.addhen.fosdem.base.Resource
 import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.data.repository.session.SessionRepository
-import com.addhen.fosdem.sessions.model.Screen
+import com.addhen.fosdem.sessions.model.SessionScreen
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
-    private val dispatchers: CoroutineDispatchers,
     private val sessionRepository: SessionRepository
-) : BaseViewModel(dispatchers), LifecycleObserver {
+) : BaseViewModel(), LifecycleObserver {
 
-    val screens = MutableLiveData<Resource<List<Screen.Tab>>>()
+    val screens = MutableLiveData<Resource<List<SessionScreen.Tab>>>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onSwipeRefresh() {
@@ -48,6 +46,6 @@ class SessionsViewModel @Inject constructor(
     }
 
     private fun loadScreens() {
-        screens.value = Resource.success(Screen.tabs)
+        screens.value = Resource.success(SessionScreen.tabs)
     }
 }

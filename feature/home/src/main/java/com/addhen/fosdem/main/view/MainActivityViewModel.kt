@@ -24,13 +24,10 @@
 
 package com.addhen.fosdem.main.view
 
-import com.addhen.fosdem.base.CoroutineDispatchers
 import com.addhen.fosdem.base.view.BaseViewModel
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(
-    dispatchers: CoroutineDispatchers
-) : BaseViewModel(dispatchers) {
+class MainActivityViewModel @Inject constructor() : BaseViewModel() {
 
     fun shouldSignInOrNot() {}
 }

@@ -31,15 +31,24 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
 import com.addhen.fosdem.sessions.databinding.SessionFilterFragmentBinding
+import com.addhen.fosdem.sessions.model.SessionScreen
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilterFragmentBinding>(
     clazz = SessionFilterViewModel::class.java
 ) {
+
+    private val bottomSheetBehavior: BottomSheetBehavior<*>
+        get() = BottomSheetBehavior.from(binding.sessionsSheet)
+
+    private val args: SessionFilterFragmentArgs by lazy {
+        SessionFilterFragmentArgs.fromBundle(arguments ?: Bundle())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +60,6 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
         return binding.root
     }
 
-    private val bottomSheetBehavior: BottomSheetBehavior<*>
-        get() = BottomSheetBehavior.from(binding.sessionsSheet)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -62,16 +68,31 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
     private fun initView() {
         setupSessionBottomSheetDialogFragment()
         setupBottomSheetBehavior()
+        observeViewStateChanges()
         lifecycle.addObserver(viewModel)
     }
 
     private fun setupSessionBottomSheetDialogFragment() {
-        val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance()
+        val tab = SessionScreen.tabs[args.tabIndex]
+        val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance(
+            SessionBottomSheetDialogFragmentArgs(tab.tag)
+        )
         childFragmentManager
             .beginTransaction()
             .replace(R.id.sessions_sheet, fragment, TAG)
             .disallowAddToBackStack()
             .commit()
+    }
+
+    private fun observeViewStateChanges() {
+        viewModel.viewState.observe(this, Observer {
+            bottomSheetBehavior.state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    BottomSheetBehavior.STATE_EXPANDED
+                } else {
+                    BottomSheetBehavior.STATE_COLLAPSED
+                }
+        })
     }
 
     private fun setupBottomSheetBehavior() {
