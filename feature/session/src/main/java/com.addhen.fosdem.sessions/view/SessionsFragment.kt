@@ -29,8 +29,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
@@ -54,6 +57,8 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        observeViewStateChanges()
+        viewModel.onAction(SessionAction.LoadSessions)
     }
 
     override fun onDestroyView() {
@@ -93,7 +98,13 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
                 }
             }
         }
-        lifecycle.addObserver(viewModel)
+    }
+
+    private fun observeViewStateChanges() {
+        viewModel.viewState.observe(this, Observer {
+            Toast.makeText(requireContext(), "", Toast.LENGTH_LONG)
+            binding.sessionsProgressBar.isVisible = it.isLoading
+        })
     }
 
     companion object {

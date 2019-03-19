@@ -29,6 +29,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,8 +40,8 @@ import com.addhen.fosdem.sessions.model.SessionScreen
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
-class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilterFragmentBinding>(
-    clazz = SessionFilterViewModel::class.java
+class SessionFilterFragment : BaseFragment<SessionsViewModel, SessionFilterFragmentBinding>(
+    clazz = SessionsViewModel::class.java
 ) {
 
     private val bottomSheetBehavior: BottomSheetBehavior<*>
@@ -69,7 +70,7 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
         setupSessionBottomSheetDialogFragment()
         setupBottomSheetBehavior()
         observeViewStateChanges()
-        lifecycle.addObserver(viewModel)
+        observeViewEffectChanges()
     }
 
     private fun setupSessionBottomSheetDialogFragment() {
@@ -86,12 +87,22 @@ class SessionFilterFragment : BaseFragment<SessionFilterViewModel, SessionFilter
 
     private fun observeViewStateChanges() {
         viewModel.viewState.observe(this, Observer {
-            bottomSheetBehavior.state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                    BottomSheetBehavior.STATE_EXPANDED
-                } else {
-                    BottomSheetBehavior.STATE_COLLAPSED
+            Toast.makeText(requireContext(), "", Toast.LENGTH_LONG)
+        })
+    }
+
+    private fun observeViewEffectChanges() {
+        viewModel.viewEffect.observe(this, Observer {
+            when (it) {
+                is SessionViewEffect.BottomSheetToggled -> {
+                    bottomSheetBehavior.state =
+                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                            BottomSheetBehavior.STATE_EXPANDED
+                        } else {
+                            BottomSheetBehavior.STATE_COLLAPSED
+                        }
                 }
+            }
         })
     }
 

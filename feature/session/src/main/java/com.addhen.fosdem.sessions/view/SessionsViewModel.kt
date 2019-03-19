@@ -24,28 +24,47 @@
 
 package com.addhen.fosdem.sessions.view
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.OnLifecycleEvent
-import com.addhen.fosdem.base.Resource
 import com.addhen.fosdem.base.view.BaseViewModel
+import com.addhen.fosdem.base.view.state.Action
 import com.addhen.fosdem.data.repository.session.SessionRepository
-import com.addhen.fosdem.sessions.model.SessionScreen
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
     private val sessionRepository: SessionRepository
-) : BaseViewModel(), LifecycleObserver {
+) : BaseViewModel() {
 
-    val screens = MutableLiveData<Resource<List<SessionScreen.Tab>>>()
+    val viewState: LiveData<SessionState.ViewState>
+        get() = mutableViewState
+    val viewEffect: LiveData<SessionViewEffect>
+        get() = mutableViewEffect
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onSwipeRefresh() {
-        loadScreens()
-    }
+    private val mutableViewState = MutableLiveData<SessionState.ViewState>()
+    private val mutableViewEffect = MutableLiveData<SessionViewEffect>()
+    private var currentViewState = SessionState.ViewState()
+        set(value) {
+            field = value
+            mutableViewState.value = value
+        }
+    val isEmptyViewShown = ObservableBoolean()
+    val isBottomSheetCollapsed = ObservableBoolean()
 
-    private fun loadScreens() {
-        screens.value = Resource.success(SessionScreen.tabs)
+    fun onAction(action: Action) {
+        currentViewState = when (action) {
+            is SessionAction.BottomSheetFilterToggled -> {
+                mutableViewEffect.value = SessionViewEffect.BottomSheetToggled
+                currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
+            }
+            is SessionAction.LoadSessions -> {
+                currentViewState.copy(isLoading = false, isEmptyViewShown = true)
+            }
+            else -> {
+                currentViewState.copy(isEmptyViewShown = true)
+            }
+        }
     }
 }
