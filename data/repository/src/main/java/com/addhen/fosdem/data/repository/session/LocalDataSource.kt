@@ -37,6 +37,6 @@ class LocalDataSource @Inject constructor() {
 
     @WorkerThread
     suspend fun getSession(id: Long): Session {
-        TODO()
+        return Session(0, "", "", "", "", "", "")
     }
 }

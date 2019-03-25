@@ -39,8 +39,8 @@ dependencies {
     // Architecture components lifecycle
     api(Dependencies.AndroidX.Lifecycle.runtime)
     api(Dependencies.AndroidX.Lifecycle.liveData)
-    api(Dependencies.AndroidX.Lifecycle.liveDataKtx)
     api(Dependencies.AndroidX.Lifecycle.extensions)
+    api(Dependencies.AndroidX.Lifecycle.viewModelKtx)
     // Utility
     api(Dependencies.Dagger.core)
     api(Dependencies.Dagger.android)

@@ -40,7 +40,7 @@ object Dependencies {
             val liveData = "androidx.lifecycle:lifecycle-livedata:$version"
             val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
             val compiler = "androidx.lifecycle:lifecycle-compiler:$version"
-            val liveDataKtx = "com.shopify:livedata-ktx:3.0.0"
+            val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
         object Room {

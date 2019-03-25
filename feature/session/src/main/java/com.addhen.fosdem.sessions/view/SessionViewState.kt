@@ -6,18 +6,16 @@ import com.addhen.fosdem.base.view.state.State
 import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.sessions.model.SessionScreen
 
-sealed class SessionState : State {
-    data class ViewState(
-        val isEmptyViewShown: Boolean = false,
-        val bottomSheetState: Int = 0,
-        val isLoading: Boolean = false,
-        val sessions: List<Session> = emptyList()
-    )
-}
-
+data class SessionState(
+    val isEmptyViewShown: Boolean = false,
+    val bottomSheetState: Int = 0,
+    val isLoading: Boolean = false,
+    val sessions: List<Session> = emptyList()
+) : State
 
 sealed class SessionAction : Action {
     object LoadSessions : SessionAction()
+    object SessionLoaded : SessionAction()
     data class BottomSheetFilterToggled(val sessionScreen: SessionScreen) : SessionAction()
 }
 

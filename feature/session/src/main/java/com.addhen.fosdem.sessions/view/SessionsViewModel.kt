@@ -29,23 +29,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.base.view.state.Action
+import com.addhen.fosdem.base.view.state.Reducer
 import com.addhen.fosdem.data.repository.session.SessionRepository
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
     private val sessionRepository: SessionRepository
-) : BaseViewModel() {
+) : BaseViewModel(), Reducer<SessionState> {
 
-    val viewState: LiveData<SessionState.ViewState>
+    val viewState: LiveData<SessionState>
         get() = mutableViewState
     val viewEffect: LiveData<SessionViewEffect>
         get() = mutableViewEffect
 
-    private val mutableViewState = MutableLiveData<SessionState.ViewState>()
+    private val mutableViewState = MutableLiveData<SessionState>()
     private val mutableViewEffect = MutableLiveData<SessionViewEffect>()
-    private var currentViewState = SessionState.ViewState()
+    private var currentViewState = SessionState()
         set(value) {
             field = value
             mutableViewState.value = value
@@ -53,18 +53,23 @@ class SessionsViewModel @Inject constructor(
     val isEmptyViewShown = ObservableBoolean()
     val isBottomSheetCollapsed = ObservableBoolean()
 
-    fun onAction(action: Action) {
+    override fun onAction(action: Action) {
         currentViewState = when (action) {
             is SessionAction.BottomSheetFilterToggled -> {
                 mutableViewEffect.value = SessionViewEffect.BottomSheetToggled
                 currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
             }
             is SessionAction.LoadSessions -> {
-                currentViewState.copy(isLoading = false, isEmptyViewShown = true)
+                currentViewState.copy(isLoading = true)
+            }
+            is SessionAction.SessionLoaded -> {
+                currentViewState.copy(isLoading = false, isEmptyViewShown = false)
             }
             else -> {
                 currentViewState.copy(isEmptyViewShown = true)
             }
         }
     }
+
+    private fun loadSessions() {}
 }
