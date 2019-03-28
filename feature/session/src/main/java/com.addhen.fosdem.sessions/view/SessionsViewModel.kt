@@ -27,11 +27,13 @@ package com.addhen.fosdem.sessions.view
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.base.view.state.Action
 import com.addhen.fosdem.base.view.state.Reducer
 import com.addhen.fosdem.data.repository.session.SessionRepository
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
@@ -43,6 +45,9 @@ class SessionsViewModel @Inject constructor(
     val viewEffect: LiveData<SessionViewEffect>
         get() = mutableViewEffect
 
+    val isEmptyViewShown = ObservableBoolean()
+    val isBottomSheetCollapsed = ObservableBoolean()
+
     private val mutableViewState = MutableLiveData<SessionState>()
     private val mutableViewEffect = MutableLiveData<SessionViewEffect>()
     private var currentViewState = SessionState()
@@ -50,8 +55,6 @@ class SessionsViewModel @Inject constructor(
             field = value
             mutableViewState.value = value
         }
-    val isEmptyViewShown = ObservableBoolean()
-    val isBottomSheetCollapsed = ObservableBoolean()
 
     override fun onAction(action: Action) {
         currentViewState = when (action) {
@@ -60,6 +63,7 @@ class SessionsViewModel @Inject constructor(
                 currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
             }
             is SessionAction.LoadSessions -> {
+                loadSessions()
                 currentViewState.copy(isLoading = true)
             }
             is SessionAction.SessionLoaded -> {
@@ -71,5 +75,18 @@ class SessionsViewModel @Inject constructor(
         }
     }
 
-    private fun loadSessions() {}
+    private fun loadSessions() {
+        viewModelScope.launch {
+            currentViewState = try {
+                currentViewState.copy(isLoading = true)
+                val sessions = sessionRepository.getSessions(10, 10)
+                if (sessions.isNotEmpty()) currentViewState.copy(
+                    sessions = sessions,
+                    isLoading = false
+                ) else currentViewState.copy(isEmptyViewShown = true, isLoading = false)
+            } catch (exception: Exception) {
+                currentViewState.copy(isLoading = false)
+            }
+        }
+    }
 }

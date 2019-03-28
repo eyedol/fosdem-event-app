@@ -35,7 +35,7 @@ object Dependencies {
         val fragment = "androidx.fragment:fragment:1.1.0-alpha03"
 
         object Lifecycle {
-            val version = "2.0.0"
+            val version = "2.1.0-alpha03"
             val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
             val liveData = "androidx.lifecycle:lifecycle-livedata:$version"
             val runtime = "androidx.lifecycle:lifecycle-runtime:$version"

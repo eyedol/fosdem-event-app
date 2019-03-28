@@ -104,6 +104,7 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         viewModel.viewState.observe(this, Observer {
             Toast.makeText(requireContext(), "", Toast.LENGTH_LONG)
             binding.sessionsProgressBar.isVisible = it.isLoading
+            viewModel.isEmptyViewShown.set(it.isEmptyViewShown)
         })
     }
 

@@ -26,6 +26,7 @@ package com.addhen.fosdem.data.repository.session
 
 import androidx.annotation.WorkerThread
 import com.addhen.fosdem.data.model.Session
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,8 +35,8 @@ class SessionDataRepository @Inject constructor(private val local: LocalDataSour
 
     suspend fun getSessions() = getSessions(10, 0)
 
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> {
-        return local.getSessions(limit, page)
+    override suspend fun getSessions(limit: Int, page: Int): List<Session> = coroutineScope {
+        local.getSessions(limit, page)
     }
 
     @WorkerThread
