@@ -31,7 +31,7 @@ import javax.inject.Inject
 class LocalDataSource @Inject constructor() {
 
     @WorkerThread
-    suspend fun getSessions(limit: Int, page: Int): List<Session> {
+    suspend fun getSessions(): List<Session> {
         return emptyList()
     }
 

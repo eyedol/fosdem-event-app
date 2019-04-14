@@ -79,11 +79,12 @@ class SessionsViewModel @Inject constructor(
         viewModelScope.launch {
             currentViewState = try {
                 currentViewState.copy(isLoading = true)
-                val sessions = sessionRepository.getSessions(10, 10)
-                if (sessions.isNotEmpty()) currentViewState.copy(
-                    sessions = sessions,
-                    isLoading = false
-                ) else currentViewState.copy(isEmptyViewShown = true, isLoading = false)
+                val sessions = sessionRepository.getSessions()
+                if (sessions.isNotEmpty()) {
+                    currentViewState.copy(sessions = sessions, isLoading = false)
+                } else {
+                    currentViewState.copy(isEmptyViewShown = true, isLoading = false)
+                }
             } catch (exception: Exception) {
                 currentViewState.copy(isLoading = false)
             }

@@ -30,7 +30,7 @@ import com.addhen.fosdem.data.model.Session
 interface SessionRepository {
 
     @WorkerThread
-    suspend fun getSessions(limit: Int, page: Int): List<Session>
+    suspend fun getSessions(): List<Session>
 
     @WorkerThread
     suspend fun getSession(id: Long): Session

@@ -33,10 +33,8 @@ import javax.inject.Singleton
 @Singleton
 class SessionDataRepository @Inject constructor(private val local: LocalDataSource) : SessionRepository {
 
-    suspend fun getSessions() = getSessions(10, 0)
-
-    override suspend fun getSessions(limit: Int, page: Int): List<Session> = coroutineScope {
-        local.getSessions(limit, page)
+    override suspend fun getSessions(): List<Session> = coroutineScope {
+        local.getSessions()
     }
 
     @WorkerThread
