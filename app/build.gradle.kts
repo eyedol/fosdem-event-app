@@ -59,6 +59,10 @@ android {
             setDimension(env)
         }
     }
+
+    packagingOptions {
+        exclude("META-INF/atomicfu.kotlin_module")
+    }
 }
 
 dependencies {

@@ -15,10 +15,10 @@ object Dependencies {
     }
 
     object Kotlin {
-        val version = "1.3.20"
+        val version = "1.3.30"
         val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
 
-        val coroutinesVersion = "1.1.1"
+        val coroutinesVersion = "1.2.0"
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         val androidCoroutinesDispatcher =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
