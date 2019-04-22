@@ -45,7 +45,7 @@ android {
     }
 }
 dependencies {
-    api(project(":data:db-room"))
+    api(project(":data:db"))
 
     implementation(Dependencies.Dagger.core)
     kapt(Dependencies.Databinding.compiler)

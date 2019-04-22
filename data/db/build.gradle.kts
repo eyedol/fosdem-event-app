@@ -34,14 +34,32 @@ android {
     defaultConfig {
         minSdkVersion(Project.MIN_SDK)
         targetSdkVersion(Project.TARGET_SDK)
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
+        sourceSets {
+            getByName("androidTest").assets.srcDirs("$projectDir/schemas")
+        }
     }
-
     lintOptions {
         disable("GradleCompatible", "ObsoleteLintCustomCheck")
     }
 }
+
 dependencies {
     api(project(":data:model"))
     api(Dependencies.Kotlin.stdlibJvm)
     api(Dependencies.Kotlin.coroutines)
+    api(Dependencies.AndroidX.Room.runtime)
+    api(Dependencies.AndroidX.Room.coroutine)
+    api(Dependencies.AndroidX.Lifecycle.liveData)
+    implementation(Dependencies.Dagger.core)
+    implementation(Dependencies.Dagger.support)
+    kapt(Dependencies.AndroidX.Room.compiler)
+    kapt(Dependencies.Databinding.compiler)
+    kapt(Dependencies.Dagger.compiler)
+    kapt(Dependencies.Dagger.processor)
+    testImplementation(Dependencies.Test.junit)
 }
