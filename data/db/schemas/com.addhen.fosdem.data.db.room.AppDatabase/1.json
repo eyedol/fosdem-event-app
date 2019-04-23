@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4e2b53e030830ca1e0f90d267e87a93e",
+    "identityHash": "8738ac3a6c9e55131b9049bea4fd4dea",
     "entities": [
       {
         "tableName": "session",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` TEXT NOT NULL, `duration` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `description` TEXT NOT NULL, `room_id` INTEGER, `room_name` TEXT, `room_building` TEXT, `room_capacity` INTEGER, `track_id` INTEGER, `track_name` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` TEXT NOT NULL, `duration` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `description` TEXT NOT NULL, `room_name` TEXT, `room_building` TEXT, `room_capacity` INTEGER, `track_id` INTEGER, `track_name` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -43,12 +43,6 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "room.id",
-            "columnName": "room_id",
-            "affinity": "INTEGER",
-            "notNull": false
           },
           {
             "fieldPath": "room.name",
@@ -282,7 +276,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4e2b53e030830ca1e0f90d267e87a93e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8738ac3a6c9e55131b9049bea4fd4dea\")"
     ]
   }
 }
