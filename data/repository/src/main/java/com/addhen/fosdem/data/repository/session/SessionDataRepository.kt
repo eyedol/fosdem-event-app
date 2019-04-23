@@ -25,20 +25,34 @@
 package com.addhen.fosdem.data.repository.session
 
 import androidx.annotation.WorkerThread
+import com.addhen.fosdem.data.db.SessionDatabase
 import com.addhen.fosdem.data.model.Session
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SessionDataRepository @Inject constructor(private val local: LocalDataSource) : SessionRepository {
+class SessionDataRepository @Inject constructor(private val database: SessionDatabase) : SessionRepository {
 
     override suspend fun getSessions(): List<Session> = coroutineScope {
-        local.getSessions()
+        val sessionsAsync = async { database.sessions() }
+        val speakersAsync = async { database.speakers() }
+        val linksAsync = async { database.links() }
+        val sessionEntities = sessionsAsync.await()
+        if (sessionEntities.isEmpty()) emptyList<Session>()
+        val speakers = speakersAsync.await()
+        val links = linksAsync.await()
+        sessionEntities
+            .map { it.toSession(speakers, links) }
+            .sortedWith(compareBy(
+                { it.start },
+                { it.room.id }
+            ))
     }
 
     @WorkerThread
     override suspend fun getSession(id: Long): Session {
-        return local.getSession(id)
+        TODO()
     }
 }

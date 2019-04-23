@@ -24,9 +24,7 @@
 
 package com.addhen.fosdem.data.model
 
-import java.util.Date
-
-data class Person(
-    override val id: Long,
+data class Speaker(
+    override val id: Int,
     val name: String
 ) : Model

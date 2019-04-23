@@ -24,6 +24,7 @@
 
 package com.addhen.fosdem.di.module
 
+import com.addhen.fosdem.data.db.DatabaseModule
 import com.addhen.fosdem.data.repository.session.SessionDataRepository
 import com.addhen.fosdem.data.repository.session.SessionRepository
 import dagger.Module
@@ -31,9 +32,9 @@ import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Development related dagger modules.
+ * Production related dagger modules.
  */
-@Module(includes = [AppModule::class])
+@Module(includes = [AppModule::class, DatabaseModule::class])
 internal object ProductionAppModule {
 
     @Provides
