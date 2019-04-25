@@ -16,8 +16,8 @@ fun SessionSpeakerLinkJoinEntity.toSession(
     }
     return Session(
         id = session.id,
-        start = session.start,
-        duration = session.duration,
+        startTime = session.start,
+        durationTime = session.duration,
         title = session.title,
         description = session.description,
         room = session.room!!.toRoom(),

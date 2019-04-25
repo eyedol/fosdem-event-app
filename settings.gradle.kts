@@ -6,5 +6,6 @@ include(
     ":data:db",
     ":data:db-room",
     ":data:repository",
-    ":data:model"
+    ":data:model",
+    ":platform:parser"
 )

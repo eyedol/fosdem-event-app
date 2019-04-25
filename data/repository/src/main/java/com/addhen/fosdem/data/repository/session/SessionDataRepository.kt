@@ -46,8 +46,8 @@ class SessionDataRepository @Inject constructor(private val database: SessionDat
         sessionEntities
             .map { it.toSession(speakers, links) }
             .sortedWith(compareBy(
-                { it.start },
-                { it.room.id }
+                { it.startTime },
+                { it.room.name }
             ))
     }
 

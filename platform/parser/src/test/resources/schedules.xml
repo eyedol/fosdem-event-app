@@ -1,0 +1,185 @@
+<schedule>
+    <conference>
+        <title>FOSDEM 2019</title>
+        <subtitle/>
+        <venue>ULB (Université Libre de Bruxelles)</venue>
+        <city>Brussels</city>
+        <start>2019-02-02</start>
+        <end>2019-02-03</end>
+        <days>2</days>
+        <day_change>09:00:00</day_change>
+        <timeslot_duration>00:05:00</timeslot_duration>
+    </conference>
+    <day index="1" date="2019-02-02">
+        <room name="Janson">
+            <event id="8967">
+                <start>09:30</start>
+                <duration>00:25</duration>
+                <room>Janson</room>
+                <slug>keynotes_welcome</slug>
+                <title>Welcome to FOSDEM 2019</title>
+                <subtitle/>
+                <track>Keynotes</track>
+                <type>keynote</type>
+                <language/>
+                <abstract>
+                    <p>FOSDEM welcome and opening talk.</p>
+                </abstract>
+                <description>
+                    <p>Welcome to FOSDEM 2019!</p>
+                </description>
+                <persons>
+                    <person id="6">FOSDEM Staff</person>
+                </persons>
+                <links>
+                    <link href="https://video.fosdem.org/2019/Janson/keynotes_welcome.webm">Video recording (WebM/VP9)
+                    </link>
+                    <link href="https://video.fosdem.org/2019/Janson/keynotes_welcome.mp4">Video recording (mp4)</link>
+                    <link href="https://submission.fosdem.org/feedback/8967.php">Submit feedback</link>
+                </links>
+            </event>
+            <event id="7545">
+                <start>10:00</start>
+                <duration>00:50</duration>
+                <room>Janson</room>
+                <slug>full_software_freedom</slug>
+                <title>Can Anyone Live in Full Software Freedom Today?</title>
+                <subtitle>
+                    Confessions of Activists Who Try But Fail to Avoid Proprietary Software
+                </subtitle>
+                <track>Keynotes</track>
+                <type>keynote</type>
+                <language/>
+                <abstract>
+                    <p>The FOSS community suffers deeply from a fundamental paradox: every day, there are more lines of
+                        freely licensed code than ever in history, but, every day, it also becomes slightly more
+                        difficult to operate productively using only Open Source and Free Software.
+                    </p>
+                </abstract>
+                <description>
+                    <p>In one sense, we live in the paramount of success of FOSS: developers can easily find jobs
+                        writing mostly freely licensed software. Companies, charities, trade associations, and
+                        individual actors collaborate together on the same code bases in (relative) harmony. The entire
+                        Internet would cease to function without FOSS. Yet, the "last mile" of the most critical
+                        software that we rely on in our daily lives is usually proprietary.
+                    </p>
+                    <p>We, the presenters of this talk, live as the canaries in the coalmine of proprietary software. We
+                        have spent our lives seeking to actively avoid proprietary software but both personally and
+                        professionally, we find ourselves making compromises. In this talk, we will report the results
+                        of our diligent efforts to use only FOSS in our daily work.
+                    </p>
+                    <p>Ideally, it would be possible to live a software freedom lifestyle in the way a vegetarian lives
+                        a vegetarian lifestyle: minor inconveniences at some restaurants and stores, but generally most
+                        industrialized societies provide opportunity and resources to support that moral choice. Not so
+                        with proprietary software: often, the compromise is between "spend hours or days for a task that
+                        would take mere minutes with proprietary software". In other cases, important opportunities are
+                        simply not offered to those who chose software freedom.
+                    </p>
+                    <p>The advent of network services, which mix server-side secret software, and proprietary Javascript
+                        or "Apps", are central to the decline in the ability to live a productive, convenient life in
+                        software freedom. However, few in our community focus on the implications of this and related
+                        problems, and few now even try to resist. We have tried to resist, and while we have succeeded
+                        occasionally, we have failed overall to live life in software freedom.
+                    </p>
+                    <p>In this talk, we will report on where the resistance fails the most and why. Finally, we will
+                        make suggestions of where volunteer developers can most strategically focus their efforts to
+                        build a world where all can live in software freedom.
+                    </p>
+                </description>
+                <persons>
+                    <person id="441">Bradley M. Kuhn</person>
+                    <person id="448">Karen Sandler</person>
+                </persons>
+                <links>
+                    <link href="https://video.fosdem.org/2019/Janson/full_software_freedom.webm">Video recording
+                        (WebM/VP9)
+                    </link>
+                    <link href="https://video.fosdem.org/2019/Janson/full_software_freedom.mp4">Video recording (mp4)
+                    </link>
+                    <link href="https://submission.fosdem.org/feedback/7545.php">Submit feedback</link>
+                </links>
+            </event>
+        </room>
+    </day>
+    <day index="2" date="2019-02-03">
+        <room name="K.1.105 (La Fontaine)">
+            <event id="8776">
+                <start>09:00</start>
+                <duration>00:50</duration>
+                <room>K.1.105 (La Fontaine)</room>
+                <slug>love_everyday</slug>
+                <title>Love What You Do, Everyday!</title>
+                <subtitle/>
+                <track>Miscellaneous</track>
+                <type>maintrack</type>
+                <language/>
+                <abstract>
+                    <p>Build a career doing what you love. Open source is an enabler and the community can be your best
+                        coach, mentor and referral. Whether you are a beginners or someone who has been working in open
+                        source for years, the speakers covers tips in building an open source career. On bringing out
+                        the best in yourself, the community and your project.
+                    </p>
+                </abstract>
+                <description/>
+                <persons>
+                    <person id="4907">Zaheda Bhorat</person>
+                </persons>
+                <links>
+                    <link href="https://video.fosdem.org/2019/K.1.105/love_everyday.webm">Video recording (WebM/VP9)
+                    </link>
+                    <link href="https://video.fosdem.org/2019/K.1.105/love_everyday.mp4">Video recording (mp4)</link>
+                    <link href="https://submission.fosdem.org/feedback/8776.php">Submit feedback</link>
+                </links>
+            </event>
+            <event id="7349">
+                <start>10:00</start>
+                <duration>00:50</duration>
+                <room>K.1.105 (La Fontaine)</room>
+                <slug>tesla_hacking</slug>
+                <title>Tesla Hacking to FreedomEV!</title>
+                <subtitle>Bringing Freedom to electric vehicle software</subtitle>
+                <track>Hardware</track>
+                <type>maintrack</type>
+                <language/>
+                <abstract>
+                    <p>How and why hack a Tesla and its Linux systems? What is possible, implemented and 'to-do'? Call
+                        for joining the new world of Electric Vehicle Hacking. Do you want to help to bring some Freedom
+                        to our cars? My 'Tesla Hacking' evolved to a broader project 'FreedomEV'.
+                    </p>
+                    <p>Building a community to encourage and build better and OpenSource sofware for in-vehicle
+                        entertainment and beyond...
+                    </p>
+                </abstract>
+                <description>
+                    <p>The current state of Tesla Hacking. Difficulties. Strategies. What has been done and what is
+                        possible? The creation of an opensource platform for hacking electric Linux-based vehicles. We
+                        will launch the website http://www.freedomev.com to bring our hacks to the world and allow
+                        others to contribute in the repository. Debian-style.
+                    </p>
+                    <p>It started out with hacking my Tesla Model X. And is evolving now into a community project which
+                        seeks your cooperation to build new exciting features into Electric Vehicles. Welcome to the
+                        launch of FreedomEV!
+                    </p>
+                    <p>The FreedomEV project aims to give you full control over your own vehicle. Over it's security and
+                        full features and capabilities. The future possibilities are endless. We explore how we are
+                        doing this, why, and what is possible. Consider this a call for your participation as well.
+                        Currently only supporting Tesla Model S and X with ARM MCU, but looking to broaden vehicle
+                        support to include Intel based MCU's and Tesla Model 3 and possibly other manufacturers too?
+                    </p>
+                </description>
+                <persons>
+                    <person id="5425">Jasper Nuyens</person>
+                </persons>
+                <links>
+                    <link href="http://www.freedomev.com">The to be Fosdem-launched FreedomEV website</link>
+                    <link href="http://www.freedomev.com/wiki/index.php?title=Main_Page">FreedomEV Wiki</link>
+                    <link href="https://github.com/jnuyens/freedomev">FreedomEV Github</link>
+                    <link href="https://video.fosdem.org/2019/K.1.105/tesla_hacking.webm">Video recording (WebM/VP9)
+                    </link>
+                    <link href="https://video.fosdem.org/2019/K.1.105/tesla_hacking.mp4">Video recording (mp4)</link>
+                    <link href="https://submission.fosdem.org/feedback/7349.php">Submit feedback</link>
+                </links>
+            </event>
+        </room>
+    </day>
+</schedule>

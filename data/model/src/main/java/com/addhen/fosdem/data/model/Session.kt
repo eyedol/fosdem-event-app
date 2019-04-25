@@ -24,14 +24,17 @@
 
 package com.addhen.fosdem.data.model
 
+import java.util.*
+
 data class Session(
     override val id: Int,
-    val start: String,
-    val duration: String,
+    val startTime: Date,
+    val durationTime: Date,
     val title: String,
+    val description: String,
+    val abstract: String,
     val room: Room,
     val track: Track,
-    val description: String,
     val links: List<Link>,
     val speakers: List<Speaker>
 ) : Model

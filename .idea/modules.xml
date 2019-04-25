@@ -12,6 +12,8 @@
       <module fileurl="file://$PROJECT_DIR$/fosdem.iml" filepath="$PROJECT_DIR$/fosdem.iml" />
       <module fileurl="file://$PROJECT_DIR$/feature/home/home.iml" filepath="$PROJECT_DIR$/feature/home/home.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/model/model.iml" filepath="$PROJECT_DIR$/data/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/parser/parser.iml" filepath="$PROJECT_DIR$/platform/parser/parser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform.iml" filepath="$PROJECT_DIR$/platform/platform.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/repository/repository.iml" filepath="$PROJECT_DIR$/data/repository/repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/feature/session/session.iml" filepath="$PROJECT_DIR$/feature/session/session.iml" />
     </modules>
