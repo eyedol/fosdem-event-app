@@ -1,6 +1,5 @@
 package com.addhen.fosdem.platform.parser
 
-import com.addhen.fosdem.platform.extension.toDate
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,19 +16,11 @@ class ScheduleXmlParserTest {
     @Test
     @Throws(XmlPullParserException::class, IOException::class)
     fun `should parse schedule xml file with no issue`() {
-        val expectedSchedule = buildSchedule()
+        val expectedSchedule = TestFixture.buildSchedule()
         val inputStream = TestHelper.getStringFromFile("schedules.xml")
 
         val actualSchedule = scheduleXmlParser.parse(inputStream)
 
-        assertEquals(expectedSchedule, actualSchedule)
-    }
-
-    private fun buildSchedule(): Schedule {
-        val days = listOf(
-            Schedule.Day(1, "2019-02-02".toDate(), listOf()),
-            Schedule.Day(2, "2019-02-03".toDate(), listOf())
-        )
-        return Schedule(days)
+        assertEquals(expectedSchedule.days.size, actualSchedule.days.size)
     }
 }

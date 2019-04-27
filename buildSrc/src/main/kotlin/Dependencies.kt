@@ -15,7 +15,7 @@ object Dependencies {
     }
 
     object Kotlin {
-        val version = "1.3.30"
+        val version = "1.3.31"
         val stdlibJvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
 
         val coroutinesVersion = "1.2.0"

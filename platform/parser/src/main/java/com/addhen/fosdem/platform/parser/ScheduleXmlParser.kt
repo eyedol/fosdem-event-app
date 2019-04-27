@@ -94,6 +94,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
         var abstract = ""
         var room = ""
         var track = ""
+        var type = ""
         var speakers = mutableListOf<Speaker>()
         val links = mutableListOf<Link>()
         while (!isEndTag()) {
@@ -110,14 +111,14 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
                     resetCalendar(parser.nextText())
                     durationTime = calendar.time
                 }
-                //"description" -> description = readText("description")
-
+                //"description" -> description = parser.nextText()
                 //"abstract" -> abstract = parser.nextText()
                 "title" -> title = parser.nextText()
                 "persons" -> speakers.addAll(readPersons())
                 "links" -> links.addAll(readLinks())
                 "room" -> room = parser.nextText()
                 "track" -> track = parser.nextText()
+                "type" -> type = parser.nextText()
                 else -> skipToEndTag()
             }
         }
@@ -129,7 +130,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             description,
             abstract,
             Room(room, Room.Building.fromRoomName(room).name),
-            Track(track),
+            Track(track, Track.Type.valueOf(type)),
             links,
             speakers.toList()
         )
