@@ -40,8 +40,9 @@ android {
 }
 
 dependencies {
-    api(project(":data:model"))
+    implementation(project(":platform:parser"))
     api(Dependencies.Kotlin.stdlibJvm)
+    implementation(Dependencies.Square.okHttp)
 
     testImplementation(Dependencies.Test.junit)
     testImplementation(Dependencies.Test.kxml2)

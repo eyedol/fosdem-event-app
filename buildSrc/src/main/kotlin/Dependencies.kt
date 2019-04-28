@@ -91,4 +91,8 @@ object Dependencies {
         val testRunner = "androidx.test:runner:1.1.0"
         val kxml2 = "com.github.stefanhaustein:kxml2:v2.4.2"
     }
+
+    object Square {
+        val okHttp = "com.squareup.okhttp3:okhttp:3.14.1"
+    }
 }
