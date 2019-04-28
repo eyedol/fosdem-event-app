@@ -7,7 +7,10 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
 import java.io.InputStream
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser()) : Parser<Schedule> {
 
@@ -55,7 +58,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             }
             // Look for room tag
             if (parser.name == "room") {
-                sessions.addAll(readRoom())
+                sessions.addAll(readRoom(index))
             } else {
                 skipToEndTag()
             }
@@ -65,7 +68,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readRoom(): List<Session> {
+    private fun readRoom(day: Int): List<Session> {
         requireStartTag("room")
         val sessions = mutableListOf<Session>()
         while (!isEndTag()) {
@@ -75,7 +78,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
 
             // Look for event
             if (parser.name == "event") {
-                sessions.add(readEvent())
+                sessions.add(readEvent(day))
             } else {
                 skipToEndTag()
             }
@@ -84,9 +87,9 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readEvent(): Session {
+    private fun readEvent(day: Int): Session {
         requireStartTag("event")
-        var id = parser.getAttributeValue(null, "id").toInt()
+        var id = parser.getAttributeValue(null, "id").toLong()
         var startTime = Date()
         var durationTime = Date()
         var title = ""
@@ -124,13 +127,14 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
         }
         return Session(
             id,
+            day,
             startTime,
             durationTime,
             title,
             description,
             abstract,
             Room(room, Room.Building.fromRoomName(room).name),
-            Track(track, Track.Type.valueOf(type)),
+            Track(name = track, type = Track.Type.valueOf(type)),
             links,
             speakers.toList()
         )
@@ -156,7 +160,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
 
     private fun readPerson(): Speaker {
         requireStartTag("person")
-        val id = parser.getAttributeValue(null, "id").toInt()
+        val id = parser.getAttributeValue(null, "id").toLong()
         val name = parser.nextText()
         return Speaker(id, name)
     }

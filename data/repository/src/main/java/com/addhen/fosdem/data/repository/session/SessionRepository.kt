@@ -34,4 +34,7 @@ interface SessionRepository {
 
     @WorkerThread
     suspend fun getSession(id: Long): Session
+
+    @WorkerThread
+    suspend fun fetchSession()
 }

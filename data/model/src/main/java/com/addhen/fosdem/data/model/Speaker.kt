@@ -25,6 +25,6 @@
 package com.addhen.fosdem.data.model
 
 data class Speaker(
-    override val id: Int,
+    override val id: Long,
     val name: String
 ) : Model

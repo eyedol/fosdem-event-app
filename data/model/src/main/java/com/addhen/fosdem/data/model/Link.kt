@@ -25,7 +25,7 @@
 package com.addhen.fosdem.data.model
 
 data class Link(
-    override val id: Int,
+    override val id: Long,
     val href: String,
     val text: String
 ) : Model

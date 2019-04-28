@@ -46,6 +46,8 @@ android {
 }
 dependencies {
     api(project(":data:db"))
+    api(project(":data:api"))
+
 
     implementation(Dependencies.Dagger.core)
     kapt(Dependencies.Databinding.compiler)

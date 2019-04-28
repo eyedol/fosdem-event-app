@@ -1,6 +1,6 @@
 package com.addhen.fosdem.data.model
 
-data class Track(val name: String, val type: Type) {
+data class Track(val id: Long = 0L, val name: String, val type: Type) {
 
     enum class Type(val rgb: Int, val displayName: String) {
         other(0x757575, "Other"),

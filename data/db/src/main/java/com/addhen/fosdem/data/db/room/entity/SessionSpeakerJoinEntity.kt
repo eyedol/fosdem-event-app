@@ -22,7 +22,7 @@ import androidx.room.ForeignKey
 )
 data class SessionSpeakerJoinEntity(
     @ColumnInfo(name = "session_id")
-    val sessionId: Int,
+    val sessionId: Long,
     @ColumnInfo(name = "speaker_id", index = true)
-    val speakerId: Int
+    val speakerId: Long
 )

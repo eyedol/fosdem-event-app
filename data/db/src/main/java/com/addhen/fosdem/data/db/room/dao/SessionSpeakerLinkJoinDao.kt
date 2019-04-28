@@ -24,4 +24,22 @@ abstract class SessionSpeakerLinkJoinDao {
 
     @Insert
     abstract fun insertSessionWithLink(sessionLinkJoin: List<SessionLinkJoinEntity>)
+
+    @Query("DELETE FROM session_speaker_join")
+    abstract fun deleteSessionSpeakerJoinAll()
+
+    @Query("DELETE FROM session_link_join")
+    abstract fun deleteSessionLinkJoinAll()
+
+    @Transaction
+    fun addSessionSpeakerJoin(sessionSpeakerJoin: List<SessionSpeakerJoinEntity>) {
+        deleteSessionSpeakerJoinAll()
+        insertSessionWithSpeaker(sessionSpeakerJoin)
+    }
+
+    @Transaction
+    fun addSessionLinkJoin(sessionLinkJoin: List<SessionLinkJoinEntity>) {
+        deleteSessionLinkJoinAll()
+        insertSessionWithLink(sessionLinkJoin)
+    }
 }

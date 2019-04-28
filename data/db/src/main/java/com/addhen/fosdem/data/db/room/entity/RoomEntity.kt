@@ -4,12 +4,10 @@ import androidx.room.ColumnInfo
 
 data class RoomEntity(
     @ColumnInfo(name = "room_id")
-    val id: Int,
+    val id: Long,
     @ColumnInfo(name = "room_name")
     val name: String,
     @ColumnInfo(name = "room_building")
-    val building: String,
-    @ColumnInfo(name = "room_capacity")
-    val capacity: Int
+    val building: String
 )
 

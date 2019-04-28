@@ -2,6 +2,8 @@ package com.addhen.fosdem.data.repository.session
 
 import com.addhen.fosdem.data.db.room.entity.*
 import com.addhen.fosdem.data.model.*
+import com.addhen.fosdem.platform.parser.Schedule
+import java.util.Date
 
 fun SessionSpeakerLinkJoinEntity.toSession(
     speakers: List<SpeakerEntity>,
@@ -16,10 +18,12 @@ fun SessionSpeakerLinkJoinEntity.toSession(
     }
     return Session(
         id = session.id,
-        startTime = session.start,
-        durationTime = session.duration,
+        day = session.day,
+        startTime = Date(session.start),
+        durationTime = Date(session.duration),
         title = session.title,
         description = session.description,
+        abstract = session.abstract,
         room = session.room!!.toRoom(),
         track = session.track!!.toTrack(),
         speakers = localSpeakers,
@@ -30,10 +34,8 @@ fun SessionSpeakerLinkJoinEntity.toSession(
 fun RoomEntity.toRoom(): Room {
 
     return Room(
-        id = id,
         name = name,
-        building = building,
-        capacity = capacity
+        building = building
     )
 }
 
@@ -41,7 +43,8 @@ fun TrackEntity.toTrack(): Track {
 
     return Track(
         id = id,
-        name = name
+        name = name,
+        type = Track.Type.valueOf(type)
     )
 }
 
@@ -60,4 +63,10 @@ fun SpeakerEntity.toSpeaker(): Speaker {
         id = id,
         name = name
     )
+}
+
+fun Schedule.toSessions(): List<Session> {
+    val sessions = mutableListOf<Session>()
+    days.forEach { sessions.addAll(it.events) }
+    return sessions
 }

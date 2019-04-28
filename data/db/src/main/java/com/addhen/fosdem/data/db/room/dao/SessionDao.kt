@@ -1,10 +1,7 @@
 package com.addhen.fosdem.data.db.room.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.addhen.fosdem.data.db.room.entity.SessionEntity
 
 @Dao
@@ -20,4 +17,10 @@ abstract class SessionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(sessions: List<SessionEntity>)
+
+    @Transaction
+    fun add(sessions: List<SessionEntity>) {
+        deleteAll()
+        insert(sessions)
+    }
 }

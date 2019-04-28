@@ -25,5 +25,5 @@
 package com.addhen.fosdem.data.model
 
 interface Model {
-    val id: Int
+    val id: Long
 }

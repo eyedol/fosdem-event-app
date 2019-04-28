@@ -24,10 +24,11 @@
 
 package com.addhen.fosdem.data.model
 
-import java.util.*
+import java.util.Date
 
 data class Session(
-    override val id: Int,
+    override val id: Long,
+    val day: Int,
     val startTime: Date,
     val durationTime: Date,
     val title: String,

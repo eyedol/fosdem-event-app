@@ -5,8 +5,7 @@ import com.addhen.fosdem.platform.parser.ScheduleXmlParser
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-
-class OkHttpFosdemApi(val client: OkHttpClient, val xmlParser: ScheduleXmlParser) : FosdemApi {
+class OkHttpFosdemApi(private val client: OkHttpClient, private val xmlParser: ScheduleXmlParser) : FosdemApi {
 
     private val requestBuilder: Request.Builder
         get() {
@@ -16,7 +15,7 @@ class OkHttpFosdemApi(val client: OkHttpClient, val xmlParser: ScheduleXmlParser
                 .addHeader("Accept-Encoding", "gzip")
         }
 
-    override suspend fun getSessions(): Schedule {
+    override suspend fun fetchSession(): Schedule {
         val request = requestBuilder
             .url(SCHEDULE_URL)
             .build()

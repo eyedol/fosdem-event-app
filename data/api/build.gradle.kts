@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":platform:parser"))
+    api(project(":platform:parser"))
     api(Dependencies.Kotlin.stdlibJvm)
     implementation(Dependencies.Square.okHttp)
 

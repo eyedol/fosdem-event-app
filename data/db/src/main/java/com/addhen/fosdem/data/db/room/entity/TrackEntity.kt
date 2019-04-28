@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo
 
 data class TrackEntity(
     @ColumnInfo(name = "track_id")
-    val id: Int,
+    val id: Long,
     @ColumnInfo(name = "track_name")
-    val name: String
+    val name: String,
+    @ColumnInfo(name = "track_type")
+    val type: String
 )
 

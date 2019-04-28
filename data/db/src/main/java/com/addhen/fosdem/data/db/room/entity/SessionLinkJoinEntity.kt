@@ -22,7 +22,7 @@ import androidx.room.ForeignKey
 )
 data class SessionLinkJoinEntity(
     @ColumnInfo(name = "session_id")
-    val sessionId: Int,
+    val sessionId: Long,
     @ColumnInfo(name = "link_id", index = true)
-    val linkId: Int
+    val linkId: Long
 )
