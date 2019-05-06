@@ -16,8 +16,7 @@ abstract class SessionSpeakerLinkJoinDao {
     @Transaction
     @CheckResult
     @Query("SELECT * FROM session")
-    abstract suspend fun getAllSessions():
-        List<SessionSpeakerLinkJoinEntity>
+    abstract suspend fun getAllSessions(): List<SessionSpeakerLinkJoinEntity>
 
     @Insert
     abstract fun insertSessionWithSpeaker(sessionSpeakerJoin: List<SessionSpeakerJoinEntity>)
