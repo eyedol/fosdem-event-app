@@ -1,5 +1,6 @@
 package com.addhen.fosdem.data.db.room.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,7 +14,8 @@ data class SessionEntity(
     val title: String,
     val type: String,
     val description: String,
-    val abstract: String,
+    @ColumnInfo(name = "abstract")
+    val abstractText: String,
     @Embedded val room: RoomEntity?,
     @Embedded val track: TrackEntity?
 )

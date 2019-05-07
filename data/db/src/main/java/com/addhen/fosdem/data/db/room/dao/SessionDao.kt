@@ -19,7 +19,7 @@ abstract class SessionDao {
     abstract fun insert(sessions: List<SessionEntity>)
 
     @Transaction
-    fun add(sessions: List<SessionEntity>) {
+    open fun add(sessions: List<SessionEntity>) {
         deleteAll()
         insert(sessions)
     }

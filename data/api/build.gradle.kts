@@ -43,7 +43,12 @@ dependencies {
     api(project(":platform:parser"))
     api(Dependencies.Kotlin.stdlibJvm)
     implementation(Dependencies.Square.okHttp)
+    api(Dependencies.Square.loggingInterceptor)
+    implementation(Dependencies.Dagger.core)
+    implementation(Dependencies.timber)
 
     testImplementation(Dependencies.Test.junit)
     testImplementation(Dependencies.Test.kxml2)
+
+    kapt(Dependencies.Databinding.compiler)
 }

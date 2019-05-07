@@ -23,7 +23,7 @@ fun SessionSpeakerLinkJoinEntity.toSession(
         durationTime = Date(session.duration),
         title = session.title,
         description = session.description,
-        abstract = session.abstract,
+        abstract = session.abstractText,
         room = session.room!!.toRoom(),
         track = session.track!!.toTrack(),
         speakers = localSpeakers,

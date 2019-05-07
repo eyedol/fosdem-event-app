@@ -31,13 +31,13 @@ abstract class SessionSpeakerLinkJoinDao {
     abstract fun deleteSessionLinkJoinAll()
 
     @Transaction
-    fun addSessionSpeakerJoin(sessionSpeakerJoin: List<SessionSpeakerJoinEntity>) {
+    open fun addSessionSpeakerJoin(sessionSpeakerJoin: List<SessionSpeakerJoinEntity>) {
         deleteSessionSpeakerJoinAll()
         insertSessionWithSpeaker(sessionSpeakerJoin)
     }
 
     @Transaction
-    fun addSessionLinkJoin(sessionLinkJoin: List<SessionLinkJoinEntity>) {
+    open fun addSessionLinkJoin(sessionLinkJoin: List<SessionLinkJoinEntity>) {
         deleteSessionLinkJoinAll()
         insertSessionWithLink(sessionLinkJoin)
     }

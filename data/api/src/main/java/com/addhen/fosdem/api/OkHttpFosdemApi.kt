@@ -4,8 +4,14 @@ import com.addhen.fosdem.platform.parser.Schedule
 import com.addhen.fosdem.platform.parser.ScheduleXmlParser
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class OkHttpFosdemApi(private val client: OkHttpClient, private val xmlParser: ScheduleXmlParser) : FosdemApi {
+@Singleton
+class OkHttpFosdemApi @Inject constructor(
+    private val client: OkHttpClient,
+    private val xmlParser: ScheduleXmlParser
+) : FosdemApi {
 
     private val requestBuilder: Request.Builder
         get() {
@@ -20,7 +26,7 @@ class OkHttpFosdemApi(private val client: OkHttpClient, private val xmlParser: S
             .url(SCHEDULE_URL)
             .build()
 
-        client.newCall(request).execute().use { return xmlParser.parse(it?.body()!!.byteStream()) }
+        client.newCall(request).execute().use { return xmlParser.parse(it.body()!!.byteStream()) }
     }
 
     companion object {

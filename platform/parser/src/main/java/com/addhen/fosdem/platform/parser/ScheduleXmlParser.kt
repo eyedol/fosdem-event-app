@@ -19,9 +19,9 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     private lateinit var currentDayDate: Date
 
     override fun parse(inputStream: InputStream): Schedule {
-        inputStream.use { inputStream ->
+        inputStream.use { stream ->
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-            parser.setInput(inputStream, null)
+            parser.setInput(stream, null)
             parser.nextTag()
             return readSchedule()
         }

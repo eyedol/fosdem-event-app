@@ -44,10 +44,10 @@ object Dependencies {
         }
 
         object Room {
-            val version = "2.1.0-alpha03"
+            val version = "2.1.0-alpha07"
             val compiler = "androidx.room:room-compiler:$version"
             val runtime = "androidx.room:room-runtime:$version"
-            val coroutine = "androidx.room:room-coroutines:$version"
+            val coroutine = "androidx.room:room-ktx:$version"
         }
 
         object Navigation {
@@ -93,6 +93,8 @@ object Dependencies {
     }
 
     object Square {
-        val okHttp = "com.squareup.okhttp3:okhttp:3.14.1"
+        val version = "3.14.1"
+        val okHttp = "com.squareup.okhttp3:okhttp:$version"
+        val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 }
