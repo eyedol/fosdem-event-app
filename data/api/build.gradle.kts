@@ -42,8 +42,8 @@ android {
 dependencies {
     api(project(":platform:parser"))
     api(Dependencies.Kotlin.stdlibJvm)
-    implementation(Dependencies.Square.okHttp)
     api(Dependencies.Square.loggingInterceptor)
+    api(Dependencies.Square.okHttp)
     implementation(Dependencies.Dagger.core)
     implementation(Dependencies.timber)
 
@@ -51,4 +51,6 @@ dependencies {
     testImplementation(Dependencies.Test.kxml2)
 
     kapt(Dependencies.Databinding.compiler)
+    kapt(Dependencies.Dagger.compiler)
+    kapt(Dependencies.Dagger.processor)
 }

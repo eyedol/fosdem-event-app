@@ -1,6 +1,6 @@
-package com.addhen.fosdem.api
+package com.addhen.fosdem.data.api
 
-import com.addhen.fosdem.platform.api.BuildConfig
+import com.addhen.fosdem.data.api.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.ConnectionPool

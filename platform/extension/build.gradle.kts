@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-package com.addhen.fosdem.di.module
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+}
 
-import com.addhen.fosdem.data.api.ApiModule
-import com.addhen.fosdem.data.db.DatabaseModule
-import com.addhen.fosdem.data.repository.session.SessionDataRepository
-import com.addhen.fosdem.data.repository.session.SessionRepository
-import com.addhen.fosdem.platform.parser.ParserModule
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+android {
+    compileSdkVersion(Project.COMPILE_SDK)
+    defaultConfig {
+        minSdkVersion(Project.MIN_SDK)
+        targetSdkVersion(Project.TARGET_SDK)
+    }
+    lintOptions {
+        disable("GradleCompatible", "ObsoleteLintCustomCheck")
+    }
+}
 
-/**
- * Production related dagger modules.
- */
-@Module(includes = [AppModule::class, DatabaseModule::class, ApiModule::class, ParserModule::class])
-internal object ProductionAppModule {
+dependencies {
+    implementation(Dependencies.Kotlin.stdlibJvm)
 
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideSessionRepository(sessionRepository: SessionDataRepository): SessionRepository = sessionRepository
+    testImplementation(Dependencies.Test.junit)
 }

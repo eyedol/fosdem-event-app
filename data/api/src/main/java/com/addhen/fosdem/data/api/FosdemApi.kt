@@ -1,4 +1,4 @@
-package com.addhen.fosdem.api
+package com.addhen.fosdem.data.api
 
 import com.addhen.fosdem.platform.parser.Schedule
 

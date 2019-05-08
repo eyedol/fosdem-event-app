@@ -8,5 +8,6 @@ include(
     ":data:repository",
     ":data:model",
     ":data:api",
-    ":platform:parser"
+    ":platform:parser",
+    ":platform:extension"
 )

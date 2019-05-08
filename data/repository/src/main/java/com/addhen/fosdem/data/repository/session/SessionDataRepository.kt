@@ -25,7 +25,7 @@
 package com.addhen.fosdem.data.repository.session
 
 import androidx.annotation.WorkerThread
-import com.addhen.fosdem.api.FosdemApi
+import com.addhen.fosdem.data.api.FosdemApi
 import com.addhen.fosdem.data.db.SessionDatabase
 import com.addhen.fosdem.data.model.Session
 import kotlinx.coroutines.async

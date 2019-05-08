@@ -41,7 +41,14 @@ android {
 
 dependencies {
     implementation(project(":data:model"))
+    api(project(":platform:extension"))
     api(Dependencies.Kotlin.stdlibJvm)
+
+    implementation(Dependencies.Dagger.core)
+
+    kapt(Dependencies.Databinding.compiler)
+    kapt(Dependencies.Dagger.compiler)
+    kapt(Dependencies.Dagger.processor)
 
     testImplementation(Dependencies.Test.junit)
     testImplementation(Dependencies.Test.kxml2)

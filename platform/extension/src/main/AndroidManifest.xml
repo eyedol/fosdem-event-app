@@ -22,4 +22,4 @@
   ~ SOFTWARE.
   -->
 
-<manifest package="com.addhen.fosdem.data.api"/>
+<manifest package="com.addhen.fosdem.platform.extension"/>

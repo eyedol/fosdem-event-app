@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/db/db.iml" filepath="$PROJECT_DIR$/data/db/db.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/db-room/db-room.iml" filepath="$PROJECT_DIR$/data/db-room/db-room.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/extension/extension.iml" filepath="$PROJECT_DIR$/platform/extension/extension.iml" />
       <module fileurl="file://$PROJECT_DIR$/feature/feature.iml" filepath="$PROJECT_DIR$/feature/feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/fosdem.iml" filepath="$PROJECT_DIR$/fosdem.iml" />
       <module fileurl="file://$PROJECT_DIR$/feature/home/home.iml" filepath="$PROJECT_DIR$/feature/home/home.iml" />
