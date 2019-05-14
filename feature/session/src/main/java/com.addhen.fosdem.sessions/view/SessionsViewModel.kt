@@ -57,20 +57,19 @@ class SessionsViewModel @Inject constructor(
         }
 
     override fun onAction(action: Action) {
-        currentViewState = when (action) {
+        when (action) {
             is SessionAction.BottomSheetFilterToggled -> {
                 mutableViewEffect.value = SessionViewEffect.BottomSheetToggled
-                currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
+                currentViewState = currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
             }
             is SessionAction.LoadSessions -> {
                 loadSessions()
-                currentViewState.copy(isLoading = true)
             }
             is SessionAction.SessionLoaded -> {
-                currentViewState.copy(isLoading = false, isEmptyViewShown = false)
+                currentViewState = currentViewState.copy(isLoading = false, isEmptyViewShown = false)
             }
             else -> {
-                currentViewState.copy(isEmptyViewShown = true)
+                currentViewState = currentViewState.copy(isEmptyViewShown = true)
             }
         }
     }

@@ -53,11 +53,4 @@ internal object AppModule {
     @Provides
     @JvmStatic
     fun provideCoroutineDispatchers() = CoroutineDispatchers()
-
-    @Singleton
-    @Provides
-    @JvmStatic
-    fun provideOkHttp() = {
-
-    }
 }

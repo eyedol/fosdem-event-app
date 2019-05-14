@@ -28,10 +28,10 @@ import com.addhen.fosdem.FosdemApp
 import com.addhen.fosdem.base.di.module.ViewModelBuilder
 import com.addhen.fosdem.di.module.DevelopmentAppModule
 import com.addhen.fosdem.di.scope.ActivityScope
-import com.addhen.fosdem.main.view.MainBuilder
 import com.addhen.fosdem.sessions.view.SessionBottomSheetBuilder
 import com.addhen.fosdem.sessions.view.SessionFilterBuilder
 import com.addhen.fosdem.sessions.view.SessionsBuilder
+import com.addhen.fosdem.main.view.MainBuilder
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

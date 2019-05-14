@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 - 2018 Henry Addo
+ * Copyright (c) 2017 - 2019 Henry Addo
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,4 @@ package com.addhen.fosdem.main.view
 import com.addhen.fosdem.base.view.BaseViewModel
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor() : BaseViewModel() {
-
-    fun shouldSignInOrNot() {}
-}
+class MainActivityViewModel @Inject constructor() : BaseViewModel()

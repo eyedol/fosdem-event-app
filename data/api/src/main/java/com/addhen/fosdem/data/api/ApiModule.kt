@@ -1,13 +1,15 @@
 package com.addhen.fosdem.data.api
 
-import com.addhen.fosdem.data.api.BuildConfig
+import android.content.Context
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import java.io.File
 import java.util.concurrent.TimeUnit.NANOSECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Singleton
@@ -35,9 +37,9 @@ object ApiModule {
     @Singleton
     @Provides
     @JvmStatic
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        val okHttpClientBuilder = OkHttpClient.Builder()
-        initOkHttpBuilder(okHttpClientBuilder, loggingInterceptor)
+    fun provideOkHttpClient(context: Context, loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        val okHttpClientBuilder = Builder()
+        initOkHttpBuilder(context, okHttpClientBuilder, loggingInterceptor)
         return okHttpClientBuilder.build()
     }
 
@@ -46,7 +48,14 @@ object ApiModule {
     @JvmStatic
     fun provideFosdemApi(fosdemApi: OkHttpFosdemApi): FosdemApi = fosdemApi
 
-    private fun initOkHttpBuilder(okHttpClientBuilder: Builder, loggingInterceptor: HttpLoggingInterceptor) {
+    private fun initOkHttpBuilder(
+        context: Context,
+        okHttpClientBuilder: Builder,
+        loggingInterceptor: HttpLoggingInterceptor
+    ) {
+        val cacheDir = File(context.applicationContext.cacheDir, "fosdem-http-cache")
+        val cache = Cache(cacheDir, DISK_CACHE_SIZE)
+        okHttpClientBuilder.cache(cache)
         okHttpClientBuilder.connectTimeout(HTTP_TIMEOUT, SECONDS)
         okHttpClientBuilder.writeTimeout(HTTP_TIMEOUT, SECONDS)
         okHttpClientBuilder.readTimeout(HTTP_TIMEOUT, SECONDS)

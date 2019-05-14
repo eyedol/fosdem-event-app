@@ -4,7 +4,6 @@ include(
     ":feature:session",
     ":base",
     ":data:db",
-    ":data:db-room",
     ":data:repository",
     ":data:model",
     ":data:api",
