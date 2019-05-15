@@ -1,9 +1,6 @@
 package com.addhen.fosdem.data.db.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.addhen.fosdem.data.db.room.entity.LinkEntity
 
 @Dao
@@ -16,5 +13,11 @@ abstract class LinkDao {
     abstract fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(speakers: List<LinkEntity>)
+    abstract fun insert(links: List<LinkEntity>)
+
+    @Transaction
+    open fun add(links: List<LinkEntity>) {
+        deleteAll()
+        insert(links)
+    }
 }

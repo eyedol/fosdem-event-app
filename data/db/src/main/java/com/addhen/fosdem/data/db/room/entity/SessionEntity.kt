@@ -12,9 +12,8 @@ data class SessionEntity(
     val duration: Long,
     val day: Int,
     val title: String,
-    val type: String,
     val description: String,
-    @ColumnInfo(name = "abstract")
+    @ColumnInfo(name = "abstractText")
     val abstractText: String,
     @Embedded val room: RoomEntity?,
     @Embedded val track: TrackEntity?

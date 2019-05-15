@@ -60,6 +60,7 @@ class SessionBottomSheetDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        viewModel.onAction(SessionAction.LoadSessions)
     }
 
     private fun initFilterButton() {

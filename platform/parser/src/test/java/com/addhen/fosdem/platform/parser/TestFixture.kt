@@ -21,7 +21,7 @@ internal object TestFixture {
             durationTime = resetCalendar(currentDayDate, "00:25").time,
             title = "Welcome to FOSDEM 2019",
             description = "",
-            abstract = "",
+            abstractText = "",
             room = Room(name = "Janson", building = "J"),
             track = Track(name = "Keynotes", type = Track.Type.keynote),
             links = listOf(
@@ -44,7 +44,7 @@ internal object TestFixture {
             startTime = resetCalendar(currentDayDate, "10:00").time,
             durationTime = resetCalendar(currentDayDate, "00:50").time,
             title = "Can Anyone Live in Full Software Freedom Today?",
-            description = "", abstract = "", room = Room(name = "Janson", building = "J"),
+            description = "", abstractText = "", room = Room(name = "Janson", building = "J"),
             track = Track(name = "Keynotes", type = Track.Type.keynote),
             links = listOf(
                 Link(
@@ -97,7 +97,7 @@ internal object TestFixture {
                 )
             ),
             speakers = listOf(Speaker(id = 4907, name = "Zaheda Bhorat")),
-            abstract = "",
+            abstractText = "",
             description = ""
         )
 
@@ -106,7 +106,7 @@ internal object TestFixture {
             startTime = resetCalendar(currentDayDate, "10:00").time,
             durationTime = resetCalendar(currentDayDate, "00:50").time,
             title = "Tesla Hacking to FreedomEV!",
-            description = "", abstract = "",
+            description = "", abstractText = "",
             room = Room(name = "K.1.105(La Fontaine)", building = "K"),
             track = Track(name = "Hardware", type = Track.Type.maintrack),
             links = listOf(

@@ -62,5 +62,6 @@ class SessionDataRepository @Inject constructor(
 
     override suspend fun fetchSession() {
         val schedule = apiClient.fetchSession()
+        database.save(schedule.toSessions())
     }
 }

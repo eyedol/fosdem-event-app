@@ -23,7 +23,7 @@ fun SessionSpeakerLinkJoinEntity.toSession(
         durationTime = Date(session.duration),
         title = session.title,
         description = session.description,
-        abstract = session.abstractText,
+        abstractText = session.abstractText,
         room = session.room!!.toRoom(),
         track = session.track!!.toTrack(),
         speakers = localSpeakers,
@@ -32,7 +32,6 @@ fun SessionSpeakerLinkJoinEntity.toSession(
 }
 
 fun RoomEntity.toRoom(): Room {
-
     return Room(
         name = name,
         building = building
@@ -40,7 +39,6 @@ fun RoomEntity.toRoom(): Room {
 }
 
 fun TrackEntity.toTrack(): Track {
-
     return Track(
         id = id,
         name = name,
@@ -49,7 +47,6 @@ fun TrackEntity.toTrack(): Track {
 }
 
 fun LinkEntity.toLink(): Link {
-
     return Link(
         id = id,
         href = href,
@@ -58,7 +55,6 @@ fun LinkEntity.toLink(): Link {
 }
 
 fun SpeakerEntity.toSpeaker(): Speaker {
-
     return Speaker(
         id = id,
         name = name
@@ -69,4 +65,42 @@ fun Schedule.toSessions(): List<Session> {
     val sessions = mutableListOf<Session>()
     days.forEach { sessions.addAll(it.events) }
     return sessions
+}
+
+fun Room.toRoomEntity(): RoomEntity {
+    return RoomEntity(
+        id = id,
+        name = name,
+        building = building
+    )
+}
+
+fun Track.toTrackEntity(): TrackEntity {
+    return TrackEntity(
+        id = id,
+        name = name,
+        type = type.name
+    )
+}
+
+fun Link.toLinkEntity(): LinkEntity {
+    return LinkEntity(
+        id = id,
+        href = href,
+        text = text
+    )
+}
+
+fun Session.toSessionEntity(): SessionEntity {
+    return SessionEntity(
+        id = id,
+        day = day,
+        start = startTime.time,
+        duration = durationTime.time,
+        title = title,
+        description = description,
+        abstractText = abstractText,
+        room = room.toRoomEntity(),
+        track = track.toTrackEntity()
+    )
 }

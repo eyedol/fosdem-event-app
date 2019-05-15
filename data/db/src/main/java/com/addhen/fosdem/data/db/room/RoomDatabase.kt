@@ -33,13 +33,18 @@ class RoomDatabase @Inject constructor(
         return sessionSpeakerLinkDao.getAllSessions()
     }
 
-    override suspend fun save(sessions: List<SessionEntity>) {
+    override suspend fun save(
+        sessions: List<SessionEntity>,
+        links: List<LinkEntity>,
+        speakers: List<SpeakerEntity>
+    ) {
         withContext(coroutineContext) {
-            // Clean of join entries
-            speakerDao.deleteAll()
-            linkDao.deleteAll()
-            sessionSpeakerLinkDao.deleteSessionLinkJoinAll()
-            sessionSpeakerLinkDao.deleteSessionSpeakerJoinAll()
+            speakerDao.add(speakers)
+            linkDao.add(links)
+            sessionDao.add(sessions)
+            sessionSpeakerLinkDao.addLinkJoin()
+            sessionSpeakerLinkDao.addSpeakerJoin()
+
         }
     }
 }

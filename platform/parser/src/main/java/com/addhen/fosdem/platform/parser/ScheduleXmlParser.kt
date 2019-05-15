@@ -115,7 +115,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
                     durationTime = calendar.time
                 }
                 //"description" -> description = parser.nextText()
-                //"abstract" -> abstract = parser.nextText()
+                //"abstractText" -> abstractText = parser.nextText()
                 "title" -> title = parser.nextText()
                 "persons" -> speakers.addAll(readPersons())
                 "links" -> links.addAll(readLinks())
@@ -133,7 +133,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             title,
             description,
             abstract,
-            Room(room, Room.Building.fromRoomName(room).name),
+            Room(name = room, building = Room.Building.fromRoomName(room).name),
             Track(name = track, type = Track.Type.valueOf(type)),
             links,
             speakers.toList()

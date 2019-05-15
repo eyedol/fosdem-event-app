@@ -1,6 +1,7 @@
 package com.addhen.fosdem.data.model
 
 data class Room(
+    val id: Long = 0L,
     val name: String,
     val building: String
 ) {

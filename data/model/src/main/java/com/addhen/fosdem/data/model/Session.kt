@@ -33,7 +33,7 @@ data class Session(
     val durationTime: Date,
     val title: String,
     val description: String,
-    val abstract: String,
+    val abstractText: String,
     val room: Room,
     val track: Track,
     val links: List<Link>,
