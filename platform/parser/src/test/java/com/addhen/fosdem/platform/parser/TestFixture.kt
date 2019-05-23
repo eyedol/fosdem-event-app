@@ -2,7 +2,10 @@ package com.addhen.fosdem.platform.parser
 
 import com.addhen.fosdem.data.model.*
 import com.addhen.fosdem.platform.extension.toDate
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 internal object TestFixture {
 
@@ -36,7 +39,8 @@ internal object TestFixture {
                     id = 0, href = "https://submission.fosdem.org/feedback/8967.php",
                     text = "Submit feedback"
                 )
-            ), speakers = listOf(Speaker(id = 6, name = "FOSDEM Staff"))
+            ), speakers = listOf(Speaker(id = 6, name = "FOSDEM Staff")),
+            day = 1
         )
 
         val session2 = Session(
@@ -66,7 +70,8 @@ internal object TestFixture {
             speakers = listOf(
                 Speaker(id = 441, name = "Bradley M . Kuhn"),
                 Speaker(id = 448, name = "Karen Sandler")
-            )
+            ),
+            day = 1
         )
         return listOf(session1, session2)
     }
@@ -98,7 +103,8 @@ internal object TestFixture {
             ),
             speakers = listOf(Speaker(id = 4907, name = "Zaheda Bhorat")),
             abstractText = "",
-            description = ""
+            description = "",
+            day = 1
         )
 
         val session2 = Session(
@@ -146,7 +152,8 @@ internal object TestFixture {
                     text = "Submit feedback"
                 )
             ),
-            speakers = listOf(Speaker(id = 5425, name = "Jasper Nuyens"))
+            speakers = listOf(Speaker(id = 5425, name = "Jasper Nuyens")),
+            day = 2
         )
 
         return listOf(session1, session2)

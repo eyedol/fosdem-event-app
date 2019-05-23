@@ -19,9 +19,9 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     private lateinit var currentDayDate: Date
 
     override fun parse(inputStream: InputStream): Schedule {
-        inputStream.use { stream ->
+        inputStream.use { input ->
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-            parser.setInput(stream, null)
+            parser.setInput(input, null)
             parser.nextTag()
             return readSchedule()
         }
@@ -94,7 +94,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
         var durationTime = Date()
         var title = ""
         var description = ""
-        var abstract = ""
+        var abstractText = ""
         var room = ""
         var track = ""
         var type = ""
@@ -114,8 +114,8 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
                     resetCalendar(parser.nextText())
                     durationTime = calendar.time
                 }
-                //"description" -> description = parser.nextText()
-                //"abstractText" -> abstractText = parser.nextText()
+                "description" -> description = parser.nextText()
+                "abstractText" -> abstractText = parser.nextText()
                 "title" -> title = parser.nextText()
                 "persons" -> speakers.addAll(readPersons())
                 "links" -> links.addAll(readLinks())
@@ -132,7 +132,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             durationTime,
             title,
             description,
-            abstract,
+            abstractText,
             Room(name = room, building = Room.Building.fromRoomName(room).name),
             Track(name = track, type = Track.Type.valueOf(type)),
             links,
@@ -212,16 +212,6 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     @Throws(XmlPullParserException::class, IOException::class)
     private fun requireStartTag(tag: String) {
         parser.require(XmlPullParser.START_TAG, null, tag)
-    }
-
-    @Throws(XmlPullParserException::class, IOException::class)
-    private fun requireEndTag(tag: String) {
-        parser.require(XmlPullParser.END_TAG, null, tag)
-    }
-
-    @Throws(IOException::class, XmlPullParserException::class)
-    private fun readText(): String {
-        return parser.nextText()
     }
 
     private fun resetCalendar(time: String) {

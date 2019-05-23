@@ -46,7 +46,7 @@ dependencies {
     api(Dependencies.Square.okHttp)
     implementation(Dependencies.Dagger.core)
     implementation(Dependencies.timber)
-
+    debugApi(Dependencies.Stetho.sethoOkHttp)
     testImplementation(Dependencies.Test.junit)
     testImplementation(Dependencies.Test.kxml2)
 

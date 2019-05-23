@@ -104,3 +104,38 @@ fun Session.toSessionEntity(): SessionEntity {
         track = track.toTrackEntity()
     )
 }
+
+fun Speaker.toSpeakerEntity(): SpeakerEntity {
+    return SpeakerEntity(
+        id = id,
+        name = name
+    )
+}
+
+fun List<Session>.toSessionEntities(): List<SessionEntity> {
+    return map { it.toSessionEntity() }
+}
+
+fun List<Speaker>.toSpeakerEntities(): List<SpeakerEntity> {
+    return map { it.toSpeakerEntity() }
+}
+
+fun List<Link>.toLinkEntities(): List<LinkEntity> {
+    return map { it.toLinkEntity() }
+}
+
+fun SessionEntity.toSessionSpeakerJoinEntity(speaker: SpeakerEntity): SessionSpeakerJoinEntity {
+    return SessionSpeakerJoinEntity(id, speaker.id)
+}
+
+fun SessionEntity.toSessionLinkJoinEntity(link: LinkEntity): SessionLinkJoinEntity {
+    return SessionLinkJoinEntity(id, link.id)
+}
+
+fun List<SessionEntity>.toSessionSpeakerJoinEntities(speakers: List<SpeakerEntity>): List<SessionSpeakerJoinEntity> {
+    return speakers.map { it }.flatMap { speaker -> map { it.toSessionSpeakerJoinEntity(speaker) } }
+}
+
+fun List<SessionEntity>.toSessionLinkJoinEntities(links: List<LinkEntity>): List<SessionLinkJoinEntity> {
+    return links.map { it }.flatMap { link -> map { it.toSessionLinkJoinEntity(link) } }
+}

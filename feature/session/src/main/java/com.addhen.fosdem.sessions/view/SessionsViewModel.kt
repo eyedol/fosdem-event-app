@@ -34,6 +34,7 @@ import com.addhen.fosdem.base.view.state.Reducer
 import com.addhen.fosdem.data.repository.session.SessionRepository
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class SessionsViewModel @Inject constructor(
@@ -78,13 +79,15 @@ class SessionsViewModel @Inject constructor(
         viewModelScope.launch {
             currentViewState = try {
                 currentViewState.copy(isLoading = true)
-                val sessions = sessionRepository.getSessions()
+                var sessions = sessionRepository.getSessions()
                 if (sessions.isNotEmpty()) {
                     currentViewState.copy(sessions = sessions, isLoading = false)
                 } else {
+                    sessionRepository.fetchSession()
                     currentViewState.copy(isEmptyViewShown = true, isLoading = false)
                 }
             } catch (exception: Exception) {
+                Timber.e(exception)
                 currentViewState.copy(isLoading = false)
             }
         }

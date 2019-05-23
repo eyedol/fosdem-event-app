@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "43272ab70d348ca7c75d428cfbf259fa",
+    "identityHash": "ceedc491e993e00ca564360499f6835d",
     "entities": [
       {
         "tableName": "session",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `day` INTEGER NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `description` TEXT NOT NULL, `abstract` TEXT NOT NULL, `room_id` INTEGER, `room_name` TEXT, `room_building` TEXT, `track_id` INTEGER, `track_name` TEXT, `track_type` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `day` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `abstractText` TEXT NOT NULL, `room_id` INTEGER, `room_name` TEXT, `room_building` TEXT, `track_id` INTEGER, `track_name` TEXT, `track_type` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,12 +39,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
@@ -52,7 +46,7 @@
           },
           {
             "fieldPath": "abstractText",
-            "columnName": "abstract",
+            "columnName": "abstractText",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -104,7 +98,7 @@
       },
       {
         "tableName": "speaker",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `bio` TEXT, `imageUrl` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -117,18 +111,6 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "bio",
-            "columnName": "bio",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imageUrl",
-            "columnName": "imageUrl",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -294,7 +276,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"43272ab70d348ca7c75d428cfbf259fa\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ceedc491e993e00ca564360499f6835d\")"
     ]
   }
 }

@@ -68,7 +68,9 @@ android {
 dependencies {
     // Kotlin
     implementation(project(":feature:home"))
-
+    debugImplementation(Dependencies.Stetho.stetho)
+    debugImplementation(Dependencies.Leakcanary.op)
+    releaseImplementation(Dependencies.Leakcanary.noOp)
     kapt(Dependencies.Databinding.compiler)
     kapt(Dependencies.Dagger.compiler)
     kapt(Dependencies.Dagger.processor)

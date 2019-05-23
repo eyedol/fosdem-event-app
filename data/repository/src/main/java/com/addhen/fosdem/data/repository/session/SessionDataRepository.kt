@@ -27,9 +27,13 @@ package com.addhen.fosdem.data.repository.session
 import androidx.annotation.WorkerThread
 import com.addhen.fosdem.data.api.FosdemApi
 import com.addhen.fosdem.data.db.SessionDatabase
+import com.addhen.fosdem.data.db.room.entity.LinkEntity
+import com.addhen.fosdem.data.db.room.entity.SpeakerEntity
 import com.addhen.fosdem.data.model.Session
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -61,7 +65,16 @@ class SessionDataRepository @Inject constructor(
     }
 
     override suspend fun fetchSession() {
-        val schedule = apiClient.fetchSession()
-        database.save(schedule.toSessions())
+        val schedule = withContext(Dispatchers.IO) {
+            apiClient.fetchSession()
+        }
+        val sessions = schedule.toSessions()
+        val links = mutableListOf<LinkEntity>()
+        val speakers = mutableListOf<SpeakerEntity>()
+        sessions.forEach {
+            links += it.links.toLinkEntities()
+            speakers += it.speakers.toSpeakerEntities()
+        }
+        database.save(sessions.toSessionEntities(), links, speakers)
     }
 }

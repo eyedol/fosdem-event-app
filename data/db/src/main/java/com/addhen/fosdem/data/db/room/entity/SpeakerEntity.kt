@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "speaker")
 data class SpeakerEntity(
     @PrimaryKey val id: Long,
-    val name: String,
-    val bio: String?,
-    val imageUrl: String?
+    val name: String
 )
 

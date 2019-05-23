@@ -97,4 +97,16 @@ object Dependencies {
         val okHttp = "com.squareup.okhttp3:okhttp:$version"
         val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
+
+    object Stetho {
+        val version = "1.5.1"
+        val stetho = "com.facebook.stetho:stetho:$version"
+        val sethoOkHttp = "com.facebook.stetho:stetho-okhttp3:$version"
+    }
+
+    object Leakcanary {
+        val version = "1.5.1"
+        val op = "com.squareup.leakcanary:leakcanary-android:$version"
+        val noOp = "com.squareup.leakcanary:leakcanary-android-no-op:$version"
+    }
 }

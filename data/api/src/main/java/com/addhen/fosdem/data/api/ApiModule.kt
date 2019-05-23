@@ -1,6 +1,7 @@
 package com.addhen.fosdem.data.api
 
 import android.content.Context
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -61,5 +62,6 @@ object ApiModule {
         okHttpClientBuilder.readTimeout(HTTP_TIMEOUT, SECONDS)
         okHttpClientBuilder.addInterceptor(loggingInterceptor)
         okHttpClientBuilder.connectionPool(ConnectionPool(0, 1, NANOSECONDS))
+        okHttpClientBuilder.addNetworkInterceptor(StethoInterceptor())
     }
 }

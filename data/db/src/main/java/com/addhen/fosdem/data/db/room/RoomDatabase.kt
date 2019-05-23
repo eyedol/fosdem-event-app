@@ -42,9 +42,6 @@ class RoomDatabase @Inject constructor(
             speakerDao.add(speakers)
             linkDao.add(links)
             sessionDao.add(sessions)
-            sessionSpeakerLinkDao.addLinkJoin()
-            sessionSpeakerLinkDao.addSpeakerJoin()
-
         }
     }
 }

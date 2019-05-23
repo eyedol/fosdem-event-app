@@ -10,5 +10,5 @@ object ParserModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun provideScheduleXmlParser() = ScheduleXmlParser()
+    fun provideScheduleXmlParser(): Parser<Schedule> = ScheduleXmlParser()
 }

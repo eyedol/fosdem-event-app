@@ -25,24 +25,42 @@
 package com.addhen.fosdem
 
 import android.app.Application
+import com.facebook.stetho.Stetho
+import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 import javax.inject.Inject
 
-class AppUtilities(vararg params: AppUtility) : AppUtility {
-
-    private val appUtilities = params.asList()
+class AppUtilities @Inject constructor(private val initializers: Array<AppUtility>) : AppUtility {
 
     override fun init(application: Application) {
-        for (appUtility in appUtilities) {
-            appUtility.init(application)
+        initializers.forEach {
+            it.init(application)
         }
     }
 }
 
-class TimberUtility @Inject constructor() : AppUtility {
+class TimberUtility : AppUtility {
 
     override fun init(application: Application) {
         val tree = Timber.DebugTree()
         Timber.plant(tree)
+    }
+}
+
+class LeakCanaryUtility : AppUtility {
+
+    override fun init(application: Application) {
+        if (!LeakCanary.isInAnalyzerProcess(application)) {
+            LeakCanary.install(application)
+        }
+    }
+}
+
+class StethoUtility : AppUtility {
+
+    override fun init(application: Application) {
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(application)
+        }
     }
 }

@@ -24,9 +24,7 @@
 
 package com.addhen.fosdem.di.module
 
-import com.addhen.fosdem.AppUtilities
-import com.addhen.fosdem.FosdemApp
-import com.addhen.fosdem.TimberUtility
+import com.addhen.fosdem.*
 import com.addhen.fosdem.base.CoroutineDispatchers
 import dagger.Module
 import dagger.Provides
@@ -46,9 +44,9 @@ internal object AppModule {
 
     @Provides
     @JvmStatic
-    fun provideAppUtilities(
-        timberUtility: TimberUtility
-    ): AppUtilities = AppUtilities(timberUtility)
+    fun provideAppUtilities(): Array<AppUtility> {
+        return arrayOf(TimberUtility(), LeakCanaryUtility(), StethoUtility())
+    }
 
     @Provides
     @JvmStatic
