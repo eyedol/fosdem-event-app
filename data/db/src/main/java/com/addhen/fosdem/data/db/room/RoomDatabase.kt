@@ -5,10 +5,7 @@ import com.addhen.fosdem.data.db.room.dao.LinkDao
 import com.addhen.fosdem.data.db.room.dao.SessionDao
 import com.addhen.fosdem.data.db.room.dao.SessionSpeakerLinkJoinDao
 import com.addhen.fosdem.data.db.room.dao.SpeakerDao
-import com.addhen.fosdem.data.db.room.entity.LinkEntity
-import com.addhen.fosdem.data.db.room.entity.SessionEntity
-import com.addhen.fosdem.data.db.room.entity.SessionSpeakerLinkJoinEntity
-import com.addhen.fosdem.data.db.room.entity.SpeakerEntity
+import com.addhen.fosdem.data.db.room.entity.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -36,12 +33,16 @@ class RoomDatabase @Inject constructor(
     override suspend fun save(
         sessions: List<SessionEntity>,
         links: List<LinkEntity>,
-        speakers: List<SpeakerEntity>
+        speakers: List<SpeakerEntity>,
+        joinLinks: List<SessionLinkJoinEntity>,
+        joinSpeakers: List<SessionSpeakerJoinEntity>
     ) {
         withContext(coroutineContext) {
             speakerDao.add(speakers)
             linkDao.add(links)
             sessionDao.add(sessions)
+            sessionSpeakerLinkDao.addLinkJoin(joinLinks)
+            sessionSpeakerLinkDao.addSpeakerJoin(joinSpeakers)
         }
     }
 }

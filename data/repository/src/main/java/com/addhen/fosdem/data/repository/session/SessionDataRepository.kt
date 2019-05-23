@@ -75,6 +75,9 @@ class SessionDataRepository @Inject constructor(
             links += it.links.toLinkEntities()
             speakers += it.speakers.toSpeakerEntities()
         }
-        database.save(sessions.toSessionEntities(), links, speakers)
+        val sessionEntities = sessions.toSessionEntities()
+        val joinLinkEntities = sessionEntities.toSessionLinkJoinEntities(links)
+        val joinSpeakersEntities = sessionEntities.toSessionSpeakerJoinEntities(speakers)
+        database.save(sessions.toSessionEntities(), links, speakers, joinLinkEntities, joinSpeakersEntities)
     }
 }

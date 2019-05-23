@@ -1,9 +1,6 @@
 package com.addhen.fosdem.data.db
 
-import com.addhen.fosdem.data.db.room.entity.LinkEntity
-import com.addhen.fosdem.data.db.room.entity.SessionEntity
-import com.addhen.fosdem.data.db.room.entity.SessionSpeakerLinkJoinEntity
-import com.addhen.fosdem.data.db.room.entity.SpeakerEntity
+import com.addhen.fosdem.data.db.room.entity.*
 
 interface SessionDatabase {
 
@@ -13,6 +10,8 @@ interface SessionDatabase {
     suspend fun save(
         sessions: List<SessionEntity>,
         links: List<LinkEntity>,
-        speakers: List<SpeakerEntity>
+        speakers: List<SpeakerEntity>,
+        joinLinks: List<SessionLinkJoinEntity>,
+        joinSpeakers: List<SessionSpeakerJoinEntity>
     )
 }
