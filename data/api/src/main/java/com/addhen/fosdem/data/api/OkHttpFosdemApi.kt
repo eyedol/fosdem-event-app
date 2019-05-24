@@ -17,7 +17,7 @@ class OkHttpFosdemApi @Inject constructor(
         get() {
             return Request.Builder()
                 .addHeader("Content-Type", "text/xml; charset=utf-8")
-//                .addHeader("User-Agent", "Fosdem mobile app")
+                .addHeader("User-Agent", "Fosdem mobile app")
         }
 
     override suspend fun fetchSession(): Schedule {
