@@ -24,15 +24,12 @@
 
 package com.addhen.fosdem.base.view
 
-import android.content.Context
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerAdapter<T, V : RecyclerView.ViewHolder> constructor(
-    val context: Context
-) : RecyclerView.Adapter<V>() {
+abstract class BaseRecyclerAdapter<T, V : RecyclerView.ViewHolder> : RecyclerView.Adapter<V>() {
 
     protected abstract fun areItemsTheSame(oldItem: T, newItem: T): Boolean
     protected abstract fun areContentsTheSame(oldItem: T, newItem: T): Boolean

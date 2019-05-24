@@ -31,9 +31,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.addhen.fosdem.base.view.BaseFragment
+import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
 import com.addhen.fosdem.sessions.model.SessionScreen
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -46,6 +48,8 @@ class SessionBottomSheetDialogFragment :
     private val args: SessionBottomSheetDialogFragmentArgs by lazy {
         SessionBottomSheetDialogFragmentArgs.fromBundle(arguments ?: Bundle())
     }
+
+    private lateinit var sessionAdapter: SessionsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +76,7 @@ class SessionBottomSheetDialogFragment :
     }
 
     private fun initView() {
+        initRecyclerView()
         initFilterButton()
         observeViewStateChanges()
         observeViewEffectChanges()
@@ -91,7 +96,13 @@ class SessionBottomSheetDialogFragment :
                 viewModel.isBottomSheetCollapsed.set(isCollapsed)
             }
             binding.emptyStateViewGroup.isVisible = it.isEmptyViewShown
+            setAdapterItems(it.sessions)
         })
+    }
+
+    private fun setAdapterItems(sessions: List<Session>) {
+        sessionAdapter.reset(sessions)
+        binding.emptyStateViewGroup.isVisible = sessions.isEmpty()
     }
 
     private fun observeViewEffectChanges() {
@@ -100,9 +111,16 @@ class SessionBottomSheetDialogFragment :
         })
     }
 
-    companion object {
+    private fun initRecyclerView() {
+        sessionAdapter = SessionsAdapter()
+        binding.sessionsRecycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = sessionAdapter
+            setHasFixedSize(true)
+        }
+    }
 
-        const val TAG: String = "SessionBottomSheetDialogFragment"
+    companion object {
 
         fun newInstance(
             args: SessionBottomSheetDialogFragmentArgs

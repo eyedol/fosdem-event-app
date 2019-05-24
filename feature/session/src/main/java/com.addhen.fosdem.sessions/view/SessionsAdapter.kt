@@ -24,30 +24,25 @@
 
 package com.addhen.fosdem.sessions.view
 
-import android.content.Context
 import android.view.ViewGroup
 import com.addhen.fosdem.base.view.BaseBindingHolder
 import com.addhen.fosdem.base.view.BaseRecyclerAdapter
-import com.addhen.fosdem.sessions.databinding.SessionItemBinding
+import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.sessions.R
+import com.addhen.fosdem.sessions.databinding.SessionItemBinding
 
-class SessionsAdapter(
-    context: Context
-) : BaseRecyclerAdapter<SessionItemViewModel, BaseBindingHolder<SessionItemBinding>>(context) {
+class SessionsAdapter : BaseRecyclerAdapter<Session, BaseBindingHolder<SessionItemBinding>>() {
 
-    override fun areItemsTheSame(oldItem: SessionItemViewModel, newItem: SessionItemViewModel): Boolean {
-        return oldItem.session.id == newItem.session.id
+    override fun areItemsTheSame(oldItem: Session, newItem: Session): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: SessionItemViewModel, newItem: SessionItemViewModel): Boolean {
-        return oldItem.session == newItem.session
+    override fun areContentsTheSame(oldItem: Session, newItem: Session): Boolean {
+        return oldItem == newItem
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BaseBindingHolder<SessionItemBinding> {
-        return BaseBindingHolder(context, parent, R.layout.session_item)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseBindingHolder<SessionItemBinding> {
+        return BaseBindingHolder(parent, R.layout.session_item)
     }
 
     override fun onBindViewHolder(holder: BaseBindingHolder<SessionItemBinding>, position: Int) {

@@ -27,7 +27,7 @@
     <data>
         <variable
                 name="viewModel"
-                type="com.addhen.fosdem.sessions.view.SessionItemViewModel"/>
+                type="com.addhen.fosdem.data.model.Session"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -10,9 +10,8 @@ sealed class SessionScreen {
 
     object Saturday : Tab("Saturday", "sat")
     object Sunday : Tab("Sunday", "sun")
-    object Bookmark : Tab("Bookmark", "bookmark")
 
     companion object {
-        val tabs = listOf(Saturday, Sunday, Bookmark)
+        val tabs = listOf(Saturday, Sunday)
     }
 }
