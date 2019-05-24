@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ceedc491e993e00ca564360499f6835d",
+    "identityHash": "07f43859ebb9acb616c3cfe081990d72",
     "entities": [
       {
         "tableName": "session",
@@ -98,7 +98,7 @@
       },
       {
         "tableName": "speaker",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `session_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`session_id`) REFERENCES `session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -111,6 +111,12 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "session_id",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -119,41 +125,14 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "session_speaker_join",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`session_id` INTEGER NOT NULL, `speaker_id` INTEGER NOT NULL, PRIMARY KEY(`session_id`, `speaker_id`), FOREIGN KEY(`session_id`) REFERENCES `session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`speaker_id`) REFERENCES `speaker`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "sessionId",
-            "columnName": "session_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "speakerId",
-            "columnName": "speaker_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "session_id",
-            "speaker_id"
-          ],
-          "autoGenerate": false
-        },
         "indices": [
           {
-            "name": "index_session_speaker_join_speaker_id",
-            "unique": false,
+            "name": "index_speaker_session_id",
+            "unique": true,
             "columnNames": [
-              "speaker_id"
+              "session_id"
             ],
-            "createSql": "CREATE  INDEX `index_session_speaker_join_speaker_id` ON `${TABLE_NAME}` (`speaker_id`)"
+            "createSql": "CREATE UNIQUE INDEX `index_speaker_session_id` ON `${TABLE_NAME}` (`session_id`)"
           }
         ],
         "foreignKeys": [
@@ -163,76 +142,6 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "session_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "speaker",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "speaker_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "session_link_join",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`session_id` INTEGER NOT NULL, `link_id` INTEGER NOT NULL, PRIMARY KEY(`session_id`, `link_id`), FOREIGN KEY(`session_id`) REFERENCES `session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`link_id`) REFERENCES `link`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "sessionId",
-            "columnName": "session_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "linkId",
-            "columnName": "link_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "session_id",
-            "link_id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_session_link_join_link_id",
-            "unique": false,
-            "columnNames": [
-              "link_id"
-            ],
-            "createSql": "CREATE  INDEX `index_session_link_join_link_id` ON `${TABLE_NAME}` (`link_id`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "session",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "session_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "link",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "link_id"
             ],
             "referencedColumns": [
               "id"
@@ -242,7 +151,7 @@
       },
       {
         "tableName": "link",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `href` TEXT NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `href` TEXT NOT NULL, `text` TEXT NOT NULL, `session_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`session_id`) REFERENCES `session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -261,6 +170,12 @@
             "columnName": "text",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "session_id",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -269,14 +184,35 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_link_session_id",
+            "unique": true,
+            "columnNames": [
+              "session_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_link_session_id` ON `${TABLE_NAME}` (`session_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "session",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "session_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ceedc491e993e00ca564360499f6835d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"07f43859ebb9acb616c3cfe081990d72\")"
     ]
   }
 }

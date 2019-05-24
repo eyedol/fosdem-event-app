@@ -54,7 +54,7 @@ class SessionDataRepository @Inject constructor(
         sessionEntities
             .map { it.toSession(speakers, links) }
             .sortedWith(compareBy(
-                { it.startTime },
+                { it.startTime.time },
                 { it.room.name }
             ))
     }
@@ -64,7 +64,7 @@ class SessionDataRepository @Inject constructor(
         TODO()
     }
 
-    override suspend fun fetchSession() {
+    override suspend fun fetchAndSaveSession() {
         val schedule = withContext(Dispatchers.IO) {
             apiClient.fetchSession()
         }
@@ -76,8 +76,6 @@ class SessionDataRepository @Inject constructor(
             speakers += it.speakers.toSpeakerEntities()
         }
         val sessionEntities = sessions.toSessionEntities()
-        val joinLinkEntities = sessionEntities.toSessionLinkJoinEntities(links)
-        val joinSpeakersEntities = sessionEntities.toSessionSpeakerJoinEntities(speakers)
-        database.save(sessions.toSessionEntities(), links, speakers, joinLinkEntities, joinSpeakersEntities)
+        database.save(sessionEntities, speakers, links)
     }
 }

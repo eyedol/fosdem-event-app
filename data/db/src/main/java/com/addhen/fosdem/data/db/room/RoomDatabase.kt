@@ -3,15 +3,16 @@ package com.addhen.fosdem.data.db.room
 import com.addhen.fosdem.data.db.SessionDatabase
 import com.addhen.fosdem.data.db.room.dao.LinkDao
 import com.addhen.fosdem.data.db.room.dao.SessionDao
-import com.addhen.fosdem.data.db.room.dao.SessionSpeakerLinkJoinDao
 import com.addhen.fosdem.data.db.room.dao.SpeakerDao
-import com.addhen.fosdem.data.db.room.entity.*
+import com.addhen.fosdem.data.db.room.entity.LinkEntity
+import com.addhen.fosdem.data.db.room.entity.SessionEntity
+import com.addhen.fosdem.data.db.room.entity.SessionSpeakerLinkJoinEntity
+import com.addhen.fosdem.data.db.room.entity.SpeakerEntity
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class RoomDatabase @Inject constructor(
-    private val sessionSpeakerLinkDao: SessionSpeakerLinkJoinDao,
     private val sessionDao: SessionDao,
     private val speakerDao: SpeakerDao,
     private val linkDao: LinkDao,
@@ -27,22 +28,18 @@ class RoomDatabase @Inject constructor(
     }
 
     override suspend fun sessions(): List<SessionSpeakerLinkJoinEntity> {
-        return sessionSpeakerLinkDao.getAllSessions()
+        return sessionDao.sessionWithSpeakersAndLinks()
     }
 
     override suspend fun save(
         sessions: List<SessionEntity>,
-        links: List<LinkEntity>,
         speakers: List<SpeakerEntity>,
-        joinLinks: List<SessionLinkJoinEntity>,
-        joinSpeakers: List<SessionSpeakerJoinEntity>
+        links: List<LinkEntity>
     ) {
         withContext(coroutineContext) {
+            sessionDao.add(sessions)
             speakerDao.add(speakers)
             linkDao.add(links)
-            sessionDao.add(sessions)
-            sessionSpeakerLinkDao.addLinkJoin(joinLinks)
-            sessionSpeakerLinkDao.addSpeakerJoin(joinSpeakers)
         }
     }
 }

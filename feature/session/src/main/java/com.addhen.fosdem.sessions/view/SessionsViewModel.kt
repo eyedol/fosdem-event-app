@@ -83,7 +83,7 @@ class SessionsViewModel @Inject constructor(
                 if (sessions.isNotEmpty()) {
                     currentViewState.copy(sessions = sessions, isLoading = false)
                 } else {
-                    sessionRepository.fetchSession()
+                    sessionRepository.fetchAndSaveSession()
                     currentViewState.copy(isEmptyViewShown = true, isLoading = false)
                 }
             } catch (exception: Exception) {

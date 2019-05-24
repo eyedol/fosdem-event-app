@@ -11,12 +11,15 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import java.util.concurrent.atomic.AtomicLong
 
 class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser()) : Parser<Schedule> {
 
     private val calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.US)
 
     private lateinit var currentDayDate: Date
+
+    private val linId = AtomicLong()
 
     override fun parse(inputStream: InputStream): Schedule {
         inputStream.use { input ->
@@ -117,8 +120,8 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
                 "description" -> description = parser.nextText()
                 "abstractText" -> abstractText = parser.nextText()
                 "title" -> title = parser.nextText()
-                "persons" -> speakers.addAll(readPersons())
-                "links" -> links.addAll(readLinks())
+                "persons" -> speakers.addAll(readPersons(id))
+                "links" -> links.addAll(readLinks(id))
                 "room" -> room = parser.nextText()
                 "track" -> track = parser.nextText()
                 "type" -> type = parser.nextText()
@@ -141,7 +144,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readPersons(): List<Speaker> {
+    private fun readPersons(sessionId: Long): List<Speaker> {
         requireStartTag("persons")
         val speakers = mutableListOf<Speaker>()
         while (!isEndTag()) {
@@ -150,7 +153,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             }
             // Look for person tag
             if (parser.name == "person") {
-                speakers.add(readPerson())
+                speakers.add(readPerson(sessionId))
             } else {
                 skipToEndTag()
             }
@@ -158,36 +161,36 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
         return speakers
     }
 
-    private fun readPerson(): Speaker {
+    private fun readPerson(sessionId: Long): Speaker {
         requireStartTag("person")
         val id = parser.getAttributeValue(null, "id").toLong()
         val name = parser.nextText()
-        return Speaker(id, name)
+        return Speaker(id, name, sessionId)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readLinks(): List<Link> {
+    private fun readLinks(sessionId: Long): List<Link> {
         requireStartTag("links")
-        val speakers = mutableListOf<Link>()
+        val links = mutableListOf<Link>()
         while (!isEndTag()) {
             if (!isStartTag()) {
                 continue
             }
             // Look for person tag
             if (parser.name == "link") {
-                speakers.add(readLink())
+                links.add(readLink(sessionId))
             } else {
                 skipToEndTag()
             }
         }
-        return speakers
+        return links
     }
 
-    private fun readLink(): Link {
+    private fun readLink(sessionId: Long): Link {
         requireStartTag("link")
         val href = parser.getAttributeValue(null, "href")
         val text = parser.nextText()
-        return Link(0, href, text)
+        return Link(linId.incrementAndGet(), href, text, sessionId)
     }
 
     @Throws(XmlPullParserException::class)
@@ -202,7 +205,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun skipToEndTag() {
-        var type: Int = 0
+        var type = 0
         while ({ type = parser.next(); type }() != XmlPullParser.END_TAG) {
             if (type == XmlPullParser.START_TAG)
                 skipToEndTag()

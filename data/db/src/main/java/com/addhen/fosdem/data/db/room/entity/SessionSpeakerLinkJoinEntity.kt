@@ -8,14 +8,14 @@ data class SessionSpeakerLinkJoinEntity(
     @Relation(
         parentColumn = "id",
         entityColumn = "session_id",
-        entity = SessionSpeakerJoinEntity::class
+        entity = SpeakerEntity::class
     )
-    val speakers: List<SessionSpeakerJoinEntity> = emptyList(),
+    val speakers: List<SpeakerEntity> = emptyList(),
 
     @Relation(
         parentColumn = "id",
         entityColumn = "session_id",
-        entity = SessionLinkJoinEntity::class
+        entity = LinkEntity::class
     )
-    val links: List<SessionLinkJoinEntity> = emptyList()
+    val links: List<LinkEntity> = emptyList()
 )

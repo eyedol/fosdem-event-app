@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.addhen.fosdem.data.db.SessionDatabase
 import com.addhen.fosdem.data.db.room.dao.LinkDao
 import com.addhen.fosdem.data.db.room.dao.SessionDao
-import com.addhen.fosdem.data.db.room.dao.SessionSpeakerLinkJoinDao
 import com.addhen.fosdem.data.db.room.dao.SpeakerDao
 import dagger.Module
 import dagger.Provides
@@ -40,12 +39,6 @@ internal object RoomDatabaseModule {
     @Provides
     fun speakerDao(database: AppDatabase): SpeakerDao {
         return database.speakerDao()
-    }
-
-    @JvmStatic
-    @Provides
-    fun sessionSpeakerJoinDao(database: AppDatabase): SessionSpeakerLinkJoinDao {
-        return database.sessionSpeakerLinkJoinDao()
     }
 
     @JvmStatic

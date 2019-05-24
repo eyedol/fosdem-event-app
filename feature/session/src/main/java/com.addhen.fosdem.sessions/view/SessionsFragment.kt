@@ -29,7 +29,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -102,15 +101,8 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
 
     private fun observeViewStateChanges() {
         viewModel.viewState.observe(this, Observer {
-            Toast.makeText(requireContext(), "", Toast.LENGTH_LONG)
             binding.sessionsProgressBar.isVisible = it.isLoading
             viewModel.isEmptyViewShown.set(it.isEmptyViewShown)
         })
-    }
-
-    companion object {
-
-        const val TAG: String = "SessionsFragment"
-        fun newInstance(): SessionsFragment = SessionsFragment()
     }
 }

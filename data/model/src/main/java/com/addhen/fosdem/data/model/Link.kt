@@ -27,5 +27,6 @@ package com.addhen.fosdem.data.model
 data class Link(
     override val id: Long,
     val href: String,
-    val text: String
+    val text: String,
+    val sessionId: Long
 ) : Model
