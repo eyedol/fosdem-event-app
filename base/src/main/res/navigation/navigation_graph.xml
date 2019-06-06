@@ -37,8 +37,8 @@
             android:name="com.addhen.fosdem.sessions.view.SessionBottomSheetDialogFragment"
             android:label="@string/sessions">
         <argument
-                android:name="tag"
-                app:argType="string"/>
+                android:name="index"
+                app:argType="integer"/>
     </fragment>
 
     <fragment android:id="@+id/menu_map"

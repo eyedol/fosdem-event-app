@@ -18,14 +18,14 @@ fun SessionSpeakerLinkJoinEntity.toSession(
     }
     return Session(
         id = session.id,
-        day = session.day,
         startTime = Date(session.start),
         durationTime = Date(session.duration),
         title = session.title,
         description = session.description,
         abstractText = session.abstractText,
-        room = session.room!!.toRoom(),
-        track = session.track!!.toTrack(),
+        day = session.day.toDay(),
+        room = session.room.toRoom(),
+        track = session.track.toTrack(),
         speakers = localSpeakers,
         links = localLinks
     )
@@ -52,6 +52,13 @@ fun LinkEntity.toLink(): Link {
         href = href,
         text = text,
         sessionId = sessionId
+    )
+}
+
+fun DayEntity.toDay(): Day {
+    return Day(
+        index = index,
+        date = Date(date)
     )
 }
 
@@ -94,15 +101,22 @@ fun Link.toLinkEntity(): LinkEntity {
     )
 }
 
+fun Day.toDayEntity(): DayEntity {
+    return DayEntity(
+        index = index,
+        date = date.time
+    )
+}
+
 fun Session.toSessionEntity(): SessionEntity {
     return SessionEntity(
         id = id,
-        day = day,
         start = startTime.time,
         duration = durationTime.time,
         title = title,
         description = description,
         abstractText = abstractText,
+        day = day.toDayEntity(),
         room = room.toRoomEntity(),
         track = track.toTrackEntity()
     )

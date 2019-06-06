@@ -61,7 +61,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
             }
             // Look for room tag
             if (parser.name == "room") {
-                sessions.addAll(readRoom(index))
+                sessions.addAll(readRoom(Schedule.Day(index = index, date = currentDayDate)))
             } else {
                 skipToEndTag()
             }
@@ -71,7 +71,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readRoom(day: Int): List<Session> {
+    private fun readRoom(day: Schedule.Day): List<Session> {
         requireStartTag("room")
         val sessions = mutableListOf<Session>()
         while (!isEndTag()) {
@@ -90,7 +90,7 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readEvent(day: Int): Session {
+    private fun readEvent(day: Schedule.Day): Session {
         requireStartTag("event")
         var id = parser.getAttributeValue(null, "id").toLong()
         var startTime = Date()
@@ -130,12 +130,12 @@ class ScheduleXmlParser(private val parser: XmlPullParser = Xml.newPullParser())
         }
         return Session(
             id,
-            day,
             startTime,
             durationTime,
             title,
             description,
             abstractText,
+            Day(index = day.index, date = day.date),
             Room(name = room, building = Room.Building.fromRoomName(room).name),
             Track(name = track, type = Track.Type.valueOf(type)),
             links,

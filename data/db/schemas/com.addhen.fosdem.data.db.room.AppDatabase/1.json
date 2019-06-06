@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "07f43859ebb9acb616c3cfe081990d72",
+    "identityHash": "07aa6f9e716ee19fd162f87e2fc58b12",
     "entities": [
       {
         "tableName": "session",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `day` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `abstractText` TEXT NOT NULL, `room_id` INTEGER, `room_name` TEXT, `room_building` TEXT, `track_id` INTEGER, `track_name` TEXT, `track_type` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `start` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `abstractText` TEXT NOT NULL, `day_index` INTEGER NOT NULL, `day_date` INTEGER NOT NULL, `room_id` INTEGER NOT NULL, `room_name` TEXT NOT NULL, `room_building` TEXT NOT NULL, `track_id` INTEGER NOT NULL, `track_name` TEXT NOT NULL, `track_type` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -23,12 +23,6 @@
           {
             "fieldPath": "duration",
             "columnName": "duration",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "day",
-            "columnName": "day",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -51,40 +45,52 @@
             "notNull": true
           },
           {
+            "fieldPath": "day.index",
+            "columnName": "day_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.date",
+            "columnName": "day_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "room.id",
             "columnName": "room_id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "room.name",
             "columnName": "room_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "room.building",
             "columnName": "room_building",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "track.id",
             "columnName": "track_id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "track.name",
             "columnName": "track_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "track.type",
             "columnName": "track_type",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -212,7 +218,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"07f43859ebb9acb616c3cfe081990d72\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"07aa6f9e716ee19fd162f87e2fc58b12\")"
     ]
   }
 }

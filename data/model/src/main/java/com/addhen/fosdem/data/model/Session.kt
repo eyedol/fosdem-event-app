@@ -28,12 +28,12 @@ import java.util.Date
 
 data class Session(
     override val id: Long,
-    val day: Int,
     val startTime: Date,
     val durationTime: Date,
     val title: String,
     val description: String,
     val abstractText: String,
+    val day: Day,
     val room: Room,
     val track: Track,
     val links: List<Link>,

@@ -4,7 +4,7 @@ import com.addhen.fosdem.base.view.state.Action
 import com.addhen.fosdem.base.view.state.Effect
 import com.addhen.fosdem.base.view.state.State
 import com.addhen.fosdem.data.model.Session
-import com.addhen.fosdem.sessions.model.SessionScreen
+import com.addhen.fosdem.sessions.model.ScreenTab
 
 data class SessionState(
     val isEmptyViewShown: Boolean = false,
@@ -16,7 +16,7 @@ data class SessionState(
 sealed class SessionAction : Action {
     object LoadSessions : SessionAction()
     object SessionLoaded : SessionAction()
-    data class BottomSheetFilterToggled(val sessionScreen: SessionScreen) : SessionAction()
+    data class BottomSheetFilterToggled(val screenTab: ScreenTab) : SessionAction()
 }
 
 sealed class SessionViewEffect : Effect {

@@ -37,7 +37,7 @@ import androidx.transition.TransitionManager
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
-import com.addhen.fosdem.sessions.model.SessionScreen
+import com.addhen.fosdem.sessions.model.ScreenTab
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SessionBottomSheetDialogFragment :
@@ -69,7 +69,7 @@ class SessionBottomSheetDialogFragment :
 
     private fun initFilterButton() {
         val onFilterButtonClick: (View) -> Unit = {
-            viewModel.onAction(SessionAction.BottomSheetFilterToggled(SessionScreen.Saturday))
+            viewModel.onAction(SessionAction.BottomSheetFilterToggled(ScreenTab.Saturday))
         }
         binding.sessionsBottomSheetShowFilterButton.setOnClickListener(onFilterButtonClick)
         binding.sessionsBottomSheetHideFilterButton.setOnClickListener(onFilterButtonClick)

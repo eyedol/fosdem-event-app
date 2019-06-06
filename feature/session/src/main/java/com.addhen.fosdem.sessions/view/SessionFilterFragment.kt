@@ -36,7 +36,7 @@ import androidx.lifecycle.Observer
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.sessions.R
 import com.addhen.fosdem.sessions.databinding.SessionFilterFragmentBinding
-import com.addhen.fosdem.sessions.model.SessionScreen
+import com.addhen.fosdem.sessions.model.ScreenTab
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
@@ -74,9 +74,9 @@ class SessionFilterFragment : BaseFragment<SessionsViewModel, SessionFilterFragm
     }
 
     private fun setupSessionBottomSheetDialogFragment() {
-        val tab = SessionScreen.tabs[args.tabIndex]
+        val tab = ScreenTab.session[args.tabIndex]
         val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance(
-            SessionBottomSheetDialogFragmentArgs(tab.tag)
+            SessionBottomSheetDialogFragmentArgs(tab.index)
         )
         childFragmentManager
             .beginTransaction()
