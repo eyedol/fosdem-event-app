@@ -57,7 +57,6 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         super.onViewCreated(view, savedInstanceState)
         initView()
         observeViewStateChanges()
-        viewModel.onAction(SessionAction.LoadSessions)
     }
 
     override fun onDestroyView() {
@@ -70,7 +69,7 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         binding.sessionsViewpager.pageMargin = resources.getDimensionPixelSize(R.dimen.space_16dp)
         binding.sessionsViewpager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment {
-                return SessionFilterFragment.newInstance(SessionFilterFragmentArgs(position))
+                return SessionFilterFragment.newInstance(SessionFilterFragmentArgs(ScreenTab.session[position].index))
             }
 
             override fun getPageTitle(position: Int) = ScreenTab.session[position].title
@@ -80,7 +79,7 @@ class SessionsFragment : BaseFragment<SessionsViewModel, SessionsFragmentBinding
         binding.sessionsViewpager.addOnPageChangeListener(
             object : ViewPager.SimpleOnPageChangeListener() {
                 override fun onPageSelected(position: Int) {
-                    // TODO set selection
+                    viewModel.onAction(SessionAction.LoadSessions(ScreenTab.session[position].index))
                 }
             }
         )

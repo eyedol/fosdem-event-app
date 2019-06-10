@@ -29,7 +29,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
@@ -49,7 +48,7 @@ class SessionBottomSheetDialogFragment :
         SessionBottomSheetDialogFragmentArgs.fromBundle(arguments ?: Bundle())
     }
 
-    private lateinit var sessionAdapter: SessionsAdapter
+    private val sessionAdapter: SessionsAdapter by lazy { SessionsAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +63,7 @@ class SessionBottomSheetDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        viewModel.onAction(SessionAction.LoadSessions)
+        viewModel.onAction(SessionAction.LoadSessions(args.index))
     }
 
     private fun initFilterButton() {
@@ -95,28 +94,29 @@ class SessionBottomSheetDialogFragment :
                 val isCollapsed = it.bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED
                 viewModel.isBottomSheetCollapsed.set(isCollapsed)
             }
-            binding.emptyStateViewGroup.isVisible = it.isEmptyViewShown
             setAdapterItems(it.sessions)
         })
     }
 
     private fun setAdapterItems(sessions: List<Session>) {
         sessionAdapter.reset(sessions)
-        binding.emptyStateViewGroup.isVisible = sessions.isEmpty()
+        binding.sessionsRecycler.adapter = sessionAdapter
+        //TODO replace with current date
+        val title = sessions.asSequence().firstOrNull()?.day?.date
+        binding.sessionsBottomSheetTitle.text = title.toString()
     }
 
     private fun observeViewEffectChanges() {
         viewModel.viewEffect.observe(this, Observer {
-            Toast.makeText(requireContext(), "ok", Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(), "ok", Toast.LENGTH_LONG).show()
         })
     }
 
     private fun initRecyclerView() {
-        sessionAdapter = SessionsAdapter()
         binding.sessionsRecycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = sessionAdapter
             setHasFixedSize(true)
+            adapter = sessionAdapter
         }
     }
 

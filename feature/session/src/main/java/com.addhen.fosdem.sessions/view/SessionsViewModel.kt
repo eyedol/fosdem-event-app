@@ -64,7 +64,7 @@ class SessionsViewModel @Inject constructor(
                 currentViewState = currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
             }
             is SessionAction.LoadSessions -> {
-                loadSessions()
+                loadSessions(action.dayIndex)
             }
             is SessionAction.SessionLoaded -> {
                 currentViewState = currentViewState.copy(isLoading = false, isEmptyViewShown = false)
@@ -75,13 +75,13 @@ class SessionsViewModel @Inject constructor(
         }
     }
 
-    private fun loadSessions() {
+    private fun loadSessions(index: Int) {
         viewModelScope.launch {
             currentViewState = try {
                 currentViewState.copy(isLoading = true)
-                var sessions = sessionRepository.getSessions()
+                val sessions = sessionRepository.getSessions().filter { it.day.index == index }
                 if (sessions.isNotEmpty()) {
-                    currentViewState.copy(sessions = sessions, isLoading = false)
+                    currentViewState.copy(isEmptyViewShown = false, sessions = sessions, isLoading = false)
                 } else {
                     sessionRepository.fetchAndSaveSession()
                     currentViewState.copy(isEmptyViewShown = true, isLoading = false)

@@ -14,9 +14,9 @@ data class SessionState(
 ) : State
 
 sealed class SessionAction : Action {
-    object LoadSessions : SessionAction()
     object SessionLoaded : SessionAction()
     data class BottomSheetFilterToggled(val screenTab: ScreenTab) : SessionAction()
+    data class LoadSessions(val dayIndex: Int) : SessionAction()
 }
 
 sealed class SessionViewEffect : Effect {

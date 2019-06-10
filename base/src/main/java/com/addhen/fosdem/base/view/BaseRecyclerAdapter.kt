@@ -43,7 +43,7 @@ abstract class BaseRecyclerAdapter<T, V : RecyclerView.ViewHolder> : RecyclerVie
             return this@BaseRecyclerAdapter.areContentsTheSame(oldItem, newItem)
         }
     }
-    private val asyncListDiffer = AsyncListDiffer(this, diffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this@BaseRecyclerAdapter, diffCallback)
 
     @UiThread
     fun reset(items: List<T>) {

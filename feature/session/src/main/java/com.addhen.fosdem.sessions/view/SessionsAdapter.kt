@@ -46,8 +46,8 @@ class SessionsAdapter : BaseRecyclerAdapter<Session, BaseBindingHolder<SessionIt
     }
 
     override fun onBindViewHolder(holder: BaseBindingHolder<SessionItemBinding>, position: Int) {
-        val viewModel = getItem(position)
         val itemBinding = holder.binding
+        val viewModel = getItem(position)
         itemBinding.viewModel = viewModel
         itemBinding.executePendingBindings()
     }

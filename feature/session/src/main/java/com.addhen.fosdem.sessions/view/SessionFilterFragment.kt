@@ -74,7 +74,7 @@ class SessionFilterFragment : BaseFragment<SessionsViewModel, SessionFilterFragm
     }
 
     private fun setupSessionBottomSheetDialogFragment() {
-        val tab = ScreenTab.session[args.tabIndex]
+        val tab = ScreenTab.session[args.tabIndex - 1]
         val fragment: Fragment = SessionBottomSheetDialogFragment.newInstance(
             SessionBottomSheetDialogFragmentArgs(tab.index)
         )
