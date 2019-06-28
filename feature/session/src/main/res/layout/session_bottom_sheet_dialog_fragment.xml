@@ -9,6 +9,8 @@
                 name="viewModel"
                 type="com.addhen.fosdem.sessions.view.SessionsViewModel"
         />
+
+        <variable name="isBottomSheetCollapsed" type="Boolean"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -67,7 +69,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:isVisible="@{!safeUnbox(viewModel.isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
+                    app:isVisible="@{!safeUnbox(isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
                     tools:text="Filtered"/>
 
             <com.google.android.material.chip.Chip
@@ -88,7 +90,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:textEndPadding="@dimen/space_0dp"
                     app:textStartPadding="@dimen/space_0dp"
-                    app:isVisible="@{safeUnbox(viewModel.isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
+                    app:isVisible="@{safeUnbox(isBottomSheetCollapsed) &amp;&amp; !safeUnbox(viewModel.isEmptyViewShown)}"
             />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

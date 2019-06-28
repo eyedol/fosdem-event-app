@@ -87,7 +87,7 @@ class SessionFilterFragment : BaseFragment<SessionsViewModel, SessionFilterFragm
 
     private fun observeViewStateChanges() {
         viewModel.viewState.observe(this, Observer {
-            Toast.makeText(requireContext(), "h", Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(), "h", Toast.LENGTH_LONG).show()
         })
     }
 

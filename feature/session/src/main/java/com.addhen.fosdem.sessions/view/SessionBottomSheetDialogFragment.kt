@@ -35,10 +35,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.addhen.fosdem.base.extension.toTitle
 import com.addhen.fosdem.base.view.BaseFragment
 import com.addhen.fosdem.data.model.Session
 import com.addhen.fosdem.sessions.databinding.SessionBottomSheetDialogFragmentBinding
-import com.addhen.fosdem.sessions.model.ScreenTab
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SessionBottomSheetDialogFragment :
@@ -69,11 +69,12 @@ class SessionBottomSheetDialogFragment :
     }
 
     private fun initFilterButton() {
-        val onFilterButtonClick: (View) -> Unit = {
-            viewModel.onAction(SessionAction.BottomSheetFilterToggled(ScreenTab.Saturday))
+        binding.sessionsBottomSheetShowFilterButton.setOnClickListener {
+            viewModel.onAction(SessionAction.BottomSheetFilterToggled(BottomSheetBehavior.STATE_COLLAPSED))
         }
-        binding.sessionsBottomSheetShowFilterButton.setOnClickListener(onFilterButtonClick)
-        binding.sessionsBottomSheetHideFilterButton.setOnClickListener(onFilterButtonClick)
+        binding.sessionsBottomSheetHideFilterButton.setOnClickListener {
+            viewModel.onAction(SessionAction.BottomSheetFilterToggled(BottomSheetBehavior.STATE_EXPANDED))
+        }
     }
 
     private fun initView() {
@@ -94,7 +95,7 @@ class SessionBottomSheetDialogFragment :
                         excludeChildren(binding.sessionsRecycler, true)
                     })
                 val isCollapsed = it.bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED
-                viewModel.isBottomSheetCollapsed.set(isCollapsed)
+                binding.isBottomSheetCollapsed = isCollapsed
             }
             setAdapterItems(it.sessions)
         })
@@ -105,7 +106,7 @@ class SessionBottomSheetDialogFragment :
         binding.sessionsRecycler.adapter = sessionAdapter
         //TODO replace with current date
         val title = sessions.asSequence().firstOrNull()?.day?.date
-        binding.sessionsBottomSheetTitle.text = title.toString()
+        binding.sessionsBottomSheetTitle.text = title?.toTitle()
     }
 
     private fun observeViewEffectChanges() {

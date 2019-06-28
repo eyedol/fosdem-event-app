@@ -32,7 +32,6 @@ import com.addhen.fosdem.base.view.BaseViewModel
 import com.addhen.fosdem.base.view.state.Action
 import com.addhen.fosdem.base.view.state.Reducer
 import com.addhen.fosdem.data.repository.session.SessionRepository
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +46,6 @@ class SessionsViewModel @Inject constructor(
         get() = mutableViewEffect
 
     val isEmptyViewShown = ObservableBoolean()
-    val isBottomSheetCollapsed = ObservableBoolean()
 
     private val mutableViewState = MutableLiveData<SessionState>()
     private val mutableViewEffect = MutableLiveData<SessionViewEffect>()
@@ -61,7 +59,7 @@ class SessionsViewModel @Inject constructor(
         when (action) {
             is SessionAction.BottomSheetFilterToggled -> {
                 mutableViewEffect.value = SessionViewEffect.BottomSheetToggled
-                currentViewState = currentViewState.copy(bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED)
+                currentViewState = currentViewState.copy(bottomSheetState = action.bottomSheetState)
             }
             is SessionAction.LoadSessions -> {
                 loadSessions(action.dayIndex)
