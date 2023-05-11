@@ -76,7 +76,7 @@ object Dependencies {
     }
 
     object Glide {
-        val version = "4.9.0"
+        val version = "4.15.1"
         val core = "com.github.bumptech.glide:glide:$version"
         val okhttp3 = "com.github.bumptech.glide:okhttp3-integration:$version"
         val compiler = "com.github.bumptech.glide:compiler:$version"
