@@ -10,7 +10,7 @@ object Dependencies {
         val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         val navigationSafeArgs =
             "android.arch.navigation:navigation-safe-args-gradle-plugin:${AndroidX.Navigation.version}"
-        val jetifier = "com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta02"
+        val jetifier = "com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta10"
         val crashlytics = "io.fabric.tools:gradle:1.26.1"
     }
 
