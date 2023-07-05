@@ -51,7 +51,7 @@ object Dependencies {
         }
 
         object Navigation {
-            val version = "1.0.0-rc02"
+            val version = "1.0.0"
             val runtime = "android.arch.navigation:navigation-runtime:$version"
             val runtimeKtx = "android.arch.navigation:navigation-runtime-ktx:$version"
             val ui = "android.arch.navigation:navigation-ui:$version"
