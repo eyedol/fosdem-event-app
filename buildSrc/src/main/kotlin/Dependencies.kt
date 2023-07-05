@@ -44,7 +44,7 @@ object Dependencies {
         }
 
         object Room {
-            val version = "2.1.0-alpha07"
+            val version = "2.5.2"
             val compiler = "androidx.room:room-compiler:$version"
             val runtime = "androidx.room:room-runtime:$version"
             val coroutine = "androidx.room:room-ktx:$version"
