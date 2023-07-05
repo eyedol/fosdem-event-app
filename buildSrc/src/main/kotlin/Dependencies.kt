@@ -99,7 +99,7 @@ object Dependencies {
     }
 
     object Stetho {
-        val version = "1.5.1"
+        val version = "1.6.0"
         val stetho = "com.facebook.stetho:stetho:$version"
         val sethoOkHttp = "com.facebook.stetho:stetho-okhttp3:$version"
     }
