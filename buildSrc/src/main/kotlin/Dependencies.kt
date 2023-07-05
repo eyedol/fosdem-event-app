@@ -60,7 +60,7 @@ object Dependencies {
         }
 
         object Work {
-            val version = "1.0.0-alpha12"
+            val version = "1.0.1"
             val runtime = "android.arch.work:work-runtime:$version"
             val runtimeKtx = "android.arch.work:work-runtime-ktx:$version"
         }
