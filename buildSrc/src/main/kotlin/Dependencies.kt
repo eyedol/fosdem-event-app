@@ -105,7 +105,7 @@ object Dependencies {
     }
 
     object Leakcanary {
-        val version = "1.5.1"
+        val version = "1.6.3"
         val op = "com.squareup.leakcanary:leakcanary-android:$version"
         val noOp = "com.squareup.leakcanary:leakcanary-android-no-op:$version"
     }
