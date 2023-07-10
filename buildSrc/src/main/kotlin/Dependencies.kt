@@ -93,7 +93,7 @@ object Dependencies {
     }
 
     object Square {
-        val version = "3.14.9"
+        val version = "4.11.0"
         val okHttp = "com.squareup.okhttp3:okhttp:$version"
         val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
