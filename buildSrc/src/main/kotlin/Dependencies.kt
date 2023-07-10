@@ -89,7 +89,7 @@ object Dependencies {
     object Test {
         val junit = "junit:junit:4.12"
         val testRunner = "androidx.test:runner:1.5.2"
-        val kxml2 = "com.github.stefanhaustein:kxml2:v2.4.2"
+        val kxml2 = "com.github.stefanhaustein:kxml2:2.5.0"
     }
 
     object Square {
