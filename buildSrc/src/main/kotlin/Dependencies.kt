@@ -28,7 +28,7 @@ object Dependencies {
         val jetifier = "com.android.tools.build.jetifier:jetifier-core:1.0.0-beta10"
         val appCompat = "androidx.appcompat:appcompat:1.6.1"
         val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
-        val constraint = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+        val constraint = "androidx.constraintlayout:constraintlayout:2.1.4"
         val design = "com.google.android.material:material:1.1.0-alpha02"
         val coreKtx = "androidx.core:core-ktx:1.0.0-alpha1"
         val preference = "androidx.preference:preference:1.0.0"
