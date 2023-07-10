@@ -5,7 +5,7 @@ object Dependencies {
     object GradlePlugin {
         val version = "3.6.4"
         val android = "com.android.tools.build:gradle:$version"
-        val r8 = "com.android.tools:r8:1.3.52"
+        val r8 = "com.android.tools:r8:1.6.84"
         val kotlin = Kotlin.version
         val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         val navigationSafeArgs =
@@ -27,12 +27,12 @@ object Dependencies {
     object AndroidX {
         val jetifier = "com.android.tools.build.jetifier:jetifier-core:1.0.0-beta10"
         val appCompat = "androidx.appcompat:appcompat:1.6.1"
-        val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
+        val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
         val constraint = "androidx.constraintlayout:constraintlayout:2.1.4"
         val design = "com.google.android.material:material:1.1.0-alpha02"
-        val coreKtx = "androidx.core:core-ktx:1.0.0-alpha1"
-        val preference = "androidx.preference:preference:1.0.0"
-        val fragment = "androidx.fragment:fragment:1.1.0-alpha03"
+        val coreKtx = "androidx.core:core-ktx:1.10.1"
+        val preference = "androidx.preference:preference:1.2.0"
+        val fragment = "androidx.fragment:fragment:1.6.0"
 
         object Lifecycle {
             val version = "2.6.1"
@@ -88,7 +88,7 @@ object Dependencies {
 
     object Test {
         val junit = "junit:junit:4.12"
-        val testRunner = "androidx.test:runner:1.1.0"
+        val testRunner = "androidx.test:runner:1.5.2"
         val kxml2 = "com.github.stefanhaustein:kxml2:2.5.0"
     }
 
