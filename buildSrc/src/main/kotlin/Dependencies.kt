@@ -5,7 +5,7 @@ object Dependencies {
     object GradlePlugin {
         val version = "3.6.4"
         val android = "com.android.tools.build:gradle:$version"
-        val r8 = "com.android.tools:r8:1.3.52"
+        val r8 = "com.android.tools:r8:1.6.84"
         val kotlin = Kotlin.version
         val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.version}"
         val navigationSafeArgs =
