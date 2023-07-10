@@ -32,7 +32,7 @@ object Dependencies {
         val design = "com.google.android.material:material:1.1.0-alpha02"
         val coreKtx = "androidx.core:core-ktx:1.10.1"
         val preference = "androidx.preference:preference:1.2.0"
-        val fragment = "androidx.fragment:fragment:1.1.0-alpha03"
+        val fragment = "androidx.fragment:fragment:1.6.0"
 
         object Lifecycle {
             val version = "2.6.1"
