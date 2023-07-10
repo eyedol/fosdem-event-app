@@ -30,7 +30,7 @@ object Dependencies {
         val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
         val constraint = "androidx.constraintlayout:constraintlayout:2.1.4"
         val design = "com.google.android.material:material:1.1.0-alpha02"
-        val coreKtx = "androidx.core:core-ktx:1.0.0-alpha1"
+        val coreKtx = "androidx.core:core-ktx:1.10.1"
         val preference = "androidx.preference:preference:1.0.0"
         val fragment = "androidx.fragment:fragment:1.1.0-alpha03"
 
