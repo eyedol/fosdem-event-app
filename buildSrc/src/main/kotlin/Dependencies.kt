@@ -67,7 +67,7 @@ object Dependencies {
     }
 
     object Dagger {
-        val version = "2.46.1"
+        val version = "2.47"
         val core = "com.google.dagger:dagger:$version"
         val android = "com.google.dagger:dagger-android:$version"
         val support = "com.google.dagger:dagger-android-support:$version"
