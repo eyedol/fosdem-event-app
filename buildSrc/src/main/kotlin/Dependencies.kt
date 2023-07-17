@@ -1,6 +1,6 @@
 object Dependencies {
 
-    val timber = "com.jakewharton.timber:timber:4.7.1"
+    val timber = "com.jakewharton.timber:timber:5.0.1"
 
     object GradlePlugin {
         val version = "8.0.2"
