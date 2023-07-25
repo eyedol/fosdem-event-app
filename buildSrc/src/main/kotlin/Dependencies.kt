@@ -3,7 +3,7 @@ object Dependencies {
     val timber = "com.jakewharton.timber:timber:5.0.1"
 
     object GradlePlugin {
-        val version = "8.0.2"
+        val version = "8.1.0"
         val android = "com.android.tools.build:gradle:$version"
         val r8 = "com.android.tools:r8:8.0.40"
         val kotlin = Kotlin.version
