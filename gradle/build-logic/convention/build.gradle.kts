@@ -4,7 +4,7 @@ plugins {
   `kotlin-dsl`
 }
 
-group = "com.findreels.gradle"
+group = "com.addhen.fosdem.gradle"
 
 repositories {
   google()
