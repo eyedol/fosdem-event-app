@@ -1,33 +1,24 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   `kotlin-dsl`
+  alias(libs.plugins.spotless)
 }
 
-group = "com.addhen.fosdem.gradle"
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
+  }
+}
 
 repositories {
   google()
   mavenCentral()
 }
 
-java {
-  sourceCompatibility = JavaVersion.VERSION_17
-  targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17.toString()
-  }
-}
-
 dependencies {
-  compileOnly(libs.agp)
-  compileOnly(libs.kotlin.pluginGradle)
-  compileOnly(libs.hilt.gradlePlugin)
-  implementation(libs.spotlessGradlePlugin)
-  implementation(libs.mixpanel)
+  compileOnly(libs.android.gradlePlugin)
+  compileOnly(libs.kotlin.gradlePlugin)
+  compileOnly(libs.spotless.gradlePlugin)
+  compileOnly(libs.compose.gradlePlugin)
 }
 
 gradlePlugin {
