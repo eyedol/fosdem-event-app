@@ -1,11 +1,9 @@
 buildscript {
-    repositories {
-        google()
-        jcenter()
-        maven(url = "https://kotlin.bintray.com/kotlinx")
-        maven(url = "https://plugins.gradle.org/m2/")
-        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
-    }
+  repositories {
+    google()
+    mavenCentral()
+    maven("https://plugins.gradle.org/m2/")
+  }
     dependencies {
         classpath(Dependencies.GradlePlugin.r8)
         classpath(Dependencies.GradlePlugin.android)
