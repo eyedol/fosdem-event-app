@@ -1,4 +1,3 @@
-
 plugins {
   `kotlin-dsl`
   alias(libs.plugins.spotless)
@@ -19,7 +18,7 @@ spotless {
   kotlin {
     target("src/**/*.kt")
     ktlint(libs.versions.ktlint.get())
-    licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+    licenseHeaderFile(rootProject.file("spotless/copyright.txt"))
   }
   kotlinGradle {
     target("*.kts")
@@ -37,9 +36,15 @@ dependencies {
 
 gradlePlugin {
   plugins {
+
+    register("root") {
+      id = "com.addhen.fosdem.gradle.plugins.root"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.RootConventionPlugin"
+    }
+
     register("spotless") {
       id = "com.addhen.fosdem.gradle.plugins.spotless"
-      implementationClass = "com.addhen.fosdem.gradle.plugins.SpotlessPlugin"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.SpotlessConventionPlugin"
     }
   }
 }
