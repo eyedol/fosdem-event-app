@@ -57,6 +57,11 @@ gradlePlugin {
       implementationClass = "com.addhen.fosdem.gradle.plugins.AndroidLibraryConventionPlugin"
     }
 
+    register("kotlinAndroid") {
+      id = "com.addhen.fosdem.kotlin.android"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.KotlinAndroidConventionPlugin"
+    }
+
     register("compose") {
       id = "com.addhen.fosdem.compose"
       implementationClass = "com.addhen.fosdem.gradle.plugins.ComposeMultiplatformConventionPlugin"
