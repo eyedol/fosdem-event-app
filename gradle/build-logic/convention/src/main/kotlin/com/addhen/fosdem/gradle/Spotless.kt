@@ -47,7 +47,7 @@ fun Project.configureSpotless() {
     }
     format("xml") {
       target("**/*.xml")
-      targetExclude("**/build/**/*.xml")
+      targetExclude("**/build/**/*.xml", ".idea/**/*.xml")
     }
   }
 }
