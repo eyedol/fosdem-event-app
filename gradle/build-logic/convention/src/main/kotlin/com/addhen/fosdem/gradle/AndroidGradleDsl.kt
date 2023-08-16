@@ -22,7 +22,7 @@ fun Project.android(action: TestedExtension.() -> Unit) {
   extensions.configure(action)
 }
 
-fun Project.setupAndroid() {
+fun Project.configureAndroid() {
   android {
     namespace?.let {
       this.namespace = it

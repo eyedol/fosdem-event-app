@@ -42,6 +42,16 @@ gradlePlugin {
       implementationClass = "com.addhen.fosdem.gradle.plugins.RootConventionPlugin"
     }
 
+    register("androidApplication") {
+      id = "com.addhen.fosdem.android.application"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.AndroidApplicationConventionPlugin"
+    }
+
+    register("androidLibrary") {
+      id = "com.addhen.fosdem.android.library"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.AndroidLibraryConventionPlugin"
+    }
+
     register("spotless") {
       id = "com.addhen.fosdem.gradle.plugins.spotless"
       implementationClass = "com.addhen.fosdem.gradle.plugins.SpotlessConventionPlugin"

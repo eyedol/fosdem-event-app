@@ -27,6 +27,7 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-mu
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 moduleGradleAssertion = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraphAssertion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "2.7.3" }
 
 [libraries]
 mixpanel = { module = "com.mixpanel:mixpanel-java", version.ref = "mixpanel" }
