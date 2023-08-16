@@ -37,6 +37,11 @@ dependencies {
 gradlePlugin {
   plugins {
 
+    register("kotlinMultiplatform") {
+      id = "com.addhen.fosdem.kotlin.multiplatform"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.KotlinMultiplatformConventionPlugin"
+    }
+
     register("root") {
       id = "com.addhen.fosdem.gradle.plugins.root"
       implementationClass = "com.addhen.fosdem.gradle.plugins.RootConventionPlugin"
@@ -50,6 +55,11 @@ gradlePlugin {
     register("androidLibrary") {
       id = "com.addhen.fosdem.android.library"
       implementationClass = "com.addhen.fosdem.gradle.plugins.AndroidLibraryConventionPlugin"
+    }
+
+    register("compose") {
+      id = "com.addhen.fosdem.compose"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.ComposeMultiplatformConventionPlugin"
     }
 
     register("spotless") {
