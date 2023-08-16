@@ -23,4 +23,5 @@ dependencyResolutionManagement {
 
 include(
   "android-app",
+  "desktop-app",
 )
