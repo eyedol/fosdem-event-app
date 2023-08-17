@@ -1,8 +1,10 @@
-CREATE TABLE IF NOT EXISTS `links`(
-  `id` INTEGER PRIMARY KEY,
-  `event_id` INTEGER,
-  `url` TEXT,
-  FOREIGN KEY (event_id) REFERENCES events(id)
+CREATE TABLE IF NOT EXISTS `links` (
+  `id` INTEGER NOT NULL,
+  `url` TEXT NOT NULL,
+  `text` TEXT NOT NULL,
+  `event_id` INTEGER NOT NULL,
+  PRIMARY KEY(`id`),
+  FOREIGN KEY(`event_id`) REFERENCES `events`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 -- indices

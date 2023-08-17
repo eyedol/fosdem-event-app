@@ -10,6 +10,7 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
+        implementation(libs.kotlinx.datetime)
         implementation(libs.kotlininject.runtime)
         implementation(libs.sqldelight.coroutines)
         implementation(libs.sqldelight.paging)

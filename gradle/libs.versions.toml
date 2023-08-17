@@ -18,6 +18,7 @@ kotlinxCollectionsImmutable = "0.3.5"
 desugaring = "2.0.3"
 androidxactivity = "1.7.2"
 sqldelight = "2.0.0"
+kotlinxDateTime = "0.4.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -53,7 +54,7 @@ sqldelight-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref 
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqldelight" }
 sqldelight-primitive = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
-
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
 # Build logic dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
