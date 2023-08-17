@@ -1,40 +1,39 @@
 plugins {
-  id("findreels.convention.kmp")
-  id("findreels.android.library")
-  id("findreels.kmp.android.hilt")
-  id("com.squareup.sqldelight")
+  id("com.addhen.fosdem.android.library")
+  id("com.addhen.fosdem.kotlin.multiplatform")
+  alias(libs.plugins.sqldelight)
 }
 
-android.namespace = "com.findreels.data.sqldelight.database"
+android.namespace = "com.addhen.fosdem.data.sqldelight.database"
 
 kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(projects.sqldelightApi)
-        implementation(libs.sqlDelight.runtime)
-        implementation(libs.sqlDelight.coroutinesExt)
-        implementation(libs.coroutines.core)
-        implementation(libs.ktor.serialization)
+        implementation(projects.data.sqldelightApi)
+        implementation(libs.kotlinx.datetime)
+        implementation(libs.kotlininject.runtime)
+        implementation(libs.sqldelight.coroutines)
+        implementation(libs.sqldelight.paging)
+        implementation(libs.sqldelight.primitive)
       }
     }
 
     val androidMain by getting {
       dependencies {
-        implementation(libs.sqlDelight.android)
-        implementation(libs.hilt.android)
+        implementation(libs.sqldelight.android)
+      }
+    }
+
+    val jvmMain by getting {
+      dependencies {
+        implementation(libs.sqldelight.sqlite)
       }
     }
 
     val iosMain by getting {
       dependencies {
-        implementation(libs.sqlDelight.native)
-        val coroutineCore = libs.coroutines.core.get()
-        implementation("${coroutineCore.module.group}:${coroutineCore.module.name}:${coroutineCore.versionConstraint.displayName}") {
-          version {
-            strictly(libs.versions.coroutines.get())
-          }
-        }
+        implementation(libs.sqldelight.native)
       }
     }
   }

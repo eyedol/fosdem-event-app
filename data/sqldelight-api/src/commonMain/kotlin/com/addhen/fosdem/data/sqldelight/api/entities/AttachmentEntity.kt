@@ -3,9 +3,9 @@
 
 package com.addhen.fosdem.data.sqldelight.api.entities
 
-data class LinkEntity(
+data class AttachmentEntity(
   val id: Long,
+  val event_id: Long,
+  val type: String,
   val url: String,
-  val text: String,
-  val event_id: Long = 0,
 )

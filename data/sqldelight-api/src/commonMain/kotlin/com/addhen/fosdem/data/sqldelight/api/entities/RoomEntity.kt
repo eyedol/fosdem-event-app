@@ -3,9 +3,7 @@
 
 package com.addhen.fosdem.data.sqldelight.api.entities
 
-data class LinkEntity(
+data class RoomEntity(
   val id: Long,
-  val url: String,
-  val text: String,
-  val event_id: Long = 0,
+  val name: String,
 )

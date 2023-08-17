@@ -1,6 +1,6 @@
-/*
- * Copyright 2022 Addhen Limited
- */
+// Copyright 2022, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.findreels.data.sqldelight.database
 
 import com.findreels.data.sqldelight.api.database.Constants
