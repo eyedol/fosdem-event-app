@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 }
 
 include(
+  ":data:sqldelight-api",
   "android-app",
   "desktop-app",
 )
