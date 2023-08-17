@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `events`(
+  id INTEGER PRIMARY KEY,
+  `day_id` INTEGER,
+  `room_id` INTEGER,
+  `start_time` TEXT,
+  `duration_minutes` INTEGER,
+  `title` TEXT,
+  `description` TEXT,
+  `track` TEXT,
+  FOREIGN KEY (day_id) REFERENCES days(id),
+  FOREIGN KEY (room_id) REFERENCES rooms(id)
+);
+
+
+-- indices
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_events_day_id` ON `events` (`day_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_events_room_id` ON `events` (`room_id`);
+
+-- queries

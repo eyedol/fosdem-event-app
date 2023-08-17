@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS `days`(
+  `id` INTEGER PRIMARY KEY,
+  `date` TEXT
+);
+
+-- Queries
+
+insert:
+INSERT OR IGNORE INTO days(
+    `id`,
+    `date`
+) VALUES(
+  nullif(:id, 0),
+  :date
+);
+
+deleteAll:
+DELETE FROM days;
+

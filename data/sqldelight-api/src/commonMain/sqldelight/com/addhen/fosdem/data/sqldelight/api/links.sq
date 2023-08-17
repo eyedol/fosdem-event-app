@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `links`(
+  `id` INTEGER PRIMARY KEY,
+  `event_id` INTEGER,
+  `url` TEXT,
+  FOREIGN KEY (event_id) REFERENCES events(id)
+);
+
+-- indices
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_links_event_id` ON `links` (`event_id`);
+
+-- queries

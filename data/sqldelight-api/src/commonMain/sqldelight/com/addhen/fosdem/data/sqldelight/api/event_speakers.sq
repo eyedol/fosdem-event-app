@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS `event_speakers`(
+  `event_id` INTEGER,
+  `speaker_id` INTEGER ,
+  PRIMARY KEY (event_id, speaker_id),
+  FOREIGN KEY (event_id) REFERENCES events(id),
+  FOREIGN KEY (speaker_id) REFERENCES speakers(id)
+);
+
+-- indices
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_speaker_id` ON `event_speakers` (`speaker_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_event_id` ON `event_speakers` (`event_id`);
+
+-- queries
