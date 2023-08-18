@@ -21,6 +21,7 @@ class DatabaseFactory(
     eventsAdapter = Events.Adapter(
       start_timeAdapter = LocalTimeColumnAdapter,
       durationAdapter = LocalTimeColumnAdapter,
+      dateAdapter = LocalDateColumnAdapter,
     ),
   )
 }
