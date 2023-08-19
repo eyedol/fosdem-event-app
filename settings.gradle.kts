@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 }
 
 include(
+  ":data:events-api",
   ":data:model-api",
   ":core-api",
   ":data:sqldelight",
