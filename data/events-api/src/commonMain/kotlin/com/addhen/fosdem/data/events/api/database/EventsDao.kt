@@ -11,7 +11,7 @@ interface EventsDao {
 
   fun getEvent(localDate: LocalDate): Flow<List<Events>>
 
-  fun getMovie(eventId: Long): Flow<Events>
+  fun getEvent(eventId: Long): Flow<Events>
 
   fun toggleBookmark(eventId: Long)
 
