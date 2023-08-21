@@ -71,5 +71,10 @@ gradlePlugin {
       id = "com.addhen.fosdem.gradle.plugins.spotless"
       implementationClass = "com.addhen.fosdem.gradle.plugins.SpotlessConventionPlugin"
     }
+
+    register("kotlinMppKotlinSerialization") {
+      id = "com.addhen.fosdem.kmp.serialization"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.KotlinSerializationConventionPlugin"
+    }
   }
 }

@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 }
 
 include(
+  ":data:events",
   ":data:events-api",
   ":data:model-api",
   ":core-api",
