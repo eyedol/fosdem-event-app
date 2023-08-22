@@ -3,7 +3,7 @@ minSdk = "25"
 targetSdk = "34"
 compileSdk = "34"
 composeCompiler = "1.5.0"
-compose-multiplatform = "1.5.0-beta02"
+compose-multiplatform = "1.5.0-rc02"
 moduleGraphAssertion = "2.4.1"
 agp = "8.2.0-alpha16"
 spotless = "6.20.0"
@@ -57,7 +57,6 @@ sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.re
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqldelight" }
 sqldelight-primitive = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTime" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

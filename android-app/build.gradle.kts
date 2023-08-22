@@ -142,6 +142,7 @@ android {
 dependencies {
   implementation(libs.androidx.activity.activity)
   implementation(libs.androidx.activity.compose)
+  coreLibraryDesugaring(libs.android.desugaring)
   // Third-party libs
   ksp(libs.kotlininject.compiler)
 }

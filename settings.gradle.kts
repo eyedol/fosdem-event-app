@@ -18,6 +18,10 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
+    mavenLocal()
+
+    // Prerelease versions of Compose Multiplatform
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
   }
 }
 

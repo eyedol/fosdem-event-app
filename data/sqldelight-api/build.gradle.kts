@@ -13,7 +13,6 @@ kotlin {
         implementation(libs.kotlinx.datetime)
         implementation(libs.kotlininject.runtime)
         implementation(libs.sqldelight.coroutines)
-        implementation(libs.sqldelight.paging)
         implementation(libs.sqldelight.primitive)
       }
     }

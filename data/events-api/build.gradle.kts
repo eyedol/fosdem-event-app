@@ -23,7 +23,6 @@ kotlin {
         implementation(projects.data.sqldelightApi)
         implementation(libs.kotlinx.datetime)
         implementation(libs.sqldelight.coroutines)
-        implementation(libs.sqldelight.paging)
         implementation(libs.sqldelight.primitive)
       }
     }

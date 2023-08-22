@@ -1,14 +1,6 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-}
-
 plugins {
   id("com.addhen.fosdem.gradle.plugins.root")
   alias(libs.plugins.android.application) apply false
