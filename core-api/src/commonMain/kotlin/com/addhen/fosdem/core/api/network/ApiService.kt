@@ -5,15 +5,34 @@ package com.addhen.fosdem.core.api.network
 
 import com.addhen.fosdem.core.api.toAppError
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
+import kotlinx.serialization.serializer
+import nl.adaptivity.xmlutil.XmlDeclMode
+import nl.adaptivity.xmlutil.serialization.XML
 
 class ApiService(val url: String, val httpClient: HttpClient) {
 
+  val defaultXml: XML = XML {
+    repairNamespaces = true
+    xmlDeclMode = XmlDeclMode.None
+    indentString = ""
+    autoPolymorphic = false
+    defaultPolicy { ignoreUnknownChildren() }
+    this.xmlDeclMode
+  }
+
   suspend inline fun <reified T : Any> get(block: HttpRequestBuilder.() -> Unit = {}): T = try {
-    httpClient.get(url, block).body()
+    httpClient.get(url, block).asType<T>()
   } catch (e: Throwable) {
     throw e.toAppError()
+  }
+
+  suspend inline fun <reified T : Any> HttpResponse.asType(): T {
+    val xmlText = bodyAsText()
+    val serializer = serializer<T>()
+    return defaultXml.decodeFromString(serializer, xmlText)
   }
 }
