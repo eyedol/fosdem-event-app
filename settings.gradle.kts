@@ -32,6 +32,7 @@ include(
   ":core-api",
   ":data:sqldelight",
   ":data:sqldelight-api",
+  ":testing",
   "android-app",
   "desktop-app",
 )
