@@ -15,14 +15,6 @@ import co.touchlab.kermit.Logger as KermitLogger
 
 object KtorHttpClientApi {
 
-  private val DefaultXml: XML = XML {
-    repairNamespaces = true
-    xmlDeclMode = XmlDeclMode.None
-    indentString = ""
-    autoPolymorphic = false
-    this.xmlDeclMode
-  }
-
   fun <T> create(
     engineFactory: HttpClientEngineFactory<T>,
     block: T.() -> Unit = {},

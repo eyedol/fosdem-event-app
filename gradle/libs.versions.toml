@@ -23,6 +23,8 @@ ktor = "2.3.3"
 kermit = "1.2.2"
 xmlUtilSerialization = "0.86.1"
 kotlinxSerialization = "1.6.0"
+junit5 = "5.10.0"
+coroutines = "1.7.3"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -65,15 +67,28 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor"}
-ktor-client-serialization-kotlinx-xml = { module = "io.ktor:ktor-serialization-kotlinx-xml", version.ref = "ktor" }
-xml-util-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlUtilSerialization"}
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 xml-util-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlUtilSerialization" }
 xml-util-serialization-jvm = { module = "io.github.pdvrieze.xmlutil:serialization-jvm", version.ref = "xmlUtilSerialization" }
 xml-util-serialization-android = { module = "io.github.pdvrieze.xmlutil:serialization-android", version.ref = "xmlUtilSerialization" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 # Build logic dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 spotless-gradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5"}
+
+
+[bundles]
+common-test = [
+  "kotlin-test",
+  "kotlin-test-junit5"
+]
+
