@@ -4,7 +4,7 @@ plugins {
   alias(libs.plugins.sqldelight)
 }
 
-android.namespace = "com.addhen.fosdem.data.events.api"
+android.namespace = "com.addhen.fosdem.data.events"
 
 kotlin {
   sourceSets {
@@ -40,4 +40,9 @@ kotlin {
       }
     }
   }
+}
+
+// Needed for tests to run otherwise it errors
+tasks.withType<Test> {
+  useJUnitPlatform()
 }
