@@ -4,7 +4,7 @@
 package com.addhen.fosdem.data.events.api
 
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
-import com.addhen.fosdem.core.api.network.ApiService
+import com.addhen.fosdem.data.core.api.network.ApiService
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import kotlinx.coroutines.withContext

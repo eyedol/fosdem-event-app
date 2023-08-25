@@ -30,6 +30,7 @@ include(
   ":data:events-api",
   ":data:model-api",
   ":core-api",
+  ":data:core-api",
   ":data:sqldelight",
   ":data:sqldelight-api",
   ":testing",

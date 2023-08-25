@@ -20,6 +20,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(projects.coreApi)
+        implementation(projects.data.coreApi)
         implementation(projects.data.eventsApi)
         implementation(projects.data.modelApi)
         implementation(projects.data.sqldelightApi)

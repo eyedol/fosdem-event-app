@@ -1,7 +1,7 @@
 // Copyright 2022, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.core.api.network
+package com.addhen.fosdem.data.core.api.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
