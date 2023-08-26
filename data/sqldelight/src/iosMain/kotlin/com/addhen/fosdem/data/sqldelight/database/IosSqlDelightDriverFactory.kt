@@ -1,13 +1,12 @@
 // Copyright 2022, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.findreels.data.sqldelight.database
+package com.addhen.fosdem.data.sqldelight.database
 
-import com.findreels.data.sqldelight.api.database.Constants
-import com.findreels.data.sqldelight.api.database.DestructiveMigrationSchema
-import com.findreels.data.sqldelight.api.database.SqlDriverFactory
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import com.addhen.fosdem.data.sqldelight.api.Constants
+import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
 class IosSqlDelightDriverFactory : SqlDriverFactory {
 

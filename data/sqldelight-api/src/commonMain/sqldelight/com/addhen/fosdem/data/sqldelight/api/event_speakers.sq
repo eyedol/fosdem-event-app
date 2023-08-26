@@ -12,3 +12,10 @@ CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_speaker_id` ON `event_sp
 CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_event_id` ON `event_speakers` (`event_id`);
 
 -- queries
+
+selectSpeakers:
+SELECT
+  s.*
+FROM events e INNER JOIN event_speakers es ON e.id = es.event_id
+INNER JOIN speakers s ON es.speaker_id = s.id
+WHERE e.day_id = ?;

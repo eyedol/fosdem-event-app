@@ -7,12 +7,16 @@ import kotlinx.datetime.LocalTime
 
 data class EventEntity(
   val id: Long,
-  val day_id: Long,
-  val room_id: Long,
   val start_time: LocalTime,
   val duration: LocalTime,
   val title: String,
   val description: String,
-  val subtitle: String,
+  val isBookmarked: Boolean,
+  val abstractText: String,
+  val day: DayEntity,
+  val room: RoomEntity,
   val track: String,
+  val links: List<LinkEntity>,
+  val speakers: List<SpeakerEntity>,
+  val attachments: List<AttachmentEntity>
 )

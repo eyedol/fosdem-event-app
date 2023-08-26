@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `events`(
   `date` TEXT AS kotlinx.datetime.LocalDate,
   `isBookmarked` INTEGER AS kotlin.Boolean NOT NULL,
   `title` TEXT,
-  `subtitle` TEXT,
+  `abstract_text` TEXT,
   `description` TEXT,
   `track` TEXT,
   FOREIGN KEY (day_id) REFERENCES days(id) ON UPDATE NO ACTION ON DELETE CASCADE,
@@ -31,7 +31,7 @@ INSERT OR IGNORE INTO events(
     `title`,
     `date`,
     `isBookmarked`,
-    `subtitle`,
+    `abstract_text`,
     `description`,
     `track`
 ) VALUES(
@@ -43,10 +43,21 @@ INSERT OR IGNORE INTO events(
   :title,
   :date,
   :isBookmarked,
-  :subtitle,
+  :abstract_text,
   :description,
   :track
 );
 
 deleteAll:
 DELETE FROM events;
+
+selectAll:
+SELECT
+  events.*,
+  days.*,
+  rooms.*
+FROM events
+INNER JOIN days ON events.day_id = days.id
+INNER JOIN rooms ON events.room_id = rooms.id
+WHERE events.day_id = ?
+GROUP BY events.id;
