@@ -5,12 +5,10 @@ package com.addhen.fosdem.data.sqldelight.database
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Constants
 import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
-class IosSqlDelightDriverFactory : SqlDriverFactory {
-
-  override fun createDriver(): SqlDriver {
-    return NativeSqliteDriver(DestructiveMigrationSchema, Constants.DB_NAME)
-  }
+class IosSqlDriverFactory: SqlDriverFactory{
+  override fun createDriver(): SqlDriver = NativeSqliteDriver(Database.Schema, Constants.DB_NAME)
 }

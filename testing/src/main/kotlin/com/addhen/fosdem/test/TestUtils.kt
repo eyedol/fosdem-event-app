@@ -1,6 +1,6 @@
 package com.addhen.fosdem.test
 
-import com.addhen.fosdem.core.api.network.KtorHttpClientApi
+import com.addhen.fosdem.data.core.api.network.KtorHttpClientApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.HttpClientEngineFactory

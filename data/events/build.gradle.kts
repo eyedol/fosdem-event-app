@@ -38,6 +38,7 @@ kotlin {
     jvmTest {
       dependencies {
         implementation(projects.testing)
+        implementation(libs.sqldelight.sqlite)
       }
     }
   }

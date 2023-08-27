@@ -1,7 +1,7 @@
 package com.addhen.fosdem.data.events.api
 
-import com.addhen.fosdem.core.api.AppError
-import com.addhen.fosdem.core.api.network.ApiService
+import com.addhen.fosdem.data.core.api.network.ApiService
+import com.addhen.fosdem.data.core.api.network.AppError
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.createHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
