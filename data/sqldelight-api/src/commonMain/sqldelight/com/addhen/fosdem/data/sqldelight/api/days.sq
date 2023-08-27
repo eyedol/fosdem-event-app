@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `days`(
   `date` TEXT AS kotlinx.datetime.LocalDate
 );
 
--- Queries
+-- queries
 
 insert:
 INSERT OR IGNORE INTO days(

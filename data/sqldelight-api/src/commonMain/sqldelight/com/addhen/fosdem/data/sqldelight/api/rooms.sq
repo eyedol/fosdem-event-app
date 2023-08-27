@@ -2,3 +2,16 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `id` INTEGER PRIMARY KEY,
   `name` TEXT
 );
+
+-- queries
+insert:
+INSERT OR IGNORE INTO rooms(
+    `id`,
+    `name`
+) VALUES(
+  nullif(:id, 0),
+  :name
+);
+
+deleteAll:
+DELETE FROM rooms;

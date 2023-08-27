@@ -24,3 +24,6 @@ INSERT OR IGNORE INTO attachments (
     :type,
     :url
 );
+
+deleteAll:
+DELETE FROM attachments;

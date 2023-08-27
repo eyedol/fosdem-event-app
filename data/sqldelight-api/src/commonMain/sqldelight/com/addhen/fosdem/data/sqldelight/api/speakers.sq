@@ -16,3 +16,6 @@ CREATE TABLE IF NOT EXISTS `speakers` (
 -- indices
 CREATE UNIQUE INDEX `index_speaker_event_id` ON `speakers` (`event_id`);
 
+-- queries
+deleteAll:
+DELETE FROM speakers;

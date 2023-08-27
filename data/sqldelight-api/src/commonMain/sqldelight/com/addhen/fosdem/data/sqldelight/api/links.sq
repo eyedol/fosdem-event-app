@@ -12,3 +12,18 @@ CREATE TABLE IF NOT EXISTS `links` (
 CREATE UNIQUE INDEX IF NOT EXISTS `index_links_event_id` ON `links` (`event_id`);
 
 -- queries
+insert:
+INSERT OR IGNORE INTO links(
+    `id`,
+    `url`,
+    `text`,
+    `event_id`
+) VALUES(
+  nullif(:id, 0),
+  :url,
+  :text,
+  :event_id
+);
+
+deleteAll:
+DELETE FROM links;

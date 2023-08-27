@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.data.events.api.database
 
-import com.addhen.fosdem.data.sqldelight.api.Events
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -17,5 +16,5 @@ interface EventsDao {
 
   suspend fun deleteAll()
 
-  suspend fun insert(movies: List<Events>)
+  suspend fun insert(events: List<EventEntity>)
 }

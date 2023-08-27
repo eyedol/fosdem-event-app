@@ -60,8 +60,16 @@ class EventsDbDao(
     }
   }
 
-  override suspend fun insert(movies: List<Events>) {
-    TODO("Not yet implemented")
+  override suspend fun insert(events: List<EventEntity>) {
+    appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
+      events.forEach { eventEntity ->
+        appDatabase.daysQueries.insert(eventEntity.day.id, eventEntity.day.date)
+        appDatabase.s
+        appDatabase.eventsQueries.insert(
+
+        )
+      }
+    }
   }
 
   private val eventQueriesMapper = {
