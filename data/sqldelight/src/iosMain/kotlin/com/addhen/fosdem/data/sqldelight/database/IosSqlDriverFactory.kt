@@ -9,6 +9,6 @@ import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Constants
 import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
-class IosSqlDriverFactory: SqlDriverFactory{
+class IosSqlDriverFactory : SqlDriverFactory {
   override fun createDriver(): SqlDriver = NativeSqliteDriver(Database.Schema, Constants.DB_NAME)
 }

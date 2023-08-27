@@ -18,5 +18,5 @@ data class Event(
   val track: Track,
   val links: List<Link>,
   val speakers: List<Speaker>,
-  val attachment: List<Attachment>
+  val attachment: List<Attachment>,
 )

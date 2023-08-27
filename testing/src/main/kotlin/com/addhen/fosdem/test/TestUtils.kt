@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.test
 
 import com.addhen.fosdem.data.core.api.network.KtorHttpClientApi
@@ -15,7 +18,7 @@ import io.ktor.utils.io.ByteReadChannel
 fun createHttpClient(
   response: String,
   statusCode: HttpStatusCode = HttpStatusCode.OK,
-  contentType: String = "application/xml"
+  contentType: String = "application/xml",
 ): HttpClient {
   val mockEngine = MockEngine { _ ->
     respond(

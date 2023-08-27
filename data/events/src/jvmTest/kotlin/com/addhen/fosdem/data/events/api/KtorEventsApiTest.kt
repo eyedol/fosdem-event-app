@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.data.events.api
 
 import com.addhen.fosdem.data.core.api.network.ApiService
@@ -33,9 +36,10 @@ class KtorEventsApiTest {
   }
 
   @Test
-  fun `throws an exception as fetching  schedules as there is malformed xml`() = coroutineTestRule.runTest {
-    val httpClient = createHttpClient(
-      response = """
+  fun `throws an exception as fetching  schedules as there is malformed xml`() =
+    coroutineTestRule.runTest {
+      val httpClient = createHttpClient(
+        response = """
         <?xml version="1.0" encoding="UTF-8"?>
   <schedule>
     <conference>
@@ -44,15 +48,15 @@ class KtorEventsApiTest {
     <venue>ULB (Université Libre de Bruxelles)</venue>
     <city>Brussels</city>
     <start>2023-02-04</start>
-      """.trimIndent(),
-    )
-    val api = ApiService("https://mock.api.com", httpClient)
-    sut = KtorEventsApi(api, coroutineTestRule.testDispatcherProvider)
+        """.trimIndent(),
+      )
+      val api = ApiService("https://mock.api.com", httpClient)
+      sut = KtorEventsApi(api, coroutineTestRule.testDispatcherProvider)
 
-    assertThrows<AppError.UnknownException> {
-      sut.fetchEvents()
+      assertThrows<AppError.UnknownException> {
+        sut.fetchEvents()
+      }
     }
-  }
 
   private val scheduleXML = """
   <?xml version="1.0" encoding="UTF-8"?>

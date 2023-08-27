@@ -11,10 +11,9 @@ import kotlinx.coroutines.withContext
 
 class KtorEventsApi(
   private val api: ApiService,
-  private val dispatchers: AppCoroutineDispatchers
+  private val dispatchers: AppCoroutineDispatchers,
 ) : EventsApi {
   override suspend fun fetchEvents(): EventDto = withContext(dispatchers.io) {
     api.get<EventDto>()
   }
-
 }

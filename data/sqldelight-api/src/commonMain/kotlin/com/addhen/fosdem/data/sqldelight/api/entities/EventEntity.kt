@@ -18,5 +18,5 @@ data class EventEntity(
   val track: String,
   val links: List<LinkEntity>,
   val speakers: List<SpeakerEntity>,
-  val attachments: List<AttachmentEntity>
+  val attachments: List<AttachmentEntity>,
 )

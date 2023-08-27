@@ -11,7 +11,7 @@ import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Constants
 import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
-class AndroidSqlDriverFactory: SqlDriverFactory {
+class AndroidSqlDriverFactory : SqlDriverFactory {
   lateinit var appContext: Context
 
   override fun createDriver(): SqlDriver {
@@ -23,7 +23,7 @@ class AndroidSqlDriverFactory: SqlDriverFactory {
         override fun onOpen(db: SupportSQLiteDatabase) {
           db.execSQL("PRAGMA foreign_keys = ON;")
         }
-      }
+      },
     )
   }
 }
