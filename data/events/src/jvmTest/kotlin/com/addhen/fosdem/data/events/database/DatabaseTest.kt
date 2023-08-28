@@ -30,8 +30,7 @@ abstract class DatabaseTest {
       ),
       eventsAdapter = Events.Adapter(
         start_timeAdapter = LocalTimeColumnAdapter,
-        durationAdapter = LocalTimeColumnAdapter,
-        dateAdapter = LocalDateColumnAdapter,
+        durationAdapter = LocalTimeColumnAdapter
       ),
     )
   }

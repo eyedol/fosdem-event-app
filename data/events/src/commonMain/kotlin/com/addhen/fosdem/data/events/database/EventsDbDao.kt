@@ -63,10 +63,29 @@ class EventsDbDao(
     appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
       events.forEach { eventEntity ->
         appDatabase.daysQueries.insert(eventEntity.day.id, eventEntity.day.date)
+        // Add speakers as a separate insert query
         eventEntity.speakers.forEach {
           appDatabase.speakersQueries.insert(it.id, it.name)
           appDatabase.event_speakersQueries.insert(it.id, eventEntity.id)
         }
+        // Add links as a separate insert query
+        eventEntity.links.forEach { linkEntity ->
+          appDatabase.linksQueries.insert(linkEntity.id, linkEntity.url, linkEntity.text)
+        }
+
+        // Add room as a separate insert query
+        appDatabase.roomsQueries.insert(id = null, name = eventEntity.room.name)
+
+        // Add links as a separate insert query.
+        eventEntity.attachments.forEach { attachmentEntity ->
+          appDatabase.attachmentsQueries.insert(
+            id = null,
+            type = attachmentEntity.type,
+            url = attachmentEntity.url
+          )
+        }
+
+        // Add events as a separate insert query
         appDatabase.eventsQueries.insert(
           eventEntity.id,
           eventEntity.day.id,
@@ -116,7 +135,7 @@ class EventsDbDao(
       isBookmarked = isBookmarked,
       abstractText = abstract_text ?: "",
       description = description ?: "",
-      track = String(),
+      track = track ?: "",
       links = emptyList(),
       speakers = emptyList(),
       attachments = emptyList(),
