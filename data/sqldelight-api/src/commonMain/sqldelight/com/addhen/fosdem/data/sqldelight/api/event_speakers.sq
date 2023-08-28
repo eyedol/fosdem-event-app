@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `event_speakers`(
-  `event_id` INTEGER,
-  `speaker_id` INTEGER ,
+  `event_id` INTEGER NOT NULL,
+  `speaker_id` INTEGER NOT NULL,
   PRIMARY KEY (event_id, speaker_id),
   FOREIGN KEY (event_id) REFERENCES events(id) ON UPDATE NO ACTION ON DELETE CASCADE,
   FOREIGN KEY (speaker_id) REFERENCES speakers(id) ON UPDATE NO ACTION ON DELETE CASCADE

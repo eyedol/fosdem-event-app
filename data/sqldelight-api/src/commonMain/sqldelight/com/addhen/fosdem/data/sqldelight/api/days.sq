@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `days`(
-  `id` INTEGER PRIMARY KEY,
+  `id` INTEGER NOT NULL PRIMARY KEY,
   `date` TEXT AS kotlinx.datetime.LocalDate
 );
 

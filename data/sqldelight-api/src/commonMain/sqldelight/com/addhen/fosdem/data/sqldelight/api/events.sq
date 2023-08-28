@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `events`(
-  id INTEGER PRIMARY KEY,
+  id INTEGER NOT NULL PRIMARY KEY,
   `day_id` INTEGER,
   `room_id` INTEGER,
   `start_time` TEXT AS kotlinx.datetime.LocalTime,

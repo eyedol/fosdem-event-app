@@ -15,3 +15,6 @@ INSERT OR IGNORE INTO attachments (
 
 deleteAll:
 DELETE FROM attachments;
+
+findInsertRowid:
+SELECT last_insert_rowid();

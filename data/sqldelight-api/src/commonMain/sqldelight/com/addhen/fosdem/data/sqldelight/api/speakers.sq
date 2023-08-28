@@ -17,5 +17,3 @@ INSERT OR IGNORE INTO speakers (
   :name
 );
 
-findInsertRowid:
-SELECT last_insert_rowid();
