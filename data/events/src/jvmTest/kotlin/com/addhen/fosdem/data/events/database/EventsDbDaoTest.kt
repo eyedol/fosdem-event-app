@@ -31,7 +31,8 @@ class EventsDbDaoTest : DatabaseTest() {
   }
 
   @Test
-  fun `successfully gets events by day from the database`() = coroutineTestRule.runTest {
+  fun `successfully gets events by day one from the database`() = coroutineTestRule.runTest {
+    // Seed some data
     sut.insert(events)
 
     val actual = sut.getEvents(1).first()

@@ -74,11 +74,11 @@ val day1Event = EventEntity(
   isBookmarked = false,
   abstractText = "FOSDEM welcome and opening talk",
   day = day,
-  links = emptyList(),
+  links = listOf(link),
   speakers = listOf(speaker),
   room = room,
   track = "Keynotes",
-  attachments = emptyList()
+  attachments = listOf(attachment)
 )
 
 val day2Event = EventEntity(

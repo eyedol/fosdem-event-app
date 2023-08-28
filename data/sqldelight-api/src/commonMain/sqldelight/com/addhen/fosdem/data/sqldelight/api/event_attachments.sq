@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS `event_attachments`(
+  `event_id` INTEGER NOT NULL,
+  `attachment_id` INTEGER NOT NULL,
+  PRIMARY KEY (event_id, attachment_id),
+  FOREIGN KEY (event_id) REFERENCES events(id) ON UPDATE NO ACTION ON DELETE CASCADE,
+  FOREIGN KEY (attachment_id) REFERENCES attachments(id) ON UPDATE NO ACTION ON DELETE CASCADE
+);
+
+-- indices
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_event_attachments_attachment_id` ON `event_attachments` (`attachment_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_event_attachments_event_id` ON `event_attachments` (`event_id`);
+
+-- queries
+
+selectlinks:
+SELECT
+  s.*
+FROM events e INNER JOIN event_attachments es ON e.id = es.event_id
+INNER JOIN attachments s ON es.attachment_id = s.id
+WHERE e.day_id = ?;
+
+-- queries
+
+insert:
+INSERT OR IGNORE INTO event_attachments (
+  attachment_id,
+  event_id
+) VALUES (
+  :attachment_id,
+  :event_id
+);
+
+selectAttachments:
+SELECT
+  s.*
+FROM events e INNER JOIN event_attachments es ON e.id = es.event_id
+INNER JOIN attachments s ON es.attachment_id = s.id
+WHERE e.day_id = ?;
