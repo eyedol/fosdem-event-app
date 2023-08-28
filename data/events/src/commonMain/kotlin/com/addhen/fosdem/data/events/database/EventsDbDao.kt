@@ -20,9 +20,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
-import com.addhen.fosdem.model.api.Attachment
 import com.addhen.fosdem.model.api.Day
-import com.addhen.fosdem.model.api.Link
 import com.addhen.fosdem.model.api.Room
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -79,7 +77,7 @@ class EventsDbDao(
         }
 
         // Add room as a separate insert query
-        appDatabase.roomsQueries.insert(id = null, name = eventEntity.room.name)
+        appDatabase.roomsQueries.insert(id = eventEntity.room.id, name = eventEntity.room.name)
 
         // Add attachments as a separate insert query.
         eventEntity.attachments.forEach { attachmentEntity ->
@@ -130,7 +128,7 @@ class EventsDbDao(
       id = id,
       title = title ?: "",
       day = DayEntity(
-        id = id,
+        id = id_,
         date = date_ ?: LocalDate.now(),
       ),
       room = RoomEntity(

@@ -56,5 +56,4 @@ SELECT
 FROM events
 INNER JOIN days ON events.day_id = days.id
 INNER JOIN rooms ON events.room_id = rooms.id
-WHERE events.day_id = ?
-GROUP BY events.id;
+WHERE events.day_id = ?;

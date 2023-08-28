@@ -39,4 +39,14 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(listOf(events.first()), actual)
   }
+
+  @Test
+  fun `successfully gets events by day two from the database`() = coroutineTestRule.runTest {
+    // Seed some data
+    sut.insert(events)
+
+    val actual = sut.getEvents(2).first()
+
+    assertEquals(listOf(events.last()), actual)
+  }
 }

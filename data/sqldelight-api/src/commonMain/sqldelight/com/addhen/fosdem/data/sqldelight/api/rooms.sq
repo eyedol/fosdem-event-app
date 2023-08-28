@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS `rooms` (
   `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` TEXT,
-  UNIQUE (name)
+  `name` TEXT
+  --UNIQUE (name)
 );
 
 -- queries
 insert:
-INSERT OR IGNORE INTO rooms(
+INSERT OR REPLACE INTO rooms(
     `id`,
     `name`
 ) VALUES(?,?);
