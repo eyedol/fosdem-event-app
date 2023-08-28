@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` INTEGER PRIMARY KEY,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `name` TEXT
 );
 
@@ -8,10 +8,7 @@ insert:
 INSERT OR IGNORE INTO rooms(
     `id`,
     `name`
-) VALUES(
-  nullif(:id, 0),
-  :name
-);
+) VALUES(?,?);
 
 deleteAll:
 DELETE FROM rooms;
