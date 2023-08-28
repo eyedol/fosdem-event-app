@@ -19,3 +19,12 @@ SELECT
 FROM events e INNER JOIN event_speakers es ON e.id = es.event_id
 INNER JOIN speakers s ON es.speaker_id = s.id
 WHERE e.day_id = ?;
+
+insert:
+INSERT OR IGNORE INTO event_speakers (
+  speaker_id,
+  event_id
+) VALUES (
+  :speaker_id,
+  :event_id
+);

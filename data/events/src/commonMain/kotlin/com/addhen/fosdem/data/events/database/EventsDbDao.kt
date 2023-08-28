@@ -10,7 +10,6 @@ import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Attachments
 import com.addhen.fosdem.data.sqldelight.api.Days
-import com.addhen.fosdem.data.sqldelight.api.Events
 import com.addhen.fosdem.data.sqldelight.api.Links
 import com.addhen.fosdem.data.sqldelight.api.Rooms
 import com.addhen.fosdem.data.sqldelight.api.Speakers
@@ -64,9 +63,21 @@ class EventsDbDao(
     appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
       events.forEach { eventEntity ->
         appDatabase.daysQueries.insert(eventEntity.day.id, eventEntity.day.date)
-        appDatabase.s
+        eventEntity.speakers.forEach {
+          appDatabase.speakersQueries.insert(it.id, it.name)
+          appDatabase.event_speakersQueries.insert(it.id, eventEntity.id)
+        }
         appDatabase.eventsQueries.insert(
-
+          eventEntity.id,
+          eventEntity.day.id,
+          eventEntity.room.id,
+          eventEntity.start_time,
+          eventEntity.duration,
+          eventEntity.title,
+          eventEntity.isBookmarked,
+          eventEntity.abstractText,
+          eventEntity.description,
+          eventEntity.track
         )
       }
     }
@@ -78,7 +89,6 @@ class EventsDbDao(
       room_id: Long?,
       start_time: LocalTime?,
       duration: LocalTime?,
-      date: LocalDate?,
       isBookmarked: Boolean,
       title: String?,
       abstract_text: String?,

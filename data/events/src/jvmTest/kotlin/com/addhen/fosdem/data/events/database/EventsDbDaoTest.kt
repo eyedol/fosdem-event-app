@@ -30,5 +30,8 @@ class EventsDbDaoTest : DatabaseTest() {
 
   @Test
   fun `successfully gets events by day from the database`() = coroutineTestRule.runTest {
+    //sut.insert()
   }
+
+
 }
