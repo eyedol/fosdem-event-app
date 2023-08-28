@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `events`(
   `room_id` INTEGER,
   `start_time` TEXT AS kotlinx.datetime.LocalTime,
   `duration` TEXT AS kotlinx.datetime.LocalTime,
-  `isBookmarked` INTEGER AS kotlin.Boolean NOT NULL,
+  `isBookmarked` INTEGER AS kotlin.Boolean NOT NULL DEFAULT 0,
   `title` TEXT,
   `abstract_text` TEXT,
   `description` TEXT,
