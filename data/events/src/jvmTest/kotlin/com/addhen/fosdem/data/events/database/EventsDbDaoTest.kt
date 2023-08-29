@@ -7,7 +7,6 @@ import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
