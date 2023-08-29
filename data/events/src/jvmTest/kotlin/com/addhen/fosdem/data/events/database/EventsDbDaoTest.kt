@@ -51,9 +51,6 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(2, actual.size)
 
-    println(actual)
-    println("expected")
-    println(events)
     assertEquals(listOf(day2Event, day3Event), actual)
   }
 }
