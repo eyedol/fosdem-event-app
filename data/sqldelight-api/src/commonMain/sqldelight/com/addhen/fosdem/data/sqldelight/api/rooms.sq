@@ -1,4 +1,18 @@
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` INTEGER PRIMARY KEY,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `name` TEXT
+  --UNIQUE (name)
 );
+
+-- queries
+insert:
+INSERT OR IGNORE INTO rooms(
+    `id`,
+    `name`
+) VALUES(?,?);
+
+deleteAll:
+DELETE FROM rooms;
+
+findInsertRowid:
+SELECT last_insert_rowid();

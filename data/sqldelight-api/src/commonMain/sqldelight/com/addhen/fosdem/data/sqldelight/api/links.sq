@@ -1,14 +1,23 @@
 CREATE TABLE IF NOT EXISTS `links` (
-  `id` INTEGER NOT NULL,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `url` TEXT NOT NULL,
-  `text` TEXT NOT NULL,
-  `event_id` INTEGER NOT NULL,
-  PRIMARY KEY(`id`),
-  FOREIGN KEY(`event_id`) REFERENCES `events`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+  `text` TEXT NOT NULL
 );
 
--- indices
-
-CREATE UNIQUE INDEX IF NOT EXISTS `index_links_event_id` ON `links` (`event_id`);
-
 -- queries
+insert:
+INSERT OR IGNORE INTO links(
+    `id`,
+    `url`,
+    `text`
+) VALUES(
+  ?,
+  ?,
+  ?
+);
+
+deleteAll:
+DELETE FROM links;
+
+findInsertRowid:
+SELECT last_insert_rowid();

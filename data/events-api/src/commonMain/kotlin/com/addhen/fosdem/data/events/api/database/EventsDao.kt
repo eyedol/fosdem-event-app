@@ -3,19 +3,19 @@
 
 package com.addhen.fosdem.data.events.api.database
 
-import com.addhen.fosdem.data.sqldelight.api.Events
+import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 
 interface EventsDao {
 
-  fun getEvent(localDate: LocalDate): Flow<List<Events>>
+  fun getEvents(date: LocalDate): Flow<List<EventEntity>>
 
-  fun getEvent(eventId: Long): Flow<Events>
+  fun getEvent(eventId: Long): Flow<EventEntity>
 
   fun toggleBookmark(eventId: Long)
 
   suspend fun deleteAll()
 
-  suspend fun insert(movies: List<Events>)
+  suspend fun insert(events: List<EventEntity>)
 }

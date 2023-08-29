@@ -5,7 +5,6 @@ package com.addhen.fosdem.data.sqldelight.api.entities
 
 data class AttachmentEntity(
   val id: Long,
-  val event_id: Long,
   val type: String,
   val url: String,
 )

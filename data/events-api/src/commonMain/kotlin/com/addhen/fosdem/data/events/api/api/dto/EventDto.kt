@@ -36,21 +36,21 @@ data class EventDto(
       @XmlSerialName("event")
       data class Event(
         val id: Long,
-        @XmlElement
+        @XmlElement(true)
         @Serializable(LocalTimeSerializer::class)
         val start: LocalTime,
-        @XmlElement
+        @XmlElement(true)
         @Serializable(LocalTimeSerializer::class)
         val duration: LocalTime,
-        @XmlElement
+        @XmlElement(true)
         val title: String,
-        @XmlElement
+        @XmlElement(true)
         val description: String,
-        @XmlElement
+        @XmlElement(true)
         val abstract: String,
-        @XmlElement
+        @XmlElement(true)
         val track: String,
-        @XmlElement
+        @XmlElement(true)
         val type: String,
         @XmlChildrenName("link")
         val links: List<Link>,
@@ -63,7 +63,7 @@ data class EventDto(
         @XmlSerialName("link")
         data class Link(
           val href: String,
-          @XmlValue
+          @XmlValue(true)
           val text: String,
         )
 
@@ -72,12 +72,12 @@ data class EventDto(
         data class Attachment(
           val type: String,
           val href: String,
-          @XmlValue
+          @XmlValue(true)
           val name: String?,
         )
 
         @Serializable
-        data class Speaker(val id: Long, @XmlValue val name: String)
+        data class Speaker(val id: Long, @XmlValue(true) val name: String)
       }
     }
   }

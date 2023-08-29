@@ -4,7 +4,7 @@ plugins {
   alias(libs.plugins.sqldelight)
 }
 
-android.namespace = "com.addhen.fosdem.data.events.api"
+android.namespace = "com.addhen.fosdem.data.events"
 
 kotlin {
   sourceSets {
@@ -20,6 +20,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(projects.coreApi)
+        implementation(projects.data.coreApi)
         implementation(projects.data.eventsApi)
         implementation(projects.data.modelApi)
         implementation(projects.data.sqldelightApi)
@@ -28,5 +29,22 @@ kotlin {
         implementation(libs.sqldelight.primitive)
       }
     }
+
+    val commonTest by getting {
+    }
+
+    // Because Java has great tools for testing. The idea is to test common code on
+    // the JVM and if something requires platform specific, test is on the specific platform.
+    jvmTest {
+      dependencies {
+        implementation(projects.testing)
+        implementation(libs.sqldelight.sqlite)
+      }
+    }
   }
+}
+
+// Needed for tests to run otherwise it errors
+tasks.withType<Test> {
+  useJUnitPlatform()
 }

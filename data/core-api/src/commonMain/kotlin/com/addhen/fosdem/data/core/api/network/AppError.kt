@@ -1,7 +1,7 @@
 // Copyright 2022, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.core.api
+package com.addhen.fosdem.data.core.api.network
 
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.ResponseException
@@ -18,8 +18,7 @@ fun Throwable.toAppError(): AppError {
       return AppError.ApiException.NetworkException(this)
 
     is TimeoutCancellationException, is SocketTimeoutException -> {
-      AppError.ApiException
-        .TimeoutException(this)
+      AppError.ApiException.TimeoutException(this)
     }
 
     else -> AppError.UnknownException(this)

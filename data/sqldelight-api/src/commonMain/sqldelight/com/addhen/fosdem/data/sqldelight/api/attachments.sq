@@ -1,26 +1,20 @@
 CREATE TABLE IF NOT EXISTS `attachments`(
-  `id` INTEGER PRIMARY KEY,
-  `event_id` INTEGER,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `type` TEXT,
-  `url` TEXT,
-  FOREIGN KEY (event_id) REFERENCES events(id) ON UPDATE NO ACTION ON DELETE CASCADE
+  `url` TEXT
 );
-
--- indices
-
-CREATE UNIQUE INDEX IF NOT EXISTS `index_attachments_event_id` ON `attachments` (`event_id`);
 
 -- queries
 
 insert:
 INSERT OR IGNORE INTO attachments (
     `id`,
-    `event_id`,
     `type`,
     `url`
-) VALUES (
-    nullif(:id, 0),
-    :event_id,
-    :type,
-    :url
-);
+) VALUES (?, ?, ?);
+
+deleteAll:
+DELETE FROM attachments;
+
+findInsertRowid:
+SELECT last_insert_rowid();

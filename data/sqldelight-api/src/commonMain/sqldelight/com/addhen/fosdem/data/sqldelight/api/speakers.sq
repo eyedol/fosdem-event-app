@@ -1,18 +1,19 @@
---CREATE TABLE IF NOT EXISTS `speakers` (
---  `id` INTEGER PRIMARY KEY,
---  `name` TEXT
---);
-
-
 CREATE TABLE IF NOT EXISTS `speakers` (
   `id` INTEGER NOT NULL,
   `name` TEXT NOT NULL,
-  `event_id` INTEGER NOT NULL,
-  PRIMARY KEY(`id`),
-  FOREIGN KEY(`event_id`) REFERENCES `events`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+  PRIMARY KEY(`id`)
 );
 
+-- queries
+deleteAll:
+DELETE FROM speakers;
 
--- indices
-CREATE UNIQUE INDEX `index_speaker_event_id` ON `speakers` (`event_id`);
+insert:
+INSERT OR IGNORE INTO speakers (
+  `id`,
+  `name`
+) VALUES(
+  nullif(:id, 0),
+  :name
+);
 
