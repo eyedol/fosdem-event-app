@@ -10,15 +10,14 @@ CREATE TABLE IF NOT EXISTS `events`(
   `title` TEXT NOT NULL,
   `abstract_text` TEXT NOT NULL,
   `description` TEXT,
-  `track` TEXT
-  --FOREIGN KEY (day_id) REFERENCES days(id) ON UPDATE NO ACTION ON DELETE CASCADE,
-  --FOREIGN KEY (room_id) REFERENCES rooms(id) ON UPDATE NO ACTION ON DELETE CASCADE
+  `track` TEXT,
+  FOREIGN KEY (room_id) REFERENCES rooms(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 -- indices
 
 --CREATE UNIQUE INDEX IF NOT EXISTS `index_events_day_id` ON `events` (`day_id`);
---CREATE UNIQUE INDEX IF NOT EXISTS `index_events_room_id` ON `events` (`room_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_events_room_id` ON `events` (`room_id`);
 
 -- queries
 
