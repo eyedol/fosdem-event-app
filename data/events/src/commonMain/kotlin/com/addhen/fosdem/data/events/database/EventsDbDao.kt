@@ -5,6 +5,7 @@ package com.addhen.fosdem.data.events.database
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.Database
@@ -46,8 +47,11 @@ class EventsDbDao(
       .flowOn(backgroundDispatcher.io)
   }
 
-  override fun getEvent(eventId: Long): Flow<EventEntity> {
-    TODO("Not yet implemented")
+  override fun getEvent(eventId: Long): Flow<EventEntity?> {
+    return appDatabase.eventsQueries.selectById(eventId, eventQueriesMapper)
+      .asFlow()
+      .mapToOne(backgroundDispatcher.io)
+      .map { it.withRelatedData() }
   }
 
   override fun toggleBookmark(eventId: Long) {
@@ -175,28 +179,30 @@ class EventsDbDao(
     url = url ?: "",
   )
 
+  private fun EventEntity.withRelatedData(): EventEntity {
+    val speakers = appDatabase.event_speakersQueries
+      .selectSpeakers(date, id)
+      .executeAsList()
+      .map { it.toSpeaker() }
+
+    val links = appDatabase.event_linksQueries
+      .selectLinks(date, id)
+      .executeAsList()
+      .map { it.toLink() }
+
+    val attachments = appDatabase.event_attachmentsQueries
+      .selectAttachments(date, id)
+      .executeAsList()
+      .map { it.toAttachment() }
+
+    return copy(
+      speakers = speakers,
+      links = links,
+      attachments = attachments,
+    )
+  }
+
   private fun List<EventEntity>.updateWithRelatedData(): List<EventEntity> {
-    return map { event ->
-      val speakers = appDatabase.event_speakersQueries
-        .selectSpeakers(event.date, event.id)
-        .executeAsList()
-        .map { it.toSpeaker() }
-
-      val links = appDatabase.event_linksQueries
-        .selectLinks(event.date, event.id)
-        .executeAsList()
-        .map { it.toLink() }
-
-      val attachments = appDatabase.event_attachmentsQueries
-        .selectAttachments(event.date, event.id)
-        .executeAsList()
-        .map { it.toAttachment() }
-
-      event.copy(
-        speakers = speakers,
-        links = links,
-        attachments = attachments,
-      )
-    }
+    return map { it.withRelatedData() }
   }
 }
