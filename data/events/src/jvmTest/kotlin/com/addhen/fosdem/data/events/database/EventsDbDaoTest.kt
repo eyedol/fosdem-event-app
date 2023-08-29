@@ -7,6 +7,7 @@ import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -35,8 +36,9 @@ class EventsDbDaoTest : DatabaseTest() {
     // Seed some data
     sut.insert(events)
 
-    val actual = sut.getEvents(1).first()
+    val actual = sut.getEvents(day.date).first()
 
+    assertEquals(1, actual.size)
     assertEquals(listOf(events.first()), actual)
   }
 
@@ -45,8 +47,13 @@ class EventsDbDaoTest : DatabaseTest() {
     // Seed some data
     sut.insert(events)
 
-    val actual = sut.getEvents(2).first()
+    val actual = sut.getEvents(day2.date).first()
 
-    assertEquals(listOf(events.last()), actual)
+    assertEquals(2, actual.size)
+
+    println(actual)
+    println("expected")
+    println(events)
+    assertEquals(listOf(day2Event, day3Event), actual)
   }
 }

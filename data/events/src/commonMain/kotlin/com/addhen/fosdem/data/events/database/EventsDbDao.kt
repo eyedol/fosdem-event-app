@@ -37,9 +37,9 @@ class EventsDbDao(
   private val appDatabase: Database,
   private val backgroundDispatcher: AppCoroutineDispatchers,
 ) : EventsDao {
-  override fun getEvents(dayId: Long): Flow<List<EventEntity>> {
+  override fun getEvents(date: LocalDate): Flow<List<EventEntity>> {
     return appDatabase.eventsQueries
-      .selectAll(dayId, eventQueriesMapper)
+      .selectAll(date, eventQueriesMapper)
       .asFlow()
       .mapToList(backgroundDispatcher.io)
       .map { it.updateWithRelatedData() }
@@ -77,7 +77,8 @@ class EventsDbDao(
         }
 
         // Add room as a separate insert query
-        appDatabase.roomsQueries.insert(id = eventEntity.room.id, name = eventEntity.room.name)
+        appDatabase.roomsQueries.insert(id = null, name = eventEntity.room.name)
+        val lastRoomRowId: Long = appDatabase.roomsQueries.findInsertRowid().executeAsOne()
 
         // Add attachments as a separate insert query.
         eventEntity.attachments.forEach { attachmentEntity ->
@@ -93,8 +94,8 @@ class EventsDbDao(
         // Add events as a separate insert query
         appDatabase.eventsQueries.insert(
           eventEntity.id,
-          eventEntity.day.id,
-          eventEntity.room.id,
+          eventEntity.date,
+          lastRoomRowId,
           eventEntity.start_time,
           eventEntity.duration,
           eventEntity.title,
@@ -109,36 +110,33 @@ class EventsDbDao(
 
   private val eventQueriesMapper = {
       id: Long,
-      _: Long?,
-      _: Long?,
-      start_time: LocalTime?,
-      duration: LocalTime?,
+      room_id: Long?,
+      date: LocalDate,
+      start_time: LocalTime,
+      duration: LocalTime,
       isBookmarked: Boolean,
-      title: String?,
-      abstract_text: String?,
+      title: String,
+      abstract_text: String,
       description: String?,
       track: String?,
       id_: Long,
-      date_: LocalDate?,
+      date_: LocalDate,
       id__: Long,
       name: String?,
-
     ->
     EventEntity(
       id = id,
-      title = title ?: "",
-      day = DayEntity(
-        id = id_,
-        date = date_ ?: LocalDate.now(),
-      ),
+      title = title,
+      date = date,
       room = RoomEntity(
         id = id__,
         name = name ?: "",
       ),
-      start_time = start_time ?: LocalTime.now(),
-      duration = duration ?: LocalTime.now(),
+      day = DayEntity(id_, date_),
+      start_time = start_time,
+      duration = duration,
       isBookmarked = isBookmarked,
-      abstractText = abstract_text ?: "",
+      abstractText = abstract_text,
       description = description ?: "",
       track = track ?: "",
       links = emptyList(),
@@ -180,17 +178,17 @@ class EventsDbDao(
   private fun List<EventEntity>.updateWithRelatedData(): List<EventEntity> {
     return map { event ->
       val speakers = appDatabase.event_speakersQueries
-        .selectSpeakers(event.day.id)
+        .selectSpeakers(event.date, event.id)
         .executeAsList()
         .map { it.toSpeaker() }
 
       val links = appDatabase.event_linksQueries
-        .selectLinks(event.day.id)
+        .selectLinks(event.date, event.id)
         .executeAsList()
         .map { it.toLink() }
 
       val attachments = appDatabase.event_attachmentsQueries
-        .selectAttachments(event.day.id)
+        .selectAttachments(event.date, event.id)
         .executeAsList()
         .map { it.toAttachment() }
 

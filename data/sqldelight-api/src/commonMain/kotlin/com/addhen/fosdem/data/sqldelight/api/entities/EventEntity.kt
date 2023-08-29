@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.data.sqldelight.api.entities
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 data class EventEntity(
@@ -14,6 +15,7 @@ data class EventEntity(
   val isBookmarked: Boolean,
   val abstractText: String,
   val day: DayEntity,
+  val date: LocalDate,
   val room: RoomEntity,
   val track: String,
   val links: List<LinkEntity>,

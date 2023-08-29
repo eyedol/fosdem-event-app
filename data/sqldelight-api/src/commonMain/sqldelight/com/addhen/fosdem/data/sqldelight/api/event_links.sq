@@ -24,7 +24,7 @@ INSERT OR IGNORE INTO event_links (
 
 selectLinks:
 SELECT
-  s.*
-FROM events e INNER JOIN event_links es ON e.id = es.event_id
-INNER JOIN links s ON es.link_id = s.id
-WHERE e.day_id = ?;
+  l.*
+FROM events e INNER JOIN event_links el ON e.id = el.event_id
+INNER JOIN links l ON el.link_id = l.id
+WHERE e.date = ? AND e.id = ?;

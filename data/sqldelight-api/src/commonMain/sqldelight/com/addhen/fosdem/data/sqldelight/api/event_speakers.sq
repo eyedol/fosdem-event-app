@@ -18,7 +18,7 @@ SELECT
   s.*
 FROM events e INNER JOIN event_speakers es ON e.id = es.event_id
 INNER JOIN speakers s ON es.speaker_id = s.id
-WHERE e.day_id = ?;
+WHERE e.date = ? AND e.id = ?;
 
 insert:
 INSERT OR IGNORE INTO event_speakers (

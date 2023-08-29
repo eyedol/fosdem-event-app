@@ -11,8 +11,8 @@ import kotlinx.datetime.LocalTime
 
 val link = LinkEntity(
   id = 1,
-  url = "https://video.fosdem.org/2023/D.matrix/cascaded_selective_forwarding_units.webm",
-  text = "Video recording (WebM/VP9)"
+  url = "https://link1.com",
+  text = "Video recording1"
 )
 
 val speaker = SpeakerEntity(
@@ -23,13 +23,18 @@ val speaker = SpeakerEntity(
 val attachment = AttachmentEntity(
   id = 1,
   type = "slides",
-  url = "https://fosdem.org/2023/schedule/event/sds_vhost_user_blk/attachments/slides/5444/export/events/attachments/sds_vhost_user_blk/slides/5444/stefanha_fosdem_2023.pdf"
+  url = "https://attachment1.com"
+)
+
+val room = RoomEntity(
+  id = 1,
+  name = "Janson"
 )
 
 val link2 = LinkEntity(
   id = 2,
-  url = "https://video.fosdem.org/2023/Janson/celebrating_25_years_of_open_source.webm",
-  text = "Video recording (WebM/VP9, 101M)"
+  url = "https://link2.com",
+  text = "Video recording1"
 )
 
 val speaker2 = SpeakerEntity(
@@ -40,7 +45,35 @@ val speaker2 = SpeakerEntity(
 val attachment2 = AttachmentEntity(
   id = 2,
   type = "slides",
-  url = "https://fosdem.org/2023/schedule/event/sds_vhost_user_blk/attachments/slides/5444/export/events/attachments/sds_vhost_user_blk/slides/5444/stefanha_fosdem_2023.pdf"
+  url = "https://attachment2.com"
+)
+
+val room2 = RoomEntity(
+  id = 2,
+  name = "Janson"
+)
+
+
+val link3 = LinkEntity(
+  id = 3,
+  url = "https://link3.come",
+  text = "FOSSi Foundation website"
+)
+
+val room3 = RoomEntity(
+  id = 3,
+  name = "K.1.105 (La Fontaine)"
+)
+
+val speaker3 = SpeakerEntity(
+  id = 3,
+  name = "Philipp Wagner"
+)
+
+val attachment3 = AttachmentEntity(
+  id = 3,
+  type = "presentation slides",
+  url = "https://attachment3.com"
 )
 
 val day = DayEntity(
@@ -48,19 +81,9 @@ val day = DayEntity(
   date = LocalDate.parse("2023-02-04")
 )
 
-val room = RoomEntity(
-  id = 1,
-  name = "Janson"
-)
-
 val day2 = DayEntity(
   id = 2,
   date = LocalDate.parse("2023-02-05")
-)
-
-val room2 = RoomEntity(
-  id = 2,
-  name = "Janson"
 )
 
 val day1Event = EventEntity(
@@ -72,6 +95,7 @@ val day1Event = EventEntity(
   isBookmarked = false,
   abstractText = "FOSDEM welcome and opening talk",
   day = day,
+  date = day.date,
   links = listOf(link),
   speakers = listOf(speaker),
   room = room,
@@ -88,6 +112,7 @@ val day2Event = EventEntity(
   isBookmarked = false,
   abstractText = "FOSSbot is a free and open source and open design.",
   day = day2,
+  date = day2.date,
   links = listOf(link2),
   speakers = listOf(speaker2),
   room = room2,
@@ -95,5 +120,22 @@ val day2Event = EventEntity(
   attachments = listOf(attachment2)
 )
 
-val events = listOf(day1Event, day2Event)
+val day3Event = EventEntity(
+  id = 3,
+  start_time = LocalTime.parse("11:00"),
+  duration = LocalTime.parse("00:50"),
+  title = "Can we do an open source chip design in 45 minutes?",
+  description = "In the last decades, producing a do",
+  isBookmarked = false,
+  abstractText = "the art and craft of making computer chips with.",
+  day = day2,
+  date = day2.date,
+  links = listOf(link3),
+  speakers = listOf(speaker3),
+  room = room3,
+  track = "Main Track - K Building",
+  attachments = listOf(attachment3)
+)
+
+val events = listOf(day1Event, day2Event, day3Event)
 
