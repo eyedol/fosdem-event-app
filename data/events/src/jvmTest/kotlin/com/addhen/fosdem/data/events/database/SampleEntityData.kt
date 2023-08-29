@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.data.events.database
 
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
@@ -12,78 +15,77 @@ import kotlinx.datetime.LocalTime
 val link = LinkEntity(
   id = 1,
   url = "https://link1.com",
-  text = "Video recording1"
+  text = "Video recording1",
 )
 
 val speaker = SpeakerEntity(
   id = 1,
-  name = "FOSDEM Staff"
+  name = "FOSDEM Staff",
 )
 
 val attachment = AttachmentEntity(
   id = 1,
   type = "slides",
-  url = "https://attachment1.com"
+  url = "https://attachment1.com",
 )
 
 val room = RoomEntity(
   id = 1,
-  name = "Janson"
+  name = "Janson",
 )
 
 val link2 = LinkEntity(
   id = 2,
   url = "https://link2.com",
-  text = "Video recording1"
+  text = "Video recording1",
 )
 
 val speaker2 = SpeakerEntity(
   id = 2,
-  name = "Nick Vidal"
+  name = "Nick Vidal",
 )
 
 val attachment2 = AttachmentEntity(
   id = 2,
   type = "slides",
-  url = "https://attachment2.com"
+  url = "https://attachment2.com",
 )
 
 val room2 = RoomEntity(
   id = 2,
-  name = "Janson"
+  name = "Janson",
 )
-
 
 val link3 = LinkEntity(
   id = 3,
   url = "https://link3.come",
-  text = "FOSSi Foundation website"
+  text = "FOSSi Foundation website",
 )
 
 val room3 = RoomEntity(
   id = 3,
-  name = "K.1.105 (La Fontaine)"
+  name = "K.1.105 (La Fontaine)",
 )
 
 val speaker3 = SpeakerEntity(
   id = 3,
-  name = "Philipp Wagner"
+  name = "Philipp Wagner",
 )
 
 val attachment3 = AttachmentEntity(
   id = 3,
   type = "presentation slides",
-  url = "https://attachment3.com"
+  url = "https://attachment3.com",
 )
 
 val day = DayEntity(
   id = 1,
-  date = LocalDate.parse("2023-02-04")
+  date = LocalDate.parse("2023-02-04"),
 )
 
 val day2 = DayEntity(
   id = 2,
-  date = LocalDate.parse("2023-02-05")
+  date = LocalDate.parse("2023-02-05"),
 )
 
 val day1Event = EventEntity(
@@ -100,7 +102,7 @@ val day1Event = EventEntity(
   speakers = listOf(speaker),
   room = room,
   track = "Keynotes",
-  attachments = listOf(attachment)
+  attachments = listOf(attachment),
 )
 
 val day2Event = EventEntity(
@@ -117,7 +119,7 @@ val day2Event = EventEntity(
   speakers = listOf(speaker2),
   room = room2,
   track = "Keynotes",
-  attachments = listOf(attachment2)
+  attachments = listOf(attachment2),
 )
 
 val day3Event = EventEntity(
@@ -134,8 +136,7 @@ val day3Event = EventEntity(
   speakers = listOf(speaker3),
   room = room3,
   track = "Main Track - K Building",
-  attachments = listOf(attachment3)
+  attachments = listOf(attachment3),
 )
 
 val events = listOf(day1Event, day2Event, day3Event)
-

@@ -85,7 +85,7 @@ class EventsDbDao(
           appDatabase.attachmentsQueries.insert(
             id = null,
             type = attachmentEntity.type,
-            url = attachmentEntity.url
+            url = attachmentEntity.url,
           )
           val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
           appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
@@ -102,7 +102,7 @@ class EventsDbDao(
           eventEntity.isBookmarked,
           eventEntity.abstractText,
           eventEntity.description,
-          eventEntity.track
+          eventEntity.track,
         )
       }
     }
@@ -195,7 +195,7 @@ class EventsDbDao(
       event.copy(
         speakers = speakers,
         links = links,
-        attachments = attachments
+        attachments = attachments,
       )
     }
   }

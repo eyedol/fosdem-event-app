@@ -11,10 +11,11 @@ import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
 object TestSqlDriverFactory : SqlDriverFactory {
   override fun createDriver(): SqlDriver {
-    return LogSqliteDriver(sqlDriver =
-    JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).also { driver ->
-      Database.Schema.create(driver)
-    }
+    return LogSqliteDriver(
+      sqlDriver =
+      JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).also { driver ->
+        Database.Schema.create(driver)
+      },
     ) { log ->
       println(log)
     }

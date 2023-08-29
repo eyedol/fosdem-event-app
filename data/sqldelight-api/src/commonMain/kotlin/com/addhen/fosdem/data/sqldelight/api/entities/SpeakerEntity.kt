@@ -5,5 +5,5 @@ package com.addhen.fosdem.data.sqldelight.api.entities
 
 data class SpeakerEntity(
   val id: Long,
-  val name: String
+  val name: String,
 )
