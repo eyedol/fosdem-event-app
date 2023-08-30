@@ -26,6 +26,7 @@ import com.addhen.fosdem.model.api.Room
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -47,15 +48,15 @@ class EventsDbDao(
       .flowOn(backgroundDispatcher.io)
   }
 
-  override fun getEvent(eventId: Long): Flow<EventEntity?> {
+  override fun getEvent(eventId: Long): Flow<EventEntity> {
     return appDatabase.eventsQueries.selectById(eventId, eventQueriesMapper)
       .asFlow()
       .mapToOne(backgroundDispatcher.io)
       .map { it.withRelatedData() }
   }
 
-  override fun toggleBookmark(eventId: Long) {
-    TODO("Not yet implemented")
+  override suspend fun toggleBookmark(eventId: Long) = withContext(backgroundDispatcher.io) {
+    appDatabase.eventsQueries.toggleBookmark(eventId)
   }
 
   override suspend fun deleteAll() {

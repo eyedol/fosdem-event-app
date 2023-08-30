@@ -68,3 +68,11 @@ FROM events
 INNER JOIN days ON events.date = days.date
 INNER JOIN rooms ON events.room_id = rooms.id
 WHERE events.id = ?;
+
+toggleBookmark:
+UPDATE events
+SET isBookmarked = CASE
+    WHEN isBookmarked = 0 THEN 1
+    ELSE 0
+END
+WHERE id = ?;

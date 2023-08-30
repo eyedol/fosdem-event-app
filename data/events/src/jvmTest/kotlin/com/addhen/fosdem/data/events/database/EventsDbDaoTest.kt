@@ -62,4 +62,27 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(events.last(), actual)
   }
+
+  @Test
+  fun `successfully toggles event isBookmarked field to true`() = coroutineTestRule.runTest {
+    // Seed some data
+    sut.insert(events)
+
+    sut.toggleBookmark(3)
+    val actual = sut.getEvent(3).first()
+
+    assertEquals(true, actual.isBookmarked)
+  }
+
+  @Test
+  fun `successfully toggles event isBookmarked field to false`() = coroutineTestRule.runTest {
+    // Seed some data
+    sut.insert(events)
+
+    sut.toggleBookmark(3) // Initial toggle state is false, this call toggles it to true
+    sut.toggleBookmark(3) // Now toggle it back to false
+    val actual = sut.getEvent(3).first()
+
+    assertEquals(false, actual.isBookmarked)
+  }
 }
