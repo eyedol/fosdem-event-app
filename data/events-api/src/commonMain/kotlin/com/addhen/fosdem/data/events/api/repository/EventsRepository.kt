@@ -13,4 +13,8 @@ interface EventsRepository {
   suspend fun getEvent(id: Long): Event
 
   suspend fun fetchAndSaveEvent()
+
+  suspend fun deleteAll()
+
+  suspend fun refresh()
 }

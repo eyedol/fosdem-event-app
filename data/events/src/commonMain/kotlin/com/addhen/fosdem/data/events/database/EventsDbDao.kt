@@ -12,7 +12,6 @@ import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Attachments
 import com.addhen.fosdem.data.sqldelight.api.Days
 import com.addhen.fosdem.data.sqldelight.api.Links
-import com.addhen.fosdem.data.sqldelight.api.Rooms
 import com.addhen.fosdem.data.sqldelight.api.Speakers
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
@@ -21,21 +20,14 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
-import com.addhen.fosdem.model.api.Day
-import com.addhen.fosdem.model.api.Room
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 class EventsDbDao(
-  private val clock: Clock,
-  private val timeZone: TimeZone,
   private val appDatabase: Database,
   private val backgroundDispatcher: AppCoroutineDispatchers,
 ) : EventsDao {
@@ -113,6 +105,18 @@ class EventsDbDao(
     }
   }
 
+  override suspend fun addDays(days: List<DayEntity>) {
+    appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
+      days.forEach {
+        appDatabase.daysQueries.insert(it.id, it.date)
+      }
+    }
+  }
+
+  override suspend fun getDays(): List<DayEntity> = withContext(backgroundDispatcher.io) {
+    appDatabase.daysQueries.selectAll().executeAsList().toDays()
+  }
+
   private val eventQueriesMapper = {
       id: Long,
       room_id: Long?,
@@ -150,19 +154,10 @@ class EventsDbDao(
     )
   }
 
-  fun LocalDate.Companion.now(): LocalDate = clock.now().toLocalDateTime(timeZone).date
+  private fun List<Days>.toDays() = map { it.toDay() }
 
-  fun LocalTime.Companion.now(): LocalTime = clock.now().toLocalDateTime(timeZone).time
+  private fun Days.toDay() = DayEntity(id = id, date = date)
 
-  private fun Days.toDay() = Day(id, date ?: LocalDate.now())
-
-  private fun Rooms.toRoom() = Room(id = id, name = name ?: "")
-
-  private fun List<Links>.toLinks() = map { it.toLink() }
-
-  private fun List<Speakers>.toSpeakers() = map { it.toSpeaker() }
-
-  private fun List<Attachments>.toAttachments() = map { it.toAttachment() }
   private fun Links.toLink() = LinkEntity(
     id = id,
     url = url,

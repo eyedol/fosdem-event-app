@@ -4,10 +4,10 @@
 package com.addhen.fosdem.data.events.database
 
 import com.addhen.fosdem.data.events.api.database.EventsDao
+import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
+import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -22,12 +22,7 @@ class EventsDbDaoTest : DatabaseTest() {
 
   @BeforeEach
   fun set() {
-    sut = EventsDbDao(
-      clock = Clock.System,
-      TimeZone.UTC,
-      database,
-      coroutineTestRule.testDispatcherProvider,
-    )
+    sut = EventsDbDao(database, coroutineTestRule.testDispatcherProvider)
   }
 
   @Test
@@ -96,5 +91,17 @@ class EventsDbDaoTest : DatabaseTest() {
     val actual = sut.getEvents(day.date).first()
 
     assertEquals(true, actual.isEmpty())
+  }
+
+  @Test
+  fun `successfully adds days and gets all the added days`() = coroutineTestRule.runTest {
+    val date1 = "2023-02-16"
+    val date2 = "2023-02-17"
+    val days = listOf(DayEntity(1, LocalDate.parse(date1)), DayEntity(2, LocalDate.parse(date2)))
+
+    sut.addDays(days)
+    val actual = sut.getDays()
+
+    assertEquals(days, actual)
   }
 }

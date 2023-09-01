@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.data.events.api.database
 
+import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
@@ -18,4 +19,8 @@ interface EventsDao {
   suspend fun deleteAll()
 
   suspend fun insert(events: List<EventEntity>)
+
+  suspend fun addDays(days: List<DayEntity>)
+
+  suspend fun getDays(): List<DayEntity>
 }
