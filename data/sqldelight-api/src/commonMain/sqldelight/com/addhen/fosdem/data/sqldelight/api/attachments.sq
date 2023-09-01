@@ -13,8 +13,5 @@ INSERT OR IGNORE INTO attachments (
     `url`
 ) VALUES (?, ?, ?);
 
-deleteAll:
-DELETE FROM attachments;
-
 findInsertRowid:
 SELECT last_insert_rowid();

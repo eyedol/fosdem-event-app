@@ -16,8 +16,5 @@ INSERT OR IGNORE INTO links(
   ?
 );
 
-deleteAll:
-DELETE FROM links;
-
 findInsertRowid:
 SELECT last_insert_rowid();

@@ -5,9 +5,6 @@ CREATE TABLE IF NOT EXISTS `speakers` (
 );
 
 -- queries
-deleteAll:
-DELETE FROM speakers;
-
 insert:
 INSERT OR IGNORE INTO speakers (
   `id`,

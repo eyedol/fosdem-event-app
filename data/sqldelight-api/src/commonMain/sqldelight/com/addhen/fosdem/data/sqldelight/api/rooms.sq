@@ -11,8 +11,5 @@ INSERT OR IGNORE INTO rooms(
     `name`
 ) VALUES(?,?);
 
-deleteAll:
-DELETE FROM rooms;
-
 findInsertRowid:
 SELECT last_insert_rowid();

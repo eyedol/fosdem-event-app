@@ -13,8 +13,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS `index_event_attachments_event_id` ON `event_a
 
 -- queries
 
--- queries
-
 insert:
 INSERT OR IGNORE INTO event_attachments (
   attachment_id,
