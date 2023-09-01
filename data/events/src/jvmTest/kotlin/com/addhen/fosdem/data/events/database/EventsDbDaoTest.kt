@@ -85,4 +85,16 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(false, actual.isBookmarked)
   }
+
+  @Test
+  fun `successfully deletes all events and its related data`() = coroutineTestRule.runTest {
+    // Seed some data
+    sut.insert(events)
+
+    sut.deleteAll()
+
+    val actual = sut.getEvents(day.date).first()
+
+    assertEquals(true, actual.isEmpty())
+  }
 }
