@@ -9,6 +9,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
@@ -27,6 +28,7 @@ val attachment = AttachmentEntity(
   id = 1,
   type = "slides",
   url = "https://attachment1.com",
+  name = "attachment 1"
 )
 
 val room = RoomEntity(
@@ -49,6 +51,7 @@ val attachment2 = AttachmentEntity(
   id = 2,
   type = "slides",
   url = "https://attachment2.com",
+  name = "attachment 2"
 )
 
 val room2 = RoomEntity(
@@ -76,6 +79,7 @@ val attachment3 = AttachmentEntity(
   id = 3,
   type = "presentation slides",
   url = "https://attachment3.com",
+  name = "attachment 3"
 )
 
 val day = DayEntity(
@@ -101,7 +105,7 @@ val day1Event = EventEntity(
   links = listOf(link),
   speakers = listOf(speaker),
   room = room,
-  track = "Keynotes",
+  track = TrackEntity("Keynotes", "keynotes"),
   attachments = listOf(attachment),
 )
 
@@ -118,7 +122,7 @@ val day2Event = EventEntity(
   links = listOf(link2),
   speakers = listOf(speaker2),
   room = room2,
-  track = "Keynotes",
+  track = TrackEntity("Keynotes", "keynotes"),
   attachments = listOf(attachment2),
 )
 
@@ -135,7 +139,7 @@ val day3Event = EventEntity(
   links = listOf(link3),
   speakers = listOf(speaker3),
   room = room3,
-  track = "Main Track - K Building",
+  track = TrackEntity("Main Track - K Building", "keynotes"),
   attachments = listOf(attachment3),
 )
 

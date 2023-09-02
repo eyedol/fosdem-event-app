@@ -9,6 +9,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import com.addhen.fosdem.model.api.Attachment
 import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.Event
@@ -51,6 +52,8 @@ internal fun AttachmentEntity.toAttachment() = Attachment(
   name = name,
 )
 
+internal fun TrackEntity.toTrack() = Track(name, Track.Type.BOF)
+
 internal fun EventEntity.toEvent() = Event(
   id = id,
   title = title,
@@ -61,7 +64,7 @@ internal fun EventEntity.toEvent() = Event(
   isBookmarked = isBookmarked,
   abstractText = abstractText,
   description = description,
-  track = Track(name = track, type = Track.Type.BOF),
+  track = Track(name = track.name, type = Track.Type.BOF),
   links = links.toLinks(),
   speakers = speakers.toSpeakers(),
   attachments = attachments.toAttachments(),

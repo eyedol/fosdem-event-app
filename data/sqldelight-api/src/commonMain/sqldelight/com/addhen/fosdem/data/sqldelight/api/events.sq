@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS `events`(
   `title` TEXT NOT NULL,
   `abstract_text` TEXT NOT NULL,
   `description` TEXT,
-  `track` TEXT,
+  `track_name` TEXT,
+  `track_type` TEXT,
   FOREIGN KEY (room_id) REFERENCES rooms(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
@@ -45,7 +46,8 @@ INSERT INTO events(
     `isBookmarked`,
     `abstract_text`,
     `description`,
-    `track`
+    `track_name`,
+    `track_type`
 ) VALUES(
   nullif(:id, 0),
   :date,
@@ -56,7 +58,8 @@ INSERT INTO events(
   :isBookmarked,
   :abstract_text,
   :description,
-  :track
+  :track_name,
+  :track_type
 );
 
 deleteAll:

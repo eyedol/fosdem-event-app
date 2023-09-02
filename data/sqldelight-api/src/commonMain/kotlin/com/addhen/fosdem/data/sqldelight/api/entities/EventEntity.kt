@@ -17,7 +17,7 @@ data class EventEntity(
   val day: DayEntity,
   val date: LocalDate,
   val room: RoomEntity,
-  val track: String,
+  val track: TrackEntity,
   val links: List<LinkEntity>,
   val speakers: List<SpeakerEntity>,
   val attachments: List<AttachmentEntity>,

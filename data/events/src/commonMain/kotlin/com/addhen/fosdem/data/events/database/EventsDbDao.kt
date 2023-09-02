@@ -19,6 +19,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -100,7 +101,8 @@ class EventsDbDao(
           eventEntity.isBookmarked,
           eventEntity.abstractText,
           eventEntity.description,
-          eventEntity.track,
+          eventEntity.track.name,
+          eventEntity.track.type
         )
       }
     }
@@ -128,7 +130,8 @@ class EventsDbDao(
       title: String,
       abstract_text: String,
       description: String?,
-      track: String?,
+      track_name: String?,
+      track_type: String?,
       id_: Long,
       date_: LocalDate,
       id__: Long,
@@ -148,7 +151,7 @@ class EventsDbDao(
       isBookmarked = isBookmarked,
       abstractText = abstract_text,
       description = description ?: "",
-      track = track ?: "",
+      track = TrackEntity(track_name ?: "", track_type ?: ""),
       links = emptyList(),
       speakers = emptyList(),
       attachments = emptyList(),
@@ -174,7 +177,7 @@ class EventsDbDao(
     id = id,
     type = type ?: "",
     url = url ?: "",
-    name = "",
+    name = name ?: "",
   )
 
   private fun EventEntity.withRelatedData(): EventEntity {

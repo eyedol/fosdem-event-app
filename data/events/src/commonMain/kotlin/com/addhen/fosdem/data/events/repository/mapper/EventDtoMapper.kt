@@ -10,6 +10,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import kotlinx.datetime.LocalDate
 
 internal fun List<EventDto.Days>.toDays() = map { it.toDay() }
@@ -58,7 +59,7 @@ internal fun EventDto.Days.Rooms.Event.toEvent(dayEntity: DayEntity, roomEntity:
     isBookmarked = false,
     abstractText = abstract,
     description = description,
-    track = track,
+    track = TrackEntity(track, type),
     links = links.toLinks(),
     speakers = persons.toSpeakers(),
     attachments = attachments.toAttachments(),
