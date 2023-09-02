@@ -83,6 +83,7 @@ class EventsDbDao(
             id = null,
             type = attachmentEntity.type,
             url = attachmentEntity.url,
+            name = attachmentEntity.name
           )
           val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
           appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
@@ -173,6 +174,7 @@ class EventsDbDao(
     id = id,
     type = type ?: "",
     url = url ?: "",
+    name = ""
   )
 
   private fun EventEntity.withRelatedData(): EventEntity {

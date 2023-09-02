@@ -25,6 +25,7 @@ kotlin {
         implementation(projects.data.modelApi)
         implementation(projects.data.sqldelightApi)
         implementation(libs.kotlinx.datetime)
+        implementation(libs.kotlinx.collections.immutable)
         implementation(libs.sqldelight.coroutines)
         implementation(libs.sqldelight.primitive)
       }

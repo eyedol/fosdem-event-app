@@ -4,15 +4,14 @@
 package com.addhen.fosdem.data.events.api.repository
 
 import com.addhen.fosdem.model.api.Event
+import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 
 interface EventsRepository {
 
-  suspend fun getEvents(date: LocalDate): List<Event>
+  suspend fun getEvents(date: LocalDate): Flow<List<Event>>
 
-  suspend fun getEvent(id: Long): Event
-
-  suspend fun fetchAndSaveEvent()
+  suspend fun getEvent(id: Long): Flow<Event>
 
   suspend fun deleteAll()
 

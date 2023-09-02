@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS `attachments`(
   `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `type` TEXT,
-  `url` TEXT
+  `url` TEXT,
+  `name` TEXT
 );
 
 -- queries
@@ -10,8 +11,9 @@ insert:
 INSERT OR IGNORE INTO attachments (
     `id`,
     `type`,
-    `url`
-) VALUES (?, ?, ?);
+    `url`,
+    `name`
+) VALUES (?, ?, ?, ?);
 
 findInsertRowid:
 SELECT last_insert_rowid();

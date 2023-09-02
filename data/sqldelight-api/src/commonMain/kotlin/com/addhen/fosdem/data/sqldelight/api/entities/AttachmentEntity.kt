@@ -7,4 +7,5 @@ data class AttachmentEntity(
   val id: Long,
   val type: String,
   val url: String,
+  val name: String
 )
