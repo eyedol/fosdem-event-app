@@ -20,7 +20,8 @@ class EventsDataRepository(
   private val api: EventsApi,
   private val database: EventsDao,
 ) : EventsRepository {
-  override suspend fun getEvents(date: LocalDate): Flow<List<Event>> = database.getEvents(date).map { it.toEvent() }
+  override suspend fun getEvents(date: LocalDate): Flow<List<Event>> = database.getEvents(date)
+    .map { it.toEvent() }
 
   override suspend fun getEvent(id: Long): Flow<Event> = database.getEvent(id).map { it.toEvent() }
 
@@ -28,11 +29,11 @@ class EventsDataRepository(
 
   override suspend fun refresh() {
     val eventDto = api.fetchEvents()
-    if(eventDto.days.isEmpty()) return
+    if (eventDto.days.isEmpty()) return
     database.deleteAll()
     database.addDays(eventDto.days.toDays())
     eventDto.days.forEach { day ->
-      day.rooms.forEach {room ->
+      day.rooms.forEach { room ->
         database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
       }
     }

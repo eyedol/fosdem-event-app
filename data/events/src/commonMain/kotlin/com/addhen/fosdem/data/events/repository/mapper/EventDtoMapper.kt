@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.data.events.repository.mapper
 
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
@@ -43,23 +46,27 @@ internal fun EventDto.Days.Rooms.Event.Attachment.toAttachment() = AttachmentEnt
   name = name ?: "",
 )
 
-internal fun EventDto.Days.Rooms.Event.toEvent(dayEntity: DayEntity, roomEntity: RoomEntity) = EventEntity(
-  id = id,
-  title = title,
-  date = dayEntity.date,
-  room = roomEntity,
-  day = DayEntity(0, LocalDate.parse("2023-09-02")),
-  start_time = start,
-  duration = duration,
-  isBookmarked = false,
-  abstractText = abstract,
-  description = description,
-  track = track,
-  links = links.toLinks(),
-  speakers = persons.toSpeakers(),
-  attachments = attachments.toAttachments(),
-)
+internal fun EventDto.Days.Rooms.Event.toEvent(dayEntity: DayEntity, roomEntity: RoomEntity) =
+  EventEntity(
+    id = id,
+    title = title,
+    date = dayEntity.date,
+    room = roomEntity,
+    day = DayEntity(0, LocalDate.parse("2023-09-02")),
+    start_time = start,
+    duration = duration,
+    isBookmarked = false,
+    abstractText = abstract,
+    description = description,
+    track = track,
+    links = links.toLinks(),
+    speakers = persons.toSpeakers(),
+    attachments = attachments.toAttachments(),
+  )
 
-internal fun List<EventDto.Days.Rooms.Event>.toEvents(dayEntity: DayEntity, roomEntity: RoomEntity) = map {
+internal fun List<EventDto.Days.Rooms.Event>.toEvents(
+  dayEntity: DayEntity,
+  roomEntity: RoomEntity,
+) = map {
   it.toEvent(dayEntity, roomEntity)
 }
