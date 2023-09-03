@@ -102,7 +102,7 @@ class EventsDbDao(
           eventEntity.abstractText,
           eventEntity.description,
           eventEntity.track.name,
-          eventEntity.track.type
+          eventEntity.track.type,
         )
       }
     }

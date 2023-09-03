@@ -22,24 +22,31 @@ class EventsDataRepository(
   private val api: EventsApi,
   private val database: EventsDao,
 ) : EventsRepository {
-  override suspend fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>> = database.getEvents(date)
+  override suspend fun getEvents(
+    date: LocalDate,
+  ): Flow<AppResult<List<Event>>> = database
+    .getEvents(date)
     .map { AppResult.Success(it.toEvent()) }
 
-  override suspend fun getEvent(id: Long): Flow<AppResult<Event>> = database.getEvent(id)
+  override suspend fun getEvent(
+    id: Long,
+  ): Flow<AppResult<Event>> = database
+    .getEvent(id)
     .map { AppResult.Success(it.toEvent()) }
 
-  override suspend fun deleteAll() = database.deleteAll()
+  override suspend fun deleteAll() = database
+    .deleteAll()
 
   override suspend fun refresh() {
-    val result = api.fetchEvents()
-    result.onSuccess { eventDto ->
-      database.deleteAll()
-      database.addDays(eventDto.days.toDays())
-      eventDto.days.forEach { day ->
-        day.rooms.forEach { room ->
-          database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
+    api.fetchEvents()
+      .onSuccess { eventDto ->
+        database.deleteAll()
+        database.addDays(eventDto.days.toDays())
+        eventDto.days.forEach { day ->
+          day.rooms.forEach { room ->
+            database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
+          }
         }
       }
-    }
   }
 }

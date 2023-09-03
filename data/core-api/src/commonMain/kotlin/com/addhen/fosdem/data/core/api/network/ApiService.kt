@@ -31,7 +31,7 @@ class ApiService(val url: String, val httpClient: HttpClient) {
 
   suspend inline fun <reified T : Any> get(
     dispatcher: CoroutineDispatcher,
-    crossinline block: HttpRequestBuilder.() -> Unit = {}
+    crossinline block: HttpRequestBuilder.() -> Unit = {},
   ): AppResult<T> = makeApiCall(dispatcher) {
     httpClient.get(url, block).asType<T>()
   }
@@ -44,7 +44,7 @@ class ApiService(val url: String, val httpClient: HttpClient) {
 
   suspend inline fun <reified T> makeApiCall(
     dispatcher: CoroutineDispatcher,
-    crossinline apiCall: suspend () -> T
+    crossinline apiCall: suspend () -> T,
   ): AppResult<T> = withContext(dispatcher) {
     try {
       val response = apiCall.invoke()

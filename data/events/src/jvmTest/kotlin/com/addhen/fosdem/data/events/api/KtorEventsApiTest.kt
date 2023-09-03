@@ -3,9 +3,8 @@
 
 package com.addhen.fosdem.data.events.api
 
-import com.addhen.fosdem.data.core.api.network.ApiService
 import com.addhen.fosdem.data.core.api.AppError
-import com.addhen.fosdem.data.core.api.onError
+import com.addhen.fosdem.data.core.api.network.ApiService
 import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.createHttpClient

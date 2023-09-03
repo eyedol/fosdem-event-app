@@ -28,7 +28,7 @@ val attachment = AttachmentEntity(
   id = 1,
   type = "slides",
   url = "https://attachment1.com",
-  name = "attachment 1"
+  name = "attachment 1",
 )
 
 val room = RoomEntity(
@@ -51,7 +51,7 @@ val attachment2 = AttachmentEntity(
   id = 2,
   type = "slides",
   url = "https://attachment2.com",
-  name = "attachment 2"
+  name = "attachment 2",
 )
 
 val room2 = RoomEntity(
@@ -79,7 +79,7 @@ val attachment3 = AttachmentEntity(
   id = 3,
   type = "presentation slides",
   url = "https://attachment3.com",
-  name = "attachment 3"
+  name = "attachment 3",
 )
 
 val day = DayEntity(
