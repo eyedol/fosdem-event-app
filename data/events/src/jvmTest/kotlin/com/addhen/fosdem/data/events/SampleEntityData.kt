@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.data.events.database
+package com.addhen.fosdem.data.events
 
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity

@@ -4,6 +4,11 @@
 package com.addhen.fosdem.data.events.database
 
 import com.addhen.fosdem.data.events.api.database.EventsDao
+import com.addhen.fosdem.data.events.day
+import com.addhen.fosdem.data.events.day2
+import com.addhen.fosdem.data.events.day2Event
+import com.addhen.fosdem.data.events.day3Event
+import com.addhen.fosdem.data.events.events
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.first
@@ -14,6 +19,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
 class EventsDbDaoTest : DatabaseTest() {
+
   @JvmField
   @RegisterExtension
   val coroutineTestRule = CoroutineTestRule()
