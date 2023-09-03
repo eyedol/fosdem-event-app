@@ -103,7 +103,10 @@ class EventsDbDaoTest : DatabaseTest() {
   fun `successfully adds days and gets all the added days`() = coroutineTestRule.runTest {
     val date1 = "2023-02-16"
     val date2 = "2023-02-17"
-    val days = listOf(DayEntity(1, LocalDate.parse(date1)), DayEntity(2, LocalDate.parse(date2)))
+    val days = listOf(
+      DayEntity(1, LocalDate.parse(date1)),
+      DayEntity(2, LocalDate.parse(date2)),
+    )
 
     sut.addDays(days)
     val actual = sut.getDays()
