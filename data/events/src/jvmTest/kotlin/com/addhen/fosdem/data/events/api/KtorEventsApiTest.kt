@@ -4,13 +4,14 @@
 package com.addhen.fosdem.data.events.api
 
 import com.addhen.fosdem.data.core.api.AppError
+import com.addhen.fosdem.data.core.api.onError
 import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.events.createKtorEventsApiWithError
 import com.addhen.fosdem.data.events.createKtorEventsApiWithEvents
 import com.addhen.fosdem.test.CoroutineTestRule
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
 
 class KtorEventsApiTest {
@@ -34,10 +35,12 @@ class KtorEventsApiTest {
   }
 
   @Test
-  fun `throws an exception as fetching  schedules as there is malformed xml`() =
+  fun `throws AppError#UnknownExceptio as fetching schedules there is a malformed xml`() =
     coroutineTestRule.runTest {
       sut = createKtorEventsApiWithError(coroutineTestRule.testDispatcherProvider)
 
-      assertThrows<AppError.UnknownException> { sut.fetchEvents() }
+      sut.fetchEvents().onError {
+        assertTrue(it is AppError.UnknownException)
+      }
     }
 }
