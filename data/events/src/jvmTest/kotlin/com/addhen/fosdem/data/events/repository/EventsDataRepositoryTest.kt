@@ -111,28 +111,30 @@ class EventsDataRepositoryTest {
   }
 
   @Test
-  fun `toggleBookmark should successfully toggle events bookmark to true`() = coroutineTestRule.runTest {
-    val eventId = 1L
-    val event = day1Event.copy(isBookmarked = false)
-    fakeDatabase.addEvent(eventId, event)
+  fun `toggleBookmark should successfully toggle events bookmark to true`() =
+    coroutineTestRule.runTest {
+      val eventId = 1L
+      val event = day1Event.copy(isBookmarked = false)
+      fakeDatabase.addEvent(eventId, event)
 
-    repository.toggleBookmark(eventId)
+      repository.toggleBookmark(eventId)
 
-    repository.getEvent(eventId).first()
-      .onSuccess { assertTrue(it.isBookmarked) }
-  }
+      repository.getEvent(eventId).first()
+        .onSuccess { assertTrue(it.isBookmarked) }
+    }
 
   @Test
-  fun `toggleBookmark should successfully toggle events bookmark to false`() = coroutineTestRule.runTest {
-    val eventId = 1L
-    val event = day1Event.copy(isBookmarked = true)
-    fakeDatabase.addEvent(eventId, event)
+  fun `toggleBookmark should successfully toggle events bookmark to false`() =
+    coroutineTestRule.runTest {
+      val eventId = 1L
+      val event = day1Event.copy(isBookmarked = true)
+      fakeDatabase.addEvent(eventId, event)
 
-    repository.toggleBookmark(eventId)
+      repository.toggleBookmark(eventId)
 
-    repository.getEvent(eventId).first()
-      .onSuccess { assertFalse(it.isBookmarked) }
-  }
+      repository.getEvent(eventId).first()
+        .onSuccess { assertFalse(it.isBookmarked) }
+    }
 
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: AppResult<EventDto>? = null
