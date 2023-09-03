@@ -3,6 +3,8 @@
 
 package com.addhen.fosdem.data.events.repository
 
+import com.addhen.fosdem.data.core.api.AppResult
+import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -20,21 +22,23 @@ class EventsDataRepository(
   private val api: EventsApi,
   private val database: EventsDao,
 ) : EventsRepository {
-  override suspend fun getEvents(date: LocalDate): Flow<List<Event>> = database.getEvents(date)
-    .map { it.toEvent() }
+  override suspend fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>> = database.getEvents(date)
+    .map { AppResult.Success(it.toEvent()) }
 
-  override suspend fun getEvent(id: Long): Flow<Event> = database.getEvent(id).map { it.toEvent() }
+  override suspend fun getEvent(id: Long): Flow<AppResult<Event>> = database.getEvent(id)
+    .map { AppResult.Success(it.toEvent()) }
 
   override suspend fun deleteAll() = database.deleteAll()
 
   override suspend fun refresh() {
-    val eventDto = api.fetchEvents()
-    if (eventDto.days.isEmpty()) return
-    database.deleteAll()
-    database.addDays(eventDto.days.toDays())
-    eventDto.days.forEach { day ->
-      day.rooms.forEach { room ->
-        database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
+    val result = api.fetchEvents()
+    result.onSuccess { eventDto ->
+      database.deleteAll()
+      database.addDays(eventDto.days.toDays())
+      eventDto.days.forEach { day ->
+        day.rooms.forEach { room ->
+          database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
+        }
       }
     }
   }

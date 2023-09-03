@@ -4,7 +4,9 @@
 package com.addhen.fosdem.data.events.api
 
 import com.addhen.fosdem.data.core.api.network.ApiService
-import com.addhen.fosdem.data.core.api.network.AppError
+import com.addhen.fosdem.data.core.api.AppError
+import com.addhen.fosdem.data.core.api.onError
+import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.createHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,17 +24,16 @@ class KtorEventsApiTest {
 
   @Test
   fun `successfully fetches and deserializes to event dto`() = coroutineTestRule.runTest {
-    val httpClient = createHttpClient(
-      response = scheduleXML,
-    )
+    val httpClient = createHttpClient(response = scheduleXML)
     val api = ApiService("https://mock.api.com", httpClient)
     sut = KtorEventsApi(api, coroutineTestRule.testDispatcherProvider)
 
-    val actual = sut.fetchEvents()
-
-    assertEquals(1, actual.days.size)
-    assertEquals(1, actual.days.first().rooms.size)
-    assertEquals(2, actual.days.first().rooms.first().events.size)
+    sut.fetchEvents()
+      .onSuccess { actual ->
+        assertEquals(1, actual.days.size)
+        assertEquals(1, actual.days.first().rooms.size)
+        assertEquals(2, actual.days.first().rooms.first().events.size)
+      }
   }
 
   @Test

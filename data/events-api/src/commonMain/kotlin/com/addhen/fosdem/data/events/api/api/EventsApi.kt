@@ -4,7 +4,8 @@
 package com.addhen.fosdem.data.events.api.api
 
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
+import com.addhen.fosdem.data.core.api.AppResult
 
 interface EventsApi {
-  suspend fun fetchEvents(): EventDto
+  suspend fun fetchEvents(): AppResult<EventDto>
 }

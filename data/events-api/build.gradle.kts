@@ -21,6 +21,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(projects.data.modelApi)
+        implementation(projects.data.coreApi)
         implementation(projects.data.sqldelightApi)
         implementation(libs.kotlinx.datetime)
         implementation(libs.xml.util.serialization)
