@@ -14,6 +14,8 @@ interface EventsRepository {
 
   suspend fun getEvent(id: Long): Flow<AppResult<Event>>
 
+  suspend fun toggleBookmark(id: Long)
+
   suspend fun deleteAll()
 
   suspend fun refresh()

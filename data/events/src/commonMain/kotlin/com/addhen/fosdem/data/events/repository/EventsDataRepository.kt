@@ -34,8 +34,7 @@ class EventsDataRepository(
     .getEvent(id)
     .map { AppResult.Success(it.toEvent()) }
 
-  override suspend fun deleteAll() = database
-    .deleteAll()
+  override suspend fun deleteAll() = database.deleteAll()
 
   override suspend fun refresh() {
     api.fetchEvents()
@@ -49,4 +48,6 @@ class EventsDataRepository(
         }
       }
   }
+
+  override suspend fun toggleBookmark(id: Long) = database.toggleBookmark(id)
 }

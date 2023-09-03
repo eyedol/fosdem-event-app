@@ -6,6 +6,7 @@ package com.addhen.fosdem.data.events.repository
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
 import com.addhen.fosdem.data.core.api.AppError
 import com.addhen.fosdem.data.core.api.AppResult
+import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import com.addhen.fosdem.data.events.api.database.EventsDao
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -106,6 +108,30 @@ class EventsDataRepositoryTest {
     repository.refresh()
 
     assertTrue(fakeDatabase.isEmpty())
+  }
+
+  @Test
+  fun `toggleBookmark should successfully toggle events bookmark to true`() = coroutineTestRule.runTest {
+    val eventId = 1L
+    val event = day1Event.copy(isBookmarked = false)
+    fakeDatabase.addEvent(eventId, event)
+
+    repository.toggleBookmark(eventId)
+
+    repository.getEvent(eventId).first()
+      .onSuccess { assertTrue(it.isBookmarked) }
+  }
+
+  @Test
+  fun `toggleBookmark should successfully toggle events bookmark to false`() = coroutineTestRule.runTest {
+    val eventId = 1L
+    val event = day1Event.copy(isBookmarked = true)
+    fakeDatabase.addEvent(eventId, event)
+
+    repository.toggleBookmark(eventId)
+
+    repository.getEvent(eventId).first()
+      .onSuccess { assertFalse(it.isBookmarked) }
   }
 
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
