@@ -8,7 +8,9 @@ import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.core.api.network.ApiService
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class KtorEventsApi(
   private val api: ApiService,
   private val dispatchers: AppCoroutineDispatchers,

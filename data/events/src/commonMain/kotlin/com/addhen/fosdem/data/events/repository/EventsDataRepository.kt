@@ -17,7 +17,9 @@ import com.addhen.fosdem.model.api.Event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class EventsDataRepository(
   private val api: EventsApi,
   private val database: EventsDao,
