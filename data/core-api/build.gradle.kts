@@ -10,6 +10,7 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
+        implementation(projects.coreApi)
         implementation(libs.ktor.client.core)
         implementation(libs.ktor.client.logging)
         implementation(libs.ktor.client.content.negotiation)
