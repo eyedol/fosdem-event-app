@@ -1,3 +1,7 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
+
 import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
 
 plugins {

@@ -1,6 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
+
 import com.addhen.fosdem.gradle.plugins.addKspDependencyForAllTargets
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
@@ -20,6 +21,13 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(projects.data.events)
+        implementation(projects.data.eventsApi)
+        implementation(projects.data.sqldelight)
+        implementation(projects.data.sqldelightApi)
+        implementation(projects.data.modelApi)
+        implementation(projects.data.coreApi)
+        implementation(projects.coreApi)
         implementation(compose.desktop.currentOs)
         implementation(libs.circuit.foundation)
       }

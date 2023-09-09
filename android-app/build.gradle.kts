@@ -140,6 +140,13 @@ android {
 }
 
 dependencies {
+  implementation(projects.data.events)
+  implementation(projects.data.eventsApi)
+  implementation(projects.data.sqldelight)
+  implementation(projects.data.sqldelightApi)
+  implementation(projects.data.modelApi)
+  implementation(projects.data.coreApi)
+  implementation(projects.coreApi)
   implementation(libs.androidx.activity.activity)
   implementation(libs.androidx.activity.compose)
   coreLibraryDesugaring(libs.android.desugaring)
