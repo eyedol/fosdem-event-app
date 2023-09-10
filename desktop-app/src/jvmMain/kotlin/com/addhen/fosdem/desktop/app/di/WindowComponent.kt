@@ -4,14 +4,15 @@
 package com.addhen.fosdem.desktop.app.di
 
 import com.addhen.fosdem.core.api.di.ActivityScope
+import com.addhen.fosdem.ui.main.MainContent
 import me.tatarka.inject.annotations.Component
 
 @ActivityScope
 @Component
 abstract class WindowComponent(
   @Component val appComponent: AppComponent,
-) /*: UiComponent {
+) : UiComponent {
 
   abstract val mainContent: MainContent
   companion object
-}*/
+}
