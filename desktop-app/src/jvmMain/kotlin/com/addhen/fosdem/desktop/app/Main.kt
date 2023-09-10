@@ -3,19 +3,24 @@
 
 package com.addhen.fosdem.desktop.app
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.addhen.fosdem.desktop.app.di.AppComponent
+import com.addhen.fosdem.desktop.app.di.WindowComponent
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.rememberCircuitNavigator
 
 fun main() = application {
-  /*val appComponent = remember {
+  val appComponent = remember {
     AppComponent.create()
-  }*/
+  }
 
   Window(
     title = "FOSDEM",
     onCloseRequest = ::exitApplication,
   ) {
-    /*val component = remember(appComponent) {
+    val component = remember(appComponent) {
       WindowComponent.create(appComponent)
     }
 
@@ -25,6 +30,6 @@ fun main() = application {
       backstack,
       navigator,
       Modifier,
-    )*/
+    )
   }
 }

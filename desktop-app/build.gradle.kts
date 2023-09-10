@@ -21,6 +21,8 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(projects.featureUi.main)
+        implementation(projects.composeUi.commonApi)
         implementation(projects.data.events)
         implementation(projects.data.eventsApi)
         implementation(projects.data.sqldelight)
