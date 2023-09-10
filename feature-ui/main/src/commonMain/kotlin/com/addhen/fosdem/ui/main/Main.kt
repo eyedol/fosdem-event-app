@@ -80,9 +80,9 @@ internal fun Main(
     },
   )
 
-    LaunchedEffect(Unit) {
-      snackbarHostState.showSnackbar("No integrations added")
-      onMessageShown()
+  LaunchedEffect(Unit) {
+    snackbarHostState.showSnackbar("No integrations added")
+    onMessageShown()
   }
 
   Scaffold(
