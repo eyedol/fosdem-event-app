@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 }
 
 include(
+  "feature-ui:main",
   "compose-ui:common-api",
   ":data:events",
   ":data:events-api",
