@@ -4,8 +4,6 @@
 package com.addhen.fosdem.android.app.di
 
 import android.app.Activity
-import com.addhen.fosdem.core.api.di.ActivityScope
-import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
 interface ActivityComponent {
