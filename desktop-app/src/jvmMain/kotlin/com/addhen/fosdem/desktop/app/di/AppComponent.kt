@@ -28,7 +28,7 @@ abstract class AppComponent : DataComponent {
   fun provideApplicationId(): ApplicationInfo = ApplicationInfo(
     packageName = "com.addhen.fosdem.desktop",
     debugBuild = true,
-    flavor = Flavor.prod,
+    flavor = Flavor.Prod,
     versionName = "1.0.0",
     versionCode = 1,
   )
