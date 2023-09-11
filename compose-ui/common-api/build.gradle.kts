@@ -3,6 +3,7 @@
 
 
 plugins {
+  id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
   id("com.addhen.fosdem.compose")
 }
@@ -20,4 +21,8 @@ kotlin {
       }
     }
   }
+}
+
+android {
+  namespace = "com.addhen.fosdem.compose.common.ui.api.screens"
 }

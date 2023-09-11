@@ -110,7 +110,7 @@ android {
         } else {
           "-r"
         }
-        "$baseName${network.capitalized()}$buildType"
+        "$baseName-${network.capitalized()}$buildType"
       }
 
       variant.resValues.put(
@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+  implementation(projects.featureUi.main)
   implementation(projects.data.events)
   implementation(projects.data.eventsApi)
   implementation(projects.data.sqldelight)
@@ -149,6 +150,7 @@ dependencies {
   implementation(projects.coreApi)
   implementation(libs.androidx.activity.activity)
   implementation(libs.androidx.activity.compose)
+  implementation(libs.circuit.foundation)
   coreLibraryDesugaring(libs.android.desugaring)
   // Third-party libs
   ksp(libs.kotlininject.compiler)

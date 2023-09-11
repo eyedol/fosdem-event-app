@@ -8,6 +8,7 @@ plugins {
   id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
   id("com.addhen.fosdem.kmp.serialization")
+  alias(libs.plugins.kotlin.parcelize)
 }
 
 kotlin {

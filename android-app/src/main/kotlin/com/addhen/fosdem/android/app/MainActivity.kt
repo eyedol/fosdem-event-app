@@ -4,31 +4,47 @@
 package com.addhen.fosdem.android.app
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import com.addhen.fosdem.android.app.di.ActivityComponent
+import com.addhen.fosdem.android.app.di.AppComponent
+import com.addhen.fosdem.android.app.di.UiComponent
+import com.addhen.fosdem.core.api.di.ActivityScope
+import com.addhen.fosdem.ui.main.MainContent
+import com.addhen.fosdem.ui.main.MainScreen
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.rememberCircuitNavigator
+import me.tatarka.inject.annotations.Component
+import me.tatarka.inject.annotations.Provides
 
-abstract class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
 
-  override fun onPostCreate(savedInstanceState: Bundle?) {
-    super.onPostCreate(savedInstanceState)
-    handleIntent(intent)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    val component = MainActivityComponent::class.create(this)
+
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+
+    setContent {
+      val backstack = rememberSaveableBackStack { push(MainScreen) }
+      val navigator = rememberCircuitNavigator(backstack)
+
+      component.mainContent(
+        backstack,
+        navigator,
+        Modifier,
+      )
+    }
   }
+}
 
-  override fun onNewIntent(intent: Intent) {
-    super.onNewIntent(intent)
-    handleIntent(intent)
-  }
-
-  open fun handleIntent(intent: Intent) {}
-
-  override fun finishAfterTransition() {
-    val resultData = Intent()
-    val result = onPopulateResultIntent(resultData)
-    setResult(result, resultData)
-
-    super.finishAfterTransition()
-  }
-
-  open fun onPopulateResultIntent(intent: Intent): Int = Activity.RESULT_OK
+@ActivityScope
+@Component
+abstract class MainActivityComponent(
+  @get:Provides override val activity: Activity,
+  @Component val applicationComponent: AppComponent = AppComponent.from(activity),
+) : ActivityComponent, UiComponent {
+  abstract val mainContent: MainContent
 }

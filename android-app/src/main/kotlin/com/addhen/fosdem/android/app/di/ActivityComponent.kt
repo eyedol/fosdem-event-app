@@ -3,15 +3,13 @@
 
 package com.addhen.fosdem.android.app.di
 
+import android.app.Activity
 import com.addhen.fosdem.core.api.di.ActivityScope
 import me.tatarka.inject.annotations.Component
+import me.tatarka.inject.annotations.Provides
 
-@ActivityScope
-@Component
-abstract class ActivityComponent(
-  @Component val appComponent: AppComponent,
-) /*: UiComponent {
+interface ActivityComponent {
 
-  abstract val mainContent: MainContent
-  companion object
-}*/
+  @get:Provides
+  val activity: Activity
+}

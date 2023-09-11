@@ -4,5 +4,11 @@
 package com.addhen.fosdem.android.app
 
 import android.app.Application
+import com.addhen.fosdem.android.app.di.AppComponent
+import com.addhen.fosdem.android.app.di.create
 
-class App : Application()
+class App : Application() {
+  val component: AppComponent by lazy {
+    AppComponent::class.create(this)
+  }
+}

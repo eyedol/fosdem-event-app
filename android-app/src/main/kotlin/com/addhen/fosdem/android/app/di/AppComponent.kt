@@ -4,6 +4,8 @@
 package com.addhen.fosdem.android.app.di
 
 import android.app.Application
+import android.content.Context
+import com.addhen.fosdem.android.app.App
 import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.Flavor
 import com.addhen.fosdem.core.api.di.ApplicationScope
@@ -34,15 +36,16 @@ abstract class AppComponent(
 
     return ApplicationInfo(
       packageName = application.packageName,
-      debugBuild = BuildConfig.DEBUG,
-      flavor = when (BuildConfig.FLAVOR) {
-        "qa" -> Flavor.Qa
-        else -> Flavor.Standard
-      },
+      debugBuild = false,
+      flavor = Flavor.Prod,
       versionName = packageInfo.versionName,
       versionCode = packageInfo.versionCode,
     )
   }
 
-  companion object
+  companion object {
+    fun from(context: Context): AppComponent {
+      return (context.applicationContext as App).component
+    }
+  }
 }

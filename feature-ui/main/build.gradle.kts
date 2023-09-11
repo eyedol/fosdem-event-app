@@ -3,13 +3,25 @@
 
 
 plugins {
+  id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
   id("com.addhen.fosdem.compose")
   id("com.addhen.fosdem.kmp.serialization")
+  alias(libs.plugins.kotlin.parcelize)
+}
+
+android {
+  namespace = "com.addhen.fosdem.ui.main"
 }
 
 kotlin {
   sourceSets {
+
+    val androidMain by getting {
+      dependencies {
+        implementation(libs.androidx.activity.compose)
+      }
+    }
 
     val jvmMain by getting {
       dependencies {
@@ -24,6 +36,7 @@ kotlin {
         implementation(projects.data.coreApi)
         implementation(projects.coreApi)
         implementation(projects.composeUi.commonApi)
+        implementation(libs.circuit.runtime)
         implementation(libs.circuit.foundation)
         implementation(libs.circuit.overlay)
         implementation(libs.circuit.gesture.navigation)
