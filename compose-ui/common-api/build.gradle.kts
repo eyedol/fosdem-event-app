@@ -12,17 +12,19 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
+        implementation(projects.coreApi)
         implementation(libs.circuit.foundation)
         implementation(compose.foundation)
         implementation(compose.material)
         implementation(compose.materialIconsExtended)
         api(compose.material3)
         api(libs.compose.material3.windowsizeclass)
+        api(libs.lyricist.library)
       }
     }
   }
 }
 
 android {
-  namespace = "com.addhen.fosdem.compose.common.ui.api.screens"
+  namespace = "com.addhen.fosdem.compose.common.ui.api"
 }

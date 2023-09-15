@@ -11,19 +11,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
+import com.addhen.fosdem.compose.common.ui.api.ProvideStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
-import com.addhen.fosdem.ui.main.component.MainNavigationItem
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.PersistentList
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 typealias MainContent = @Composable (
-  navigationItems: PersistentList<MainNavigationItem>,
   backstack: SaveableBackStack,
   navigator: Navigator,
   modifier: Modifier,
@@ -33,7 +31,6 @@ typealias MainContent = @Composable (
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MainContent(
-  @Assisted navigationItems: PersistentList<MainNavigationItem>,
   @Assisted backstack: SaveableBackStack,
   @Assisted navigator: Navigator,
   circuitConfig: Circuit,
@@ -43,20 +40,21 @@ fun MainContent(
     AppNavigator(navigator)
   }
 
-  CompositionLocalProvider(
-    LocalNavigator provides appNavigator,
-    LocalWindowSizeClass provides calculateWindowSizeClass(),
-  ) {
-    CircuitCompositionLocals(circuitConfig) {
-      AppTheme(
-        useDarkColors = false,
-      ) {
-        Main(
-          navigationItems = navigationItems,
-          backstack = backstack,
-          navigator = appNavigator,
-          modifier = modifier,
-        )
+  ProvideStrings {
+    CompositionLocalProvider(
+      LocalNavigator provides appNavigator,
+      LocalWindowSizeClass provides calculateWindowSizeClass(),
+    ) {
+      CircuitCompositionLocals(circuitConfig) {
+        AppTheme(
+          useDarkColors = false,
+        ) {
+          Main(
+            backstack = backstack,
+            navigator = appNavigator,
+            modifier = modifier,
+          )
+        }
       }
     }
   }

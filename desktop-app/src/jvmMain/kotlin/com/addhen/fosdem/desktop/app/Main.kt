@@ -7,10 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.desktop.app.di.AppComponent
 import com.addhen.fosdem.desktop.app.di.WindowComponent
 import com.addhen.fosdem.desktop.app.di.create
-import com.addhen.fosdem.ui.main.MainScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
 
@@ -27,7 +27,7 @@ fun main() = application {
       WindowComponent.create(appComponent)
     }
 
-    val backstack = rememberSaveableBackStack { push(MainScreen) }
+    val backstack = rememberSaveableBackStack { push(SessionScreen) }
     val navigator = rememberCircuitNavigator(backstack) { /* no-op */ }
     component.mainContent(
       backstack,

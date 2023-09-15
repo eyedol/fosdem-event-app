@@ -24,6 +24,7 @@ kotlin {
         implementation(libs.touchlab.kermit)
         api(libs.kotlininject.runtime)
         api(libs.circuit.runtime)
+        api(libs.lyricist.core)
       }
     }
 

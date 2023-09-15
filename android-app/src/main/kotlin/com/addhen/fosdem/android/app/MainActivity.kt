@@ -12,9 +12,8 @@ import com.addhen.fosdem.android.app.di.ActivityComponent
 import com.addhen.fosdem.android.app.di.AppComponent
 import com.addhen.fosdem.android.app.di.UiComponent
 import com.addhen.fosdem.core.api.di.ActivityScope
+import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.main.MainContent
-import com.addhen.fosdem.ui.main.MainScreen
-import com.addhen.fosdem.ui.main.component.MainNavigationItem
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import me.tatarka.inject.annotations.Component
@@ -29,7 +28,7 @@ class MainActivity : BaseActivity() {
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
     setContent {
-      val backstack = rememberSaveableBackStack { push(MainScreen) }
+      val backstack = rememberSaveableBackStack { push(SessionScreen) }
       val navigator = rememberCircuitNavigator(backstack)
 
       component.mainContent(
@@ -38,37 +37,6 @@ class MainActivity : BaseActivity() {
         Modifier,
       )
     }
-  }
-
-  fun buildNavigationItems(strings: TiviStrings): List<HomeNavigationItem> {
-    return listOf(
-      HomeNavigationItem(
-        screen = DiscoverScreen,
-        label = strings.discoverTitle,
-        contentDescription = strings.cdDiscoverTitle,
-        iconImageVector = Icons.Outlined.Weekend,
-        selectedImageVector = Icons.Default.Weekend,
-      ),
-      MainNavigationItem(
-        screen = UpNextScreen,
-        label = strings.upnextTitle,
-        contentDescription = strings.cdUpnextTitle,
-        iconImageVector = Icons.Default.Subscriptions,
-      ),
-      MainNavigationItem(
-        screen = LibraryScreen,
-        label = strings.libraryTitle,
-        contentDescription = strings.cdLibraryTitle,
-        iconImageVector = Icons.Outlined.VideoLibrary,
-        selectedImageVector = Icons.Default.VideoLibrary,
-      ),
-      MainNavigationItem(
-        screen = SearchScreen,
-        label = strings.searchNavigationTitle,
-        contentDescription = strings.cdSearchNavigationTitle,
-        iconImageVector = Icons.Default.Search,
-      ),
-    )
   }
 }
 
