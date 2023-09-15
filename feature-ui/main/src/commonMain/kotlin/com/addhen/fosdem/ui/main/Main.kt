@@ -3,119 +3,119 @@
 
 package com.addhen.fosdem.ui.main
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material3.DismissValue
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SwipeToDismiss
-import androidx.compose.material3.rememberDismissState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.addhen.fosdem.compose.common.ui.api.Layout
-import com.slack.circuit.overlay.LocalOverlayHost
-import com.slack.circuit.runtime.CircuitContext
-import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuit.runtime.ui.Ui
+import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
+import com.addhen.fosdem.ui.main.component.MainNavigationBar
+import com.addhen.fosdem.ui.main.component.MainNavigationDrawer
+import com.addhen.fosdem.ui.main.component.MainNavigationItem
+import com.addhen.fosdem.ui.main.component.MainNavigationRail
+import com.addhen.fosdem.ui.main.component.NavigationType
+import com.addhen.fosdem.ui.main.component.resetRootIfDifferent
+import com.slack.circuit.backstack.SaveableBackStack
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.overlay.ContentWithOverlays
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.ui.ui
-import me.tatarka.inject.annotations.Inject
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
+import kotlinx.collections.immutable.PersistentList
 
-@Inject
-class MainUiFactory : Ui.Factory {
-  override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
-    is MainScreen -> {
-      ui<MainUiState> { state, modifier ->
-        Main(state, modifier)
-      }
-    }
-
-    else -> null
+@Composable
+fun Main(
+  navigationItems: PersistentList<MainNavigationItem>,
+  backstack: SaveableBackStack,
+  navigator: Navigator,
+  modifier: Modifier = Modifier,
+) {
+  val windowSizeClass = LocalWindowSizeClass.current
+  val navigationType = remember(windowSizeClass) {
+    NavigationType.forWindowSizeSize(windowSizeClass)
   }
-}
 
-@Composable
-internal fun Main(
-  state: MainUiState,
-  modifier: Modifier = Modifier,
-) {
-  val overlayHost = LocalOverlayHost.current
-  val eventSink = state.eventSink
-
-  Main(
-    state = state,
-    onMessageShown = {},
-    onItemClick = { eventSink(MainUiEvent.OpenItem) },
-    modifier,
-  )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun Main(
-  state: MainUiState,
-  onMessageShown: () -> Unit,
-  onItemClick: () -> Unit,
-  modifier: Modifier = Modifier,
-) {
-  val snackbarHostState = remember { SnackbarHostState() }
-
-  val dismissSnackbarState = rememberDismissState(
-    confirmValueChange = { value ->
-      if (value == DismissValue.Default) {
-        snackbarHostState.currentSnackbarData?.dismiss()
-        true
-      } else {
-        false
-      }
-    },
-  )
-
-  LaunchedEffect(Unit) {
-    snackbarHostState.showSnackbar("No integrations added")
-    onMessageShown()
+  val rootScreen by remember(backstack) {
+    derivedStateOf { backstack.last().screen }
   }
 
   Scaffold(
-    snackbarHost = {
-      SnackbarHost(hostState = snackbarHostState) { data ->
-        SwipeToDismiss(
-          state = dismissSnackbarState,
-          background = {},
-          dismissContent = { Snackbar(snackbarData = data) },
-          modifier = Modifier
-            .padding(horizontal = Layout.bodyMargin)
+    bottomBar = {
+      if (navigationType == NavigationType.BOTTOM_NAVIGATION) {
+        MainNavigationBar(
+          selectedNavigation = rootScreen,
+          navigationItems = navigationItems,
+          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+          modifier = Modifier.fillMaxWidth(),
+        )
+      } else {
+        Spacer(
+          Modifier
+            .windowInsetsBottomHeight(WindowInsets.navigationBars)
             .fillMaxWidth(),
         )
       }
     },
-    contentWindowInsets = WindowInsets.systemBars,
+    // We let content handle the status bar
+    contentWindowInsets = ScaffoldDefaults.contentWindowInsets
+      .exclude(WindowInsets.statusBars),
     modifier = modifier,
-  ) { innerPadding ->
-  }
-}
+  ) { paddingValues ->
+    Row(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(paddingValues),
+    ) {
+      if (navigationType == NavigationType.RAIL) {
+        MainNavigationRail(
+          selectedNavigation = rootScreen,
+          navigationItems = navigationItems,
+          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+          modifier = Modifier.fillMaxHeight(),
+        )
 
-internal enum class NavigationType {
-  BOTTOM_NAVIGATION,
-  RAIL,
-  PERMANENT_DRAWER,
-  ;
+        Divider(
+          Modifier
+            .fillMaxHeight()
+            .width(1.dp),
+        )
+      } else if (navigationType == NavigationType.PERMANENT_DRAWER) {
+        MainNavigationDrawer(
+          selectedNavigation = rootScreen,
+          navigationItems = navigationItems,
+          onNavigationSelected = { navigator.resetRoot(it) },
+          modifier = Modifier.fillMaxHeight(),
+        )
+      }
 
-  companion object {
-    fun forWindowSizeSize(windowSizeClass: WindowSizeClass): NavigationType = when {
-      windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact -> BOTTOM_NAVIGATION
-      windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact -> BOTTOM_NAVIGATION
-      windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium -> RAIL
-      else -> PERMANENT_DRAWER
+      ContentWithOverlays {
+        NavigableCircuitContent(
+          navigator = navigator,
+          backstack = backstack,
+          decoration = remember(navigator) {
+            GestureNavigationDecoration(onBackInvoked = navigator::pop)
+          },
+          modifier = Modifier
+            .weight(1f)
+            .fillMaxHeight(),
+        )
+      }
     }
   }
 }

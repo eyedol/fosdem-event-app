@@ -3,19 +3,6 @@
 
 package com.addhen.fosdem.ui.main
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.exclude
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -25,18 +12,18 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
+import com.addhen.fosdem.ui.main.component.MainNavigationItem
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
-import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
+import kotlinx.collections.immutable.PersistentList
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 typealias MainContent = @Composable (
+  navigationItems: PersistentList<MainNavigationItem>,
   backstack: SaveableBackStack,
   navigator: Navigator,
   modifier: Modifier,
@@ -46,6 +33,7 @@ typealias MainContent = @Composable (
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MainContent(
+  @Assisted navigationItems: PersistentList<MainNavigationItem>,
   @Assisted backstack: SaveableBackStack,
   @Assisted navigator: Navigator,
   circuitConfig: Circuit,
@@ -63,43 +51,12 @@ fun MainContent(
       AppTheme(
         useDarkColors = false,
       ) {
-        val windowSizeClass = LocalWindowSizeClass.current
-        val navigationType = remember(windowSizeClass) {
-          NavigationType.forWindowSizeSize(windowSizeClass)
-        }
-
-        Scaffold(
-          bottomBar = {
-            Spacer(
-              Modifier
-                .windowInsetsBottomHeight(WindowInsets.navigationBars)
-                .fillMaxWidth(),
-            )
-          },
-          // We let content handle the status bar
-          contentWindowInsets = WindowInsets.systemBars.exclude(WindowInsets.statusBars),
+        Main(
+          navigationItems = navigationItems,
+          backstack = backstack,
+          navigator = appNavigator,
           modifier = modifier,
-        ) { paddingValues ->
-
-          Row(
-            modifier = Modifier
-              .fillMaxSize()
-              .padding(paddingValues),
-          ) {
-            ContentWithOverlays {
-              NavigableCircuitContent(
-                navigator = navigator,
-                backstack = backstack,
-                decoration = remember(navigator) {
-                  GestureNavigationDecoration(navigator::pop)
-                },
-                modifier = Modifier
-                  .weight(1f)
-                  .fillMaxHeight(),
-              )
-            }
-          }
-        }
+        )
       }
     }
   }
