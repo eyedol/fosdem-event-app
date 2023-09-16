@@ -12,10 +12,14 @@ data class AppStrings(
   val searchTitle: String,
   val aboutTitle: String,
   val mapTitle: String,
+  val bookmarkTitle: String,
   val sessionContentDescription: String,
   val searchContentDescription: String,
   val aboutContentDescription: String,
   val mapContentDescription: String,
+  val bookmarkContentDescription: String,
+  val toggleSessionListContentDescription: String,
+  val toggleSessionGridContentDescription: String
 )
 
 object Locales {

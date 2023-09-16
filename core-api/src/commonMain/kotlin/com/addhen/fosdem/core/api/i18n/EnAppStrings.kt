@@ -11,8 +11,12 @@ val EnAppStrings = AppStrings(
   mapTitle = "Map",
   searchTitle = "Search",
   aboutTitle = "About",
+  bookmarkTitle = "Bookmark",
   aboutContentDescription = "",
   searchContentDescription = "",
   sessionContentDescription = "",
   mapContentDescription = "",
+  bookmarkContentDescription = "",
+  toggleSessionListContentDescription = "Toggle Session to Grid view",
+  toggleSessionGridContentDescription = "Toggle Session to List view"
 )
