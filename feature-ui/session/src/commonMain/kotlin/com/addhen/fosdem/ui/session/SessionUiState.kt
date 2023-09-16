@@ -4,11 +4,13 @@
 package com.addhen.fosdem.ui.session
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.ui.session.component.SessionUiType
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class SessionUiState(
+  val sessionUiType: SessionUiType,
   val eventSink: (SessionUiEvent) -> Unit,
 ) : CircuitUiState
 

@@ -6,6 +6,7 @@ package com.addhen.fosdem.ui.session
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.ui.session.component.SessionUiType
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -44,6 +45,7 @@ class SessionPresenter(
     }
 
     return SessionUiState(
+      sessionUiType = SessionUiType.Grid,
       ::eventSink,
     )
   }
