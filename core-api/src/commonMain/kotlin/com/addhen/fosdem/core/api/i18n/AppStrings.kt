@@ -19,7 +19,7 @@ data class AppStrings(
   val mapContentDescription: String,
   val bookmarkContentDescription: String,
   val toggleSessionListContentDescription: String,
-  val toggleSessionGridContentDescription: String
+  val toggleSessionGridContentDescription: String,
 )
 
 object Locales {

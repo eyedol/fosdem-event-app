@@ -18,5 +18,5 @@ val EnAppStrings = AppStrings(
   mapContentDescription = "",
   bookmarkContentDescription = "",
   toggleSessionListContentDescription = "Toggle Session to Grid view",
-  toggleSessionGridContentDescription = "Toggle Session to List view"
+  toggleSessionGridContentDescription = "Toggle Session to List view",
 )

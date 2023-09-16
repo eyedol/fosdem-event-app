@@ -8,10 +8,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -27,9 +23,6 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
@@ -58,13 +51,11 @@ class SessionUiFactory : Ui.Factory {
   }
 }
 
-
 @Composable
 internal fun Session(
   uiState: SessionUiState,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
 ) {
-
   val snackbarHostState = remember { SnackbarHostState() }
 
   SessionScreen(
@@ -74,12 +65,12 @@ internal fun Session(
     onBookmarkClick = {},
     onSearchClick = {},
     onSessionUiChangeClick = {},
-    contentPadding =  PaddingValues(),
+    contentPadding = PaddingValues(),
     modifier = modifier,
   )
 }
 
-private val sessionTopBackgroundLight =  Color(0xFFA518BA)
+private val sessionTopBackgroundLight = Color(0xFFA518BA)
 private val sessionTopBackgroundDark = Color(0xFF4A0A54)
 
 @Composable
@@ -90,7 +81,7 @@ private fun sessionTopBackground() = if (!isSystemInDarkTheme()) {
   sessionTopBackgroundDark
 }
 
-private val sessionTopGradientLight =  Color(0xFFE486F2)
+private val sessionTopGradientLight = Color(0xFFE486F2)
 private val sessionTopGradientDark = Color(0xFF9F6FA6)
 
 @Composable
@@ -115,7 +106,7 @@ private fun SessionScreen(
   val density = LocalDensity.current
   val strings = LocalStrings.current
   val windowSizeClass = LocalWindowSizeClass.current
-  //val state = remembersessionScreenScrollState()
+  // val state = remembersessionScreenScrollState()
   val layoutDirection = LocalLayoutDirection.current
   val gradientEndRatio = remember(windowSizeClass) {
     windowSizeClass.gradientEndRatio()
@@ -125,7 +116,7 @@ private fun SessionScreen(
   Scaffold(
     modifier = modifier
       .testTag(SessionScreenTestTag)
-      //.nestedScroll(state.screenNestedScrollConnection)
+      // .nestedScroll(state.screenNestedScrollConnection)
       .background(sessionTopBackground())
       .drawWithCache {
         onDrawBehind {
@@ -148,7 +139,7 @@ private fun SessionScreen(
         onSessionUiChangeClick = onSessionUiChangeClick,
         onSearchClick = onSearchClick,
         appStrings = strings,
-        titleIcon = {}
+        titleIcon = {},
       )
     },
     contentWindowInsets = WindowInsets(
@@ -162,14 +153,13 @@ private fun SessionScreen(
     Box(
       modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
     ) {
-
     }
   }
 }
 
 private fun WindowSizeClass.gradientEndRatio(): Float = when {
   widthSizeClass == WindowWidthSizeClass.Compact ||
-  widthSizeClass == WindowWidthSizeClass.Medium -> 0.5f
+    widthSizeClass == WindowWidthSizeClass.Medium -> 0.5f
   heightSizeClass == WindowHeightSizeClass.Compact -> 0.2f
   else -> 0.2f
 }
