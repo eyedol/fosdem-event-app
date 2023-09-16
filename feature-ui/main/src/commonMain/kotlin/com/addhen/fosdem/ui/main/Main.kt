@@ -16,10 +16,12 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Map
@@ -153,9 +155,10 @@ fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
     ),
     MainNavigationItem(
       screen = SessionScreen,
-      label = strings.searchTitle,
-      contentDescription = strings.searchContentDescription,
-      iconImageVector = Icons.Default.Search,
+      label = strings.bookmarkTitle,
+      contentDescription = strings.bookmarkContentDescription,
+      iconImageVector = Icons.Outlined.Bookmark,
+      selectedImageVector = Icons.Filled.Bookmark,
     ),
     MainNavigationItem(
       screen = SessionScreen,
