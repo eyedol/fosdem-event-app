@@ -1,10 +1,11 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.main
+package com.addhen.fosdem.ui.session
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -13,8 +14,8 @@ import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-class MainUiPresenterFactory(
-  private val presenterFactory: (Navigator) -> MainPresenter,
+class SessionUiPresenterFactory(
+  private val presenterFactory: (Navigator) -> SessionPresenter,
 ) : Presenter.Factory {
   override fun create(
     screen: Screen,
@@ -22,27 +23,27 @@ class MainUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is MainScreen -> presenterFactory(navigator)
+      is SessionScreen -> presenterFactory(navigator)
       else -> null
     }
   }
 }
 
 @Inject
-class MainPresenter(
+class SessionPresenter(
   @Assisted private val navigator: Navigator,
-) : Presenter<MainUiState> {
+) : Presenter<SessionUiState> {
   @Composable
-  override fun present(): MainUiState {
+  override fun present(): SessionUiState {
     val scope = rememberCoroutineScope()
 
-    fun eventSink(event: MainUiEvent) {
+    fun eventSink(event: SessionUiEvent) {
       when (event) {
-        MainUiEvent.OpenItem -> {}
+        SessionUiEvent.OpenItem -> {}
       }
     }
 
-    return MainUiState(
+    return SessionUiState(
       ::eventSink,
     )
   }

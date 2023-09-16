@@ -4,13 +4,13 @@
 package com.addhen.fosdem.android.app.di
 
 import com.addhen.fosdem.core.api.di.ActivityScope
-import com.addhen.fosdem.ui.main.di.MainComponent
+import com.addhen.fosdem.ui.session.di.SessionComponent
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
 import me.tatarka.inject.annotations.Provides
 
-interface UiComponent : MainComponent {
+interface UiComponent : SessionComponent {
 
   @Provides
   @ActivityScope

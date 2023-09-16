@@ -1,11 +1,11 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.main.di
+package com.addhen.fosdem.ui.session.di
 
 import com.addhen.fosdem.core.api.di.ActivityScope
-import com.addhen.fosdem.ui.main.MainUiFactory
-import com.addhen.fosdem.ui.main.MainUiPresenterFactory
+import com.addhen.fosdem.ui.session.SessionUiFactory
+import com.addhen.fosdem.ui.session.SessionUiPresenterFactory
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
 import me.tatarka.inject.annotations.IntoSet
@@ -15,10 +15,10 @@ interface SessionComponent {
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindMainPresenterFactory(factory: SessionUiPresenterFactory): Presenter.Factory = factory
+  fun bindSessionPresenterFactory(factory: SessionUiPresenterFactory): Presenter.Factory = factory
 
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindMainUiFactoryFactory(factory: SessionUiFactory): Ui.Factory = factory
+  fun bindSessionFactoryFactory(factory: SessionUiFactory): Ui.Factory = factory
 }
