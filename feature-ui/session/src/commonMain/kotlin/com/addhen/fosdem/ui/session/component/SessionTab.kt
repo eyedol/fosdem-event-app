@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabPosition
 import androidx.compose.material3.TabRow
@@ -31,13 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 
 private val tabMinHeight = 32.dp
 private val tabMaxHeight = 56.dp
-
 private val tabIndicatorHorizontalGap = 8.dp
-
 private val tabRowHorizontalSpacing = 16.dp - (tabIndicatorHorizontalGap / 2)
 private val tabRowTopSpacing = 16.dp
 private val tabRowBottomSpacing = 12.dp
@@ -177,24 +173,5 @@ class SessionTabState(
         )
       },
     )
-  }
-}
-
-@Composable
-fun SessionTabRowPreview() {
-  val scrollState = rememberSessionTabState()
-  val selectedTabIndex = 0
-  AppTheme {
-    Surface {
-      SessionTabRow(tabState = scrollState, selectedTabIndex = selectedTabIndex) {
-        (0..1).forEachIndexed { index, _ ->
-          SessionTab(
-            tabTitle = if (index == 0) "Saturday" else "Sunday",
-            selected = selectedTabIndex == index,
-            onClick = {},
-          )
-        }
-      }
-    }
   }
 }

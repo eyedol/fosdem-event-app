@@ -5,27 +5,22 @@
 plugins {
   id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
+  id("com.addhen.fosdem.compose.android")
   id("com.addhen.fosdem.compose")
   id("com.addhen.fosdem.kmp.serialization")
   alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
-  namespace = "com.addhen.fosdem.ui.main"
+  namespace = "com.addhen.fosdem.ui.session"
 }
 
 kotlin {
   sourceSets {
 
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.androidx.activity.compose)
-      }
-    }
-
     val jvmMain by getting {
       dependencies {
-        implementation(libs.ktor.client.okhttp)
+        implementation(libs.compose.ui.tooling.preview)
       }
     }
 

@@ -28,7 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE" />
 
         <data
-          android:host="app.android.findreels.com"
+          android:host="fosdem.android.addhen.com"
           android:pathPrefix="/main"
           android:scheme="http" />
       </intent-filter>

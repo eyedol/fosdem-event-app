@@ -22,6 +22,12 @@ kotlin {
         api(libs.lyricist.library)
       }
     }
+
+    val androidMain by getting {
+      dependencies {
+        implementation(libs.compose.ui.tooling.preview)
+      }
+    }
   }
 }
 

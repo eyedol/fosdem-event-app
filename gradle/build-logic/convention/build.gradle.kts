@@ -62,6 +62,11 @@ gradlePlugin {
       implementationClass = "com.addhen.fosdem.gradle.plugins.ComposeMultiplatformConventionPlugin"
     }
 
+    register("composeAndroid") {
+      id = "com.addhen.fosdem.compose.android"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.AndroidComposeConventionPlugin"
+    }
+
     register("spotless") {
       id = "com.addhen.fosdem.gradle.plugins.spotless"
       implementationClass = "com.addhen.fosdem.gradle.plugins.SpotlessConventionPlugin"
