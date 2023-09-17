@@ -19,4 +19,6 @@ val EnAppStrings = AppStrings(
   bookmarkContentDescription = "",
   toggleSessionListContentDescription = "Toggle Session to Grid view",
   toggleSessionGridContentDescription = "Toggle Session to List view",
+  dayOneTitle = "Saturday",
+  dayTwoTitle = "Sunday",
 )
