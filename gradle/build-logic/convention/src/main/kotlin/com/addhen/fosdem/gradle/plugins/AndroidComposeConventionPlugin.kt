@@ -5,6 +5,7 @@ package com.addhen.fosdem.gradle.plugins
 
 import com.addhen.fosdem.gradle.android
 import com.addhen.fosdem.gradle.androidLibrary
+import com.addhen.fosdem.gradle.debugImplementation
 import com.addhen.fosdem.gradle.implementation
 import com.addhen.fosdem.gradle.libs
 import com.addhen.fosdem.gradle.lintChecks
@@ -25,9 +26,8 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
         }
         dependencies {
           implementation(libs.findLibrary("compose.ui.tooling.preview"))
+          debugImplementation(libs.findLibrary("compose.ui.tooling"))
           lintChecks(libs.findLibrary("compose.lint.check"))
-
-          // add("coreLibraryDesugaring", libs.findLibrary("android.desugaring").get())
         }
       }
     }

@@ -91,6 +91,7 @@ junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5"}
 lyricist-core = { module = "cafe.adriel.lyricist:lyricist-core", version.ref = "lyricist" }
 lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform"}
+compose-ui-tooling = { group = "org.jetbrains.compose.ui", name = "ui-tooling", version.ref = "compose-multiplatform" }
 compose-lint-check = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintChecks" }
 
 [bundles]
