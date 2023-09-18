@@ -70,6 +70,22 @@ val md_theme_dark_surfaceTint = Color(0xFFD0BCFF)
 val md_theme_dark_outlineVariant = Color(0xFF49454F)
 val md_theme_dark_scrim = Color(0xFF000000)
 
+val md_theme_light_track_type_keynote = Color(0xFF0A57A4)
+val md_theme_light_track_type_main_track = Color(0xFF5E5504)
+val md_theme_light_track_type_dev_room = Color(0xFF552E21)
+val md_theme_light_track_type_lightning_talk = Color(0xFF026066)
+val md_theme_light_track_type_certification = Color(0xFF494E5A)
+val md_theme_light_track_type_other = Color(0xFF494E5A)
+val md_theme_light_track_type_name = Color(0xFFFFFFFF)
+
+val md_theme_dark_track_type_keynote = Color(0xFFB2D1FF)
+val md_theme_dark_track_type_main_track = Color(0xFFF0DF63)
+val md_theme_dark_track_type_dev_room = Color(0xFFE7BB92)
+val md_theme_dark_track_type_lightning_talk = Color(0xFFB4DDDD)
+val md_theme_dark_track_type_certification = Color(0xFFB8B9BD)
+val md_theme_dark_track_type_other = Color(0xFFB8B9BD)
+val md_theme_dark_track_type_name = Color(0xFF000000)
+
 val AppLightColors = lightColorScheme(
   primary = md_theme_light_primary,
   onPrimary = md_theme_light_onPrimary,
