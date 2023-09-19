@@ -1,3 +1,8 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
+@file:Suppress("ktlint:enum-entry-name-case")
+
 package com.addhen.fosdem.compose.common.ui.api.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -6,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 
 data class TrackTypeColor(
   val nameColor: Color = md_theme_light_track_type_name,
-  val backgroundColor: Color
+  val backgroundColor: Color,
 )
 
 sealed interface TrackColorScheme {

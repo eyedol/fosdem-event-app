@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.material3.Surface
@@ -15,7 +18,7 @@ fun SessionTagPreview() {
       SessionTag(
         label = "Dev Room",
         labelColor = trackColor.nameColor,
-        backgroundColor =trackColor.backgroundColor,
+        backgroundColor = trackColor.backgroundColor,
       )
     }
   }

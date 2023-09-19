@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.foundation.background
@@ -18,39 +21,39 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SessionTag(
-    label: String,
-    modifier: Modifier = Modifier,
-    labelColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    backgroundColor: Color = Color.Transparent,
-    borderColor: Color? = null,
+  label: String,
+  modifier: Modifier = Modifier,
+  labelColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+  backgroundColor: Color = Color.Transparent,
+  borderColor: Color? = null,
 ) {
-    Box(
-        modifier = modifier
-            .defaultMinSize(minHeight = 24.dp)
-            .then(
-                if (borderColor != null) {
-                    Modifier.border(
-                        width = 1.dp,
-                        color = borderColor,
-                        shape = RoundedCornerShape(50.dp),
-                    )
-                } else {
-                    Modifier
-                },
-            )
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(50.dp),
-            )
-            .padding(horizontal = 8.dp, vertical = 4.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = label,
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp,
-            style = MaterialTheme.typography.labelMedium,
-            color = labelColor,
-        )
-    }
+  Box(
+    modifier = modifier
+      .defaultMinSize(minHeight = 24.dp)
+      .then(
+        if (borderColor != null) {
+          Modifier.border(
+            width = 1.dp,
+            color = borderColor,
+            shape = RoundedCornerShape(50.dp),
+          )
+        } else {
+          Modifier
+        },
+      )
+      .background(
+        color = backgroundColor,
+        shape = RoundedCornerShape(50.dp),
+      )
+      .padding(horizontal = 8.dp, vertical = 4.dp),
+    contentAlignment = Alignment.Center,
+  ) {
+    Text(
+      text = label,
+      fontWeight = FontWeight.Medium,
+      fontSize = 12.sp,
+      style = MaterialTheme.typography.labelMedium,
+      color = labelColor,
+    )
+  }
 }

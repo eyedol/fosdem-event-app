@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.foundation.background
@@ -68,14 +71,17 @@ fun SessionList(
   ) {
     itemsIndexed(
       uiState.sessionItemMap.toList(),
-      key = { _, (key, _) -> key }) { index, (_, sessionItems) ->
+      key = { _, (key, _) -> key },
+    ) { index, (_, sessionItems) ->
       var rowHeight by remember { mutableIntStateOf(0) }
       var timeTextHeight by remember { mutableIntStateOf(0) }
       val timeTextOffset by remember(density) {
         derivedStateOf {
           // 15.dp is bottom_margin of TimetableListItem
           // 1.dp is height of Divider in TimetableListItem
-          val maxOffset = with(density) { rowHeight - (timeTextHeight + (15.dp + 1.dp).roundToPx()) }
+          val maxOffset = with(density) {
+            rowHeight - (timeTextHeight + (15.dp + 1.dp).roundToPx())
+          }
           if (index == scrollState.firstVisibleItemIndex) {
             minOf(scrollState.firstVisibleItemScrollOffset, maxOffset).coerceAtLeast(0)
           } else {
@@ -135,7 +141,7 @@ fun SessionList(
           sessionItems.forEach { sessionItem ->
             val isBookmarked = sessionItem.isBookmarked
             val haptic = LocalHapticFeedback.current
-            val addFavoriteCd =uiState.addSessionFavoriteContentDescription
+            val addFavoriteCd = uiState.addSessionFavoriteContentDescription
             val removeFavoriteCd = uiState.removeSessionFavoriteContentDescription
             SessionListItem(
               sessionItem = sessionItem,
