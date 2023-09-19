@@ -17,76 +17,76 @@ data class TrackTypeColor(
 sealed interface TrackColorScheme {
   val trackTypeColor: TrackTypeColor
 
-  enum class Light(override val trackTypeColor: TrackTypeColor): TrackColorScheme {
+  enum class Light(override val trackTypeColor: TrackTypeColor) : TrackColorScheme {
     other(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_other
-      )
+        backgroundColor = md_theme_light_track_type_other,
+      ),
     ),
     keynote(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_keynote
-      )
+        backgroundColor = md_theme_light_track_type_keynote,
+      ),
     ),
     maintrack(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_main_track
-      )
+        backgroundColor = md_theme_light_track_type_main_track,
+      ),
     ),
     devroom(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_dev_room
-      )
+        backgroundColor = md_theme_light_track_type_dev_room,
+      ),
     ),
     lightningtalk(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_lightning_talk
-      )
+        backgroundColor = md_theme_light_track_type_lightning_talk,
+      ),
     ),
     certification(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_certification
-      )
-    );
+        backgroundColor = md_theme_light_track_type_certification,
+      ),
+    ),
   }
 
-  enum class Dark(override val trackTypeColor: TrackTypeColor): TrackColorScheme {
+  enum class Dark(override val trackTypeColor: TrackTypeColor) : TrackColorScheme {
     other(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_other
-      )
+        backgroundColor = md_theme_light_track_type_other,
+      ),
     ),
     keynote(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_keynote
-      )
+        backgroundColor = md_theme_light_track_type_keynote,
+      ),
     ),
     maintrack(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_main_track
-      )
+        backgroundColor = md_theme_light_track_type_main_track,
+      ),
     ),
     devroom(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_dev_room
-      )
+        backgroundColor = md_theme_light_track_type_dev_room,
+      ),
     ),
     lightningtalk(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_lightning_talk
-      )
+        backgroundColor = md_theme_light_track_type_lightning_talk,
+      ),
     ),
     certification(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_certification
-      )
-    );
+        backgroundColor = md_theme_light_track_type_certification,
+      ),
+    ),
   }
 }
 
 @Composable
 fun trackColors(name: String) = if (isSystemInDarkTheme()) {
-  TrackColorScheme.Light.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
-} else {
   TrackColorScheme.Dark.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
+} else {
+  TrackColorScheme.Light.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
 }

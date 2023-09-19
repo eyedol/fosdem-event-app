@@ -59,7 +59,7 @@ fun SessionList(
   uiState: SessionListUiState,
   scrollState: LazyListState,
   onBookmarkClick: (Event, Boolean) -> Unit,
-  onTimetableItemClick: (Event) -> Unit,
+  onSessionItemClick: (Event) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {
@@ -148,7 +148,7 @@ fun SessionList(
               addSessionFavoriteContentDescription = addFavoriteCd,
               removeSessionFavoriteContentDescription = removeFavoriteCd,
               modifier = Modifier
-                .clickable { onTimetableItemClick(sessionItem) }
+                .clickable { onSessionItemClick(sessionItem) }
                 .padding(top = 10.dp),
               isBookmarked = isBookmarked,
               onBookmarkClick = { sessionItemLocal, isBookmarkedLocal ->
@@ -160,11 +160,9 @@ fun SessionList(
                 onBookmarkClick(sessionItemLocal, isBookmarkedLocal)
               },
               chipContent = {
-                // Chips
                 val trackColor = trackColors(sessionItem.track.name)
                 val containerColor = trackColor.backgroundColor
                 val labelColor = trackColor.nameColor
-
                 SessionTag(
                   label = sessionItem.track.name,
                   labelColor = labelColor,

@@ -113,6 +113,22 @@ val day1Event = Event(
   links = listOf(link),
   speakers = listOf(speaker),
   room = room,
-  track = Track("Keynotes", Track.Type.BOF),
+  track = Track("maintrack", Track.Type.BOF),
   attachments = listOf(attachment),
+)
+
+val day2Event = Event(
+  id = 2,
+  startTime = LocalTime.parse("11:40"),
+  duration = LocalTime.parse("00:15"),
+  title = "An open source and open design educational robot",
+  description = "Welcome to FOSDEM 2023!",
+  isBookmarked = false,
+  abstractText = "FOSSbot is a free and open source and open design.",
+  day = day2,
+  links = listOf(link2),
+  speakers = listOf(speaker2),
+  room = room2,
+  track = Track("keynote", Track.Type.KEYNOTE),
+  attachments = listOf(attachment2),
 )
