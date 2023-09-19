@@ -4,39 +4,84 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-sealed class TrackColorScheme {
-  abstract val name: Color
-  abstract val typeKeynote: Color
-  abstract val typeMainTrack: Color
-  abstract val typeDevRoom: Color
-  abstract val typeLightningTalk: Color
-  abstract val typeCertification: Color
-  abstract val typeOther: Color
+data class TrackTypeColor(
+  val nameColor: Color = md_theme_light_track_type_name,
+  val backgroundColor: Color
+)
 
-  data class Light(
-    override val typeKeynote: Color = md_theme_light_track_type_keynote,
-    override val typeMainTrack: Color = md_theme_light_track_type_main_track,
-    override val typeDevRoom: Color = md_theme_light_track_type_dev_room,
-    override val typeLightningTalk: Color = md_theme_light_track_type_lightning_talk,
-    override val typeCertification: Color = md_theme_light_track_type_certification,
-    override val typeOther: Color = md_theme_light_track_type_other,
-    override val name: Color = md_theme_light_track_type_name,
-  ) : TrackColorScheme()
+sealed interface TrackColorScheme {
+  val trackTypeColor: TrackTypeColor
 
-  data class Dark(
-    override val typeKeynote: Color = md_theme_dark_track_type_keynote,
-    override val typeMainTrack: Color = md_theme_dark_track_type_main_track,
-    override val typeDevRoom: Color = md_theme_dark_track_type_dev_room,
-    override val typeLightningTalk: Color = md_theme_dark_track_type_lightning_talk,
-    override val typeCertification: Color = md_theme_dark_track_type_certification,
-    override val typeOther: Color = md_theme_dark_track_type_other,
-    override val name: Color = md_theme_dark_track_type_name,
-  ) : TrackColorScheme()
+  enum class Light(override val trackTypeColor: TrackTypeColor): TrackColorScheme {
+    other(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_other
+      )
+    ),
+    keynote(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_keynote
+      )
+    ),
+    maintrack(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_main_track
+      )
+    ),
+    devroom(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_dev_room
+      )
+    ),
+    lightningtalk(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_lightning_talk
+      )
+    ),
+    certification(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_certification
+      )
+    );
+  }
+
+  enum class Dark(override val trackTypeColor: TrackTypeColor): TrackColorScheme {
+    other(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_other
+      )
+    ),
+    keynote(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_keynote
+      )
+    ),
+    maintrack(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_main_track
+      )
+    ),
+    devroom(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_dev_room
+      )
+    ),
+    lightningtalk(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_lightning_talk
+      )
+    ),
+    certification(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_certification
+      )
+    );
+  }
 }
 
 @Composable
-fun  trackColors() = if (isSystemInDarkTheme()) {
-  TrackColorScheme.Dark()
+fun trackColors(name: String) = if (isSystemInDarkTheme()) {
+  TrackColorScheme.Light.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
 } else {
-  TrackColorScheme.Light()
+  TrackColorScheme.Dark.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
 }

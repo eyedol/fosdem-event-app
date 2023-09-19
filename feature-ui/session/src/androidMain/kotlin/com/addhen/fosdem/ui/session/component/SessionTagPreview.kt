@@ -9,13 +9,13 @@ import com.addhen.fosdem.compose.common.ui.api.theme.trackColors
 @MultiThemePreviews
 @Composable
 fun SessionTagPreview() {
-  val trackColor = trackColors()
+  val trackColor = trackColors("devroom")
   AppTheme {
     Surface {
       SessionTag(
         label = "Dev Room",
-        labelColor = trackColor.name,
-        backgroundColor =trackColor.typeCertification,
+        labelColor = trackColor.nameColor,
+        backgroundColor =trackColor.backgroundColor,
       )
     }
   }
