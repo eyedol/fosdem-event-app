@@ -6,6 +6,7 @@ plugins {
   id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
   id("com.addhen.fosdem.compose")
+  alias(libs.plugins.kotlin.parcelize)
 }
 
 kotlin {
@@ -26,8 +27,10 @@ kotlin {
     val androidMain by getting {
       dependencies {
         implementation(libs.compose.ui.tooling.preview)
+        implementation(libs.androidx.activity.compose)
       }
     }
+
   }
 }
 
