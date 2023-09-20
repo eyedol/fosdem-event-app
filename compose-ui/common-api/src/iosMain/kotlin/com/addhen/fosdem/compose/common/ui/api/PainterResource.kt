@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.compose.common.ui.api
 
 import androidx.compose.runtime.Composable
@@ -5,16 +8,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import kotlinx.cinterop.ExperimentalForeignApi
 import cnames.structs.CGColorSpace
 import cnames.structs.CGImage
-import kotlinx.cinterop.*
+import kotlinx.cinterop.CPointed
+import kotlinx.cinterop.CPointer
+import kotlinx.cinterop.CValue
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.refTo
 import org.jetbrains.skia.ColorAlphaType
 import org.jetbrains.skia.ColorType
 import org.jetbrains.skia.Image
 import org.jetbrains.skia.ImageInfo
-import platform.CoreGraphics.CGImageRef
-import platform.UIKit.UIImage
 import platform.CoreGraphics.CGBitmapContextCreate
 import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
 import platform.CoreGraphics.CGContextClearRect
@@ -24,9 +28,15 @@ import platform.CoreGraphics.CGContextRelease
 import platform.CoreGraphics.CGImageAlphaInfo
 import platform.CoreGraphics.CGImageGetHeight
 import platform.CoreGraphics.CGImageGetWidth
+import platform.CoreGraphics.CGImageRef
 import platform.CoreGraphics.CGRect
 import platform.CoreGraphics.CGRectMake
-import platform.posix.*
+import platform.UIKit.UIImage
+import platform.posix.free
+import platform.posix.malloc
+import platform.posix.memcpy
+import platform.posix.size_t
+import platform.posix.uint32_t
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -43,7 +53,6 @@ actual fun painterResource(imageResource: ImageResource): Painter {
     BitmapPainter(image = skiaImage.toComposeImageBitmap())
   }
 }
-
 
 /*
  * Copyright 2023 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
@@ -72,7 +81,7 @@ internal fun CGImageRef.toSkiaImage(): Image {
     x = 0.0,
     y = 0.0,
     width = width.toDouble(),
-    height = height.toDouble()
+    height = height.toDouble(),
   )
 
   val ctx: CGContextRef = CGBitmapContextCreate(
@@ -82,7 +91,7 @@ internal fun CGImageRef.toSkiaImage(): Image {
     bitsPerComponent = bitsPerComponent,
     bytesPerRow = bytesPerRow,
     space = space,
-    bitmapInfo = bitmapInfo
+    bitmapInfo = bitmapInfo,
   ) ?: throw IllegalArgumentException("can't create bitmap context for $cgImage")
 
   CGContextClearRect(c = ctx, rect = rect)
@@ -100,9 +109,9 @@ internal fun CGImageRef.toSkiaImage(): Image {
       width = width.toInt(),
       height = height.toInt(),
       colorType = ColorType.RGBA_8888,
-      alphaType = ColorAlphaType.PREMUL
+      alphaType = ColorAlphaType.PREMUL,
     ),
     bytes = bytes,
-    rowBytes = bytesPerRow.toInt()
+    rowBytes = bytesPerRow.toInt(),
   )
 }

@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.foundation.Image
@@ -15,45 +18,47 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SessionHeader(painter: Painter, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.wrapContentSize(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Column(Modifier.padding(horizontal = 16.dp)) {
-            Text(text = buildAnnotatedString {
-              withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
-                append("FOSDEM")
-              }
-              withStyle(
-                style = MaterialTheme.typography.displaySmall
-                  .toSpanStyle()
-                  .copy(color = fosdem_pink)
-              ) {
-                append("\u02BC24")
-              }
-            })
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = "@ Brussels, Belgium",
-                style = MaterialTheme.typography.labelMedium,
-            )
-        }
-        Box {
-            Image(
-                modifier = Modifier.size(width = 150.dp, height = 151.dp).padding(vertical = 8.dp, horizontal = 8.dp),
-                painter = painter,
-                contentDescription = null,
-            )
-        }
+  Row(
+    modifier = modifier.wrapContentSize(),
+    horizontalArrangement = Arrangement.SpaceBetween,
+  ) {
+    Column(Modifier.padding(horizontal = 16.dp)) {
+      Text(
+        text = buildAnnotatedString {
+          withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
+            append("FOSDEM")
+          }
+          withStyle(
+            style = MaterialTheme.typography.displaySmall
+              .toSpanStyle()
+              .copy(color = fosdem_pink),
+          ) {
+            append("\u02BC24")
+          }
+        },
+      )
+      Spacer(modifier = Modifier.height(2.dp))
+      Text(
+        text = "@ Brussels, Belgium",
+        style = MaterialTheme.typography.labelMedium,
+      )
     }
+    Box {
+      Image(
+        modifier = Modifier.size(
+          width = 150.dp,
+          height = 151.dp,
+        ).padding(vertical = 8.dp, horizontal = 8.dp),
+        painter = painter,
+        contentDescription = null,
+      )
+    }
+  }
 }

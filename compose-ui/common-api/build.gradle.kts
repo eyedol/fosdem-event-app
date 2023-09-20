@@ -30,7 +30,6 @@ kotlin {
         implementation(libs.androidx.activity.compose)
       }
     }
-
   }
 }
 
