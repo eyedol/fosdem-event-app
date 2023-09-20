@@ -19,6 +19,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -33,19 +34,23 @@ fun SessionHeader(painter: Painter, modifier: Modifier = Modifier) {
               withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
                 append("FOSDEM")
               }
-              withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle() ) {
+              withStyle(
+                style = MaterialTheme.typography.displaySmall
+                  .toSpanStyle()
+                  .copy(color = fosdem_pink)
+              ) {
                 append("\u02BC24")
               }
             })
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = "@ ULB Solbosch Campus, Brussels, Belgium",
+                text = "@ Brussels, Belgium",
                 style = MaterialTheme.typography.labelMedium,
             )
         }
         Box {
             Image(
-                modifier = Modifier.size(width = 185.dp, height = 169.dp),
+                modifier = Modifier.size(width = 150.dp, height = 151.dp).padding(vertical = 8.dp, horizontal = 8.dp),
                 painter = painter,
                 contentDescription = null,
             )

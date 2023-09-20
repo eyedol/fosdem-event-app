@@ -86,6 +86,8 @@ val md_theme_dark_track_type_certification = Color(0xFFB8B9BD)
 val md_theme_dark_track_type_other = Color(0xFFB8B9BD)
 val md_theme_dark_track_type_name = Color(0xFF000000)
 
+val fosdem_pink = Color(0xFFA518BA)
+
 val AppLightColors = lightColorScheme(
   primary = md_theme_light_primary,
   onPrimary = md_theme_light_onPrimary,
