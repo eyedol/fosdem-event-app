@@ -5,6 +5,7 @@
 plugins {
   id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
+  id("com.addhen.fosdem.compose.android")
   id("com.addhen.fosdem.compose")
   alias(libs.plugins.kotlin.parcelize)
 }
@@ -35,4 +36,10 @@ kotlin {
 
 android {
   namespace = "com.addhen.fosdem.compose.common.ui.api"
+  sourceSets {
+    named("main") {
+      res.srcDirs("src/commonMain/resources", "src/androidMain/resources")
+      resources.srcDirs("src/commonMain/resources")
+    }
+  }
 }
