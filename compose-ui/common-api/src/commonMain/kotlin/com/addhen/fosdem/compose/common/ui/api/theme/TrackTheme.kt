@@ -53,32 +53,32 @@ sealed interface TrackColorScheme {
   enum class Dark(override val trackTypeColor: TrackTypeColor) : TrackColorScheme {
     other(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_other,
+        backgroundColor = md_theme_dark_track_type_other,
       ),
     ),
     keynote(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_keynote,
+        backgroundColor = md_theme_dark_track_type_keynote,
       ),
     ),
     maintrack(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_main_track,
+        backgroundColor = md_theme_dark_track_type_main_track,
       ),
     ),
     devroom(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_dev_room,
+        backgroundColor = md_theme_dark_track_type_dev_room,
       ),
     ),
     lightningtalk(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_lightning_talk,
+        backgroundColor = md_theme_dark_track_type_lightning_talk,
       ),
     ),
     certification(
       TrackTypeColor(
-        backgroundColor = md_theme_light_track_type_certification,
+        backgroundColor = md_theme_dark_track_type_certification,
       ),
     ),
   }
