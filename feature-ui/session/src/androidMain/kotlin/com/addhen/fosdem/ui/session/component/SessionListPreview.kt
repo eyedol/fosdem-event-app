@@ -17,7 +17,7 @@ import kotlinx.collections.immutable.toPersistentMap
 @Composable
 fun SessionListPreview() {
   val uiState = SessionListUiState(
-    sortAndGroupedTimetableItems,
+    sortAndGroupedSessionItems,
     addSessionFavoriteContentDescription = "Add session favorite",
     removeSessionFavoriteContentDescription = "Remove session favorite",
   )
@@ -35,7 +35,7 @@ fun SessionListPreview() {
   }
 }
 
-val sortAndGroupedTimetableItems = listOf(day1Event, day2Event).groupBy {
+val sortAndGroupedSessionItems = listOf(day1Event, day2Event).groupBy {
   it.startTime.toString() + it.duration.toString()
 }.mapValues { entries ->
   entries.value.sortedWith(
