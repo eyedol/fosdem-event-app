@@ -4,16 +4,32 @@
 package com.addhen.fosdem.ui.session
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.compose.common.ui.api.ImageResource
+import com.addhen.fosdem.ui.session.component.SessionSheetUiState
 import com.addhen.fosdem.ui.session.component.SessionUiType
+import com.addhen.fosdem.ui.session.component.Tag
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import kotlinx.collections.immutable.PersistentList
 
 @Immutable
 data class SessionUiState(
+  val appTitle: String,
+  val appLogo: ImageResource,
+  val year: String,
+  val location: String,
+  val tags: PersistentList<Tag>,
+  val content: SessionSheetUiState,
   val sessionUiType: SessionUiType,
   val eventSink: (SessionUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface SessionUiEvent : CircuitUiEvent {
-  data object OpenItem : SessionUiEvent
+  data class GoToSessionDetails(val eventId: Long) : SessionUiEvent
+
+  data class ToggleSessionBookmark(val eventId: Long, val isBookmarked: Boolean) : SessionUiEvent
+
+  data object ToggleSessionUi : SessionUiEvent
+
+  data object SearchSession : SessionUiEvent
 }

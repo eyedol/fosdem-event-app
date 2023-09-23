@@ -38,7 +38,7 @@ android {
   namespace = "com.addhen.fosdem.compose.common.ui.api"
   sourceSets {
     named("main") {
-      res.srcDirs("src/commonMain/resources", "src/androidMain/resources")
+      res.srcDirs("src/commonMain/resources", "src/androidMain/resources", "src/androidMain/res")
       resources.srcDirs("src/commonMain/resources")
     }
   }

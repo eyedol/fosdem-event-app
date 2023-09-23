@@ -3,4 +3,16 @@
 
 package com.addhen.fosdem.compose.common.ui.api
 
+import androidx.compose.runtime.Composable
+
 expect class ImageResource
+
+@Composable
+fun imageResource(appImage: AppImage): ImageResource = appImage.asImageResource()
+
+@Composable
+expect fun AppImage.asImageResource(): ImageResource
+
+enum class AppImage {
+  FosdemLogo,
+}

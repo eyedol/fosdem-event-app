@@ -8,6 +8,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -23,18 +27,27 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
+import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.ui.session.component.SessionHeader
+import com.addhen.fosdem.ui.session.component.SessionSheet
 import com.addhen.fosdem.ui.session.component.SessionTopArea
+import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
+import kotlin.math.roundToInt
 
 const val SessionScreenTestTag = "SessionScreen"
 
@@ -57,14 +70,17 @@ internal fun Session(
   modifier: Modifier = Modifier,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
+  val eventSink = uiState.eventSink
 
   SessionScreen(
     uiState = uiState,
     snackbarHostState = snackbarHostState,
-    onSessionItemClick = {},
-    onBookmarkClick = {},
-    onSearchClick = {},
-    onSessionUiChangeClick = {},
+    onSessionItemClick = { eventSink(SessionUiEvent.GoToSessionDetails(it)) },
+    onToggleSessionBookmark = { eventId, isBookmarked ->
+      eventSink(SessionUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    },
+    onSearchClick = { eventSink(SessionUiEvent.SearchSession) },
+    onSessionUiChangeClick = { eventSink(SessionUiEvent.ToggleSessionUi) },
     contentPadding = PaddingValues(),
     modifier = modifier,
   )
@@ -96,8 +112,8 @@ private fun sessionTopGradient() = if (!isSystemInDarkTheme()) {
 private fun SessionScreen(
   uiState: SessionUiState,
   snackbarHostState: SnackbarHostState,
-  onSessionItemClick: () -> Unit,
-  onBookmarkClick: () -> Unit,
+  onSessionItemClick: (eventId: Long) -> Unit,
+  onToggleSessionBookmark: (eventId: Long, isBookmarked: Boolean) -> Unit,
   onSearchClick: () -> Unit,
   onSessionUiChangeClick: () -> Unit,
   modifier: Modifier = Modifier,
@@ -106,7 +122,7 @@ private fun SessionScreen(
   val density = LocalDensity.current
   val strings = LocalStrings.current
   val windowSizeClass = LocalWindowSizeClass.current
-  // val state = remembersessionScreenScrollState()
+  val state = rememberSessionScreenScrollState()
   val layoutDirection = LocalLayoutDirection.current
   val gradientEndRatio = remember(windowSizeClass) {
     windowSizeClass.gradientEndRatio()
@@ -116,7 +132,7 @@ private fun SessionScreen(
   Scaffold(
     modifier = modifier
       .testTag(SessionScreenTestTag)
-      // .nestedScroll(state.screenNestedScrollConnection)
+      .nestedScroll(state.screenNestedScrollConnection)
       .background(sessionTopBackground())
       .drawWithCache {
         onDrawBehind {
@@ -153,6 +169,47 @@ private fun SessionScreen(
     Box(
       modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
     ) {
+      SessionHeader(
+        tile = uiState.appTitle,
+        year = uiState.year,
+        location = uiState.location,
+        tags = uiState.tags,
+        painter = painterResource(uiState.appLogo),
+        modifier = Modifier
+          .fillMaxWidth()
+          .onGloballyPositioned { coordinates ->
+            state.onHeaderPositioned(
+              coordinates.size.height.toFloat() - innerPadding.calculateTopPadding().value,
+            )
+          },
+      )
+      SessionSheet(
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(top = 131.dp)
+          .layout { measurable, constraints ->
+            val placeable = measurable.measure(
+              constraints.copy(
+                maxHeight = constraints.maxHeight - state.sheetScrollOffset.roundToInt(),
+              ),
+            )
+            layout(placeable.width, placeable.height) {
+              placeable.placeRelative(
+                0,
+                0 + (state.sheetScrollOffset / 2).roundToInt(),
+              )
+            }
+          },
+        onSessionItemClick = onSessionItemClick,
+        uiState = uiState.content,
+        sessionScreenScrollState = state,
+        onBookmarkClick = onToggleSessionBookmark,
+        contentPadding = PaddingValues(
+          bottom = innerPadding.calculateBottomPadding(),
+          start = innerPadding.calculateStartPadding(layoutDirection),
+          end = innerPadding.calculateEndPadding(layoutDirection),
+        ),
+      )
     }
   }
 }

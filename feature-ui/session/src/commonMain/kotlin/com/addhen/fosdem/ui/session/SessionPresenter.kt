@@ -5,12 +5,26 @@ package com.addhen.fosdem.ui.session
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.addhen.fosdem.compose.common.ui.api.AppImage
+import com.addhen.fosdem.compose.common.ui.api.imageResource
+import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.model.api.Day
+import com.addhen.fosdem.model.api.day
+import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.model.api.day2
+import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.SessionListUiState
+import com.addhen.fosdem.ui.session.component.SessionSheetUiState
 import com.addhen.fosdem.ui.session.component.SessionUiType
+import com.addhen.fosdem.ui.session.component.Tag
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentMap
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -40,13 +54,79 @@ class SessionPresenter(
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {
-        SessionUiEvent.OpenItem -> {}
+        is SessionUiEvent.GoToSessionDetails -> TODO()
+        SessionUiEvent.SearchSession -> TODO()
+        is SessionUiEvent.ToggleSessionBookmark -> TODO()
+        SessionUiEvent.ToggleSessionUi -> TODO()
       }
     }
 
     return SessionUiState(
-      sessionUiType = SessionUiType.Grid,
-      ::eventSink,
+      sessionUiType = SessionUiType.List,
+      appTitle = "FOSDEM",
+      appLogo = imageResource(AppImage.FosdemLogo),
+      year = "24",
+      location = "@ Brussels, Belgium",
+      tags = tags(),
+      content = sessionSheetPreview(),
+      eventSink = ::eventSink,
     )
   }
+
+  @Composable
+  private fun tags() = listOf(
+    Tag("beer", tagColors().tagColorMain),
+    Tag("open source", tagColors().tagColorAlt),
+    Tag("free software", tagColors().tagColorAlt),
+    Tag("lightning talks", tagColors().tagColorMain),
+    Tag("devrooms", tagColors().tagColorMain),
+    Tag("800+ talks", tagColors().tagColorAlt),
+    Tag("8000+ hackers", tagColors().tagColorAlt),
+  ).toPersistentList()
+
+  private fun sessionSheetPreview(): SessionSheetUiState {
+    val sessionListUiState = SessionListUiState(
+      sortAndGroupedEventsItems,
+      addSessionFavoriteContentDescription = "Add session favorite",
+      removeSessionFavoriteContentDescription = "Remove session favorite",
+    )
+
+    val sessionListUiState2 = SessionListUiState(
+      sortAndGroupedEventsItems2,
+      addSessionFavoriteContentDescription = "Add session favorite",
+      removeSessionFavoriteContentDescription = "Remove session favorite",
+    )
+
+    val dayTab = day.toDayTab()
+    val dayTab2 = day2.toDayTab()
+
+    return SessionSheetUiState.ListSession(
+      days = listOf(dayTab, dayTab2),
+      sessionListUiStates = mapOf(
+        dayTab to sessionListUiState,
+        dayTab2 to sessionListUiState2,
+      ),
+    )
+  }
+
+  fun Day.toDayTab() = DayTab(
+    id = id,
+    date = date,
+  )
+
+  val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
+    it.startTime.toString() + it.duration.toString()
+  }.mapValues { entries ->
+    entries.value.sortedWith(
+      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+    )
+  }.toPersistentMap()
+
+  val sortAndGroupedEventsItems2 = listOf(day2Event).groupBy {
+    it.startTime.toString() + it.duration.toString()
+  }.mapValues { entries ->
+    entries.value.sortedWith(
+      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+    )
+  }.toPersistentMap()
 }

@@ -5,12 +5,12 @@ package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
+import com.addhen.fosdem.compose.common.ui.api.AppImage
+import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
-import com.addhen.fosdem.ui.session.R
 import kotlinx.collections.immutable.toPersistentList
 
 @MultiThemePreviews
@@ -23,9 +23,7 @@ fun SessionHeaderPreview() {
         year = "24",
         location = "@ Brussels, Belgium",
         tags = tags(),
-        painter = painterResource(
-          ImageResource(R.drawable.fosdem_logo),
-        ),
+        painter = painterResource(imageResource(AppImage.FosdemLogo)),
       )
     }
   }

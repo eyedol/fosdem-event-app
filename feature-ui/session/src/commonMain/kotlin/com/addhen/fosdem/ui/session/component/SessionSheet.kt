@@ -31,7 +31,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.model.api.Event
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -85,8 +84,8 @@ class DayTab(val id: Long, val date: LocalDate) {
 fun SessionSheet(
   uiState: SessionSheetUiState,
   sessionScreenScrollState: SessionScreenScrollState,
-  onSessionItemClick: (Event) -> Unit,
-  onFavoriteClick: (Event, Boolean) -> Unit,
+  onSessionItemClick: (Long) -> Unit,
+  onBookmarkClick: (Long, Boolean) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {
@@ -143,7 +142,7 @@ fun SessionSheet(
             uiState = requireNotNull(uiState.sessionListUiStates[selectedDay]),
             scrollState = rememberLazyListState(),
             onSessionItemClick = onSessionItemClick,
-            onBookmarkClick = onFavoriteClick,
+            onBookmarkClick = onBookmarkClick,
             modifier = Modifier
               .fillMaxSize()
               .weight(1f),

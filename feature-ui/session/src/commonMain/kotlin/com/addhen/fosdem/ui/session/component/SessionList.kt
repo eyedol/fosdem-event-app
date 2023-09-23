@@ -58,8 +58,8 @@ data class SessionListUiState(
 fun SessionList(
   uiState: SessionListUiState,
   scrollState: LazyListState,
-  onBookmarkClick: (Event, Boolean) -> Unit,
-  onSessionItemClick: (Event) -> Unit,
+  onBookmarkClick: (Long, Boolean) -> Unit,
+  onSessionItemClick: (Long) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {
@@ -148,7 +148,7 @@ fun SessionList(
               addSessionFavoriteContentDescription = addFavoriteCd,
               removeSessionFavoriteContentDescription = removeFavoriteCd,
               modifier = Modifier
-                .clickable { onSessionItemClick(sessionItem) }
+                .clickable { onSessionItemClick(sessionItem.id) }
                 .padding(top = 10.dp),
               isBookmarked = isBookmarked,
               onBookmarkClick = { sessionItemLocal, isBookmarkedLocal ->
@@ -157,7 +157,7 @@ fun SessionList(
                     HapticFeedbackType(HAPTIC_LONG_PRESS),
                   )
                 }
-                onBookmarkClick(sessionItemLocal, isBookmarkedLocal)
+                onBookmarkClick(sessionItemLocal.id, isBookmarkedLocal)
               },
               chipContent = {
                 val trackColor = trackColors(sessionItem.track.name)

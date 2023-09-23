@@ -3,6 +3,8 @@
 
 package com.addhen.fosdem.compose.common.ui.api
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import platform.Foundation.NSBundle
 import platform.UIKit.UIImage
 
@@ -17,4 +19,12 @@ actual class ImageResource(
       compatibleWithTraitCollection = null,
     )
   }
+}
+
+@Composable
+actual fun AppImage.asImageResource() = remember(this) {
+  val assetImageName = when (this) {
+    AppImage.FosdemLogo -> "path_to_fosdem_logo"
+  }
+  ImageResource(assetImageName)
 }
