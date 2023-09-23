@@ -52,7 +52,7 @@ fun SessionHeader(
       .padding(horizontal = 16.dp),
     horizontalArrangement = Arrangement.SpaceBetween,
   ) {
-    Column(Modifier.weight(1.5f)) {
+    Column(Modifier.weight(2f)) {
       Text(
         text = buildAnnotatedString {
           withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
@@ -67,12 +67,11 @@ fun SessionHeader(
           }
         },
       )
-      Spacer(modifier = Modifier.height(2.dp))
+      Spacer(modifier = Modifier.height(1.dp))
       Text(
         text = location,
         style = MaterialTheme.typography.labelMedium,
       )
-      Spacer(modifier = Modifier.height(16.dp))
       FlowRow(
         Modifier
           .wrapContentWidth()
@@ -94,14 +93,21 @@ fun SessionHeader(
         .padding(8.dp)
         .wrapContentWidth(),
     ) {
-      Image(
+      Box(
         modifier = Modifier.size(
-          width = 150.dp,
-          height = 151.dp,
-        ).padding(vertical = 8.dp, horizontal = 8.dp),
-        painter = painter,
-        contentDescription = null,
-      )
+          width = 185.dp,
+          height = 169.dp,
+        ),
+      ) {
+        Image(
+          modifier = Modifier.size(
+            width = 120.dp,
+            height = 120.dp,
+          ),
+          painter = painter,
+          contentDescription = null,
+        )
+      }
     }
   }
 }

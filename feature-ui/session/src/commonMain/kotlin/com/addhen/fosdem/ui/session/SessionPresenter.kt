@@ -77,11 +77,11 @@ class SessionPresenter(
   private fun tags() = listOf(
     Tag("beer", tagColors().tagColorMain),
     Tag("open source", tagColors().tagColorAlt),
-    Tag("free software", tagColors().tagColorAlt),
-    Tag("lightning talks", tagColors().tagColorMain),
+    Tag("free software", tagColors().tagColorMain),
+    Tag("lightning talks", tagColors().tagColorAlt),
     Tag("devrooms", tagColors().tagColorMain),
     Tag("800+ talks", tagColors().tagColorAlt),
-    Tag("8000+ hackers", tagColors().tagColorAlt),
+    Tag("8000+ hackers", tagColors().tagColorMain),
   ).toPersistentList()
 
   private fun sessionSheetPreview(): SessionSheetUiState {
