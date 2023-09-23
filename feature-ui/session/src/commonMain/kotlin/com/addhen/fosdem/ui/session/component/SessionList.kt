@@ -77,8 +77,8 @@ fun SessionList(
       var timeTextHeight by remember { mutableIntStateOf(0) }
       val timeTextOffset by remember(density) {
         derivedStateOf {
-          // 15.dp is bottom_margin of TimetableListItem
-          // 1.dp is height of Divider in TimetableListItem
+          // 15.dp is bottom_margin of SessionListItem
+          // 1.dp is height of Divider in SessionListItem
           val maxOffset = with(density) {
             rowHeight - (timeTextHeight + (15.dp + 1.dp).roundToPx())
           }
@@ -131,7 +131,6 @@ fun SessionList(
             )
             Text(
               text = sessionItem.duration.toString(),
-              color = MaterialTheme.colorScheme.secondary,
               fontWeight = FontWeight.Medium,
               modifier = Modifier.clearAndSetSemantics {},
             )
