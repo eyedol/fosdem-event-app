@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+  implementation(projects.featureUi.sessionDetail)
   implementation(projects.featureUi.session)
   implementation(projects.featureUi.main)
   implementation(projects.data.events)

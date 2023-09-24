@@ -21,4 +21,11 @@ val EnAppStrings = AppStrings(
   toggleSessionGridContentDescription = "Toggle Session to List view",
   dayOneTitle = "Saturday",
   dayTwoTitle = "Sunday",
+  readMoreLabel = "Read more",
+  watchVideoLabel = "Watch Video",
+  shareTitle = "Share",
+  roomTitle = "Room",
+  trackTitle = "Track",
+  dateTitle = "Date",
+  speakerTitle = "Speaker"
 )

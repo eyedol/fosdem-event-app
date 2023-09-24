@@ -22,6 +22,13 @@ data class AppStrings(
   val toggleSessionGridContentDescription: String,
   val dayOneTitle: String,
   val dayTwoTitle: String,
+  val readMoreLabel: String,
+  val watchVideoLabel: String,
+  val shareTitle: String,
+  val roomTitle: String,
+  val trackTitle: String,
+  val dateTitle: String,
+  val speakerTitle: String
 )
 
 object Locales {

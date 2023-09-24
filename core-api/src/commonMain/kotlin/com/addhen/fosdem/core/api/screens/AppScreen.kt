@@ -8,6 +8,9 @@ import com.slack.circuit.runtime.screen.Screen
 @CommonParcelize
 object SessionScreen : AppScreen(name = "Session")
 
+@CommonParcelize
+object SessionDetailScreen: AppScreen(name = "SessionDetail")
+
 abstract class AppScreen(val name: String) : Screen {
   open val arguments: Map<String, *>? = null
 }
