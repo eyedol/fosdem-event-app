@@ -22,7 +22,6 @@ import com.addhen.fosdem.compose.common.ui.api.LoadingText
 import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.ui.session.detail.component.BookmarkIcon
 import com.addhen.fosdem.ui.session.detail.component.ScreenDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
@@ -81,8 +80,6 @@ sealed class ScreenDetailScreenUiState {
     val isBookmarked: Boolean,
     val isLangSelectable: Boolean,
     val appStrings: AppStrings,
-    val bookmarkedIcon: BookmarkIcon.Bookmarked,
-    val reversedBookmarkIcon: BookmarkIcon.Reversed,
     val viewBookmarkListRequestState: ViewBookmarkListRequestState,
   ) : ScreenDetailScreenUiState()
 
@@ -128,8 +125,6 @@ private fun SessionItemDetailScreen(
           isBookmarked = uiState.isBookmarked,
           addFavorite = uiState.appStrings.addToFavoritesTitle,
           removeFavorite = uiState.appStrings.removeFromFavorites,
-          bookmarkedIcon = uiState.bookmarkedIcon,
-          reversedBookmarkIcon = uiState.reversedBookmarkIcon,
           shareTitle = uiState.appStrings.shareTitle,
           addToCalendar = uiState.appStrings.addToCalendarTitle,
           onBookmarkClick = onBookmarkClick,

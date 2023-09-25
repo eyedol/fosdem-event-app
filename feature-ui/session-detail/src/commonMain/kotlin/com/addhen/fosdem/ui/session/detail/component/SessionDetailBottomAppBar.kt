@@ -5,6 +5,8 @@ package com.addhen.fosdem.ui.session.detail.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BookmarkAdd
+import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -17,18 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.compose.common.ui.api.AppIcons
 import com.addhen.fosdem.compose.common.ui.api.CalendarAddOn
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
-import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.model.api.Event
 
 const val SessionDetailBookmarkIconTestTag = "SessionItemDetailBookmarkIcon"
-
-sealed interface BookmarkIcon {
-  val imageResource: ImageResource
-
-  data class Bookmarked(override val imageResource: ImageResource) : BookmarkIcon
-  data class Reversed(override val imageResource: ImageResource) : BookmarkIcon
-}
 
 @Composable
 fun SessionDetailBottomAppBar(
@@ -38,8 +31,6 @@ fun SessionDetailBottomAppBar(
   removeFavorite: String,
   shareTitle: String,
   addToCalendar: String,
-  bookmarkedIcon: BookmarkIcon.Bookmarked,
-  reversedBookmarkIcon: BookmarkIcon.Reversed,
   onBookmarkClick: (Long, Boolean) -> Unit,
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
@@ -73,8 +64,6 @@ fun SessionDetailBottomAppBar(
           eventId = event.id,
           addFavorite = addFavorite,
           removeFavorite = removeFavorite,
-          bookmarkedIcon = bookmarkedIcon,
-          reversedBookmarkIcon = reversedBookmarkIcon,
           onClick = onBookmarkClick,
         )
       }
@@ -87,21 +76,17 @@ fun AnimatedBookmarkIcon(
   addFavorite: String,
   removeFavorite: String,
   isBookmarked: Boolean,
-  bookmarkedIcon: BookmarkIcon.Bookmarked,
-  reversedBookmarkIcon: BookmarkIcon.Reversed,
   eventId: Long,
   onClick: (Long, Boolean) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val animatedBookmarkIconPainter = painterResource(
-    if (isBookmarked) {
-      reversedBookmarkIcon.imageResource
-    } else {
-      bookmarkedIcon.imageResource
-    },
-  )
+  val bookmarkVector = if (isBookmarked) {
+    Icons.Filled.BookmarkRemove
+  } else {
+    Icons.Filled.BookmarkAdd
+  }
   Icon(
-    painter = animatedBookmarkIconPainter,
+    imageVector = bookmarkVector,
     contentDescription = if (isBookmarked) {
       removeFavorite
     } else {
