@@ -41,11 +41,10 @@ fun SessionDetailTopAppBar(
 ) {
   LargeTopAppBar(
     title = {
-      Box(
-        contentAlignment = Alignment.CenterStart,
-      ) {
-        // If default animation of top app bar is used and Text and ResizeableText are shown/hidden with a flag,
-        // the animation behaviour is little weird, so alpha value of composables are calculated independently for smoother animation.
+      Box(contentAlignment = Alignment.CenterStart) {
+        // If default animation of top app bar is used and Text and ResizeableText are
+        // shown/hidden with a flag, the animation behaviour is a little weird, so alpha value
+        // of composables are calculated independently for smoother animation.
         val textAlpha: Float by remember {
           derivedStateOf {
             val alphaBase = 0.65
