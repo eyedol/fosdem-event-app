@@ -16,9 +16,9 @@ fun SessionDetailContentPreview() {
   val appString = EnAppStrings
   val uiState = SessionDetailItemSectionUiState(
     event = day1Event,
-    dateTitle = "How regulating software for the european market could impact FOSS",
-    placeTitle = "K-Building",
-    trackTitle = "Keynote",
+    dateTitle = appString.dateTitle,
+    placeTitle = appString.roomTitle,
+    trackTitle = appString.trackTitle,
     readMoreTitle = appString.readMoreLabel,
   )
   AppTheme {

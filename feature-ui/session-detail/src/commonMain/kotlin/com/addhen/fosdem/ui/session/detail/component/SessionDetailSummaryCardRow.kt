@@ -36,7 +36,7 @@ fun SessionDetailSummaryCardRow(
     )
     Spacer(modifier = Modifier.width(8.dp))
     Text(
-      text = "${label}:",
+      text = "$label:",
       fontWeight = FontWeight.Bold,
       style = MaterialTheme.typography.labelLarge,
       color = MaterialTheme.colorScheme.onSurfaceVariant,

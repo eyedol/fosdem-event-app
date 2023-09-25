@@ -22,8 +22,8 @@ import com.addhen.fosdem.compose.common.ui.api.LoadingText
 import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.ui.session.detail.component.ScreenDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
+import com.addhen.fosdem.ui.session.detail.component.SessionDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailTopAppBar
 import com.slack.circuit.runtime.CircuitContext
@@ -134,7 +134,7 @@ private fun SessionItemDetailScreen(
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
   ) { innerPadding ->
     if (uiState is ScreenDetailScreenUiState.Loaded) {
-      ScreenDetailItem(
+      SessionDetailItem(
         modifier = Modifier.fillMaxSize(),
         uiState = uiState.sessionItemDetailSectionUiState,
         onLinkClick = onLinkClick,

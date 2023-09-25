@@ -20,7 +20,7 @@ data class SessionDetailItemSectionUiState(
 )
 
 @Composable
-internal fun ScreenDetailItem(
+internal fun SessionDetailItem(
   uiState: SessionDetailItemSectionUiState,
   contentPadding: PaddingValues,
   onLinkClick: (String) -> Unit,
