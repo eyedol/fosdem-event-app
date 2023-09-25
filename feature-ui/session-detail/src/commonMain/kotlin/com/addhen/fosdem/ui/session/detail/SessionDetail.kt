@@ -75,9 +75,7 @@ internal fun SessionDetail(
 sealed class ScreenDetailScreenUiState {
   data object Loading : ScreenDetailScreenUiState()
   data class Loaded(
-    val event: Event,
-    val sessionItemDetailSectionUiState: SessionDetailItemSectionUiState,
-    val isBookmarked: Boolean,
+    val sessionDetailUiState: SessionDetailItemSectionUiState,
     val appStrings: AppStrings,
     val viewBookmarkListRequestState: ViewBookmarkListRequestState,
   ) : ScreenDetailScreenUiState()
@@ -93,7 +91,7 @@ sealed class ViewBookmarkListRequestState {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SessionItemDetailScreen(
+internal fun SessionItemDetailScreen(
   uiState: ScreenDetailScreenUiState,
   onNavigationIconClick: () -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
@@ -110,7 +108,7 @@ private fun SessionItemDetailScreen(
     topBar = {
       if (uiState is ScreenDetailScreenUiState.Loaded) {
         SessionDetailTopAppBar(
-          title = uiState.event.title,
+          title = uiState.sessionDetailUiState.event.title,
           onNavigationIconClick = onNavigationIconClick,
           scrollBehavior = scrollBehavior,
         )
@@ -119,8 +117,8 @@ private fun SessionItemDetailScreen(
     bottomBar = {
       if (uiState is ScreenDetailScreenUiState.Loaded) {
         SessionDetailBottomAppBar(
-          event = uiState.event,
-          isBookmarked = uiState.isBookmarked,
+          event = uiState.sessionDetailUiState.event,
+          isBookmarked = uiState.sessionDetailUiState.event.isBookmarked,
           addFavorite = uiState.appStrings.addToFavoritesTitle,
           removeFavorite = uiState.appStrings.removeFromFavorites,
           shareTitle = uiState.appStrings.shareTitle,
@@ -136,7 +134,7 @@ private fun SessionItemDetailScreen(
     if (uiState is ScreenDetailScreenUiState.Loaded) {
       SessionDetailItem(
         modifier = Modifier.fillMaxSize(),
-        uiState = uiState.sessionItemDetailSectionUiState,
+        uiState = uiState.sessionDetailUiState,
         onLinkClick = onLinkClick,
         contentPadding = innerPadding,
       )
