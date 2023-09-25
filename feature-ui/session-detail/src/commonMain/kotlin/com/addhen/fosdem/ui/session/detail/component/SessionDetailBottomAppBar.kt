@@ -36,6 +36,8 @@ fun SessionDetailBottomAppBar(
   isBookmarked: Boolean,
   addFavorite: String,
   removeFavorite: String,
+  shareTitle: String,
+  addToCalendar: String,
   bookmarkedIcon: BookmarkIcon.Bookmarked,
   reversedBookmarkIcon: BookmarkIcon.Reversed,
   onBookmarkClick: (Long, Boolean) -> Unit,
@@ -49,13 +51,13 @@ fun SessionDetailBottomAppBar(
       IconButton(onClick = { onShareClick(event) }) {
         Icon(
           imageVector = Icons.Filled.Share,
-          contentDescription = "",
+          contentDescription = shareTitle,
         )
       }
       IconButton(onClick = { onCalendarRegistrationClick(event) }) {
         Icon(
           imageVector = AppIcons.Filled.CalendarAddOn,
-          contentDescription = "",
+          contentDescription = addToCalendar,
         )
       }
     },

@@ -130,6 +130,8 @@ private fun SessionItemDetailScreen(
           removeFavorite = uiState.appStrings.removeFromFavorites,
           bookmarkedIcon = uiState.bookmarkedIcon,
           reversedBookmarkIcon = uiState.reversedBookmarkIcon,
+          shareTitle = uiState.appStrings.shareTitle,
+          addToCalendar = uiState.appStrings.addToCalendarTitle,
           onBookmarkClick = onBookmarkClick,
           onCalendarRegistrationClick = onCalendarRegistrationClick,
           onShareClick = onShareClick,
