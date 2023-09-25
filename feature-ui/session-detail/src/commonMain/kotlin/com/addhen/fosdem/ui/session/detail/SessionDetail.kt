@@ -25,7 +25,7 @@ import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.detail.component.ScreenDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
-import com.addhen.fosdem.ui.session.detail.component.SessionDetailScreenTopAppBar
+import com.addhen.fosdem.ui.session.detail.component.SessionDetailTopAppBar
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
@@ -78,7 +78,6 @@ sealed class ScreenDetailScreenUiState {
     val event: Event,
     val sessionItemDetailSectionUiState: SessionDetailItemSectionUiState,
     val isBookmarked: Boolean,
-    val isLangSelectable: Boolean,
     val appStrings: AppStrings,
     val viewBookmarkListRequestState: ViewBookmarkListRequestState,
   ) : ScreenDetailScreenUiState()
@@ -110,9 +109,8 @@ private fun SessionItemDetailScreen(
       .nestedScroll(scrollBehavior.nestedScrollConnection),
     topBar = {
       if (uiState is ScreenDetailScreenUiState.Loaded) {
-        SessionDetailScreenTopAppBar(
+        SessionDetailTopAppBar(
           title = uiState.event.title,
-          isLangSelectable = uiState.isLangSelectable,
           onNavigationIconClick = onNavigationIconClick,
           scrollBehavior = scrollBehavior,
         )

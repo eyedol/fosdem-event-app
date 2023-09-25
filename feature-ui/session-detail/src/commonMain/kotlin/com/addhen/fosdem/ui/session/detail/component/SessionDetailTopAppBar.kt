@@ -33,9 +33,8 @@ import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SessionDetailScreenTopAppBar(
+fun SessionDetailTopAppBar(
   title: String,
-  isLangSelectable: Boolean,
   onNavigationIconClick: () -> Unit,
   scrollBehavior: TopAppBarScrollBehavior,
   modifier: Modifier = Modifier,
