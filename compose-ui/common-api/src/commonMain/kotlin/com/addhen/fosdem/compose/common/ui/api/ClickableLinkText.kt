@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.compose.common.ui.api
 
 import androidx.compose.foundation.text.ClickableText
@@ -22,54 +25,54 @@ import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 private fun findResults(
-    content: String,
-    regex: Regex,
+  content: String,
+  regex: Regex,
 ): Sequence<MatchResult> {
-    return remember(content) {
-        regex.findAll(content)
-    }
+  return remember(content) {
+    regex.findAll(content)
+  }
 }
 
 @Composable
 private fun getAnnotatedString(
-    content: String,
-    findUrlResults: Sequence<MatchResult>,
+  content: String,
+  findUrlResults: Sequence<MatchResult>,
 ): AnnotatedString {
-    return buildAnnotatedString {
-        pushStyle(
-            style = SpanStyle(
-                color = MaterialTheme.colorScheme.inverseSurface,
-            ),
-        )
-        append(content)
-        pop()
+  return buildAnnotatedString {
+    pushStyle(
+      style = SpanStyle(
+        color = MaterialTheme.colorScheme.inverseSurface,
+      ),
+    )
+    append(content)
+    pop()
 
-        var lastIndex = 0
-        findUrlResults.forEach { matchResult ->
-            val startIndex = content.indexOf(
-                string = matchResult.value,
-                startIndex = lastIndex,
-            )
-            val endIndex = startIndex + matchResult.value.length
-            addStyle(
-                style = SpanStyle(
-                    color = MaterialTheme.colorScheme.primary,
-                    textDecoration = TextDecoration.Underline,
-                    fontWeight = FontWeight.Bold,
-                ),
-                start = startIndex,
-                end = endIndex,
-            )
-            addStringAnnotation(
-                tag = matchResult.value,
-                annotation = matchResult.value,
-                start = startIndex,
-                end = endIndex,
-            )
+    var lastIndex = 0
+    findUrlResults.forEach { matchResult ->
+      val startIndex = content.indexOf(
+        string = matchResult.value,
+        startIndex = lastIndex,
+      )
+      val endIndex = startIndex + matchResult.value.length
+      addStyle(
+        style = SpanStyle(
+          color = MaterialTheme.colorScheme.primary,
+          textDecoration = TextDecoration.Underline,
+          fontWeight = FontWeight.Bold,
+        ),
+        start = startIndex,
+        end = endIndex,
+      )
+      addStringAnnotation(
+        tag = matchResult.value,
+        annotation = matchResult.value,
+        start = startIndex,
+        end = endIndex,
+      )
 
-            lastIndex = endIndex
-        }
+      lastIndex = endIndex
     }
+  }
 }
 
 /**
@@ -81,60 +84,60 @@ private fun getAnnotatedString(
  */
 @Composable
 fun ClickableLinkText(
-    style: TextStyle,
-    content: String,
-    onLinkClick: (url: String) -> Unit,
-    regex: Regex,
-    modifier: Modifier = Modifier,
-    overflow: TextOverflow = TextOverflow.Clip,
-    maxLines: Int = Int.MAX_VALUE,
-    url: String? = null,
-    onOverflow: (Boolean) -> Unit = {},
+  style: TextStyle,
+  content: String,
+  onLinkClick: (url: String) -> Unit,
+  regex: Regex,
+  modifier: Modifier = Modifier,
+  overflow: TextOverflow = TextOverflow.Clip,
+  maxLines: Int = Int.MAX_VALUE,
+  url: String? = null,
+  onOverflow: (Boolean) -> Unit = {},
 ) {
-    val findResults = findResults(
-        content = content,
-        regex = regex,
-    )
+  val findResults = findResults(
+    content = content,
+    regex = regex,
+  )
 
-    val annotatedString = getAnnotatedString(
-        content = content,
-        findUrlResults = findResults,
-    )
+  val annotatedString = getAnnotatedString(
+    content = content,
+    findUrlResults = findResults,
+  )
 
-    val layoutResult = remember { mutableStateOf<LayoutCoordinates?>(null) }
+  val layoutResult = remember { mutableStateOf<LayoutCoordinates?>(null) }
 
-    val density = LocalDensity.current
+  val density = LocalDensity.current
 
-    val isOverflowing by remember {
-        derivedStateOf {
-            val actualHeight = layoutResult.value?.size?.height?.toFloat() ?: 0f
-            val expectedHeight = with(density) { style.fontSize.toPx() * maxLines }
-            actualHeight > expectedHeight
+  val isOverflowing by remember {
+    derivedStateOf {
+      val actualHeight = layoutResult.value?.size?.height?.toFloat() ?: 0f
+      val expectedHeight = with(density) { style.fontSize.toPx() * maxLines }
+      actualHeight > expectedHeight
+    }
+  }
+
+  LaunchedEffect(isOverflowing) {
+    onOverflow(isOverflowing)
+  }
+
+  ClickableText(
+    modifier = modifier.onGloballyPositioned { coordinates ->
+      layoutResult.value = coordinates
+    },
+    text = annotatedString,
+    style = style,
+    overflow = overflow,
+    maxLines = maxLines,
+    onClick = { offset ->
+      findResults.forEach { matchResult ->
+        annotatedString.getStringAnnotations(
+          tag = matchResult.value,
+          start = offset,
+          end = offset,
+        ).firstOrNull()?.let {
+          onLinkClick(url ?: matchResult.value)
         }
-    }
-
-    LaunchedEffect(isOverflowing) {
-        onOverflow(isOverflowing)
-    }
-
-    ClickableText(
-        modifier = modifier.onGloballyPositioned { coordinates ->
-            layoutResult.value = coordinates
-        },
-        text = annotatedString,
-        style = style,
-        overflow = overflow,
-        maxLines = maxLines,
-        onClick = { offset ->
-            findResults.forEach { matchResult ->
-                annotatedString.getStringAnnotations(
-                    tag = matchResult.value,
-                    start = offset,
-                    end = offset,
-                ).firstOrNull()?.let {
-                    onLinkClick(url ?: matchResult.value)
-                }
-            }
-        },
-    )
+      }
+    },
+  )
 }

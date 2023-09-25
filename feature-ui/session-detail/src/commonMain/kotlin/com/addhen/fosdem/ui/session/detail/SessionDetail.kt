@@ -7,7 +7,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +23,7 @@ import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.detail.component.BookmarkIcon
+import com.addhen.fosdem.ui.session.detail.component.ScreenDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailScreenTopAppBar
@@ -57,7 +57,19 @@ internal fun SessionDetail(
   val eventSink = uiState.eventSink
 
   SessionItemDetailScreen(
-    uiState = uiState
+    uiState = uiState.sessionDetailScreenUiState,
+    onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSession) },
+    onBookmarkClick = { eventId, isBookmarked ->
+      eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    },
+    onLinkClick = {},
+    onCalendarRegistrationClick = { event ->
+      eventSink(SessionDetailUiEvent.RegisterSessionToCalendar(event))
+    },
+    onShareClick = { event ->
+      eventSink(SessionDetailUiEvent.ShareSession(event))
+    },
+    snackbarHostState,
   )
 }
 
@@ -88,7 +100,7 @@ sealed class ViewBookmarkListRequestState {
 private fun SessionItemDetailScreen(
   uiState: ScreenDetailScreenUiState,
   onNavigationIconClick: () -> Unit,
-  onBookmarkClick: (Long) -> Unit,
+  onBookmarkClick: (Long, Boolean) -> Unit,
   onLinkClick: (url: String) -> Unit,
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
@@ -127,7 +139,7 @@ private fun SessionItemDetailScreen(
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
   ) { innerPadding ->
     if (uiState is ScreenDetailScreenUiState.Loaded) {
-      ScreenDetail(
+      ScreenDetailItem(
         modifier = Modifier.fillMaxSize(),
         uiState = uiState.sessionItemDetailSectionUiState,
         onLinkClick = onLinkClick,

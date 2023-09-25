@@ -30,5 +30,5 @@ val EnAppStrings = AppStrings(
   speakerTitle = "Speaker",
   addToCalendarTitle = "Add to calendar",
   addToFavoritesTitle = "Add to favorites",
-  removeFromFavorites = "Remove from favorites"
+  removeFromFavorites = "Remove from favorites",
 )

@@ -4,20 +4,25 @@
 package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.model.api.Event
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class SessionDetailUiState(
+  val sessionDetailScreenUiState: ScreenDetailScreenUiState,
   val eventSink: (SessionDetailUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface SessionDetailUiEvent : CircuitUiEvent {
-  data class GoToSessionDetails(val eventId: Long) : SessionDetailUiEvent
+  data object GoToSession : SessionDetailUiEvent
 
-  data class ToggleSessionBookmark(val eventId: Long, val isBookmarked: Boolean) : SessionDetailUiEvent
+  data class ToggleSessionBookmark(
+    val eventId: Long,
+    val isBookmarked: Boolean,
+  ) : SessionDetailUiEvent
 
-  data object ToggleSessionUi : SessionDetailUiEvent
+  data class RegisterSessionToCalendar(val event: Event) : SessionDetailUiEvent
 
-  data object SearchSession : SessionDetailUiEvent
+  data class ShareSession(val event: Event) : SessionDetailUiEvent
 }

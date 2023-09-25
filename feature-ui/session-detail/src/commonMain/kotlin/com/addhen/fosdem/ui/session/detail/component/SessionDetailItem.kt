@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.detail.component
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +16,7 @@ data class SessionDetailItemSectionUiState(
   val dateTitle: String,
   val placeTitle: String,
   val trackTitle: String,
-  val readMoreTitle: String
+  val readMoreTitle: String,
 )
 
 @Composable
@@ -33,7 +36,7 @@ internal fun ScreenDetailItem(
         placeTitle = uiState.placeTitle,
         trackTitle = uiState.trackTitle,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp),
-        sessionItem = uiState.event
+        sessionItem = uiState.event,
       )
     }
 

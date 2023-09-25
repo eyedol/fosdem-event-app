@@ -15,10 +15,14 @@ interface SessionDetailComponent {
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindSessionDetailPresenterFactory(factory: SessionDetailUiPresenterFactory): Presenter.Factory = factory
+  fun bindSessionDetailPresenterFactory(
+    factory: SessionDetailUiPresenterFactory,
+  ): Presenter.Factory = factory
 
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindSessionDetailFactoryFactory(factory: SessionDetailUiFactory): Ui.Factory = factory
+  fun bindSessionDetailFactoryFactory(
+    factory: SessionDetailUiFactory,
+  ): Ui.Factory = factory
 }

@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.detail.component
 
 import androidx.compose.foundation.clickable
@@ -35,7 +38,7 @@ fun SessionDetailBottomAppBar(
   removeFavorite: String,
   bookmarkedIcon: BookmarkIcon.Bookmarked,
   reversedBookmarkIcon: BookmarkIcon.Reversed,
-  onBookmarkClick: (Long) -> Unit,
+  onBookmarkClick: (Long, Boolean) -> Unit,
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
   modifier: Modifier = Modifier,
@@ -85,7 +88,7 @@ fun AnimatedBookmarkIcon(
   bookmarkedIcon: BookmarkIcon.Bookmarked,
   reversedBookmarkIcon: BookmarkIcon.Reversed,
   eventId: Long,
-  onClick: (Long) -> Unit,
+  onClick: (Long, Boolean) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   val animatedBookmarkIconPainter = painterResource(
@@ -102,6 +105,6 @@ fun AnimatedBookmarkIcon(
     } else {
       addFavorite
     },
-    modifier = modifier.clickable { onClick(eventId) },
+    modifier = modifier.clickable { onClick(eventId, !isBookmarked) },
   )
 }

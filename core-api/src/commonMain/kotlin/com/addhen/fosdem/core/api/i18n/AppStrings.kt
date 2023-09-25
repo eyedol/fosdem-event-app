@@ -31,7 +31,7 @@ data class AppStrings(
   val speakerTitle: String,
   val addToCalendarTitle: String,
   val addToFavoritesTitle: String,
-  val removeFromFavorites: String
+  val removeFromFavorites: String,
 )
 
 object Locales {

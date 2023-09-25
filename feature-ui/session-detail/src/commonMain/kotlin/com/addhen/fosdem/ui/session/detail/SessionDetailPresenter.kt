@@ -5,7 +5,7 @@ package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -23,7 +23,7 @@ class SessionDetailUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is SessionScreen -> presenterFactory(navigator)
+      is SessionDetailScreen -> presenterFactory(navigator)
       else -> null
     }
   }
@@ -39,14 +39,16 @@ class SessionDetailPresenter(
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
-        is SessionDetailUiEvent.GoToSessionDetails -> TODO()
-        SessionDetailUiEvent.SearchSession -> TODO()
+        SessionDetailUiEvent.GoToSession -> TODO()
+        is SessionDetailUiEvent.RegisterSessionToCalendar -> TODO()
+        is SessionDetailUiEvent.ShareSession -> TODO()
         is SessionDetailUiEvent.ToggleSessionBookmark -> TODO()
-        SessionDetailUiEvent.ToggleSessionUi -> TODO()
       }
     }
 
+    // TODO load session types
     return SessionDetailUiState(
+      sessionDetailScreenUiState = ScreenDetailScreenUiState.Loading,
       eventSink = ::eventSink,
     )
   }

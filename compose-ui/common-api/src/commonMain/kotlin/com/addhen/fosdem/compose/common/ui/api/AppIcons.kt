@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.compose.common.ui.api
 
 import androidx.compose.ui.graphics.Color
@@ -20,12 +23,24 @@ val AppIcons.Filled.CalendarAddOn: ImageVector
     if (_calendarAddOn != null) {
       return _calendarAddOn!!
     }
-    _calendarAddOn = Builder(name = "Filled.CalendarAddOn", defaultWidth = 24.0.dp, defaultHeight =
-    24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+    _calendarAddOn = Builder(
+      name = "Filled.CalendarAddOn",
+      defaultWidth = 24.0.dp,
+      defaultHeight =
+      24.0.dp,
+      viewportWidth = 24.0f,
+      viewportHeight = 24.0f,
+    ).apply {
       group {
-        path(fill = SolidColor(Color(0xFF404944)), stroke = null, strokeLineWidth = 0.0f,
-          strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-          pathFillType = NonZero) {
+        path(
+          fill = SolidColor(Color(0xFF404944)),
+          stroke = null,
+          strokeLineWidth = 0.0f,
+          strokeLineCap = Butt,
+          strokeLineJoin = Miter,
+          strokeLineMiter = 4.0f,
+          pathFillType = NonZero,
+        ) {
           moveTo(18.0f, 22.0f)
           curveTo(17.448f, 22.0f, 17.0f, 21.552f, 17.0f, 21.0f)
           verticalLineTo(19.0f)
