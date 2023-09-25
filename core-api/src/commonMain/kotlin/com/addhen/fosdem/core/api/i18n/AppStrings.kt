@@ -28,7 +28,10 @@ data class AppStrings(
   val roomTitle: String,
   val trackTitle: String,
   val dateTitle: String,
-  val speakerTitle: String
+  val speakerTitle: String,
+  val addToCalendarTitle: String,
+  val addToFavoritesTitle: String,
+  val removeFromFavorites: String
 )
 
 object Locales {

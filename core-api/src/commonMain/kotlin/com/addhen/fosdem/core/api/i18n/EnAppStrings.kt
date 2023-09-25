@@ -27,5 +27,8 @@ val EnAppStrings = AppStrings(
   roomTitle = "Room",
   trackTitle = "Track",
   dateTitle = "Date",
-  speakerTitle = "Speaker"
+  speakerTitle = "Speaker",
+  addToCalendarTitle = "Add to calendar",
+  addToFavoritesTitle = "Add to favorites",
+  removeFromFavorites = "Remove from favorites"
 )

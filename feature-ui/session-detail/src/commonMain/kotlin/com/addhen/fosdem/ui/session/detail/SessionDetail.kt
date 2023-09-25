@@ -20,8 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.addhen.fosdem.compose.common.ui.api.LoadingText
+import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
+import com.addhen.fosdem.ui.session.detail.component.BookmarkIcon
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailScreenTopAppBar
@@ -66,6 +68,9 @@ sealed class ScreenDetailScreenUiState {
     val sessionItemDetailSectionUiState: SessionDetailItemSectionUiState,
     val isBookmarked: Boolean,
     val isLangSelectable: Boolean,
+    val appStrings: AppStrings,
+    val bookmarkedIcon: BookmarkIcon.Bookmarked,
+    val reversedBookmarkIcon: BookmarkIcon.Reversed,
     val viewBookmarkListRequestState: ViewBookmarkListRequestState,
   ) : ScreenDetailScreenUiState()
 
@@ -109,6 +114,10 @@ private fun SessionItemDetailScreen(
         SessionDetailBottomAppBar(
           event = uiState.event,
           isBookmarked = uiState.isBookmarked,
+          addFavorite = uiState.appStrings.addToFavoritesTitle,
+          removeFavorite = uiState.appStrings.removeFromFavorites,
+          bookmarkedIcon = uiState.bookmarkedIcon,
+          reversedBookmarkIcon = uiState.reversedBookmarkIcon,
           onBookmarkClick = onBookmarkClick,
           onCalendarRegistrationClick = onCalendarRegistrationClick,
           onShareClick = onShareClick,
