@@ -12,7 +12,6 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.core.api.i18n.EnAppStrings
 import com.addhen.fosdem.model.api.day1Event
 
-@OptIn(ExperimentalMaterial3Api::class)
 @MultiThemePreviews
 @Composable
 fun SessionDetailItemPreview() {
