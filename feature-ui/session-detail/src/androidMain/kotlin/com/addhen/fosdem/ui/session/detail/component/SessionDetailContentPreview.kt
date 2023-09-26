@@ -20,6 +20,9 @@ fun SessionDetailContentPreview() {
     placeTitle = appString.roomTitle,
     trackTitle = appString.trackTitle,
     readMoreTitle = appString.readMoreLabel,
+    speakerTitle = appString.speakerTitle,
+    attachmentTitle = appString.attachmentTitle,
+    linkTitle = appString.linkTitle,
   )
   AppTheme {
     Surface {

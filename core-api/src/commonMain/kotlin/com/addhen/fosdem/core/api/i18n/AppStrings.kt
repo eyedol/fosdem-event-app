@@ -29,6 +29,8 @@ data class AppStrings(
   val trackTitle: String,
   val dateTitle: String,
   val speakerTitle: String,
+  val linkTitle: String,
+  val attachmentTitle: String,
   val addToCalendarTitle: String,
   val addToFavoritesTitle: String,
   val removeFromFavorites: String,

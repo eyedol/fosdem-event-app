@@ -22,6 +22,9 @@ fun SessionDetailItemPreview() {
     placeTitle = appStrings.roomTitle,
     trackTitle = appStrings.trackTitle,
     readMoreTitle = appStrings.readMoreLabel,
+    speakerTitle = appStrings.speakerTitle,
+    attachmentTitle = appStrings.attachmentTitle,
+    linkTitle = appStrings.linkTitle,
   )
   val uiState = ScreenDetailScreenUiState.Loaded(
     sessionDetailUiState = sessionDetailUiState,

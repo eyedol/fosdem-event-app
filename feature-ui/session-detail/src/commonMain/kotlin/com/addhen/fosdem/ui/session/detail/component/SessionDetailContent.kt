@@ -17,10 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,8 +45,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
+import com.addhen.fosdem.model.api.Attachment
+import com.addhen.fosdem.model.api.Link
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
 
 const val SessionItemDetailReadMoreButtonTestTag = "SessionItemDetailReadMoreButtonTestTag"
 
@@ -59,9 +65,11 @@ fun SessionDetailContent(
     descriptionText.isBlank().not() && abstractText.isBlank().not() -> {
       "${abstractText}\n\n$descriptionText"
     }
+
     descriptionText.isBlank().not() -> {
       descriptionText
     }
+
     else -> {
       abstractText
     }
@@ -72,6 +80,29 @@ fun SessionDetailContent(
       description = description,
       onLinkClick = onLinkClick,
     )
+
+    if (uiState.event.speakers.isNotEmpty()) {
+      SpeakerSection(
+        uiState.speakerTitle,
+        uiState.event.speakers.toPersistentList(),
+      )
+    }
+
+    if (uiState.event.links.isNotEmpty()) {
+      LinksSection(
+        uiState.linkTitle,
+        uiState.event.links.toPersistentList(),
+        onLinkClick = onLinkClick,
+      )
+    }
+
+    if (uiState.event.attachments.isNotEmpty()) {
+      AttachmentsSection(
+        uiState.attachmentTitle,
+        uiState.event.attachments.toPersistentList(),
+        onLinkClick = onLinkClick,
+      )
+    }
   }
 }
 
@@ -160,7 +191,97 @@ private fun SpeakerSection(
 }
 
 @Composable
-private fun ArchiveSectionIconButton(
+private fun LinksSection(
+  linkTitle: String,
+  links: PersistentList<Link>,
+  onLinkClick: (url: String) -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Column(modifier = modifier.padding(vertical = 24.dp, horizontal = 16.dp)) {
+    Text(
+      text = linkTitle,
+      style = MaterialTheme.typography.titleLarge,
+    )
+    Row(
+      modifier = Modifier
+        .padding(top = 16.dp)
+        .fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+      for (link in links) {
+        ResourceSectionIconButton(
+          icon = {
+            Icon(
+              imageVector = Icons.Outlined.Description,
+              contentDescription = null,
+              modifier = Modifier.size(width = 18.dp, height = 18.dp),
+            )
+          },
+          label = {
+            Text(
+              text = link.text,
+              fontSize = 14.sp,
+              textAlign = TextAlign.Center,
+            )
+          },
+          onClick = { onLinkClick(link.url) },
+          modifier = Modifier
+            .width(0.dp)
+            .weight(1F),
+        )
+      }
+    }
+    Spacer(modifier = Modifier.height(24.dp))
+  }
+}
+
+@Composable
+private fun AttachmentsSection(
+  attachmentTitle: String,
+  attachments: PersistentList<Attachment>,
+  onLinkClick: (url: String) -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Column(modifier = modifier.padding(vertical = 24.dp, horizontal = 16.dp)) {
+    Text(
+      text = attachmentTitle,
+      style = MaterialTheme.typography.titleLarge,
+    )
+    Row(
+      modifier = Modifier
+        .padding(top = 16.dp)
+        .fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+      for (attachment in attachments) {
+        ResourceSectionIconButton(
+          icon = {
+            Icon(
+              imageVector = Icons.Outlined.Description,
+              contentDescription = null,
+              modifier = Modifier.size(width = 18.dp, height = 18.dp),
+            )
+          },
+          label = {
+            Text(
+              text = attachment.name,
+              fontSize = 14.sp,
+              textAlign = TextAlign.Center,
+            )
+          },
+          onClick = { onLinkClick(attachment.url) },
+          modifier = Modifier
+            .width(0.dp)
+            .weight(1F),
+        )
+      }
+    }
+    Spacer(modifier = Modifier.height(24.dp))
+  }
+}
+
+@Composable
+private fun ResourceSectionIconButton(
   icon: @Composable () -> Unit,
   label: @Composable () -> Unit,
   onClick: () -> Unit,

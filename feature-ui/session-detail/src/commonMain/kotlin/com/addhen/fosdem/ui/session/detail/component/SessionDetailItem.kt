@@ -17,6 +17,9 @@ data class SessionDetailItemSectionUiState(
   val placeTitle: String,
   val trackTitle: String,
   val readMoreTitle: String,
+  val speakerTitle: String,
+  val attachmentTitle: String,
+  val linkTitle: String,
 )
 
 @Composable
