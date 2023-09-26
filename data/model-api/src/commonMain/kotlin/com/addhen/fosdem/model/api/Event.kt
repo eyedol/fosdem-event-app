@@ -37,7 +37,7 @@ val attachment = Attachment(
   id = 1,
   type = "slides",
   url = "https://attachment1.com",
-  name = "attachment 1",
+  name = "Attachment 1",
 )
 
 val room = Room(
@@ -60,7 +60,7 @@ val attachment2 = Attachment(
   id = 2,
   type = "slides",
   url = "https://attachment2.com",
-  name = "attachment 2",
+  name = "Attachment 2",
 )
 
 val room2 = Room(
@@ -88,7 +88,7 @@ val attachment3 = Attachment(
   id = 3,
   type = "presentation slides",
   url = "https://attachment3.com",
-  name = "attachment 3",
+  name = "Attachment 3",
 )
 
 val day = Day(
@@ -133,11 +133,11 @@ val day1Event = Event(
     "reimagine a new world where openness and collaboration prevail. Come along and celebrate " +
     "with us this very special moment",
   day = day,
-  links = listOf(link),
-  speakers = listOf(speaker),
+  links = listOf(link, link2, link3),
+  speakers = listOf(speaker, speaker2),
   room = room,
   track = Track("maintrack", Track.Type.BOF),
-  attachments = listOf(attachment),
+  attachments = listOf(attachment, attachment2, attachment3),
 )
 
 val day2Event = Event(

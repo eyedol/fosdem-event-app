@@ -22,8 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -156,7 +154,7 @@ private fun SpeakerSection(
       style = MaterialTheme.typography.titleLarge,
     )
     Spacer(modifier = Modifier.height(8.dp))
-    speakers.forEach { speaker ->
+    for (speaker in speakers) {
       Row(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -197,41 +195,30 @@ private fun LinksSection(
   onLinkClick: (url: String) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  Column(modifier = modifier.padding(vertical = 24.dp, horizontal = 16.dp)) {
+  Column(modifier = modifier) {
     Text(
       text = linkTitle,
+      modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
       style = MaterialTheme.typography.titleLarge,
     )
-    Row(
+
+    Column(
       modifier = Modifier
-        .padding(top = 16.dp)
+        .padding(start = 16.dp, end = 16.dp, top = 8.dp)
         .fillMaxWidth(),
-      horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+      verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
       for (link in links) {
-        ResourceSectionIconButton(
-          icon = {
-            Icon(
-              imageVector = Icons.Outlined.Description,
-              contentDescription = null,
-              modifier = Modifier.size(width = 18.dp, height = 18.dp),
-            )
-          },
-          label = {
-            Text(
-              text = link.text,
-              fontSize = 14.sp,
-              textAlign = TextAlign.Center,
-            )
-          },
-          onClick = { onLinkClick(link.url) },
-          modifier = Modifier
-            .width(0.dp)
-            .weight(1F),
+        ClickableLinkText(
+          style = MaterialTheme.typography.bodyMedium,
+          content = link.text,
+          onLinkClick = onLinkClick,
+          regex = link.text.toRegex(),
+          url = link.url,
         )
       }
     }
-    Spacer(modifier = Modifier.height(24.dp))
+    BorderLine(modifier = Modifier.padding(top = 24.dp))
   }
 }
 
@@ -242,37 +229,26 @@ private fun AttachmentsSection(
   onLinkClick: (url: String) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  Column(modifier = modifier.padding(vertical = 24.dp, horizontal = 16.dp)) {
+  Column(modifier = modifier) {
     Text(
       text = attachmentTitle,
+      modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
       style = MaterialTheme.typography.titleLarge,
     )
-    Row(
+    Column(
       modifier = Modifier
-        .padding(top = 16.dp)
+        .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+        .fillMaxWidth()
         .fillMaxWidth(),
-      horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+      verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
       for (attachment in attachments) {
-        ResourceSectionIconButton(
-          icon = {
-            Icon(
-              imageVector = Icons.Outlined.Description,
-              contentDescription = null,
-              modifier = Modifier.size(width = 18.dp, height = 18.dp),
-            )
-          },
-          label = {
-            Text(
-              text = attachment.name,
-              fontSize = 14.sp,
-              textAlign = TextAlign.Center,
-            )
-          },
-          onClick = { onLinkClick(attachment.url) },
-          modifier = Modifier
-            .width(0.dp)
-            .weight(1F),
+        ClickableLinkText(
+          style = MaterialTheme.typography.bodyMedium,
+          content = attachment.name,
+          onLinkClick = onLinkClick,
+          regex = attachment.name.toRegex(),
+          url = attachment.url,
         )
       }
     }
