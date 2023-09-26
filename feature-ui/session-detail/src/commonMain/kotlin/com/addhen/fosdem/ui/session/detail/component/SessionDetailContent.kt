@@ -53,10 +53,23 @@ fun SessionDetailContent(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
+  val descriptionText = uiState.event.description
+  val abstractText = uiState.event.abstractText
+  val description = when {
+      descriptionText.isBlank().not() && abstractText.isBlank().not() -> {
+        "${abstractText}\n\n${descriptionText}"
+      }
+      descriptionText.isBlank().not() -> {
+        descriptionText
+      }
+      else -> {
+        abstractText
+      }
+  }
   Column(modifier = modifier) {
     DescriptionSection(
       readMore = uiState.readMoreTitle,
-      description = uiState.event.description,
+      description = description,
       onLinkClick = onLinkClick,
     )
   }
