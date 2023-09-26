@@ -105,10 +105,33 @@ val day1Event = Event(
   id = 1,
   startTime = LocalTime.parse("09:30"),
   duration = LocalTime.parse("00:25"),
-  title = "Welcome to FOSDEM 2023",
-  description = "Welcome to FOSDEM 2023!",
+  title = "Celebrating 25 years of Open Source",
+  description = "The open source software label was coined at a strategy session held on " +
+    "February 3rd, 1998 in Palo Alto, California. That same month, the Open Source Initiative " +
+    "(OSI) was founded as a general educational and advocacy organization to raise awareness and" +
+    " adoption for the superiority of an open development process. One of the first tasks " +
+    "undertaken by OSI was to draft the Open Source Definition (OSD). To this day, the OSD is " +
+    "considered a gold standard of open-source licensing.\n" +
+    "\n" +
+    "In this session, we'll cover the rich and interconnected history of the Free Software and " +
+    "Open Source movements, and demonstrate how, against all odds, open source has come " +
+    "to \"win\" the world. But have we really won? Open source has always faced an " +
+    "extraordinary uphill battle: from misinformation and FUD (Fear Uncertainty and Doubt) " +
+    "constantly being spread by the most powerful corporations, to issues around sustainability " +
+    "and inclusion.\n" +
+    "\n" +
+    "We'll navigate this rich history of open source and dive right into its future, exploring " +
+    "the several challenges and opportunities ahead, including its key role on fostering " +
+    "collaboration and innovation in emerging areas such as ML/AI and cybersecurity. " +
+    "We'll share an interactive timeline during the presentation and throughout the year, " +
+    "inviting the audience and the community at-large to share their open source stories and " +
+    "dreams with each other.",
   isBookmarked = false,
-  abstractText = "FOSDEM welcome and opening talk",
+  abstractText = "February 2023 marks the 25th Anniversary of Open Source. This is a huge " +
+    "milestone for the whole community to celebrate! In this session, we'll travel back in " +
+    "time to understand our rich journey so far, and look forward towards the future to " +
+    "reimagine a new world where openness and collaboration prevail. Come along and celebrate " +
+    "with us this very special moment",
   day = day,
   links = listOf(link),
   speakers = listOf(speaker),

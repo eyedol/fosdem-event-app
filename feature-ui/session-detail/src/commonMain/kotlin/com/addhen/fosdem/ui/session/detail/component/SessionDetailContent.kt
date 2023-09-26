@@ -56,15 +56,15 @@ fun SessionDetailContent(
   val descriptionText = uiState.event.description
   val abstractText = uiState.event.abstractText
   val description = when {
-      descriptionText.isBlank().not() && abstractText.isBlank().not() -> {
-        "${abstractText}\n\n${descriptionText}"
-      }
-      descriptionText.isBlank().not() -> {
-        descriptionText
-      }
-      else -> {
-        abstractText
-      }
+    descriptionText.isBlank().not() && abstractText.isBlank().not() -> {
+      "${abstractText}\n\n$descriptionText"
+    }
+    descriptionText.isBlank().not() -> {
+      descriptionText
+    }
+    else -> {
+      abstractText
+    }
   }
   Column(modifier = modifier) {
     DescriptionSection(
