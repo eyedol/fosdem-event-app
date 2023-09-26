@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.compose.common.ui.api.AppImage
 import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
+import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
@@ -54,7 +55,9 @@ class SessionPresenter(
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {
-        is SessionUiEvent.GoToSessionDetails -> TODO()
+        is SessionUiEvent.GoToSessionDetails -> {
+          navigator.goTo(SessionDetailScreen(event.eventId))
+        }
         SessionUiEvent.SearchSession -> TODO()
         is SessionUiEvent.ToggleSessionBookmark -> TODO()
         SessionUiEvent.ToggleSessionUi -> TODO()

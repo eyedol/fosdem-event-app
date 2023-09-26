@@ -7,10 +7,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
@@ -49,14 +53,14 @@ class SessionDetailUiFactory : Ui.Factory {
 
 @Composable
 internal fun SessionDetail(
-  uiState: SessionDetailUiState,
+  viewState: SessionDetailUiState,
   modifier: Modifier = Modifier,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
-  val eventSink = uiState.eventSink
+  val eventSink = viewState.eventSink
 
   SessionItemDetailScreen(
-    uiState = uiState.sessionDetailScreenUiState,
+    uiState = viewState.sessionDetailScreenUiState,
     onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSession) },
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
@@ -69,6 +73,7 @@ internal fun SessionDetail(
       eventSink(SessionDetailUiEvent.ShareSession(event))
     },
     snackbarHostState,
+    modifier
   )
 }
 
@@ -99,12 +104,15 @@ internal fun SessionItemDetailScreen(
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
   snackbarHostState: SnackbarHostState,
+  modifier: Modifier = Modifier
 ) {
   val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
   Scaffold(
-    modifier = Modifier
+    modifier = modifier
       .fillMaxSize()
       .nestedScroll(scrollBehavior.nestedScrollConnection),
+    contentWindowInsets = ScaffoldDefaults.contentWindowInsets
+      .exclude(WindowInsets.navigationBars),
     topBar = {
       if (uiState is ScreenDetailScreenUiState.Loaded) {
         SessionDetailTopAppBar(

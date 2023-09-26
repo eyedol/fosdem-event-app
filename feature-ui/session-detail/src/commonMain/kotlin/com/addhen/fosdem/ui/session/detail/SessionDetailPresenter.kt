@@ -5,7 +5,11 @@ package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.core.api.i18n.EnAppStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -46,9 +50,26 @@ class SessionDetailPresenter(
       }
     }
 
+    val appStrings = LocalStrings.current
+    val sessionDetailUiState = SessionDetailItemSectionUiState(
+      event = day1Event,
+      dateTitle = appStrings.dateTitle,
+      placeTitle = appStrings.roomTitle,
+      trackTitle = appStrings.trackTitle,
+      readMoreTitle = appStrings.readMoreLabel,
+      speakerTitle = appStrings.speakerTitle,
+      attachmentTitle = appStrings.attachmentTitle,
+      linkTitle = appStrings.linkTitle,
+    )
+    val uiState = ScreenDetailScreenUiState.Loaded(
+      sessionDetailUiState = sessionDetailUiState,
+      appStrings = appStrings,
+      viewBookmarkListRequestState = ViewBookmarkListRequestState.Requested,
+    )
+
     // TODO load session types
     return SessionDetailUiState(
-      sessionDetailScreenUiState = ScreenDetailScreenUiState.Loading,
+      sessionDetailScreenUiState = uiState,
       eventSink = ::eventSink,
     )
   }
