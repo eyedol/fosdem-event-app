@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.Card
@@ -50,7 +51,7 @@ fun SessionDetailSummaryCard(
           content = sessionItem.day.date.toString(),
         )
         SessionDetailSummaryCardRow(
-          leadingIcon = Icons.Outlined.Place,
+          leadingIcon = Icons.Outlined.Home,
           label = placeTitle,
           content = sessionItem.room.name,
         )
