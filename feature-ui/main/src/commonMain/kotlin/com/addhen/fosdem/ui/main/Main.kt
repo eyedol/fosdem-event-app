@@ -46,19 +46,9 @@ import com.addhen.fosdem.ui.main.component.resetRootIfDifferent
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.overlay.ContentWithOverlays
-import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuit.runtime.ui.Ui
-import com.slack.circuit.runtime.ui.ui
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
 import kotlinx.collections.immutable.toPersistentList
-import me.tatarka.inject.annotations.Inject
-
-@Inject
-class MainUiFactory : Ui.Factory {
-  override fun create(screen: Screen, context: CircuitContext): Ui<*>? = null
-}
 
 @Composable
 fun Main(
