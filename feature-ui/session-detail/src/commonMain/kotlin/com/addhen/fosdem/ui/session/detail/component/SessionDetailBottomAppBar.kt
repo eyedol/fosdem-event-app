@@ -59,7 +59,7 @@ fun SessionDetailBottomAppBar(
         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
       ) {
-        AnimatedBookmarkIcon(
+        BookmarkIcon(
           isBookmarked = isBookmarked,
           eventId = event.id,
           addFavorite = addFavorite,
@@ -72,7 +72,7 @@ fun SessionDetailBottomAppBar(
 }
 
 @Composable
-fun AnimatedBookmarkIcon(
+fun BookmarkIcon(
   addFavorite: String,
   removeFavorite: String,
   isBookmarked: Boolean,
