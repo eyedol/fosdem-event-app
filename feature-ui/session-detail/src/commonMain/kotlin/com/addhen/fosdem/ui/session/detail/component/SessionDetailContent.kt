@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -51,6 +52,9 @@ import kotlinx.collections.immutable.toPersistentList
 
 const val SessionItemDetailReadMoreButtonTestTag = "SessionItemDetailReadMoreButtonTestTag"
 
+@Immutable
+data class ClickableTextData(val name: String, val url: String)
+
 @Composable
 fun SessionDetailContent(
   uiState: SessionDetailItemSectionUiState,
@@ -63,14 +67,8 @@ fun SessionDetailContent(
     descriptionText.isBlank().not() && abstractText.isBlank().not() -> {
       "${abstractText}\n\n$descriptionText"
     }
-
-    descriptionText.isBlank().not() -> {
-      descriptionText
-    }
-
-    else -> {
-      abstractText
-    }
+    descriptionText.isBlank().not() -> descriptionText
+    else -> abstractText
   }
   Column(modifier = modifier) {
     DescriptionSection(
@@ -87,17 +85,17 @@ fun SessionDetailContent(
     }
 
     if (uiState.event.links.isNotEmpty()) {
-      LinksSection(
+      MaterialSection(
         uiState.linkTitle,
-        uiState.event.links.toPersistentList(),
+        uiState.event.links.map { ClickableTextData(it.text, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )
     }
 
     if (uiState.event.attachments.isNotEmpty()) {
-      AttachmentsSection(
+      MaterialSection(
         uiState.attachmentTitle,
-        uiState.event.attachments.toPersistentList(),
+        uiState.event.attachments.map { ClickableTextData(it.name, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )
     }
@@ -189,49 +187,15 @@ private fun SpeakerSection(
 }
 
 @Composable
-private fun LinksSection(
-  linkTitle: String,
-  links: PersistentList<Link>,
+private fun MaterialSection(
+  title: String,
+  materials: PersistentList<ClickableTextData>,
   onLinkClick: (url: String) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Column(modifier = modifier) {
     Text(
-      text = linkTitle,
-      modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
-      style = MaterialTheme.typography.titleLarge,
-    )
-
-    Column(
-      modifier = Modifier
-        .padding(start = 16.dp, end = 16.dp, top = 8.dp)
-        .fillMaxWidth(),
-      verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-    ) {
-      for (link in links) {
-        ClickableLinkText(
-          style = MaterialTheme.typography.bodyMedium,
-          content = link.text,
-          onLinkClick = onLinkClick,
-          regex = link.text.toRegex(),
-          url = link.url,
-        )
-      }
-    }
-    BorderLine(modifier = Modifier.padding(top = 24.dp))
-  }
-}
-
-@Composable
-private fun AttachmentsSection(
-  attachmentTitle: String,
-  attachments: PersistentList<Attachment>,
-  onLinkClick: (url: String) -> Unit,
-  modifier: Modifier = Modifier,
-) {
-  Column(modifier = modifier) {
-    Text(
-      text = attachmentTitle,
+      text = title,
       modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
       style = MaterialTheme.typography.titleLarge,
     )
@@ -242,48 +206,17 @@ private fun AttachmentsSection(
         .fillMaxWidth(),
       verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
-      for (attachment in attachments) {
+      for (material in materials) {
         ClickableLinkText(
           style = MaterialTheme.typography.bodyMedium,
-          content = attachment.name,
+          content =" \u2022 ${material.name}",
           onLinkClick = onLinkClick,
-          regex = attachment.name.toRegex(),
-          url = attachment.url,
+          regex = material.name.toRegex(),
+          url = material.url,
         )
       }
     }
     Spacer(modifier = Modifier.height(24.dp))
-  }
-}
-
-@Composable
-private fun ResourceSectionIconButton(
-  icon: @Composable () -> Unit,
-  label: @Composable () -> Unit,
-  onClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  iconSpacing: Dp = 8.dp,
-) {
-  Surface(
-    modifier = modifier,
-    color = MaterialTheme.colorScheme.primary,
-    contentColor = MaterialTheme.colorScheme.onPrimary,
-    shape = RoundedCornerShape(100.dp),
-    onClick = { onClick() },
-  ) {
-    Row(
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp),
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.spacedBy(
-        space = iconSpacing,
-        alignment = Alignment.CenterHorizontally,
-      ),
-    ) {
-      icon()
-      label()
-    }
   }
 }
 
