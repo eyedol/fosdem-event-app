@@ -92,6 +92,7 @@ fun ClickableLinkText(
   overflow: TextOverflow = TextOverflow.Clip,
   maxLines: Int = Int.MAX_VALUE,
   url: String? = null,
+  onContentLick: ()-> Unit = {},
   onOverflow: (Boolean) -> Unit = {},
 ) {
   val findResults = findResults(
@@ -129,6 +130,7 @@ fun ClickableLinkText(
     overflow = overflow,
     maxLines = maxLines,
     onClick = { offset ->
+      onContentLick()
       findResults.forEach { matchResult ->
         annotatedString.getStringAnnotations(
           tag = matchResult.value,

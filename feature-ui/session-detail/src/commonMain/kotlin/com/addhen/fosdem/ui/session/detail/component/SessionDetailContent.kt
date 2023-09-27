@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -39,13 +38,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
-import com.addhen.fosdem.model.api.Attachment
-import com.addhen.fosdem.model.api.Link
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -112,9 +108,14 @@ private fun DescriptionSection(
   var isExpanded by rememberSaveable { mutableStateOf(false) }
 
   SelectionContainer {
-    Column(modifier = modifier.animateContentSize()) {
+    Column(modifier = Modifier
+      .animateContentSize()
+      .then(modifier)
+    ) {
       ClickableLinkText(
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme
+          .typography
+          .bodyLarge
           .copy(color = MaterialTheme.colorScheme.onSurface),
         content = description,
         onLinkClick = onLinkClick,
@@ -122,9 +123,10 @@ private fun DescriptionSection(
         overflow = TextOverflow.Ellipsis,
         maxLines = if (isExpanded) Int.MAX_VALUE else 5,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+        onContentLick = { isExpanded = false },
         onOverflow = { isExpanded = it.not() },
       )
-      if (!isExpanded) {
+      if (isExpanded.not()) {
         ReadMoreOutlinedButton(
           readMore = readMore,
           onClick = { isExpanded = true },
