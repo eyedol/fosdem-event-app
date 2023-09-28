@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -14,4 +16,10 @@ plugins {
   alias(libs.plugins.kotlin.parcelize) apply false
   alias(libs.plugins.spotless) apply false
   alias(libs.plugins.composeMultiplatform) apply false
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+  compilerOptions {
+    allWarningsAsErrors.set(true)
+  }
 }

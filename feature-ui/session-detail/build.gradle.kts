@@ -34,7 +34,6 @@ kotlin {
         implementation(libs.circuit.runtime)
         implementation(libs.circuit.foundation)
         implementation(libs.circuit.overlay)
-        implementation(libs.circuit.gesture.navigation)
         implementation(libs.kotlinx.collections.immutable)
         implementation(libs.kotlinx.datetime)
         implementation(libs.ktor.client.core)
