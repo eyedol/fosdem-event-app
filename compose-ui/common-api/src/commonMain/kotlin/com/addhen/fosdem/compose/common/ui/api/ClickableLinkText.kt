@@ -92,7 +92,7 @@ fun ClickableLinkText(
   overflow: TextOverflow = TextOverflow.Clip,
   maxLines: Int = Int.MAX_VALUE,
   url: String? = null,
-  onContentLick: ()-> Unit = {},
+  onContentLick: () -> Unit = {},
   onOverflow: (Boolean) -> Unit = {},
 ) {
   val findResults = findResults(

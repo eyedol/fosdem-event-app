@@ -23,7 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.addhen.fosdem.compose.common.ui.api.LoadingText
-import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
@@ -73,7 +73,7 @@ internal fun SessionDetail(
       eventSink(SessionDetailUiEvent.ShareSession(event))
     },
     snackbarHostState,
-    modifier
+    modifier,
   )
 }
 
@@ -81,7 +81,6 @@ sealed class ScreenDetailScreenUiState {
   data object Loading : ScreenDetailScreenUiState()
   data class Loaded(
     val sessionDetailUiState: SessionDetailItemSectionUiState,
-    val appStrings: AppStrings,
     val viewBookmarkListRequestState: ViewBookmarkListRequestState,
   ) : ScreenDetailScreenUiState()
 
@@ -104,9 +103,10 @@ internal fun SessionItemDetailScreen(
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
   snackbarHostState: SnackbarHostState,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
 ) {
   val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+  val appStrings = LocalStrings.current
   Scaffold(
     modifier = modifier
       .fillMaxSize()
@@ -127,10 +127,10 @@ internal fun SessionItemDetailScreen(
         SessionDetailBottomAppBar(
           event = uiState.sessionDetailUiState.event,
           isBookmarked = uiState.sessionDetailUiState.event.isBookmarked,
-          addFavorite = uiState.appStrings.addToFavoritesTitle,
-          removeFavorite = uiState.appStrings.removeFromFavorites,
-          shareTitle = uiState.appStrings.shareTitle,
-          addToCalendar = uiState.appStrings.addToCalendarTitle,
+          addFavorite = appStrings.addToFavoritesTitle,
+          removeFavorite = appStrings.removeFromFavorites,
+          shareTitle = appStrings.shareTitle,
+          addToCalendar = appStrings.addToCalendarTitle,
           onBookmarkClick = onBookmarkClick,
           onCalendarRegistrationClick = onCalendarRegistrationClick,
           onShareClick = onShareClick,

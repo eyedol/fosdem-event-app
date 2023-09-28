@@ -4,7 +4,6 @@
 package com.addhen.fosdem.desktop.app.di
 
 import com.addhen.fosdem.core.api.di.ActivityScope
-import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.ui.session.detail.di.SessionDetailComponent
 import com.addhen.fosdem.ui.session.di.SessionComponent
 import com.slack.circuit.foundation.Circuit

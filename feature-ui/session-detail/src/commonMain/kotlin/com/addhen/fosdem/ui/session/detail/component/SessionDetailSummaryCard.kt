@@ -24,7 +24,7 @@ import com.addhen.fosdem.model.api.Event
 @Composable
 fun SessionDetailSummaryCard(
   dateTitle: String,
-  placeTitle: String,
+  roomTitle: String,
   trackTitle: String,
   sessionItem: Event,
   modifier: Modifier = Modifier,
@@ -51,7 +51,7 @@ fun SessionDetailSummaryCard(
         )
         SessionDetailSummaryCardRow(
           leadingIcon = Icons.Outlined.Home,
-          label = placeTitle,
+          label = roomTitle,
           content = sessionItem.room.name,
         )
         SessionDetailSummaryCardRow(

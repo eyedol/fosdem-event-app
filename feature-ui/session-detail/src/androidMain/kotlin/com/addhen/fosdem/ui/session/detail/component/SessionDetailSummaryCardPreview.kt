@@ -18,7 +18,7 @@ fun SessionDetailSummaryCardPreview() {
     Surface {
       SessionDetailSummaryCard(
         dateTitle = appString.dateTitle,
-        placeTitle = appString.roomTitle,
+        roomTitle = appString.roomTitle,
         trackTitle = appString.trackTitle,
         sessionItem = day1Event,
       )

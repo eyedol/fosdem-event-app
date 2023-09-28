@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
@@ -57,6 +58,7 @@ fun SessionDetailContent(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
+  val appStrings = LocalStrings.current
   val descriptionText = uiState.event.description
   val abstractText = uiState.event.abstractText
   val description = when {
@@ -68,21 +70,21 @@ fun SessionDetailContent(
   }
   Column(modifier = modifier) {
     DescriptionSection(
-      readMore = uiState.readMoreTitle,
+      readMore = appStrings.readMoreLabel,
       description = description,
       onLinkClick = onLinkClick,
     )
 
     if (uiState.event.speakers.isNotEmpty()) {
       SpeakerSection(
-        uiState.speakerTitle,
+        appStrings.speakerTitle,
         uiState.event.speakers.toPersistentList(),
       )
     }
 
     if (uiState.event.links.isNotEmpty()) {
       MaterialSection(
-        uiState.linkTitle,
+        appStrings.linkTitle,
         uiState.event.links.map { ClickableTextData(it.text, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )
@@ -90,7 +92,7 @@ fun SessionDetailContent(
 
     if (uiState.event.attachments.isNotEmpty()) {
       MaterialSection(
-        uiState.attachmentTitle,
+        appStrings.attachmentTitle,
         uiState.event.attachments.map { ClickableTextData(it.name, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )
@@ -108,9 +110,10 @@ private fun DescriptionSection(
   var isExpanded by rememberSaveable { mutableStateOf(false) }
 
   SelectionContainer {
-    Column(modifier = Modifier
-      .animateContentSize()
-      .then(modifier)
+    Column(
+      modifier = Modifier
+        .animateContentSize()
+        .then(modifier),
     ) {
       ClickableLinkText(
         style = MaterialTheme
@@ -211,7 +214,7 @@ private fun MaterialSection(
       for (material in materials) {
         ClickableLinkText(
           style = MaterialTheme.typography.bodyMedium,
-          content =" \u2022 ${material.name}",
+          content = " \u2022 ${material.name}",
           onLinkClick = onLinkClick,
           regex = material.name.toRegex(),
           url = material.url,
