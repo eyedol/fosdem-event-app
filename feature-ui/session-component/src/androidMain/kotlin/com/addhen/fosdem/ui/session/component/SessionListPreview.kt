@@ -18,8 +18,6 @@ import kotlinx.collections.immutable.toPersistentMap
 fun SessionListPreview() {
   val uiState = SessionListUiState(
     sortAndGroupedSessionItems,
-    addSessionFavoriteContentDescription = "Add session favorite",
-    removeSessionFavoriteContentDescription = "Remove session favorite",
   )
   val scrollState = rememberLazyListState()
   AppTheme {

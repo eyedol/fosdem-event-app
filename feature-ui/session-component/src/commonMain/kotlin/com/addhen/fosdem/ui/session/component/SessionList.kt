@@ -49,9 +49,7 @@ const val SessionListTestTag = "SessionList"
 private const val HAPTIC_LONG_PRESS = 0
 
 data class SessionListUiState(
-  val sessionItemMap: PersistentMap<String, List<Event>>,
-  val addSessionFavoriteContentDescription: String,
-  val removeSessionFavoriteContentDescription: String,
+  val sessionItemMap: PersistentMap<String, List<Event>>
 )
 
 @Composable
@@ -140,12 +138,8 @@ fun SessionList(
           sessionItems.forEach { sessionItem ->
             val isBookmarked = sessionItem.isBookmarked
             val haptic = LocalHapticFeedback.current
-            val addFavoriteCd = uiState.addSessionFavoriteContentDescription
-            val removeFavoriteCd = uiState.removeSessionFavoriteContentDescription
             SessionListItem(
               sessionItem = sessionItem,
-              addSessionFavoriteContentDescription = addFavoriteCd,
-              removeSessionFavoriteContentDescription = removeFavoriteCd,
               modifier = Modifier
                 .clickable { onSessionItemClick(sessionItem.id) }
                 .padding(top = 10.dp),

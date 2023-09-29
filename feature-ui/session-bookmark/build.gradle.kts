@@ -26,6 +26,7 @@ kotlin {
 
     val commonMain by getting {
       dependencies {
+        implementation(projects.featureUi.sessionComponent)
         implementation(projects.data.eventsApi)
         implementation(projects.data.modelApi)
         implementation(projects.data.coreApi)

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Event
 import kotlin.math.max
@@ -49,14 +50,14 @@ const val SessionListItemBookmarkIconTestTag = "SessionListItemBookmarkIconTestT
 @Composable
 fun SessionListItem(
   sessionItem: Event,
-  addSessionFavoriteContentDescription: String,
-  removeSessionFavoriteContentDescription: String,
   isBookmarked: Boolean,
   onBookmarkClick: (Event, Boolean) -> Unit,
   chipContent: @Composable RowScope.() -> Unit,
   modifier: Modifier = Modifier,
   highlightQuery: SearchQuery = SearchQuery.Empty,
 ) {
+
+  val appStrings = LocalStrings.current
   Column(
     modifier.testTag(SessionListItemTestTag),
   ) {
@@ -83,9 +84,9 @@ fun SessionListItem(
             Icons.Outlined.BookmarkBorder
           },
           contentDescription = if (isBookmarked) {
-            addSessionFavoriteContentDescription
+            appStrings.addToFavoritesTitle
           } else {
-            removeSessionFavoriteContentDescription
+            appStrings.removeFromFavorites
           },
           modifier = Modifier.padding(top = 4.dp),
         )

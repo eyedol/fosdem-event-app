@@ -16,8 +16,6 @@ fun SessionListItemPreview() {
     Surface {
       SessionListItem(
         sessionItem = day1Event,
-        addSessionFavoriteContentDescription = "Add session to favorites",
-        removeSessionFavoriteContentDescription = "Remove session favorites",
         isBookmarked = true,
         onBookmarkClick = { _, _ -> },
         chipContent = {},

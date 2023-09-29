@@ -90,14 +90,10 @@ class SessionPresenter(
   private fun sessionSheetPreview(): SessionSheetUiState {
     val sessionListUiState = SessionListUiState(
       sortAndGroupedEventsItems,
-      addSessionFavoriteContentDescription = "Add session favorite",
-      removeSessionFavoriteContentDescription = "Remove session favorite",
     )
 
     val sessionListUiState2 = SessionListUiState(
       sortAndGroupedEventsItems2,
-      addSessionFavoriteContentDescription = "Add session favorite",
-      removeSessionFavoriteContentDescription = "Remove session favorite",
     )
 
     val dayTab = day.toDayTab()
