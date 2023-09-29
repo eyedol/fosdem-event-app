@@ -13,6 +13,9 @@ data class SessionDetailScreen(val eventId: Long) : AppScreen(name = "SessionDet
   override val arguments get() = mapOf("id" to eventId)
 }
 
+@CommonParcelize
+data object SessionBookmarkScreen : AppScreen(name = "SessionBookmark()")
+
 abstract class AppScreen(val name: String) : Screen {
   open val arguments: Map<String, *>? = null
 }
