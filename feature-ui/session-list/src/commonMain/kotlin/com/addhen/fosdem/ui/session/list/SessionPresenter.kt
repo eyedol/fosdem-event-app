@@ -4,7 +4,6 @@
 package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.compose.common.ui.api.AppImage
 import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
@@ -51,7 +50,7 @@ class SessionPresenter(
 ) : Presenter<SessionUiState> {
   @Composable
   override fun present(): SessionUiState {
-    //val scope = rememberCoroutineScope()
+    // val scope = rememberCoroutineScope()
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {

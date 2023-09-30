@@ -4,14 +4,12 @@
 package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
-import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -44,7 +42,7 @@ class SessionBookmarkPresenter(
 ) : Presenter<SessionBookmarkUiState> {
   @Composable
   override fun present(): SessionBookmarkUiState {
-    //val scope = rememberCoroutineScope()
+    // val scope = rememberCoroutineScope()
 
     fun eventSink(event: SessionBookmarkUiEvent) {
       when (event) {

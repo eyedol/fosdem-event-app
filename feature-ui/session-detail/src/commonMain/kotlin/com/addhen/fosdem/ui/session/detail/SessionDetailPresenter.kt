@@ -4,7 +4,6 @@
 package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
@@ -37,7 +36,7 @@ class SessionDetailPresenter(
 ) : Presenter<SessionDetailUiState> {
   @Composable
   override fun present(): SessionDetailUiState {
-    //val scope = rememberCoroutineScope()
+    // val scope = rememberCoroutineScope()
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
