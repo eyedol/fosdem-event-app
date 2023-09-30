@@ -25,7 +25,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 class SessionBookmarkUiPresenterFactory(
-  private val presenterFactory: (Navigator) -> SessionPresenter,
+  private val presenterFactory: (Navigator) -> SessionBookmarkPresenter,
 ) : Presenter.Factory {
   override fun create(
     screen: Screen,
@@ -33,14 +33,16 @@ class SessionBookmarkUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is SessionBookmarkScreen -> presenterFactory(navigator)
+      is SessionBookmarkScreen -> {
+        presenterFactory(navigator)
+      }
       else -> null
     }
   }
 }
 
 @Inject
-class SessionPresenter(
+class SessionBookmarkPresenter(
   @Assisted private val navigator: Navigator,
 ) : Presenter<SessionBookmarkUiState> {
   @Composable
@@ -61,22 +63,10 @@ class SessionPresenter(
     }
 
     return SessionBookmarkUiState(
-
       content = sessionSheetPreview(),
       eventSink = ::eventSink,
     )
   }
-
-  @Composable
-  private fun tags() = listOf(
-    Tag("beer", tagColors().tagColorMain),
-    Tag("open source", tagColors().tagColorAlt),
-    Tag("free software", tagColors().tagColorMain),
-    Tag("lightning talks", tagColors().tagColorAlt),
-    Tag("devrooms", tagColors().tagColorMain),
-    Tag("800+ talks", tagColors().tagColorAlt),
-    Tag("8000+ hackers", tagColors().tagColorMain),
-  ).toPersistentList()
 
   private fun sessionSheetPreview(): SessionBookmarkSheetUiState {
     val sessionListUiState = SessionListUiState(

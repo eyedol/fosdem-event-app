@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session.component
+package com.addhen.fosdem.ui.session.list.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

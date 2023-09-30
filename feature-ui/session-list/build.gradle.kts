@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-  namespace = "com.addhen.fosdem.ui.session"
+  namespace = "com.addhen.fosdem.ui.session.list"
 }
 
 kotlin {

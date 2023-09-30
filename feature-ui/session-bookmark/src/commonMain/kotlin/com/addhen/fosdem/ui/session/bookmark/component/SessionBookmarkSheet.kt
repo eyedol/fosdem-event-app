@@ -45,7 +45,6 @@ sealed interface SessionBookmarkSheetUiState {
   ) : SessionBookmarkSheetUiState
 
   data class ListBookmark(
-
     val sessionListUiState: SessionListUiState,
     override val isAllSelected: Boolean,
     override val isDayFirstSelected: Boolean,

@@ -8,7 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheet
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkTopArea
 import com.slack.circuit.runtime.CircuitContext
@@ -20,7 +20,7 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 class SessionBookmarkUiFactory : Ui.Factory {
   override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
-    is SessionScreen -> {
+    is SessionBookmarkScreen -> {
       ui<SessionBookmarkUiState> { state, modifier ->
         SessionBookmark(state, modifier)
       }

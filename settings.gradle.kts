@@ -28,7 +28,7 @@ dependencyResolutionManagement {
 include(
   "feature-ui:session-bookmark",
   "feature-ui:session-detail",
-  "feature-ui:session",
+  "feature-ui:session-list",
   "feature-ui:session-component",
   "feature-ui:main",
   "compose-ui:common-api",

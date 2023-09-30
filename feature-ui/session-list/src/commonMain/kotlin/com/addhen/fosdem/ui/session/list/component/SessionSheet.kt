@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session.component
+package com.addhen.fosdem.ui.session.list.component
 
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,6 +28,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.SessionList
+import com.addhen.fosdem.ui.session.component.SessionListUiState
+import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
 import kotlinx.collections.immutable.PersistentList
 
 const val SessionTabTestTag = "SessionTab"
@@ -45,7 +48,7 @@ sealed interface SessionSheetUiState {
 }
 
 @Composable
-fun SessionSheet(
+internal fun SessionSheet(
   uiState: SessionSheetUiState,
   sessionScreenScrollState: SessionScreenScrollState,
   onSessionItemClick: (Long) -> Unit,

@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session.component
+package com.addhen.fosdem.ui.session.list.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.ui.session.component.SessionUiType
 
 const val SearchButtonTestTag = "SearchButton"
 const val SessionUiTypeChangeButtonTestTag = "SessionUiTypeChangeButton"

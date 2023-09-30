@@ -13,6 +13,8 @@ import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2
 import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.ui.session.list.component.SessionSheet
+import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 

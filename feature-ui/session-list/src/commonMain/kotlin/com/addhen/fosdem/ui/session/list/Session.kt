@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session
+package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -39,8 +39,8 @@ import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.session.component.SessionHeader
-import com.addhen.fosdem.ui.session.component.SessionSheet
-import com.addhen.fosdem.ui.session.component.SessionTopArea
+import com.addhen.fosdem.ui.session.list.component.SessionSheet
+import com.addhen.fosdem.ui.session.list.component.SessionTopArea
 import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
