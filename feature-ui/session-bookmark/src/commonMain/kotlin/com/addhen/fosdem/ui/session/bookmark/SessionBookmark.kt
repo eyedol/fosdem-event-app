@@ -69,12 +69,7 @@ private fun SessionBookmarkScreen(
     modifier = Modifier
       .testTag(BookmarkScreenTestTag)
       .then(modifier),
-    topBar = {
-      SessionBookmarkTopArea(
-        scrollState = scrollState,
-        onBackPressClick = onBackPressClick,
-      )
-    },
+    topBar = { SessionBookmarkTopArea(onBackPressClick = onBackPressClick) },
   ) { padding ->
     SessionBookmarkSheet(
       modifier = Modifier,
