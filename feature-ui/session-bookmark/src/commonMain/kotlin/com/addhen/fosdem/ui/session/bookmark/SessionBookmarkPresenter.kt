@@ -5,7 +5,6 @@ package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.day
@@ -13,12 +12,10 @@ import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.addhen.fosdem.ui.session.component.SessionListUiState
-import com.addhen.fosdem.ui.session.component.Tag
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -74,7 +71,7 @@ class SessionBookmarkPresenter(
     )
 
     return SessionBookmarkSheetUiState.ListBookmark(
-      sessionListUiState = sessionListUiState,
+      sessionItemMap = sortAndGroupedEventsItems,
       isAllSelected = true,
       isDayFirstSelected = false,
       isDaySecondSelected = false,

@@ -5,9 +5,9 @@ package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Immutable
 import com.addhen.fosdem.compose.common.ui.api.ImageResource
-import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.addhen.fosdem.ui.session.component.SessionUiType
 import com.addhen.fosdem.ui.session.component.Tag
+import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.PersistentList

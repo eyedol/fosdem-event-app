@@ -12,7 +12,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Immutable
-class DayTab(val id: Long, val date: LocalDate) {
+data class DayTab(val id: Long, val date: LocalDate) {
   val title: String
     get() = date.dayOfWeek.toString().lowercase()
       .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }

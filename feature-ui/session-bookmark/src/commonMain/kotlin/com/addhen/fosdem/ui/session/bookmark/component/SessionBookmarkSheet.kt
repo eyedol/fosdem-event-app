@@ -29,9 +29,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.Empty
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.ListBookmark
-import com.addhen.fosdem.ui.session.component.SessionListUiState
+import kotlinx.collections.immutable.PersistentMap
 
 sealed interface SessionBookmarkSheetUiState {
   val isAllSelected: Boolean
@@ -45,7 +46,7 @@ sealed interface SessionBookmarkSheetUiState {
   ) : SessionBookmarkSheetUiState
 
   data class ListBookmark(
-    val sessionListUiState: SessionListUiState,
+    val sessionItemMap: PersistentMap<String, List<Event>>,
     override val isAllSelected: Boolean,
     override val isDayFirstSelected: Boolean,
     override val isDaySecondSelected: Boolean,
@@ -94,7 +95,7 @@ fun SessionBookmarkSheet(
       is ListBookmark -> {
         BookmarkList(
           scrollState = scrollState,
-          uiState = uiState.sessionListUiState,
+          sessionItemMap = uiState.sessionItemMap,
           onSessionItemClick = onSessionItemClick,
           onBookmarkIconClick = onBookmarkClick,
           contentPadding = padding,

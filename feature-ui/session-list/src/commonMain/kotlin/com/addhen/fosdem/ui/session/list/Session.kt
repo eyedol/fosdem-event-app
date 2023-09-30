@@ -39,9 +39,9 @@ import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.session.component.SessionHeader
+import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
 import com.addhen.fosdem.ui.session.list.component.SessionSheet
 import com.addhen.fosdem.ui.session.list.component.SessionTopArea
-import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
