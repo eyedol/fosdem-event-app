@@ -14,13 +14,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,53 +29,19 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.collections.immutable.PersistentList
 
 const val SessionTabTestTag = "SessionTab"
 
 sealed interface SessionSheetUiState {
-  val days: List<DayTab>
+  val days: PersistentList<DayTab>
 
-  data class Empty(override val days: List<DayTab>) : SessionSheetUiState
+  data class Empty(override val days: PersistentList<DayTab>) : SessionSheetUiState
 
   data class ListSession(
     val sessionListUiStates: Map<DayTab, SessionListUiState>,
-    override val days: List<DayTab>,
+    override val days: PersistentList<DayTab>,
   ) : SessionSheetUiState
-}
-
-@Immutable
-class DayTab(val id: Long, val date: LocalDate) {
-  val title: String
-    get() = date.dayOfWeek.toString().lowercase()
-      .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-  companion object {
-    private val tzBrussels = TimeZone.of("Europe/Brussels")
-
-    val Saver: Saver<DayTab, *> = listSaver(
-      save = { listOf(it.id.toString(), it.date.toString()) },
-      restore = {
-        DayTab(
-          id = it.first().toLong(),
-          date = LocalDate.parse(it.last().toString()),
-        )
-      },
-    )
-
-    fun selectDay(days: List<DayTab>): DayTab {
-      val reversedEntries = days.sortedByDescending { it.id }
-      var selectedDay = reversedEntries.last()
-      for (entry in reversedEntries) {
-        if (Clock.System.now().toLocalDateTime(tzBrussels).dayOfWeek <= entry.date.dayOfWeek) {
-          selectedDay = entry
-        }
-      }
-      return selectedDay
-    }
-  }
 }
 
 @Composable

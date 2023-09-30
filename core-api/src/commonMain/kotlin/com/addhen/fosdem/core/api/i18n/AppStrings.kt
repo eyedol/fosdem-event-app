@@ -34,6 +34,10 @@ data class AppStrings(
   val addToCalendarTitle: String,
   val addToFavoritesTitle: String,
   val removeFromFavorites: String,
+  val bookmarkFilterAllTitle: String,
+  val bookmarkedItemEmpty: String,
+  val bookmarkedItemNotFound: String,
+  val dayTitle: String,
 )
 
 object Locales {

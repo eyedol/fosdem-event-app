@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+  implementation(projects.featureUi.sessionBookmark)
   implementation(projects.featureUi.sessionDetail)
   implementation(projects.featureUi.session)
   implementation(projects.featureUi.main)

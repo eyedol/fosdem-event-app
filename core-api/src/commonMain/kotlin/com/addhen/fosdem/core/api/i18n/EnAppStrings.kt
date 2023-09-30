@@ -33,4 +33,8 @@ val EnAppStrings = AppStrings(
   addToCalendarTitle = "Add to calendar",
   addToFavoritesTitle = "Add to favorites",
   removeFromFavorites = "Remove from favorites",
+  bookmarkFilterAllTitle = "All",
+  bookmarkedItemEmpty = "No sessions bookmarked",
+  bookmarkedItemNotFound = "Add the sessions you are interested in to your bookmarks\n to see them",
+  dayTitle = "Day",
 )

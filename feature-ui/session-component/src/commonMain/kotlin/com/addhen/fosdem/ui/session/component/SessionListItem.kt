@@ -56,7 +56,6 @@ fun SessionListItem(
   modifier: Modifier = Modifier,
   highlightQuery: SearchQuery = SearchQuery.Empty,
 ) {
-
   val appStrings = LocalStrings.current
   Column(
     modifier.testTag(SessionListItemTestTag),

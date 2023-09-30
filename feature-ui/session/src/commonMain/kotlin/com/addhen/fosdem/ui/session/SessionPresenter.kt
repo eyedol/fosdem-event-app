@@ -100,7 +100,7 @@ class SessionPresenter(
     val dayTab2 = day2.toDayTab()
 
     return SessionSheetUiState.ListSession(
-      days = listOf(dayTab, dayTab2),
+      days = listOf(dayTab, dayTab2).toPersistentList(),
       sessionListUiStates = mapOf(
         dayTab to sessionListUiState,
         dayTab2 to sessionListUiState2,

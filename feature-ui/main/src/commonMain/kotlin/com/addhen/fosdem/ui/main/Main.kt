@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.main.component.MainNavigationBar
 import com.addhen.fosdem.ui.main.component.MainNavigationDrawer
@@ -143,7 +144,7 @@ fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
       selectedImageVector = Icons.Filled.CalendarMonth,
     ),
     MainNavigationItem(
-      screen = SessionScreen,
+      screen = SessionBookmarkScreen,
       label = strings.bookmarkTitle,
       contentDescription = strings.bookmarkContentDescription,
       iconImageVector = Icons.Outlined.Bookmark,

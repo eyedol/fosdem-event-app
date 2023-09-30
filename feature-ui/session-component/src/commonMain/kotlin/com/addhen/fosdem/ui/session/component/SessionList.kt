@@ -49,7 +49,7 @@ const val SessionListTestTag = "SessionList"
 private const val HAPTIC_LONG_PRESS = 0
 
 data class SessionListUiState(
-  val sessionItemMap: PersistentMap<String, List<Event>>
+  val sessionItemMap: PersistentMap<String, List<Event>>,
 )
 
 @Composable

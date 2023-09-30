@@ -21,6 +21,7 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(projects.featureUi.sessionBookmark)
         implementation(projects.featureUi.sessionDetail)
         implementation(projects.featureUi.session)
         implementation(projects.featureUi.main)

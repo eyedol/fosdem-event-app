@@ -5,21 +5,15 @@ package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.addhen.fosdem.compose.common.ui.api.AppImage
-import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
-import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day2
 import com.addhen.fosdem.model.api.day2Event
-import com.addhen.fosdem.ui.session.component.DayTab
-import com.addhen.fosdem.ui.session.bookmark.component.SessionListUiState
-import com.addhen.fosdem.ui.session.component.SessionSheetUiState
-import com.addhen.fosdem.ui.session.component.SessionUiType
-import com.addhen.fosdem.ui.session.bookmark.component.Tag
+import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
+import com.addhen.fosdem.ui.session.component.SessionListUiState
+import com.addhen.fosdem.ui.session.component.Tag
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -53,24 +47,21 @@ class SessionPresenter(
   override fun present(): SessionBookmarkUiState {
     val scope = rememberCoroutineScope()
 
-    fun eventSink(event: SessionUiEvent) {
+    fun eventSink(event: SessionBookmarkUiEvent) {
       when (event) {
-        is SessionUiEvent.GoToSessionDetails -> {
+        is SessionBookmarkUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
-        SessionUiEvent.SearchSession -> TODO()
-        is SessionUiEvent.ToggleSessionBookmark -> TODO()
-        SessionUiEvent.ToggleSessionUi -> TODO()
+        SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
+        SessionBookmarkUiEvent.FilterFirstDayBookmarks -> TODO()
+        SessionBookmarkUiEvent.FilterSecondDayBookmarks -> TODO()
+        SessionBookmarkUiEvent.GoToPreviousScreen -> TODO()
+        is SessionBookmarkUiEvent.ToggleSessionBookmark -> TODO()
       }
     }
 
     return SessionBookmarkUiState(
-      sessionUiType = SessionUiType.List,
-      appTitle = "FOSDEM",
-      appLogo = imageResource(AppImage.FosdemLogo),
-      year = "24",
-      location = "@ Brussels, Belgium",
-      tags = tags(),
+
       content = sessionSheetPreview(),
       eventSink = ::eventSink,
     )
@@ -87,45 +78,20 @@ class SessionPresenter(
     Tag("8000+ hackers", tagColors().tagColorMain),
   ).toPersistentList()
 
-  private fun sessionSheetPreview(): SessionSheetUiState {
+  private fun sessionSheetPreview(): SessionBookmarkSheetUiState {
     val sessionListUiState = SessionListUiState(
       sortAndGroupedEventsItems,
-      addSessionFavoriteContentDescription = "Add session favorite",
-      removeSessionFavoriteContentDescription = "Remove session favorite",
     )
 
-    val sessionListUiState2 = SessionListUiState(
-      sortAndGroupedEventsItems2,
-      addSessionFavoriteContentDescription = "Add session favorite",
-      removeSessionFavoriteContentDescription = "Remove session favorite",
-    )
-
-    val dayTab = day.toDayTab()
-    val dayTab2 = day2.toDayTab()
-
-    return SessionSheetUiState.ListSession(
-      days = listOf(dayTab, dayTab2),
-      sessionListUiStates = mapOf(
-        dayTab to sessionListUiState,
-        dayTab2 to sessionListUiState2,
-      ),
+    return SessionBookmarkSheetUiState.ListBookmark(
+      sessionListUiState = sessionListUiState,
+      isAllSelected = true,
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
     )
   }
 
-  fun Day.toDayTab() = DayTab(
-    id = id,
-    date = date,
-  )
-
   val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
-    it.startTime.toString() + it.duration.toString()
-  }.mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-    )
-  }.toPersistentMap()
-
-  val sortAndGroupedEventsItems2 = listOf(day2Event).groupBy {
     it.startTime.toString() + it.duration.toString()
   }.mapValues { entries ->
     entries.value.sortedWith(

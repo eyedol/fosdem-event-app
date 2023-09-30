@@ -11,14 +11,18 @@ import com.slack.circuit.runtime.ui.Ui
 import me.tatarka.inject.annotations.IntoSet
 import me.tatarka.inject.annotations.Provides
 
-interface SessionBookmarkBookmarkComponent {
+interface SessionBookmarkComponent {
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindSessionBookmarkPresenterFactory(factory: SessionBookmarkUiPresenterFactory): Presenter.Factory = factory
+  fun bindSessionBookmarkPresenterFactory(
+    factory: SessionBookmarkUiPresenterFactory,
+  ): Presenter.Factory = factory
 
   @IntoSet
   @Provides
   @ActivityScope
-  fun bindSessionBookmarkFactoryFactory(factory: SessionBookmarkUiFactory): Ui.Factory = factory
+  fun bindSessionBookmarkFactoryFactory(
+    factory: SessionBookmarkUiFactory,
+  ): Ui.Factory = factory
 }
