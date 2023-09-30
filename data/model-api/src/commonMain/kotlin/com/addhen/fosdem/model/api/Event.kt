@@ -136,7 +136,7 @@ val day1Event = Event(
   links = listOf(link, link2, link3),
   speakers = listOf(speaker, speaker2),
   room = room,
-  track = Track("maintrack", Track.Type.BOF),
+  track = Track("maintrack"),
   attachments = listOf(attachment, attachment2, attachment3),
 )
 
@@ -152,6 +152,6 @@ val day2Event = Event(
   links = listOf(link2),
   speakers = listOf(speaker2),
   room = room2,
-  track = Track("keynote", Track.Type.KEYNOTE),
+  track = Track("keynote"),
   attachments = listOf(attachment2),
 )

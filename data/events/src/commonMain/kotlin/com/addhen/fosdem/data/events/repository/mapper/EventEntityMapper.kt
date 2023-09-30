@@ -52,7 +52,7 @@ internal fun AttachmentEntity.toAttachment() = Attachment(
   name = name,
 )
 
-internal fun TrackEntity.toTrack() = Track(name, Track.Type.BOF)
+internal fun TrackEntity.toTrack() = Track(name)
 
 internal fun EventEntity.toEvent() = Event(
   id = id,
@@ -64,7 +64,7 @@ internal fun EventEntity.toEvent() = Event(
   isBookmarked = isBookmarked,
   abstractText = abstractText,
   description = description,
-  track = Track(name = track.name, type = Track.Type.BOF),
+  track = Track(name = track.name),
   links = links.toLinks(),
   speakers = speakers.toSpeakers(),
   attachments = attachments.toAttachments(),

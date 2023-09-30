@@ -51,7 +51,7 @@ class SessionPresenter(
 ) : Presenter<SessionUiState> {
   @Composable
   override fun present(): SessionUiState {
-    val scope = rememberCoroutineScope()
+    //val scope = rememberCoroutineScope()
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {

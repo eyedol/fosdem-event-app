@@ -44,7 +44,7 @@ class SessionBookmarkPresenter(
 ) : Presenter<SessionBookmarkUiState> {
   @Composable
   override fun present(): SessionBookmarkUiState {
-    val scope = rememberCoroutineScope()
+    //val scope = rememberCoroutineScope()
 
     fun eventSink(event: SessionBookmarkUiEvent) {
       when (event) {
@@ -66,10 +66,6 @@ class SessionBookmarkPresenter(
   }
 
   private fun sessionSheetPreview(): SessionBookmarkSheetUiState {
-    val sessionListUiState = SessionListUiState(
-      sortAndGroupedEventsItems,
-    )
-
     return SessionBookmarkSheetUiState.ListBookmark(
       sessionItemMap = sortAndGroupedEventsItems,
       isAllSelected = true,

@@ -124,7 +124,7 @@ class EventsDbDao(
 
   private val eventQueriesMapper = {
       id: Long,
-      room_id: Long?,
+      _: Long?,
       date: LocalDate,
       start_time: LocalTime,
       duration: LocalTime,
