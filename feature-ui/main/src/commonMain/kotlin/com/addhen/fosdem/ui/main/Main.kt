@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.core.api.screens.AboutScreen
+import com.addhen.fosdem.core.api.screens.MapScreen
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.main.component.MainNavigationBar
@@ -151,14 +153,14 @@ fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
       selectedImageVector = Icons.Filled.Bookmark,
     ),
     MainNavigationItem(
-      screen = SessionScreen,
+      screen = MapScreen,
       label = strings.mapTitle,
       contentDescription = strings.mapContentDescription,
       iconImageVector = Icons.Outlined.Map,
       selectedImageVector = Icons.Filled.Map,
     ),
     MainNavigationItem(
-      screen = SessionScreen,
+      screen = AboutScreen,
       label = strings.aboutTitle,
       contentDescription = strings.aboutContentDescription,
       iconImageVector = Icons.Outlined.Info,
