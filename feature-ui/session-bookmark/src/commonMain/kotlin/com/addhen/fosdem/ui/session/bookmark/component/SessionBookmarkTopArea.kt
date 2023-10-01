@@ -43,7 +43,7 @@ fun SessionBookmarkTopArea(
       }
     },
     navigationIcon = {
-      IconButton(onClick = onBackPressClick ) {
+      IconButton(onClick = onBackPressClick) {
         Icon(
           imageVector = Icons.Filled.ArrowBack,
           contentDescription = null,

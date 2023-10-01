@@ -15,4 +15,9 @@ expect fun AppImage.asImageResource(): ImageResource
 
 enum class AppImage {
   FosdemLogo,
+  InstagramLogo,
+  MastadonLogo,
+  XLogo,
+  FacebookLogo,
+  AboutBanner,
 }

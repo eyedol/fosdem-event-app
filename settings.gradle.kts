@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 }
 
 include(
+  "feature-ui:about",
   "feature-ui:session-bookmark",
   "feature-ui:session-detail",
   "feature-ui:session-list",

@@ -38,6 +38,14 @@ data class AppStrings(
   val bookmarkedItemEmpty: String,
   val bookmarkedItemNotFound: String,
   val dayTitle: String,
+  val aboutFosdem: String,
+  val placeTitle: String,
+  val placeLink: String,
+  val placeDescription: String,
+  val appVersion: String,
+  val dateDescription: String,
+  val licenseTitle: String,
+  val privacyPolicyTitle: String,
 )
 
 object Locales {
