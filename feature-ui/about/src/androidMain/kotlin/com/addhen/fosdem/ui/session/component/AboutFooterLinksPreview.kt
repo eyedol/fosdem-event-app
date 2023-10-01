@@ -19,6 +19,7 @@ fun AboutFooterLinksPreview() {
         onMastadonClick = {},
         onXClick = {},
         onInstagramClick = {},
+        onFacebookClick = {},
       )
     }
   }

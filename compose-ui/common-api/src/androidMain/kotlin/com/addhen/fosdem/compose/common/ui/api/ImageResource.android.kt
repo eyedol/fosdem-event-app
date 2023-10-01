@@ -18,6 +18,11 @@ actual class ImageResource(
 actual fun AppImage.asImageResource(): ImageResource = remember(this) {
   val resId = when (this) {
     AppImage.FosdemLogo -> R.drawable.fosdem_logo
+    AppImage.InstagramLogo -> R.drawable.fosdem_logo
+    AppImage.MastadonLogo -> R.drawable.fosdem_logo
+    AppImage.XLogo -> R.drawable.fosdem_logo
+    AppImage.FacebookLogo -> R.drawable.fosdem_logo
+    AppImage.AboutBanner -> R.drawable.fosdem_logo
   }
   ImageResource(resId)
 }

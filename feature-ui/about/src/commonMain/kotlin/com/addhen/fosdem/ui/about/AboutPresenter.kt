@@ -4,7 +4,7 @@
 package com.addhen.fosdem.ui.about
 
 import androidx.compose.runtime.Composable
-import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -22,7 +22,7 @@ class AboutUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is SessionDetailScreen -> presenterFactory(navigator)
+      is AboutScreen -> presenterFactory(navigator)
       else -> null
     }
   }
@@ -34,8 +34,6 @@ class AboutPresenter(
 ) : Presenter<AboutUiState> {
   @Composable
   override fun present(): AboutUiState {
-    // val scope = rememberCoroutineScope()
-
     fun eventSink(event: AboutUiEvent) {
       when (event) {
         is AboutUiEvent.GoToAboutItem -> TODO()

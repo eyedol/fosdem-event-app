@@ -19,7 +19,6 @@ internal fun AboutOthersPreview() {
         aboutOthers(
           "License",
           "Privacy Policy",
-          onCodeOfConductItemClick = {},
           onLicenseItemClick = {},
           onPrivacyPolicyItemClick = {},
         )
