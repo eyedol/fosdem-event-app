@@ -24,6 +24,7 @@ fun AboutSummaryCardRow(
   leadingIcon: ImageVector,
   label: String,
   content: String,
+  url: String? = null,
   modifier: Modifier = Modifier,
   leadingIconContentDescription: String? = null,
   onLinkClick: (url: String) -> Unit = {},
@@ -50,7 +51,7 @@ fun AboutSummaryCardRow(
       content = content,
       onLinkClick = onLinkClick,
       regex = appStrings.placeLink.toRegex(),
-      url = "https://www.openstreetmap.org/?mlat=50.81238&mlon=4.38073#map=18/50.81238/4.38073",
+      url = url,
     )
   }
 }

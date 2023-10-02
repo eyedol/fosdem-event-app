@@ -46,13 +46,12 @@ fun AboutSummaryCard(
         label = appStrings.dateTitle,
         content = appStrings.dateDescription,
       )
-      val placeContent = appStrings.placeDescription
-        .plus(" " + appStrings.placeLink)
       AboutSummaryCardRow(
         leadingIcon = Icons.Outlined.Place,
         label = appStrings.placeDescription,
-        content = placeContent,
+        content = appStrings.placeLink,
         onLinkClick = onLinkClick,
+        url = "https://www.openstreetmap.org/?mlat=50.81238&mlon=4.38073#map=18/50.81238/4.38073",
       )
     }
   }
