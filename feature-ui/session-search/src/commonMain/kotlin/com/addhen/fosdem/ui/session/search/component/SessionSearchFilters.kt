@@ -38,10 +38,9 @@ fun SearchFilter(
   onSessionRoomSelected: (FilterRoom, Boolean) -> Unit = { _, _ -> },
 ) {
   val keyboardController = LocalSoftwareKeyboardController.current
-
   LazyRow(
     modifier = modifier.testTag(SearchFilterTestTag),
-    horizontalArrangement = Arrangement.spacedBy(8.dp),
+    horizontalArrangement = Arrangement.spacedBy(16.dp),
     contentPadding = PaddingValues(horizontal = 16.dp),
   ) {
     item {

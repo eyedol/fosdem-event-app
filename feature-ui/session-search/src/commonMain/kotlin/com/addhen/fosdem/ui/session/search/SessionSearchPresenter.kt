@@ -76,7 +76,8 @@ class SessionSearchPresenter(
   }
 
   private fun sessionSheetPreview(): SearchUiState {
-    return SearchUiState.Empty(
+    return SearchUiState.ListSearch(
+      sortAndGroupedEventsItems,
       searchQuery = SearchQuery(""),
       searchFilterDayUiState = SearchFilterUiState(
         selectedItems = emptyList<DayTab>().toImmutableList(),

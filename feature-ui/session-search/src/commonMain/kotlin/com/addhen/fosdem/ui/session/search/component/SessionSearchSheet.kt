@@ -68,6 +68,7 @@ fun SessionSearchSheet(
       thickness = 1.dp,
       color = MaterialTheme.colorScheme.outline,
     )
+
     SearchFilter(
       searchFilterDayUiState = uiState.searchFilterDayUiState,
       searchFilterSessionTrackUiState = uiState.searchFilterSessionTrackUiState,
@@ -76,6 +77,7 @@ fun SessionSearchSheet(
       onSessionRoomSelected = onSessionRoomSelected,
       onSessionTrackSelected = onSessionTrackSelected,
     )
+
     when (uiState) {
       is Empty -> EmptySearchResultBody(
         query = uiState.searchQuery.queryText,

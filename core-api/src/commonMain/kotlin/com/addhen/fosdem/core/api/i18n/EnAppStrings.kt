@@ -48,5 +48,5 @@ val EnAppStrings = AppStrings(
   licenseTitle = "License",
   privacyPolicyTitle = "Privacy Policy",
   searchNotFound = { searchTerm -> "Nothing matched your search criteria \"$searchTerm\"" },
-  searchTermPlaceHolder = "Enter a session title, a speaker name or technology term",
+  searchTermPlaceHolder = "Enter a session, a speaker or a term",
 )
