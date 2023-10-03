@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.ui.session.bookmark.component.SearchFilters
 import com.addhen.fosdem.ui.session.search.component.SessionSearchSheetUiState.Empty
 import com.addhen.fosdem.ui.session.search.component.SessionSearchSheetUiState.ListSearch
 import kotlinx.collections.immutable.PersistentMap

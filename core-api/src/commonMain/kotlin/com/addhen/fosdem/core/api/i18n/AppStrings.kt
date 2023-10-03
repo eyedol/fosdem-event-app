@@ -46,6 +46,8 @@ data class AppStrings(
   val dateDescription: String,
   val licenseTitle: String,
   val privacyPolicyTitle: String,
+  val searchNotFound: (String) -> String,
+  val searchTermPlaceHolder: String
 )
 
 object Locales {

@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session.bookmark.component
+package com.addhen.fosdem.ui.session.search.component
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
@@ -24,10 +24,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import kotlinx.collections.immutable.ImmutableList
 
 const val BookmarkFilterChipAllTestTag = "BookmarkFilterChipAllTestTag"
 const val BookmarkFilterChipDay1TestTag = "BookmarkFilterChipDay1TestTag"
 const val BookmarkFilterChipDay2TestTag = "BookmarkFilterChipDay2TestTag"
+
+
+data class SearchFilterUiState<T>(
+  val selectedItems: ImmutableList<T>,
+  val items: ImmutableList<T>,
+  val isSelected: Boolean = false,
+  val selectedValues: String = "",
+)
 
 @Composable
 fun SearchFilters(
