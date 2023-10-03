@@ -8,6 +8,7 @@ import com.addhen.fosdem.ui.about.di.AboutComponent
 import com.addhen.fosdem.ui.session.bookmark.di.SessionBookmarkComponent
 import com.addhen.fosdem.ui.session.detail.di.SessionDetailComponent
 import com.addhen.fosdem.ui.session.list.di.SessionComponent
+import com.addhen.fosdem.ui.session.search.di.SessionSearchComponent
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
@@ -17,6 +18,7 @@ interface UiComponent :
   SessionComponent,
   SessionDetailComponent,
   SessionBookmarkComponent,
+  SessionSearchComponent,
   AboutComponent {
 
   @Provides

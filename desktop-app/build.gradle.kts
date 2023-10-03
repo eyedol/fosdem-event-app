@@ -22,6 +22,7 @@ kotlin {
     val jvmMain by getting {
       dependencies {
         implementation(projects.featureUi.about)
+        implementation(projects.featureUi.sessionSearch)
         implementation(projects.featureUi.sessionBookmark)
         implementation(projects.featureUi.sessionDetail)
         implementation(projects.featureUi.sessionList)

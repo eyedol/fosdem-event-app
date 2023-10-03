@@ -9,6 +9,7 @@ import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
@@ -57,7 +58,7 @@ class SessionPresenter(
         is SessionUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
-        SessionUiEvent.SearchSession -> TODO()
+        SessionUiEvent.SearchSession -> navigator.goTo(SessionSearchScreen)
         is SessionUiEvent.ToggleSessionBookmark -> TODO()
         SessionUiEvent.ToggleSessionUi -> TODO()
       }
