@@ -17,7 +17,6 @@ import com.addhen.fosdem.model.api.day2
 import com.addhen.fosdem.ui.session.component.DayTab
 import kotlinx.collections.immutable.toImmutableList
 
-
 fun Day.toDayTab() = DayTab(
   id = id,
   date = date,

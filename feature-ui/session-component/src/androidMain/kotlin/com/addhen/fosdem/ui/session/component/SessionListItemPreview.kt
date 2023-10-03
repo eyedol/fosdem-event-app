@@ -19,6 +19,7 @@ fun SessionListItemPreview() {
         isBookmarked = true,
         onBookmarkClick = { _, _ -> },
         chipContent = {},
+        highlightQuery = SearchQuery.Empty,
       )
     }
   }

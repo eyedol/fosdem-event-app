@@ -4,13 +4,16 @@
 package com.addhen.fosdem.ui.session.search
 
 import androidx.compose.runtime.Immutable
-import com.addhen.fosdem.ui.session.search.component.SessionSearchSheetUiState
+import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.FilterRoom
+import com.addhen.fosdem.ui.session.component.FilterTrack
+import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class SessionSearchUiState(
-  val content: SessionSearchSheetUiState,
+  val content: SearchUiState,
   val eventSink: (SessionSearchUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -22,11 +25,11 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
     val isBookmarked: Boolean,
   ) : SessionSearchUiEvent
 
-  data object FilterAllBookmarks : SessionSearchUiEvent
+  data class FilterDay(val dayTab: DayTab) : SessionSearchUiEvent
 
-  data object FilterFirstDayBookmarks : SessionSearchUiEvent
+  data class FilterSessionRoom(val room: FilterRoom) : SessionSearchUiEvent
 
-  data object FilterSecondDayBookmarks : SessionSearchUiEvent
+  data class FilterSessionTrack(val track: FilterTrack) : SessionSearchUiEvent
 
   data object GoToPreviousScreen : SessionSearchUiEvent
 }

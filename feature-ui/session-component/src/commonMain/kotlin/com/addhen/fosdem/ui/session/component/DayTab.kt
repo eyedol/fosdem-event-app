@@ -6,6 +6,7 @@ package com.addhen.fosdem.ui.session.component
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
+import com.addhen.fosdem.model.api.Day
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -41,3 +42,5 @@ data class DayTab(val id: Long, val date: LocalDate) {
     }
   }
 }
+
+fun Day.toDayTab() = DayTab(id, date)

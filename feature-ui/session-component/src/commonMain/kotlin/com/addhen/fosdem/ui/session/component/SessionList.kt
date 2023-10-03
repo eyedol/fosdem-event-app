@@ -58,6 +58,7 @@ fun SessionList(
   scrollState: LazyListState,
   onBookmarkClick: (Long, Boolean) -> Unit,
   onSessionItemClick: (Long) -> Unit,
+  highlightQuery: SearchQuery = SearchQuery.Empty,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {
@@ -152,6 +153,7 @@ fun SessionList(
                 }
                 onBookmarkClick(sessionItemLocal.id, isBookmarkedLocal)
               },
+              highlightQuery = highlightQuery,
               chipContent = {
                 val trackColor = trackColors(sessionItem.track.name)
                 val containerColor = trackColor.backgroundColor

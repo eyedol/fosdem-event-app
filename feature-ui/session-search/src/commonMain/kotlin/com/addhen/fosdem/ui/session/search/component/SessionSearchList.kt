@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.addhen.fosdem.model.api.Event
+import com.addhen.fosdem.ui.session.component.SearchQuery
 import com.addhen.fosdem.ui.session.component.SessionList
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import kotlinx.collections.immutable.PersistentMap
@@ -16,6 +17,7 @@ import kotlinx.collections.immutable.PersistentMap
 fun SearchList(
   scrollState: LazyListState,
   sessionItemMap: PersistentMap<String, List<Event>>,
+  searchQuery: SearchQuery,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkIconClick: (Long, Boolean) -> Unit,
   contentPadding: PaddingValues,
@@ -25,6 +27,7 @@ fun SearchList(
   scrollState,
   onBookmarkIconClick,
   onSessionItemClick,
+  highlightQuery = searchQuery,
   contentPadding,
   modifier,
 )

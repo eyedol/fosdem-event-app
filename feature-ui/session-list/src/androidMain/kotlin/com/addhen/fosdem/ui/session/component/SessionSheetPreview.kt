@@ -8,7 +8,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2
@@ -52,11 +51,6 @@ fun SessionSheetPreview() {
     }
   }
 }
-
-fun Day.toDayTab() = DayTab(
-  id = id,
-  date = date,
-)
 
 val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
   it.startTime.toString() + it.duration.toString()

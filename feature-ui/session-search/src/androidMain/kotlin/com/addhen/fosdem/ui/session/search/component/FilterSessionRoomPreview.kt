@@ -11,9 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.model.api.Room
 import com.addhen.fosdem.model.api.room
 import com.addhen.fosdem.model.api.room2
+import com.addhen.fosdem.ui.session.component.FilterRoom
+import com.addhen.fosdem.ui.session.component.toFilterRoom
 import kotlinx.collections.immutable.toImmutableList
 
 @MultiThemePreviews
@@ -22,8 +23,8 @@ fun FilterSessionRoomPreview() {
   var uiState by remember {
     mutableStateOf(
       SearchFilterUiState(
-        selectedItems = emptyList<Room>().toImmutableList(),
-        items = listOf(room, room2).toImmutableList(),
+        selectedItems = emptyList<FilterRoom>().toImmutableList(),
+        items = listOf(room.toFilterRoom(), room2.toFilterRoom()).toImmutableList(),
       ),
     )
   }
@@ -31,7 +32,7 @@ fun FilterSessionRoomPreview() {
     Surface {
       FilterSessionRoomChip(
         searchFilterUiState = uiState,
-        onSessionTypeSelected = { sessionType, isSelected ->
+        onSessionRoomSelected = { sessionType, isSelected ->
           val selectedSessionTypes = uiState.selectedItems.toMutableList()
           val newSelectedSessionTypes = selectedSessionTypes.apply {
             if (isSelected) {
@@ -46,7 +47,7 @@ fun FilterSessionRoomPreview() {
             selectedValues = newSelectedSessionTypes.joinToString { it.name },
           )
         },
-        onFilterSessionTypeChipClicked = {},
+        onFilterSessionRoomChipClicked = {},
       )
     }
   }

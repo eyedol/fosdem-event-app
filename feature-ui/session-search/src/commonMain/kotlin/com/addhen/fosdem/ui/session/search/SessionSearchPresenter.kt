@@ -8,11 +8,22 @@ import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event
-import com.addhen.fosdem.ui.session.search.component.SessionSearchSheetUiState
+import com.addhen.fosdem.model.api.room
+import com.addhen.fosdem.model.api.room2
+import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.FilterRoom
+import com.addhen.fosdem.ui.session.component.FilterTrack
+import com.addhen.fosdem.ui.session.component.SearchQuery
+import com.addhen.fosdem.ui.session.component.toDayTab
+import com.addhen.fosdem.ui.session.component.toFilterRoom
+import com.addhen.fosdem.ui.session.component.toFilterTrack
+import com.addhen.fosdem.ui.session.search.component.SearchFilterUiState
+import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentMap
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -30,6 +41,7 @@ class SessionSearchUiPresenterFactory(
       is SessionSearchScreen -> {
         presenterFactory(navigator)
       }
+
       else -> null
     }
   }
@@ -48,9 +60,10 @@ class SessionSearchPresenter(
         is SessionSearchUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
-        SessionSearchUiEvent.FilterAllBookmarks -> TODO()
-        SessionSearchUiEvent.FilterFirstDayBookmarks -> TODO()
-        SessionSearchUiEvent.FilterSecondDayBookmarks -> TODO()
+
+        is SessionSearchUiEvent.FilterDay -> TODO()
+        is SessionSearchUiEvent.FilterSessionRoom -> TODO()
+        is SessionSearchUiEvent.FilterSessionTrack -> TODO()
         SessionSearchUiEvent.GoToPreviousScreen -> TODO()
         is SessionSearchUiEvent.ToggleSessionBookmark -> TODO()
       }
@@ -62,12 +75,24 @@ class SessionSearchPresenter(
     )
   }
 
-  private fun sessionSheetPreview(): SessionSearchSheetUiState {
-    return SessionSearchSheetUiState.ListSearch(
-      sessionItemMap = sortAndGroupedEventsItems,
-      isAllSelected = true,
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
+  private fun sessionSheetPreview(): SearchUiState {
+    return SearchUiState.Empty(
+      searchQuery = SearchQuery(""),
+      searchFilterDayUiState = SearchFilterUiState(
+        selectedItems = emptyList<DayTab>().toImmutableList(),
+        items = listOf(day1Event.day.toDayTab(), day2Event.day.toDayTab()).toImmutableList(),
+      ),
+      searchFilterSessionTrackUiState = SearchFilterUiState(
+        selectedItems = emptyList<FilterTrack>().toImmutableList(),
+        items = listOf(
+          day1Event.track.toFilterTrack(),
+          day2Event.track.toFilterTrack(),
+        ).toImmutableList(),
+      ),
+      searchFilterSessionRoomUiState = SearchFilterUiState(
+        selectedItems = emptyList<FilterRoom>().toImmutableList(),
+        items = listOf(room.toFilterRoom(), room2.toFilterRoom()).toImmutableList(),
+      ),
     )
   }
 

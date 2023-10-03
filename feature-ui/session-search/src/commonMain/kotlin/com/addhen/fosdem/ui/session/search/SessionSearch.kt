@@ -9,8 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
+import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.FilterRoom
+import com.addhen.fosdem.ui.session.component.FilterTrack
+import com.addhen.fosdem.ui.session.search.component.SearchTextFieldAppBar
 import com.addhen.fosdem.ui.session.search.component.SessionSearchSheet
-import com.addhen.fosdem.ui.session.search.component.SessionSearchTopArea
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
@@ -44,9 +47,13 @@ internal fun SessionSearch(
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
-    onAllFilterChipClick = { eventSink(SessionSearchUiEvent.FilterAllBookmarks) },
-    onDayFirstChipClick = { eventSink(SessionSearchUiEvent.FilterFirstDayBookmarks) },
-    onDaySecondChipClick = { eventSink(SessionSearchUiEvent.FilterSecondDayBookmarks) },
+    onDaySelected = { dayTab, _ -> eventSink(SessionSearchUiEvent.FilterDay(dayTab)) },
+    onSessionTrackSelected = { track, _ ->
+      eventSink(SessionSearchUiEvent.FilterSessionTrack(track))
+    },
+    onSessionRoomSelected = { room, _ ->
+      eventSink(SessionSearchUiEvent.FilterSessionRoom(room))
+    },
     modifier = modifier,
   )
 }
@@ -56,31 +63,36 @@ const val SearchScreenTestTag = "SearchScreenTestTag"
 @Composable
 private fun SessionSearchScreen(
   uiState: SessionSearchUiState,
+  onSearchQueryChanged: (String) -> Unit = {},
   onBackPressClick: () -> Unit,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
-  onAllFilterChipClick: () -> Unit,
-  onDayFirstChipClick: () -> Unit,
-  onDaySecondChipClick: () -> Unit,
+  onDaySelected: (DayTab, Boolean) -> Unit = { _, _ -> },
+  onSessionTrackSelected: (FilterTrack, Boolean) -> Unit = { _, _ -> },
+  onSessionRoomSelected: (FilterRoom, Boolean) -> Unit = { _, _ -> },
   modifier: Modifier,
 ) {
   val scrollState = rememberLazyListState()
   Scaffold(
-    modifier = Modifier
-      .testTag(SearchScreenTestTag)
-      .then(modifier),
-    topBar = { SessionSearchTopArea(onBackPressClick = onBackPressClick) },
-  ) { padding ->
+    modifier = modifier.testTag(SearchScreenTestTag),
+    topBar = {
+      SearchTextFieldAppBar(
+        searchQuery = uiState.content.searchQuery.queryText,
+        onSearchQueryChanged = onSearchQueryChanged,
+        onBackClick = onBackPressClick,
+        testTag = SearchScreenTestTag,
+      )
+    },
+  ) { innerPadding ->
     SessionSearchSheet(
-      modifier = Modifier,
-      scrollState = scrollState,
-      onSessionItemClick = onSessionItemClick,
-      onBookmarkClick = onBookmarkClick,
-      onAllFilterChipClick = onAllFilterChipClick,
-      onDayFirstChipClick = onDayFirstChipClick,
-      onDaySecondChipClick = onDaySecondChipClick,
-      contentPadding = padding,
       uiState = uiState.content,
+      contentPadding = innerPadding,
+      scrollState = scrollState,
+      onBookmarkClick = onBookmarkClick,
+      onSessionItemClick = onSessionItemClick,
+      onSessionTrackSelected = onSessionTrackSelected,
+      onSessionRoomSelected = onSessionRoomSelected,
+      onDaySelected = onDaySelected,
     )
   }
 }

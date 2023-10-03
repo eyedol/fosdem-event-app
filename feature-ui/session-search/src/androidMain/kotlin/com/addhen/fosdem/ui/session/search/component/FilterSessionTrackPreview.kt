@@ -11,9 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.model.api.Track
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.ui.session.component.FilterTrack
+import com.addhen.fosdem.ui.session.component.toFilterTrack
 import kotlinx.collections.immutable.toImmutableList
 
 @MultiThemePreviews
@@ -22,8 +23,11 @@ fun FilterSessionTrackPreview() {
   var uiState by remember {
     mutableStateOf(
       SearchFilterUiState(
-        selectedItems = emptyList<Track>().toImmutableList(),
-        items = listOf(day1Event.track, day2Event.track).toImmutableList(),
+        selectedItems = emptyList<FilterTrack>().toImmutableList(),
+        items = listOf(
+          day1Event.track.toFilterTrack(),
+          day2Event.track.toFilterTrack(),
+        ).toImmutableList(),
       ),
     )
   }

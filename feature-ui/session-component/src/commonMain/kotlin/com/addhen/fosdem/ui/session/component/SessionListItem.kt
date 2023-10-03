@@ -53,8 +53,8 @@ fun SessionListItem(
   isBookmarked: Boolean,
   onBookmarkClick: (Event, Boolean) -> Unit,
   chipContent: @Composable RowScope.() -> Unit,
+  highlightQuery: SearchQuery,
   modifier: Modifier = Modifier,
-  highlightQuery: SearchQuery = SearchQuery.Empty,
 ) {
   val appStrings = LocalStrings.current
   Column(
@@ -147,25 +147,5 @@ fun SessionListItem(
     }
     Spacer(modifier = Modifier.size(15.dp))
     Divider()
-  }
-}
-
-// TODO move it to its own class
-data class SearchQuery(val queryText: String) {
-  val hasQuery get() = queryText.isNotBlank()
-
-  fun String.getMatchIndexRange(): IntRange {
-    if (!hasQuery) return IntRange.EMPTY
-
-    val startIndex = this.indexOf(queryText, ignoreCase = true)
-    return if (startIndex >= 0) {
-      startIndex until (startIndex + queryText.length)
-    } else {
-      IntRange.EMPTY
-    }
-  }
-
-  companion object {
-    val Empty = SearchQuery("AAA")
   }
 }

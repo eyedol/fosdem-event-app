@@ -25,6 +25,6 @@ fun BookmarkList(
   scrollState,
   onBookmarkIconClick,
   onSessionItemClick,
-  contentPadding,
-  modifier,
+  contentPadding = contentPadding,
+  modifier = modifier,
 )

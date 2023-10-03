@@ -47,6 +47,6 @@ val EnAppStrings = AppStrings(
   dateDescription = "03.02.2024(Saturday) - 04.02.2024(Sunday) 2 days",
   licenseTitle = "License",
   privacyPolicyTitle = "Privacy Policy",
-  searchNotFound = {searchTerm -> "Nothing matched your search criteria \"$searchTerm\""},
-  searchTermPlaceHolder = "Enter some technology"
+  searchNotFound = { searchTerm -> "Nothing matched your search criteria \"$searchTerm\"" },
+  searchTermPlaceHolder = "Enter a session title, a speaker name or technology term",
 )

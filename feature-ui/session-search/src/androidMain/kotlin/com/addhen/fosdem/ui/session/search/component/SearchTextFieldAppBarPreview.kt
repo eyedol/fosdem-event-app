@@ -7,8 +7,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.ui.session.search.component.EmptySearchResultBody
-import com.addhen.fosdem.ui.session.search.component.SearchTextFieldAppBar
 
 @MultiThemePreviews
 @Composable
