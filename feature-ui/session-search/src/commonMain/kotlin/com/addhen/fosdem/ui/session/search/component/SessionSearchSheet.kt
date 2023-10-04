@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.EmptySessionItems
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.SearchQuery
@@ -36,7 +39,7 @@ sealed interface SearchUiState {
     override val searchFilterSessionTrackUiState: SearchFilterUiState<FilterTrack>,
     override val searchFilterSessionRoomUiState: SearchFilterUiState<FilterRoom>,
 
-  ) : SearchUiState
+    ) : SearchUiState
 
   data class ListSearch(
     val sessionItemMap: PersistentMap<String, List<Event>>,
@@ -79,11 +82,14 @@ fun SessionSearchSheet(
     )
 
     when (uiState) {
-      is Empty -> EmptySearchResultBody(
-        query = uiState.searchQuery.queryText,
-        modifier = Modifier
-          .testTag(SearchScreenEmptyBodyTestTag),
-      )
+      is Empty -> {
+        val message = LocalStrings.current.searchNotFound(uiState.searchQuery.queryText)
+        EmptySessionItems(
+          message = message,
+          graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
+          modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
+        )
+      }
 
       is ListSearch -> SearchList(
         contentPadding = PaddingValues(

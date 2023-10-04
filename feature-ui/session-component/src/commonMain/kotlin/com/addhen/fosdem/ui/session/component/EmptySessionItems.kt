@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.ui.session.search.component
+package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,11 +27,11 @@ import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 
 @Composable
-fun EmptySearchResultBody(
-  query: String,
+fun EmptySessionItems(
+  message: String,
+  graphicContent: @Composable () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val appStrings = LocalStrings.current
   Box(
     modifier = modifier
       .fillMaxSize(),
@@ -51,12 +51,12 @@ fun EmptySearchResultBody(
 
       ProvideTextStyle(emojiHeaderGraphicTextStyle) {
         Box(Modifier.align(Alignment.CenterHorizontally)) {
-          Text(text = "\uD83D\uDD75️\u200D♂️")
+          graphicContent()
         }
       }
       Spacer(modifier = Modifier.height(28.dp))
       Text(
-        text = appStrings.searchNotFound(query),
+        text = message,
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onBackground,
       )
