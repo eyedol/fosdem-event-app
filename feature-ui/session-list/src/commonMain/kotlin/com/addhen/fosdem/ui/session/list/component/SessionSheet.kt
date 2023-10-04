@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.HourglassEmpty
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -28,13 +32,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.ui.session.component.DayTab
+import com.addhen.fosdem.ui.session.component.EmptySessionItems
 import com.addhen.fosdem.ui.session.component.SessionList
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
 import kotlinx.collections.immutable.PersistentList
 
 const val SessionTabTestTag = "SessionTab"
+const val SessionEmptyTestTag = "SessionEmptyTest"
 
 sealed interface SessionSheetUiState {
   val days: PersistentList<DayTab>
@@ -101,7 +109,19 @@ internal fun SessionSheet(
       }
       when (uiState) {
         is SessionSheetUiState.Empty -> {
-          // todo
+          EmptySessionItems(
+            message = LocalStrings.current.addToCalendarTitle,
+            graphicContent = {
+              Icon(
+                imageVector = Icons.Filled.HourglassEmpty,
+                contentDescription = null,
+                modifier = Modifier
+                  .size(96.dp),
+                tint = iconColors().background,
+              )
+            },
+            modifier = Modifier.testTag(SessionEmptyTestTag),
+          )
         }
 
         is SessionSheetUiState.ListSession -> {

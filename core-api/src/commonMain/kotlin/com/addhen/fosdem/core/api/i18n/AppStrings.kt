@@ -48,6 +48,7 @@ data class AppStrings(
   val privacyPolicyTitle: String,
   val searchNotFound: (String) -> String,
   val searchTermPlaceHolder: String,
+  val sessionEmpty: String,
 )
 
 object Locales {

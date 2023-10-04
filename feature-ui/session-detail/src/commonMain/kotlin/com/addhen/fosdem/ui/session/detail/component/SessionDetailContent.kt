@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
@@ -165,6 +167,7 @@ private fun SpeakerSection(
         Image(
           painter = rememberVectorPainter(image = Icons.Default.Person),
           contentDescription = null,
+          colorFilter = ColorFilter.tint(iconColors().background),
           modifier = Modifier
             .size(60.dp)
             .clip(RoundedCornerShape(12.dp))

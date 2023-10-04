@@ -3,12 +3,17 @@
 
 package com.addhen.fosdem.ui.session.component
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.HourglassEmpty
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.compose.common.ui.api.theme.trackColors
+import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 
 @MultiThemePreviews
 @Composable
@@ -18,8 +23,14 @@ fun EmptySessionItemsPreview() {
       EmptySessionItems(
         message = "No session found",
         graphicContent = {
-          Text(text = "\uD83D\uDD75️\u200D♂️")
-        }
+          Icon(
+            imageVector = Icons.Filled.HourglassEmpty,
+            contentDescription = null,
+            modifier = Modifier
+              .size(96.dp),
+            tint = iconColors().background,
+          )
+        },
       )
     }
   }

@@ -16,14 +16,14 @@ fun AppTheme(
   useDynamicColors: Boolean = false,
   content: @Composable () -> Unit,
 ) {
-    MaterialTheme(
-      colorScheme = colorScheme(useDarkColors, useDynamicColors),
-      typography = appTypography(),
-    ) {
-      Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
-        content = content
-      )
-    }
+  MaterialTheme(
+    colorScheme = colorScheme(useDarkColors, useDynamicColors),
+    typography = appTypography(),
+  ) {
+    Surface(
+      modifier = Modifier.fillMaxSize(),
+      color = MaterialTheme.colorScheme.background,
+      content = content,
+    )
+  }
 }

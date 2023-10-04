@@ -49,4 +49,5 @@ val EnAppStrings = AppStrings(
   privacyPolicyTitle = "Privacy Policy",
   searchNotFound = { searchTerm -> "Nothing matched your search criteria \"$searchTerm\"" },
   searchTermPlaceHolder = "Enter a session, a speaker or a term",
+  sessionEmpty = "No session loaded",
 )

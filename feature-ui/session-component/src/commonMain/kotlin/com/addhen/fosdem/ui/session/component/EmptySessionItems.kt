@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 
 @Composable
 fun EmptySessionItems(

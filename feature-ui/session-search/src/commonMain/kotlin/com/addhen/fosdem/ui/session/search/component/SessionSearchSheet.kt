@@ -39,7 +39,7 @@ sealed interface SearchUiState {
     override val searchFilterSessionTrackUiState: SearchFilterUiState<FilterTrack>,
     override val searchFilterSessionRoomUiState: SearchFilterUiState<FilterRoom>,
 
-    ) : SearchUiState
+  ) : SearchUiState
 
   data class ListSearch(
     val sessionItemMap: PersistentMap<String, List<Event>>,
