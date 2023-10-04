@@ -47,7 +47,7 @@ fun MainContent(
     ) {
       CircuitCompositionLocals(circuitConfig) {
         AppTheme(
-          useDarkColors = false,
+          useDynamicColors = false,
         ) {
           Main(
             backstack = backstack,

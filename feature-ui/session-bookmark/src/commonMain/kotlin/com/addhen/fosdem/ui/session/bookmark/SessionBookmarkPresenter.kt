@@ -52,7 +52,6 @@ class SessionBookmarkPresenter(
         SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
         SessionBookmarkUiEvent.FilterFirstDayBookmarks -> TODO()
         SessionBookmarkUiEvent.FilterSecondDayBookmarks -> TODO()
-        SessionBookmarkUiEvent.GoToPreviousScreen -> TODO()
         is SessionBookmarkUiEvent.ToggleSessionBookmark -> TODO()
       }
     }
