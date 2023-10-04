@@ -40,7 +40,6 @@ internal fun SessionBookmark(
   SessionBookmarkScreen(
     uiState = uiState,
     onSessionItemClick = { eventSink(SessionBookmarkUiEvent.GoToSessionDetails(it)) },
-    onBackPressClick = { eventSink(SessionBookmarkUiEvent.GoToPreviousScreen) },
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
@@ -56,7 +55,6 @@ const val BookmarkScreenTestTag = "BookmarkScreenTestTag"
 @Composable
 private fun SessionBookmarkScreen(
   uiState: SessionBookmarkUiState,
-  onBackPressClick: () -> Unit,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
   onAllFilterChipClick: () -> Unit,
@@ -69,7 +67,7 @@ private fun SessionBookmarkScreen(
     modifier = Modifier
       .testTag(BookmarkScreenTestTag)
       .then(modifier),
-    topBar = { SessionBookmarkTopArea(onBackPressClick = onBackPressClick) },
+    topBar = { SessionBookmarkTopArea() },
   ) { padding ->
     SessionBookmarkSheet(
       modifier = Modifier,

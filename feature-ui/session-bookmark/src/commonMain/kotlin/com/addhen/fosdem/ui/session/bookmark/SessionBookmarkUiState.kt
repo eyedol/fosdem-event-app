@@ -27,6 +27,4 @@ sealed interface SessionBookmarkUiEvent : CircuitUiEvent {
   data object FilterFirstDayBookmarks : SessionBookmarkUiEvent
 
   data object FilterSecondDayBookmarks : SessionBookmarkUiEvent
-
-  data object GoToPreviousScreen : SessionBookmarkUiEvent
 }

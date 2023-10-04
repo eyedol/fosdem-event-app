@@ -20,9 +20,7 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SessionBookmarkTopArea(
-  onBackPressClick: () -> Unit,
-) {
+fun SessionBookmarkTopArea() {
   val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
   val appStrings = LocalStrings.current
 
@@ -39,14 +37,6 @@ fun SessionBookmarkTopArea(
           text = appStrings.bookmarkTitle,
           style = MaterialTheme.typography.titleLarge,
           modifier = Modifier.alpha(scrollBehavior.state.overlappedFraction),
-        )
-      }
-    },
-    navigationIcon = {
-      IconButton(onClick = onBackPressClick) {
-        Icon(
-          imageVector = Icons.Filled.ArrowBack,
-          contentDescription = null,
         )
       }
     },
