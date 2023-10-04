@@ -19,7 +19,6 @@ sealed interface SessionDetailUiEvent : CircuitUiEvent {
 
   data class ToggleSessionBookmark(
     val eventId: Long,
-    val isBookmarked: Boolean,
   ) : SessionDetailUiEvent
 
   data class RegisterSessionToCalendar(val event: Event) : SessionDetailUiEvent

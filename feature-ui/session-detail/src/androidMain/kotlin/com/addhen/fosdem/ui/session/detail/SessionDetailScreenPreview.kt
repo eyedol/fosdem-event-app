@@ -26,7 +26,7 @@ fun SessionDetailItemPreview() {
       SessionItemDetailScreen(
         uiState = uiState,
         onNavigationIconClick = { },
-        onBookmarkClick = { _, _ -> },
+        onBookmarkClick = { _ -> },
         onLinkClick = {},
         onCalendarRegistrationClick = { _ -> },
         onShareClick = { _ -> },

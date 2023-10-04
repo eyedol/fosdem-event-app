@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +29,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.AppIcons
+import com.addhen.fosdem.compose.common.ui.api.CalendarAddOn
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.model.api.Event
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -35,7 +40,10 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun SessionDetailTopAppBar(
   title: String,
+  event: Event,
   onNavigationIconClick: () -> Unit,
+  onCalendarRegistrationClick: (Event) -> Unit,
+  onShareClick: (Event) -> Unit,
   scrollBehavior: TopAppBarScrollBehavior,
   modifier: Modifier = Modifier,
 ) {
@@ -107,6 +115,20 @@ fun SessionDetailTopAppBar(
     colors = TopAppBarDefaults.topAppBarColors(
       containerColor = MaterialTheme.colorScheme.surfaceVariant,
     ),
+    actions = {
+      IconButton(onClick = { onShareClick(event) }) {
+        Icon(
+          imageVector = Icons.Filled.Share,
+          contentDescription = LocalStrings.current.shareTitle,
+        )
+      }
+      IconButton(onClick = { onCalendarRegistrationClick(event) }) {
+        Icon(
+          imageVector = AppIcons.Filled.CalendarAddOn,
+          contentDescription = LocalStrings.current.addToCalendarTitle,
+        )
+      }
+    },
     scrollBehavior = scrollBehavior,
     modifier = modifier,
   )

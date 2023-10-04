@@ -83,9 +83,9 @@ fun SessionListItem(
             Icons.Outlined.BookmarkBorder
           },
           contentDescription = if (isBookmarked) {
-            appStrings.addToFavoritesTitle
+            appStrings.addToBookmarksTitle
           } else {
-            appStrings.removeFromFavorites
+            appStrings.removeFromBookmarksTitle
           },
           modifier = Modifier.padding(top = 4.dp),
         )

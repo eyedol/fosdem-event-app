@@ -9,6 +9,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
+import com.addhen.fosdem.model.api.day1Event
 
 @OptIn(ExperimentalMaterial3Api::class)
 @MultiThemePreviews
@@ -20,6 +21,10 @@ fun SessionDetailTopAppBarPreview() {
         "How regulating software for the european market could impact FOSS",
         onNavigationIconClick = {},
         scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
+        event = day1Event,
+        onShareClick = {},
+        onCalendarRegistrationClick = {},
+
       )
     }
   }

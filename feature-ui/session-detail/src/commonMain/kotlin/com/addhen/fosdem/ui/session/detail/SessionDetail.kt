@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -19,14 +20,16 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.compose.common.ui.api.LoadingText
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.ui.session.detail.component.SessionDetailBottomAppBar
+import com.addhen.fosdem.ui.session.detail.component.SessionBookmarkButton
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItem
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailTopAppBar
@@ -36,7 +39,7 @@ import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
 
-const val SessionScreenTestTag = "SessionDetailScreen"
+const val SessionDetailScreenTestTag = "SessionDetailScreen"
 
 @Inject
 class SessionDetailUiFactory : Ui.Factory {
@@ -62,8 +65,8 @@ internal fun SessionDetail(
   SessionItemDetailScreen(
     uiState = viewState.sessionDetailScreenUiState,
     onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSession) },
-    onBookmarkClick = { eventId, isBookmarked ->
-      eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    onBookmarkClick = { eventId ->
+      eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId))
     },
     onLinkClick = {},
     onCalendarRegistrationClick = { event ->
@@ -98,7 +101,7 @@ sealed class ViewBookmarkListRequestState {
 internal fun SessionItemDetailScreen(
   uiState: ScreenDetailScreenUiState,
   onNavigationIconClick: () -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onLinkClick: (url: String) -> Unit,
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
@@ -106,9 +109,14 @@ internal fun SessionItemDetailScreen(
   modifier: Modifier = Modifier,
 ) {
   val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-  val appStrings = LocalStrings.current
+  val listState = rememberLazyListState()
+  val expanded by remember {
+    derivedStateOf { listState.firstVisibleItemIndex > 0 }
+  }
+
   Scaffold(
     modifier = modifier
+      .testTag(SessionDetailScreenTestTag)
       .fillMaxSize()
       .nestedScroll(scrollBehavior.nestedScrollConnection),
     contentWindowInsets = ScaffoldDefaults.contentWindowInsets
@@ -119,21 +127,20 @@ internal fun SessionItemDetailScreen(
           title = uiState.sessionDetailUiState.event.title,
           onNavigationIconClick = onNavigationIconClick,
           scrollBehavior = scrollBehavior,
+          event = uiState.sessionDetailUiState.event,
+          onCalendarRegistrationClick = onCalendarRegistrationClick,
+          onShareClick = onShareClick,
         )
       }
     },
-    bottomBar = {
+    floatingActionButton = {
       if (uiState is ScreenDetailScreenUiState.Loaded) {
-        SessionDetailBottomAppBar(
-          event = uiState.sessionDetailUiState.event,
-          isBookmarked = uiState.sessionDetailUiState.event.isBookmarked,
-          addFavorite = appStrings.addToFavoritesTitle,
-          removeFavorite = appStrings.removeFromFavorites,
-          shareTitle = appStrings.shareTitle,
-          addToCalendar = appStrings.addToCalendarTitle,
+        val event = uiState.sessionDetailUiState.event
+        SessionBookmarkButton(
+          eventId = event.id,
+          isBookmarked = event.isBookmarked,
           onBookmarkClick = onBookmarkClick,
-          onCalendarRegistrationClick = onCalendarRegistrationClick,
-          onShareClick = onShareClick,
+          expanded = expanded,
         )
       }
     },
@@ -145,6 +152,7 @@ internal fun SessionItemDetailScreen(
         uiState = uiState.sessionDetailUiState,
         onLinkClick = onLinkClick,
         contentPadding = innerPadding,
+        listState = listState,
       )
     }
 
