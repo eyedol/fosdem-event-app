@@ -40,10 +40,10 @@ class SessionDetailPresenter(
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
-        SessionDetailUiEvent.GoToSession -> TODO()
-        is SessionDetailUiEvent.RegisterSessionToCalendar -> TODO()
-        is SessionDetailUiEvent.ShareSession -> TODO()
-        is SessionDetailUiEvent.ToggleSessionBookmark -> TODO()
+        SessionDetailUiEvent.GoToSession -> {navigator.pop()}
+        is SessionDetailUiEvent.RegisterSessionToCalendar -> {}
+        is SessionDetailUiEvent.ShareSession -> {}
+        is SessionDetailUiEvent.ToggleSessionBookmark -> {}
       }
     }
 
