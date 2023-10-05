@@ -5,7 +5,6 @@ package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Immutable
 import com.addhen.fosdem.compose.common.ui.api.ImageResource
-import com.addhen.fosdem.ui.session.component.SessionUiType
 import com.addhen.fosdem.ui.session.component.Tag
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -20,7 +19,7 @@ data class SessionUiState(
   val location: String,
   val tags: PersistentList<Tag>,
   val content: SessionSheetUiState,
-  val sessionUiType: SessionUiType,
+  val isRefreshing: Boolean,
   val eventSink: (SessionUiEvent) -> Unit,
 ) : CircuitUiState
 

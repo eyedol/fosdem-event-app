@@ -47,7 +47,7 @@ data class AppStrings(
   val searchNotFound: (String) -> String,
   val searchTermPlaceHolder: String,
   val sessionEmpty: String,
-  val refresh: String
+  val refresh: String,
 )
 
 object Locales {
