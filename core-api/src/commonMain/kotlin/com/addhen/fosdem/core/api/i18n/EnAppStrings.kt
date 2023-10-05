@@ -17,8 +17,6 @@ val EnAppStrings = AppStrings(
   sessionContentDescription = "",
   mapContentDescription = "",
   bookmarkContentDescription = "",
-  toggleSessionListContentDescription = "Toggle Session to Grid view",
-  toggleSessionGridContentDescription = "Toggle Session to List view",
   dayOneTitle = "Saturday",
   dayTwoTitle = "Sunday",
   readMoreLabel = "Read more",
@@ -50,4 +48,5 @@ val EnAppStrings = AppStrings(
   searchNotFound = { searchTerm -> "Nothing matched your search criteria \"$searchTerm\"" },
   searchTermPlaceHolder = "Enter a session, a speaker or a term",
   sessionEmpty = "No session loaded",
+  refresh = "Refresh"
 )

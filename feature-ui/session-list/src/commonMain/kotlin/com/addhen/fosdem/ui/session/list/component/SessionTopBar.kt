@@ -15,19 +15,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.ui.session.component.RefreshButton
 import com.addhen.fosdem.ui.session.component.SessionUiType
 
 const val SearchButtonTestTag = "SearchButton"
-const val SessionUiTypeChangeButtonTestTag = "SessionUiTypeChangeButton"
+const val SessionRefreshButtonTestTag = "SessionRefreshButton"
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SessionTopArea(
-  sessionUiType: SessionUiType,
+  isRefreshing: Boolean,
   appStrings: AppStrings,
-  onSessionUiChangeClick: () -> Unit,
+  onRefreshClick: () -> Unit,
   onSearchClick: () -> Unit,
   titleIcon: @Composable () -> Unit,
   modifier: Modifier = Modifier,
@@ -45,23 +47,11 @@ fun SessionTopArea(
           contentDescription = appStrings.searchContentDescription,
         )
       }
-      IconButton(
-        modifier = Modifier.testTag(SessionUiTypeChangeButtonTestTag),
-        onClick = { onSessionUiChangeClick() },
-      ) {
-        Icon(
-          imageVector = if (sessionUiType != SessionUiType.Grid) {
-            Icons.Outlined.GridView
-          } else {
-            Icons.Outlined.ViewTimeline
-          },
-          contentDescription = if (sessionUiType != SessionUiType.Grid) {
-            appStrings.toggleSessionListContentDescription
-          } else {
-            appStrings.toggleSessionListContentDescription
-          },
-        )
-      }
+      RefreshButton(
+        refreshing = isRefreshing,
+        onClick = { onRefreshClick() },
+        modifier = Modifier.testTag(SessionRefreshButtonTestTag)
+      )
     },
     colors = TopAppBarDefaults.largeTopAppBarColors(
       containerColor = Color.Transparent,

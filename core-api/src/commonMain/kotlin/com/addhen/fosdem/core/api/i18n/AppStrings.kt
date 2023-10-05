@@ -18,8 +18,6 @@ data class AppStrings(
   val aboutContentDescription: String,
   val mapContentDescription: String,
   val bookmarkContentDescription: String,
-  val toggleSessionListContentDescription: String,
-  val toggleSessionGridContentDescription: String,
   val dayOneTitle: String,
   val dayTwoTitle: String,
   val readMoreLabel: String,
@@ -49,6 +47,7 @@ data class AppStrings(
   val searchNotFound: (String) -> String,
   val searchTermPlaceHolder: String,
   val sessionEmpty: String,
+  val refresh: String
 )
 
 object Locales {

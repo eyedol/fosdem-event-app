@@ -151,8 +151,8 @@ private fun SessionScreen(
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     topBar = {
       SessionTopArea(
-        sessionUiType = uiState.sessionUiType,
-        onSessionUiChangeClick = onSessionUiChangeClick,
+        isRefreshing = true,
+        onRefreshClick = onSessionUiChangeClick,
         onSearchClick = onSearchClick,
         appStrings = strings,
         titleIcon = {},
