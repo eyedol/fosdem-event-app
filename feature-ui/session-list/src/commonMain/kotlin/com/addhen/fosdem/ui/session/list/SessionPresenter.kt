@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
@@ -17,8 +18,11 @@ import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.model.api.day1Event2
 import com.addhen.fosdem.model.api.day2
-import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.model.api.day2Event1
+import com.addhen.fosdem.model.api.day2Event2
+import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.dayTab1
@@ -29,9 +33,11 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -58,7 +64,7 @@ class SessionPresenter(
 ) : Presenter<SessionUiState> {
   @Composable
   override fun present(): SessionUiState {
-    // val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val days = listOf(dayTab1, dayTab2).toPersistentList()
     var isRefreshing by remember { mutableStateOf(false) }
     if (isRefreshing) {
@@ -71,7 +77,9 @@ class SessionPresenter(
     val events by repository.getEvents().map { results ->
       when (results) {
         is AppResult.Error -> SessionSheetUiState.Error(days)
-        is AppResult.Success -> SessionSheetUiState.Empty(days)
+        is AppResult.Success -> {
+          sessionSheetPreview()
+        }
       }
     }.collectAsRetainedState(SessionSheetUiState.Empty(days))
 
@@ -80,9 +88,12 @@ class SessionPresenter(
         is SessionUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
-
+        is SessionUiEvent.ToggleSessionBookmark -> {
+          scope.launch {
+            repository.toggleBookmark(event.eventId)
+          }
+        }
         SessionUiEvent.SearchSession -> navigator.goTo(SessionSearchScreen)
-        is SessionUiEvent.ToggleSessionBookmark -> TODO()
         SessionUiEvent.RefreshSession -> isRefreshing = true
       }
     }
@@ -120,7 +131,7 @@ class SessionPresenter(
     date = date,
   )
 
-  val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
+  val sortAndGroupedEventsItems = listOf(day1Event, day1Event2).sortedBy { it.startTime }.groupBy {
     it.startTime.toString() + it.duration.toString()
   }.mapValues { entries ->
     entries.value.sortedWith(
@@ -128,7 +139,7 @@ class SessionPresenter(
     )
   }.toPersistentMap()
 
-  val sortAndGroupedEventsItems2 = listOf(day2Event).groupBy {
+  val sortAndGroupedEventsItems2 = listOf(day2Event1, day2Event2, day2Event3).sortedBy { it.startTime }.groupBy {
     it.startTime.toString() + it.duration.toString()
   }.mapValues { entries ->
     entries.value.sortedWith(

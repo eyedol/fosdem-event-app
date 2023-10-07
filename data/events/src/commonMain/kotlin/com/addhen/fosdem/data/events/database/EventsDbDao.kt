@@ -7,6 +7,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
+import com.addhen.fosdem.core.api.timeZoneBrussels
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Attachments
@@ -21,12 +22,18 @@ import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import me.tatarka.inject.annotations.Inject
 
 @Inject
@@ -158,7 +165,7 @@ class EventsDbDao(
       ),
       day = DayEntity(id_, date_),
       start_time = start_time,
-      duration = duration,
+      duration = start_time.plusMinutes(duration),
       isBookmarked = isBookmarked,
       abstractText = abstract_text,
       description = description ?: "",
@@ -216,5 +223,10 @@ class EventsDbDao(
 
   private fun List<EventEntity>.updateWithRelatedData(): List<EventEntity> {
     return map { it.withRelatedData() }
+  }
+
+  private fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = timeZoneBrussels): LocalTime {
+    val atDate = Clock.System.now().toLocalDateTime(zone).date
+    return (LocalDateTime(atDate, this).toInstant(zone) + to.minute.minutes).toLocalDateTime(zone).time
   }
 }

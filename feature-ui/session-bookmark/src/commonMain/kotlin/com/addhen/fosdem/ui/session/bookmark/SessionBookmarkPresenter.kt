@@ -6,9 +6,8 @@ package com.addhen.fosdem.ui.session.bookmark
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
-import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -71,7 +70,7 @@ class SessionBookmarkPresenter(
     )
   }
 
-  val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
+  val sortAndGroupedEventsItems = listOf(day1Event, day2Event1).groupBy {
     it.startTime.toString() + it.duration.toString()
   }.mapValues { entries ->
     entries.value.sortedWith(

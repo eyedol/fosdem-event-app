@@ -11,7 +11,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2
-import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.ui.session.list.component.SessionSheet
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import kotlinx.collections.immutable.toPersistentList
@@ -52,7 +52,7 @@ fun SessionSheetPreview() {
   }
 }
 
-val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
+val sortAndGroupedEventsItems = listOf(day1Event, day2Event1).groupBy {
   it.startTime.toString() + it.duration.toString()
 }.mapValues { entries ->
   entries.value.sortedWith(
@@ -60,7 +60,7 @@ val sortAndGroupedEventsItems = listOf(day1Event, day2Event).groupBy {
   )
 }.toPersistentMap()
 
-val sortAndGroupedEventsItems2 = listOf(day2Event).groupBy {
+val sortAndGroupedEventsItems2 = listOf(day2Event1).groupBy {
   it.startTime.toString() + it.duration.toString()
 }.mapValues { entries ->
   entries.value.sortedWith(

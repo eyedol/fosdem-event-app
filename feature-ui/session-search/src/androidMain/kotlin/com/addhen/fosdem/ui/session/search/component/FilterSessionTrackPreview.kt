@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day2Event
+import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.toFilterTrack
 import kotlinx.collections.immutable.toImmutableList
@@ -26,7 +26,7 @@ fun FilterSessionTrackPreview() {
         selectedItems = emptyList<FilterTrack>().toImmutableList(),
         items = listOf(
           day1Event.track.toFilterTrack(),
-          day2Event.track.toFilterTrack(),
+          day2Event1.track.toFilterTrack(),
         ).toImmutableList(),
       ),
     )
