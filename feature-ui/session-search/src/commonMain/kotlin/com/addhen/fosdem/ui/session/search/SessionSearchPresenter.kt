@@ -61,11 +61,12 @@ class SessionSearchPresenter(
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
 
-        is SessionSearchUiEvent.FilterDay -> TODO()
-        is SessionSearchUiEvent.FilterSessionRoom -> TODO()
-        is SessionSearchUiEvent.FilterSessionTrack -> TODO()
-        SessionSearchUiEvent.GoToPreviousScreen -> TODO()
-        is SessionSearchUiEvent.ToggleSessionBookmark -> TODO()
+        is SessionSearchUiEvent.FilterDay -> {
+        }
+        is SessionSearchUiEvent.FilterSessionRoom -> {}
+        is SessionSearchUiEvent.FilterSessionTrack -> {}
+        SessionSearchUiEvent.GoToPreviousScreen -> navigator.pop()
+        is SessionSearchUiEvent.ToggleSessionBookmark -> {}
       }
     }
 
