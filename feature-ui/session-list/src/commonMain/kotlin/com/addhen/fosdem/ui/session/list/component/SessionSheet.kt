@@ -49,6 +49,8 @@ sealed interface SessionSheetUiState {
 
   data class Empty(override val days: PersistentList<DayTab>) : SessionSheetUiState
 
+  data class Error(override val days: PersistentList<DayTab>) : SessionSheetUiState
+
   data class ListSession(
     val sessionListUiStates: Map<DayTab, SessionListUiState>,
     override val days: PersistentList<DayTab>,
@@ -110,7 +112,7 @@ internal fun SessionSheet(
       when (uiState) {
         is SessionSheetUiState.Empty -> {
           EmptySessionItems(
-            message = LocalStrings.current.addToCalendarTitle,
+            message = LocalStrings.current.sessionEmpty,
             graphicContent = {
               Icon(
                 imageVector = Icons.Filled.HourglassEmpty,
@@ -139,6 +141,10 @@ internal fun SessionSheet(
               end = contentPadding.calculateEndPadding(layoutDirection),
             ),
           )
+        }
+
+        is SessionSheetUiState.Error -> {
+
         }
       }
     }

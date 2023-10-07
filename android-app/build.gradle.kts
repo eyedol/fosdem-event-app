@@ -157,6 +157,7 @@ dependencies {
   implementation(libs.androidx.activity.compose)
   implementation(libs.circuit.foundation)
   implementation(libs.ktor.client.okhttp)
+  implementation(libs.touchlab.kermit)
   coreLibraryDesugaring(libs.android.desugaring)
   // Third-party libs
   ksp(libs.kotlininject.compiler)

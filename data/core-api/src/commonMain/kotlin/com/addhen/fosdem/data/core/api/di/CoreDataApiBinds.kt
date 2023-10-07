@@ -7,7 +7,7 @@ import com.addhen.fosdem.data.core.api.network.ApiService
 import io.ktor.client.HttpClient
 import me.tatarka.inject.annotations.Provides
 
-private const val baseUrl = "https://fosdem.org"
+private const val baseUrl = "https://fosdem.org/schedule/xml"
 
 interface CoreDataApiBinds : OkHttpPlatformComponent, CoreDataApiComponent
 expect interface OkHttpPlatformComponent

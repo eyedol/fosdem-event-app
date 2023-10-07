@@ -18,13 +18,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun SessionHeaderPreview() {
   AppTheme {
     Surface {
-      SessionHeader(
-        tile = "FOSDEM",
-        year = "24",
-        location = "@ Brussels, Belgium",
-        tags = tags(),
-        painter = painterResource(imageResource(AppImage.FosdemLogo)),
-      )
+      SessionHeader()
     }
   }
 }

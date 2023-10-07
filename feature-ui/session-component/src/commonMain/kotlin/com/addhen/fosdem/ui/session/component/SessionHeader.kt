@@ -24,28 +24,31 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.addhen.fosdem.compose.common.ui.api.AppImage
+import com.addhen.fosdem.compose.common.ui.api.imageResource
+import com.addhen.fosdem.compose.common.ui.api.painterResource
 import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
-import kotlinx.collections.immutable.PersistentList
+import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
+import kotlinx.collections.immutable.toPersistentList
 
 @Immutable
 data class Tag(val title: String, val color: Color)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SessionHeader(
-  tile: String,
-  year: String,
-  location: String,
-  tags: PersistentList<Tag>,
-  painter: Painter,
-  modifier: Modifier = Modifier,
-) {
+fun SessionHeader(modifier: Modifier = Modifier) {
+
+  val appTitle = "FOSDEM"
+  val appLogo = imageResource(AppImage.FosdemLogo)
+  val year = "24"
+  val location = "@ Brussels, Belgium"
+  val tags = tags()
+
   Row(
     modifier = modifier
       .fillMaxWidth()
@@ -56,7 +59,7 @@ fun SessionHeader(
       Text(
         text = buildAnnotatedString {
           withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
-            append(tile)
+            append(appTitle)
           }
           withStyle(
             style = MaterialTheme.typography.displaySmall
@@ -104,7 +107,7 @@ fun SessionHeader(
             width = 120.dp,
             height = 120.dp,
           ),
-          painter = painter,
+          painter = painterResource(appLogo),
           contentDescription = null,
         )
       }
@@ -124,3 +127,14 @@ private fun TagItem(tag: Tag) {
       .wrapContentHeight(),
   )
 }
+
+@Composable
+private fun tags() = listOf(
+  Tag("beer", tagColors().tagColorMain),
+  Tag("open source", tagColors().tagColorAlt),
+  Tag("free software", tagColors().tagColorMain),
+  Tag("lightning talks", tagColors().tagColorAlt),
+  Tag("devrooms", tagColors().tagColorMain),
+  Tag("800+ talks", tagColors().tagColorAlt),
+  Tag("8000+ hackers", tagColors().tagColorMain),
+).toPersistentList()

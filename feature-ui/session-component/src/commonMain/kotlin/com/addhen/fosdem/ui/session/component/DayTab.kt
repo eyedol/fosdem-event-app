@@ -17,6 +17,8 @@ data class DayTab(val id: Long, val date: LocalDate) {
   val title: String
     get() = date.dayOfWeek.toString().lowercase()
       .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+  val year: String
+    get() = (date.year % 100).toString()
   companion object {
     private val tzBrussels = TimeZone.of("Europe/Brussels")
 
@@ -42,5 +44,15 @@ data class DayTab(val id: Long, val date: LocalDate) {
     }
   }
 }
+
+val dayTab1 = DayTab(
+  1,
+  LocalDate.parse("2023-02-04")
+)
+
+val dayTab2 = DayTab(
+  2,
+  LocalDate.parse("2023-02-05")
+)
 
 fun Day.toDayTab() = DayTab(id, date)
