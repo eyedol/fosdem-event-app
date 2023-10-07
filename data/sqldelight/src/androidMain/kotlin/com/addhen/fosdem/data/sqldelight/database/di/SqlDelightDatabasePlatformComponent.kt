@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.data.sqldelight.database.di
 
+import android.app.Application
 import app.cash.sqldelight.db.SqlDriver
 import com.addhen.fosdem.core.api.di.ApplicationScope
 import com.addhen.fosdem.data.sqldelight.database.AndroidSqlDriverFactory
@@ -12,5 +13,7 @@ actual interface SqlDelightDatabasePlatformComponent {
 
   @Provides
   @ApplicationScope
-  fun provideDriverFactory(): SqlDriver = AndroidSqlDriverFactory().createDriver()
+  fun provideDriverFactory(application: Application): SqlDriver = AndroidSqlDriverFactory(
+    application,
+  ).createDriver()
 }

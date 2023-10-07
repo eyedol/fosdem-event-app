@@ -24,13 +24,17 @@ class EventsDataRepository(
   private val api: EventsApi,
   private val database: EventsDao,
 ) : EventsRepository {
-  override suspend fun getEvents(
+  override fun getEvents(
     date: LocalDate,
   ): Flow<AppResult<List<Event>>> = database
     .getEvents(date)
     .map { AppResult.Success(it.toEvent()) }
 
-  override suspend fun getEvent(
+  override fun getEvents(): Flow<AppResult<List<Event>>> = database
+    .getEvents()
+    .map { AppResult.Success(it.toEvent()) }
+
+  override fun getEvent(
     id: Long,
   ): Flow<AppResult<Event>> = database
     .getEvent(id)

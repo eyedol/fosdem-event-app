@@ -10,9 +10,11 @@ import kotlinx.datetime.LocalDate
 
 interface EventsRepository {
 
-  suspend fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>>
+  fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>>
 
-  suspend fun getEvent(id: Long): Flow<AppResult<Event>>
+  fun getEvents(): Flow<AppResult<List<Event>>>
+
+  fun getEvent(id: Long): Flow<AppResult<Event>>
 
   suspend fun toggleBookmark(id: Long)
 

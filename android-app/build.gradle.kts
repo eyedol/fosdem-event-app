@@ -156,9 +156,14 @@ dependencies {
   implementation(libs.androidx.activity.activity)
   implementation(libs.androidx.activity.compose)
   implementation(libs.circuit.foundation)
+  implementation(libs.ktor.client.okhttp)
   coreLibraryDesugaring(libs.android.desugaring)
   // Third-party libs
   ksp(libs.kotlininject.compiler)
+}
+
+ksp {
+  arg("me.tatarka.inject.generateCompanionExtensions", "true")
 }
 
 moduleGraphAssert {

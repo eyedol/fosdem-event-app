@@ -185,6 +185,10 @@ class EventsDataRepositoryTest {
       return flowOf(eventsListMap[date]).filterNotNull()
     }
 
+    override fun getEvents(): Flow<List<EventEntity>> {
+      return flowOf(eventsListMap.values.flatten()).filterNotNull()
+    }
+
     override suspend fun toggleBookmark(eventId: Long) {
       val event = eventsMap[eventId] ?: return
       eventsMap[eventId] = event.copy(isBookmarked = !event.isBookmarked)

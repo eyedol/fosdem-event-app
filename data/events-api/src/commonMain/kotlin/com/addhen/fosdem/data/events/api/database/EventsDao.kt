@@ -12,6 +12,8 @@ interface EventsDao {
 
   fun getEvents(date: LocalDate): Flow<List<EventEntity>>
 
+  fun getEvents(): Flow<List<EventEntity>>
+
   fun getEvent(eventId: Long): Flow<EventEntity>
 
   suspend fun toggleBookmark(eventId: Long)

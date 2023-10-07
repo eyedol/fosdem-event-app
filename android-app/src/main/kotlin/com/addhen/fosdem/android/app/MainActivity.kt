@@ -16,6 +16,7 @@ import androidx.core.view.WindowCompat
 import com.addhen.fosdem.android.app.di.ActivityComponent
 import com.addhen.fosdem.android.app.di.AppComponent
 import com.addhen.fosdem.android.app.di.UiComponent
+import com.addhen.fosdem.android.app.di.create
 import com.addhen.fosdem.core.api.di.ActivityScope
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.main.MainContent
@@ -45,7 +46,7 @@ class MainActivity : BaseActivity() {
       )
     }
 
-    val component = MainActivityComponent::class.create(this)
+    val component = MainActivityComponent.create(this)
 
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -69,4 +70,6 @@ abstract class MainActivityComponent(
   @Component val applicationComponent: AppComponent = AppComponent.from(activity),
 ) : ActivityComponent, UiComponent {
   abstract val mainContent: MainContent
+
+  companion object
 }

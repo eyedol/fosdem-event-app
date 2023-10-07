@@ -9,6 +9,6 @@ import com.addhen.fosdem.android.app.di.create
 
 class App : Application() {
   val component: AppComponent by lazy {
-    AppComponent::class.create(this)
+    AppComponent.create(this)
   }
 }

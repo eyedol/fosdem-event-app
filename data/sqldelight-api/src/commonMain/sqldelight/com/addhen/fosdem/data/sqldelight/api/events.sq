@@ -65,7 +65,7 @@ INSERT INTO events(
 deleteAll:
 DELETE FROM events;
 
-selectAll:
+selectAllByDate:
 SELECT
   events.*,
   days.*,
@@ -74,6 +74,15 @@ FROM events
 INNER JOIN days ON events.date = days.date
 INNER JOIN rooms ON events.room_id = rooms.id
 WHERE events.date = ?;
+
+selectAll:
+SELECT
+  events.*,
+  days.*,
+  rooms.*
+FROM events
+INNER JOIN days ON events.date = days.date
+INNER JOIN rooms ON events.room_id = rooms.id;
 
 selectById:
 SELECT

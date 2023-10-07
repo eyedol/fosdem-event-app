@@ -36,7 +36,16 @@ class EventsDbDao(
 ) : EventsDao {
   override fun getEvents(date: LocalDate): Flow<List<EventEntity>> {
     return appDatabase.eventsQueries
-      .selectAll(date, eventQueriesMapper)
+      .selectAllByDate(date, eventQueriesMapper)
+      .asFlow()
+      .mapToList(backgroundDispatcher.io)
+      .map { it.updateWithRelatedData() }
+      .flowOn(backgroundDispatcher.io)
+  }
+
+  override fun getEvents(): Flow<List<EventEntity>> {
+    return appDatabase.eventsQueries
+      .selectAll(eventQueriesMapper)
       .asFlow()
       .mapToList(backgroundDispatcher.io)
       .map { it.updateWithRelatedData() }

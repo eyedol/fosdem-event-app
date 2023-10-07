@@ -4,12 +4,15 @@
 package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import com.addhen.fosdem.compose.common.ui.api.AppImage
 import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
+import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Day
 import com.addhen.fosdem.model.api.day
 import com.addhen.fosdem.model.api.day1Event
@@ -47,10 +50,14 @@ class SessionUiPresenterFactory(
 @Inject
 class SessionPresenter(
   @Assisted private val navigator: Navigator,
+  private val repository: EventsRepository,
 ) : Presenter<SessionUiState> {
   @Composable
   override fun present(): SessionUiState {
     // val scope = rememberCoroutineScope()
+    // val events by repository.getEvents(
+    //  LocalDate.parse("")
+    // ).collectAsRetainedState(emptyList<AppResult<List<Event>>>())
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {
@@ -61,6 +68,10 @@ class SessionPresenter(
         is SessionUiEvent.ToggleSessionBookmark -> TODO()
         SessionUiEvent.ToggleSessionUi -> TODO()
       }
+    }
+
+    LaunchedEffect(Unit) {
+      repository.getEvents()
     }
 
     return SessionUiState(

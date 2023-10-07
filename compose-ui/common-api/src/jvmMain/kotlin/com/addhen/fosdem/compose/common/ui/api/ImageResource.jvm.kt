@@ -24,6 +24,11 @@ actual class ImageResource(
 actual fun AppImage.asImageResource() = remember(this) {
   val file = when (this) {
     AppImage.FosdemLogo -> File("path_to_fosdem_logo")
+    AppImage.InstagramLogo -> TODO()
+    AppImage.MastadonLogo -> TODO()
+    AppImage.XLogo -> TODO()
+    AppImage.FacebookLogo -> TODO()
+    AppImage.AboutBanner -> TODO()
   }
   ImageResource(file)
 }

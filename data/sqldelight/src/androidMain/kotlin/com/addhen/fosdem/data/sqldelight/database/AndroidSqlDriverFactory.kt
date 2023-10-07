@@ -3,7 +3,7 @@
 
 package com.addhen.fosdem.data.sqldelight.database
 
-import android.content.Context
+import android.app.Application
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
@@ -11,13 +11,12 @@ import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Constants
 import com.addhen.fosdem.data.sqldelight.api.SqlDriverFactory
 
-class AndroidSqlDriverFactory : SqlDriverFactory {
-  lateinit var appContext: Context
+class AndroidSqlDriverFactory(private val application: Application) : SqlDriverFactory {
 
   override fun createDriver(): SqlDriver {
     return AndroidSqliteDriver(
       Database.Schema,
-      appContext,
+      application,
       Constants.DB_NAME,
       callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
         override fun onOpen(db: SupportSQLiteDatabase) {
