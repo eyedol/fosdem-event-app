@@ -144,7 +144,6 @@ internal fun SessionSheet(
         }
 
         is SessionSheetUiState.Error -> {
-
         }
       }
     }

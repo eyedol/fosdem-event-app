@@ -15,25 +15,20 @@ import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
-import com.addhen.fosdem.model.api.Day
-import com.addhen.fosdem.model.api.day
-import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day1Event2
-import com.addhen.fosdem.model.api.day2
-import com.addhen.fosdem.model.api.day2Event1
-import com.addhen.fosdem.model.api.day2Event2
-import com.addhen.fosdem.model.api.day2Event3
+import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.dayTab1
 import com.addhen.fosdem.ui.session.component.dayTab2
+import com.addhen.fosdem.ui.session.component.toDayTab
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import kotlin.time.Duration.Companion.minutes
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.flow.map
@@ -77,9 +72,7 @@ class SessionPresenter(
     val events by repository.getEvents().map { results ->
       when (results) {
         is AppResult.Error -> SessionSheetUiState.Error(days)
-        is AppResult.Success -> {
-          sessionSheetPreview()
-        }
+        is AppResult.Success -> successSessionSheetUiSate(results, days)
       }
     }.collectAsRetainedState(SessionSheetUiState.Empty(days))
 
@@ -88,11 +81,11 @@ class SessionPresenter(
         is SessionUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
+
         is SessionUiEvent.ToggleSessionBookmark -> {
-          scope.launch {
-            repository.toggleBookmark(event.eventId)
-          }
+          scope.launch { repository.toggleBookmark(event.eventId) }
         }
+
         SessionUiEvent.SearchSession -> navigator.goTo(SessionSearchScreen)
         SessionUiEvent.RefreshSession -> isRefreshing = true
       }
@@ -105,45 +98,34 @@ class SessionPresenter(
     )
   }
 
-  private fun sessionSheetPreview(): SessionSheetUiState {
-    val sessionListUiState = SessionListUiState(
-      sortAndGroupedEventsItems,
-    )
+  private fun successSessionSheetUiSate(
+    results: AppResult.Success<List<Event>>,
+    days: PersistentList<DayTab>,
+  ): SessionSheetUiState {
+    if (results.data.isEmpty()) return SessionSheetUiState.Empty(days)
 
-    val sessionListUiState2 = SessionListUiState(
-      sortAndGroupedEventsItems2,
-    )
-
-    val dayTab = day.toDayTab()
-    val dayTab2 = day2.toDayTab()
-
+    val sessionGroupedAndMapWithDays = groupAndMapEventsWithDays(results.data)
     return SessionSheetUiState.ListSession(
-      days = listOf(dayTab, dayTab2).toPersistentList(),
-      sessionListUiStates = mapOf(
-        dayTab to sessionListUiState,
-        dayTab2 to sessionListUiState2,
-      ),
+      days = days,
+      sessionListUiStates = sessionGroupedAndMapWithDays,
     )
   }
 
-  fun Day.toDayTab() = DayTab(
-    id = id,
-    date = date,
-  )
-
-  val sortAndGroupedEventsItems = listOf(day1Event, day1Event2).sortedBy { it.startTime }.groupBy {
-    it.startTime.toString() + it.duration.toString()
-  }.mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-    )
-  }.toPersistentMap()
-
-  val sortAndGroupedEventsItems2 = listOf(day2Event1, day2Event2, day2Event3).sortedBy { it.startTime }.groupBy {
-    it.startTime.toString() + it.duration.toString()
-  }.mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-    )
-  }.toPersistentMap()
+  private fun groupAndMapEventsWithDays(
+    events: List<Event>,
+  ): PersistentMap<DayTab, SessionListUiState> {
+    val groupEventsByDay = events.groupBy { it.day }
+    val sessionsWithDays = mutableMapOf<DayTab, SessionListUiState>()
+    groupEventsByDay.forEach { (key, events) ->
+      val sortedAndGroupEvents = events.sortedBy { it.startTime }.groupBy {
+        it.startTime.toString() + it.duration.toString()
+      }.mapValues { entries ->
+        entries.value.sortedWith(
+          compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+        )
+      }.toPersistentMap()
+      sessionsWithDays[key.toDayTab()] = SessionListUiState(sortedAndGroupEvents)
+    }
+    return sessionsWithDays.toPersistentMap()
+  }
 }

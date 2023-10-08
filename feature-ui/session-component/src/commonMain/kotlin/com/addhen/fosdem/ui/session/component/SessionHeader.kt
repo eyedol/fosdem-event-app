@@ -42,7 +42,6 @@ data class Tag(val title: String, val color: Color)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SessionHeader(modifier: Modifier = Modifier) {
-
   val appTitle = "FOSDEM"
   val appLogo = imageResource(AppImage.FosdemLogo)
   val year = "24"

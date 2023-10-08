@@ -47,12 +47,12 @@ data class DayTab(val id: Long, val date: LocalDate) {
 
 val dayTab1 = DayTab(
   1,
-  LocalDate.parse("2023-02-04")
+  LocalDate.parse("2023-02-04"),
 )
 
 val dayTab2 = DayTab(
   2,
-  LocalDate.parse("2023-02-05")
+  LocalDate.parse("2023-02-05"),
 )
 
 fun Day.toDayTab() = DayTab(id, date)

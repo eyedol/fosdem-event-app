@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.model.api
 
-import kotlin.time.Duration.Companion.minutes
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -11,6 +10,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Duration.Companion.minutes
 
 val tzBrussels = TimeZone.of("Europe/Brussels")
 
@@ -112,7 +112,10 @@ val day2 = Day(
 val day1Event = Event(
   id = 1,
   startTime = LocalTime.parse("09:30"),
-  duration = LocalTime.parse("09:30").plusMinutes(LocalTime.parse("00:25"), tzBrussels),
+  duration = LocalTime.parse("09:30").plusMinutes(
+    LocalTime.parse("00:25"),
+    tzBrussels,
+  ),
   title = "Welcome to FOSDEM 2023",
   description = "Welcome to FOSDEM 2023!",
   isBookmarked = false,
@@ -128,7 +131,10 @@ val day1Event = Event(
 val day1Event2 = Event(
   id = 2,
   startTime = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(LocalTime.parse("00:50"), tzBrussels),
+  duration = LocalTime.parse("10:00").plusMinutes(
+    LocalTime.parse("00:50"),
+    tzBrussels,
+  ),
   title = "Celebrating 25 years of Open Source",
   description = "The open source software label was coined at a strategy session held on " +
     "February 3rd, 1998 in Palo Alto, California. That same month, the Open Source Initiative " +
@@ -167,13 +173,37 @@ val day1Event2 = Event(
 val day2Event1 = Event(
   id = 3,
   startTime = LocalTime.parse("09:00"),
-  duration = LocalTime.parse("09:00").plusMinutes(LocalTime.parse("00:50"), tzBrussels),
+  duration = LocalTime.parse("09:00").plusMinutes(
+    LocalTime.parse("00:50"),
+    tzBrussels,
+  ),
   title = "Open Source in Environmental Sustainability",
   description = "",
   isBookmarked = false,
-  abstractText = "The transition to a more sustainable future requires not only technological innovation, but also new opportunities for society to participate in the development and adoption of technologies. Open source culture has demonstrated how transparent and collaborative innovation can support modern digital services, data and infrastructure. Open Source Software (OSS) accelerates the transition to a sustainable economy by supporting traceable decision-making, building capacity for localisation and customisation of climate technologies, and most importantly, helping to prevent greenwashing. Despite the transformative impact of open source culture, its potential for developing environmentally sustainable technologies is not well understood.&lt;/p&gt;\n" +
+  abstractText = "The transition to a more sustainable future requires not " +
+    "only technological innovation, but also new opportunities for society " +
+    "to participate in the development and adoption of technologies. " +
+    "Open source culture has demonstrated how transparent and collaborative " +
+    "innovation can support modern digital services, data and infrastructure." +
+    " Open Source Software (OSS) accelerates the transition to a sustainable" +
+    " economy by supporting traceable decision-making, building capacity " +
+    "for localisation and customisation of climate technologies, and " +
+    "most importantly, helping to prevent greenwashing. Despite the " +
+    "transformative impact of open source culture, its potential for " +
+    "developing environmentally sustainable technologies is not well " +
+    "understood.&lt;/p&gt;\n" +
     "\n" +
-    "This study provides the first analysis of the open source software ecosystem in the field of sustainability and climate technology. Thousands of actively developed open source projects and organizations were collected and systematically analyzed using qualitative and quantitative methods as part of the Open Sustainable Technology project. The analysis covers multiple dimensions – including the technical, the social, and the organisational. It highlights key risks and challenges for users, developers, and decision-makers as well as opportunities for more systemic collaboration. Based on these unique insights, we were also able to define the Open Sustainability Principles that embody open source in sustainability.",
+    "This study provides the first analysis of the open source software " +
+    "ecosystem in the field of sustainability and climate technology. " +
+    "Thousands of actively developed open source projects and " +
+    "organizations were collected and systematically analyzed using " +
+    "qualitative and quantitative methods as part of the Open Sustainable " +
+    "Technology project. The analysis covers multiple dimensions – including " +
+    "the technical, the social, and the organisational. It highlights key " +
+    "risks and challenges for users, developers, and decision-makers as well " +
+    "as opportunities for more systemic collaboration. Based on these unique " +
+    "insights, we were also able to define the Open Sustainability Principles that " +
+    "embody open source in sustainability.",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2),
@@ -185,17 +215,44 @@ val day2Event1 = Event(
 val day2Event2 = Event(
   id = 4,
   startTime = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(LocalTime.parse("00:50"), tzBrussels),
+  duration = LocalTime.parse("10:00").plusMinutes(
+    LocalTime.parse("00:50"),
+    tzBrussels,
+  ),
   title = "Making the world a better place through Open Source",
-  description = "If software is eating the world, then, by all metrics, Open Source is eating software. That means that collaborations and innovation that happen every day in the open source community don't only have a major impact on technology but, as every industry and nation states undergo the \"digital transformation\", have a unique potential to make a lasting impact in our daily lives and offer novel solutions to long standing issues like climate change, incurable illnesses, financial inclusion and food scarcity, as well as bridge historical geopolitical rifts to continue to deepen in an increasingly divided world.\n" +
+  description = "If software is eating the world, then, by all metrics, Open Source is eating " +
+    "software. That means that collaborations and innovation that happen every day in the open " +
+    "source community don't only have a major impact on technology but, as every industry and " +
+    "nation states undergo the \"digital transformation\", have a unique potential to make a " +
+    "lasting impact in our daily lives and offer novel solutions to long standing issues like " +
+    "climate change, incurable illnesses, financial inclusion and food scarcity, as well as " +
+    "bridge historical geopolitical rifts to continue to deepen in an increasingly divided " +
+    "world.\n" +
     "\n" +
-    "This session will provide an overview of existing open source projects which are making already a huge impact on fundamental areas like Energy and Climate, Public Healthcare, Agricultural innovation and financial inclusion, as well as hone in on areas where open source collaboration can build bridges across historically divided, if not hostile, regions and states by putting forward a model for a positive sum-game that all actors in the open source community, from individuals to the private and public sector, can benefit from, while delivering immense collective value.\n" +
+    "This session will provide an overview of existing open source projects which are making " +
+    "already a huge impact on fundamental areas like Energy and Climate, Public Healthcare, " +
+    "Agricultural innovation and financial inclusion, as well as hone in on areas where open " +
+    "source collaboration can build bridges across historically divided, if not hostile, " +
+    "regions and states by putting forward a model for a positive sum-game that all actors in " +
+    "the open source community, from individuals to the private and public sector, can benefit " +
+    "from, while delivering immense collective value.\n" +
     "\n" +
-    "Developers and especially open source contributors have a unique power in their hands if we collectively are able to harness it towards higher and higher order challenges: this talk will be an open letter and call to action to everyone, with a particular focus on policy makers and governments around the world, to focus our efforts towards making the world a better place through open collaboration.",
+    "Developers and especially open source contributors have a unique power in their hands " +
+    "if we collectively are able to harness it towards higher and higher order challenges: " +
+    "this talk will be an open letter and call to action to everyone, with a particular focus " +
+    "on policy makers and governments around the world, to focus our efforts towards making " +
+    "the world a better place through open collaboration.",
   isBookmarked = false,
-  abstractText = "In a world characterized by an increasingly complex geopolitical climate, war and with vital challenges like climate change begging for immediate and substantial action, the open source community has a unique role to play and has a vital chance to deliver solutions for these long standing issues at a pace and effectiveness that no single individual or public or private entity could.\n" +
+  abstractText = "In a world characterized by an increasingly complex geopolitical climate, " +
+    "war and with vital challenges like climate change begging for immediate and substantial " +
+    "action, the open source community has a unique role to play and has a vital chance to " +
+    "deliver solutions for these long standing issues at a pace and effectiveness that no " +
+    "single individual or public or private entity could.\n" +
     "\n" +
-    "In this session we will explore how contributors, maintainers, public and private sector are, should come together through the positive-sum game that open source is to impact not only the future of technology but drive impactful outcomes is some of the most pressing global social challenges.",
+    "In this session we will explore how contributors, maintainers, public and private " +
+    "sector are, should come together through the positive-sum game that open source is to " +
+    "impact not only the future of technology but drive impactful outcomes is some of the " +
+    "most pressing global social challenges.",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
@@ -207,11 +264,27 @@ val day2Event2 = Event(
 val day2Event3 = Event(
   id = 5,
   startTime = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(LocalTime.parse("00:50"), tzBrussels),
+  duration = LocalTime.parse("10:00").plusMinutes(
+    LocalTime.parse("00:50"),
+    tzBrussels,
+  ),
   title = "Building Strong Foundations for a More Secure Future",
   description = "",
   isBookmarked = true,
-  abstractText = "The open source community has become vulnerable to new kinds of attacks on the software supply chain and there have been efforts by many to address those challenges. Those efforts require new processes, new tools, and new initiatives to drive adoption. Heightened interest, particularly by governments of the world, has driven the open source community to respond with a mobilization plan to achieve specific goals. The Linux Foundation and OpenSSF delivered a first-of-its-kind plan to broadly address open source and software supply chain security outlining approximately \$150M of funding over two years to rapidly advance well-vetted solutions to the ten major problems facing open source software security. These concrete action steps are designed to produce immediate improvements and build strong foundations for a more secure future. Find out what you can do to be more secure and support this global security effort.",
+  abstractText = "The open source community has become vulnerable to new kinds of attacks on " +
+    "the software supply chain and there have been efforts by many to address those challenges. " +
+    "Those efforts require new processes, new tools, and new initiatives to drive adoption. " +
+    "Heightened interest, particularly by governments of the world, has driven the open source " +
+    "community to respond with a mobilization plan to achieve specific goals. The Linux " +
+    "Foundation " +
+    "and OpenSSF delivered a first-of-its-kind plan to broadly address open source and software " +
+    "supply chain security outlining approximately \$150M of funding over two years to rapidly " +
+    "advance well-vetted solutions to the ten major problems facing open source software " +
+    "security. " +
+    "These concrete action steps are designed to produce immediate improvements and build strong " +
+    "foundations for a more secure future. Find out what you can do to be more secure and " +
+    "support " +
+    "this global security effort.",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
@@ -222,5 +295,10 @@ val day2Event3 = Event(
 
 fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone): LocalTime {
   val atDate = Clock.System.now().toLocalDateTime(zone).date
-  return (LocalDateTime(atDate, this).toInstant(zone) + to.minute.minutes).toLocalDateTime(zone).time
+  return (
+    LocalDateTime(
+      atDate,
+      this,
+    ).toInstant(zone) + to.minute.minutes
+    ).toLocalDateTime(zone).time
 }
