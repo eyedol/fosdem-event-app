@@ -85,7 +85,7 @@ class SessionPresenter(
           successSessionSheetUiSate(localResult, days)
         }
       }
-    }.collectAsRetainedState(SessionSheetUiState.Empty(days))
+    }.collectAsRetainedState(SessionSheetUiState.Loading(days))
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {

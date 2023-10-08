@@ -47,6 +47,7 @@ import com.addhen.fosdem.ui.session.component.EmptySessionItems
 import com.addhen.fosdem.ui.session.component.SessionList
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
+import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentList
 
 const val SessionTabTestTag = "SessionTab"
@@ -58,6 +59,8 @@ sealed interface SessionSheetUiState {
   data class Empty(override val days: PersistentList<DayTab>) : SessionSheetUiState
 
   data class Error(override val days: PersistentList<DayTab>) : SessionSheetUiState
+
+  data class Loading(override val days: PersistentList<DayTab>) : SessionSheetUiState
 
   data class ListSession(
     val sessionListUiStates: Map<DayTab, SessionListUiState>,
@@ -162,6 +165,19 @@ internal fun SessionSheet(
         }
 
         is SessionSheetUiState.Error -> {
+        }
+
+        is SessionSheetUiState.Loading -> {
+          SessionShimmerList(
+            modifier = Modifier
+              .weight(1f)
+              .fillMaxSize(),
+            contentPadding = PaddingValues(
+              bottom = contentPadding.calculateBottomPadding(),
+              start = contentPadding.calculateStartPadding(layoutDirection),
+              end = contentPadding.calculateEndPadding(layoutDirection),
+            ),
+          )
         }
       }
     }
