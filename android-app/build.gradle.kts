@@ -49,6 +49,7 @@ android {
   packaging {
     resources {
       excludes.add("META-INF/*.kotlin_module")
+      excludes.add("META-INF/versions/9/*.bin")
     }
   }
 
