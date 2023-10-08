@@ -28,6 +28,7 @@ import com.addhen.fosdem.ui.session.component.dayTab2
 import com.addhen.fosdem.ui.session.component.toDayTab
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -66,12 +67,10 @@ class SessionPresenter(
   override fun present(): SessionUiState {
     val scope = rememberCoroutineScope()
     val days = listOf(dayTab1, dayTab2).toPersistentList()
-    var isRefreshing by remember { mutableStateOf(false) }
-    if (isRefreshing) {
-      LaunchedEffect(Unit) {
-        repository.refresh()
-        isRefreshing = false
-      }
+    var isRefreshing by rememberRetained { mutableStateOf(false) }
+
+    LaunchedEffect(isRefreshing) {
+      if(isRefreshing) repository.refresh() else isRefreshing = false
     }
 
     val events by repository.getEvents().map { results ->
