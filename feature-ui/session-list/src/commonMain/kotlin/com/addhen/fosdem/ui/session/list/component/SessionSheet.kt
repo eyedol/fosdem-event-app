@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.list.component
 
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -24,13 +26,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
@@ -69,12 +77,16 @@ internal fun SessionSheet(
   var selectedDay by rememberSaveable(stateSaver = DayTab.Saver) {
     mutableStateOf(DayTab.selectDay(uiState.days))
   }
+  val isSessionList = uiState is SessionSheetUiState.ListSession
+  var showExpandIndicator by remember { mutableStateOf(isSessionList) }
   val corner by animateIntAsState(
     if (sessionScreenScrollState.isScreenLayoutCalculating ||
       sessionScreenScrollState.isSheetExpandable
     ) {
+      showExpandIndicator = isSessionList
       40
     } else {
+      showExpandIndicator = false
       0
     },
     label = "Session corner state",
@@ -90,6 +102,12 @@ internal fun SessionSheet(
         .fillMaxSize()
         .nestedScroll(sessionSheetContentScrollState.nestedScrollConnection),
     ) {
+      if (showExpandIndicator) {
+        ExpandIndicator(
+          modifier = Modifier
+            .align(Alignment.CenterHorizontally),
+        )
+      }
       SessionTabRow(
         modifier = Modifier.padding(
           start = contentPadding.calculateStartPadding(layoutDirection),
@@ -202,6 +220,32 @@ class SessionSheetContentScrollState(
       availableScrollOffset.copy(x = 0f, y = tabScrollState.scrollOffset - prevHeightOffset)
     } else {
       Offset.Zero
+    }
+  }
+}
+
+@Composable
+private fun ExpandIndicator(
+  width: Dp = 32.0.dp,
+  height: Dp = 4.0.dp,
+  shape: Shape = MaterialTheme.shapes.extraLarge,
+  color: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
+  modifier: Modifier,
+) {
+  val dragHandleDescription = LocalStrings.current.dragHandleContentDescription
+  Box(
+    modifier
+      .semantics(mergeDescendants = true) {
+      },
+  ) {
+    Surface(
+      modifier = Modifier
+        .padding(vertical = 8.dp)
+        .semantics { contentDescription = dragHandleDescription },
+      color = color,
+      shape = shape,
+    ) {
+      Box(Modifier.size(width = width, height = height))
     }
   }
 }

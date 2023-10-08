@@ -16,6 +16,11 @@ import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
+import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.model.api.day1Event2
+import com.addhen.fosdem.model.api.day2Event1
+import com.addhen.fosdem.model.api.day2Event2
+import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.dayTab1
@@ -72,7 +77,14 @@ class SessionPresenter(
     val events by repository.getEvents().map { results ->
       when (results) {
         is AppResult.Error -> SessionSheetUiState.Error(days)
-        is AppResult.Success -> successSessionSheetUiSate(results, days)
+        is AppResult.Success -> {
+          // For testing purposes. Should be deleted before final release
+          val localResult = AppResult.Success(
+            listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
+          )
+          //val localResult = results
+          successSessionSheetUiSate(localResult, days)
+        }
       }
     }.collectAsRetainedState(SessionSheetUiState.Empty(days))
 

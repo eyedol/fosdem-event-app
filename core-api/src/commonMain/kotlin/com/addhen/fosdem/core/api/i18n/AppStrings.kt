@@ -48,6 +48,7 @@ data class AppStrings(
   val searchTermPlaceHolder: String,
   val sessionEmpty: String,
   val refresh: String,
+  val dragHandleContentDescription: String,
 )
 
 object Locales {

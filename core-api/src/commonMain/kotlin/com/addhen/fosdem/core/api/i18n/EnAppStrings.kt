@@ -49,4 +49,5 @@ val EnAppStrings = AppStrings(
   searchTermPlaceHolder = "Enter a session, a speaker or a term",
   sessionEmpty = "No session loaded",
   refresh = "Refresh",
+  dragHandleContentDescription = "Drag Handle",
 )
