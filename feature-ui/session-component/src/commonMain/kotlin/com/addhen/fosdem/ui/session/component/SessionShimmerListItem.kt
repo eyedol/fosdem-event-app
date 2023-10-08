@@ -1,3 +1,6 @@
+// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -70,7 +73,7 @@ private fun SessionShimmerListItem(modifier: Modifier = Modifier) {
           .fillMaxWidth()
           .shimmerBackground(RoundedCornerShape(4.dp)),
 
-        )
+      )
     }
     Spacer(modifier = Modifier.size(12.dp))
     Row {
@@ -96,7 +99,6 @@ private fun SessionShimmerListItem(modifier: Modifier = Modifier) {
     Divider()
   }
 }
-
 
 // Credits: https://touchlab.co/loading-shimmer-in-compose
 fun Modifier.shimmerBackground(shape: Shape = RectangleShape): Modifier = composed {

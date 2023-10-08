@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
@@ -70,7 +69,10 @@ class SessionPresenter(
     var isRefreshing by rememberRetained { mutableStateOf(false) }
 
     LaunchedEffect(isRefreshing) {
-      if(isRefreshing) repository.refresh() else isRefreshing = false
+      if (isRefreshing) {
+        repository.refresh()
+        isRefreshing = false
+      }
     }
 
     val events by repository.getEvents().map { results ->
@@ -81,7 +83,7 @@ class SessionPresenter(
           val localResult = AppResult.Success(
             listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
           )
-          //val localResult = results
+          // val localResult = results
           successSessionSheetUiSate(localResult, days)
         }
       }
