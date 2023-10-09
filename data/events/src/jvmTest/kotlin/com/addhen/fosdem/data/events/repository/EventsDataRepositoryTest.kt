@@ -20,6 +20,7 @@ import com.addhen.fosdem.data.events.repository.mapper.toEvents
 import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
@@ -187,6 +188,12 @@ class EventsDataRepositoryTest {
 
     override fun getEvents(): Flow<List<EventEntity>> {
       return flowOf(eventsListMap.values.flatten()).filterNotNull()
+    }
+
+    override fun getTracks(): Flow<List<TrackEntity>> {
+      return flowOf(
+        listOf(TrackEntity("name1", "Track1"), TrackEntity("name2", "Track2")),
+      )
     }
 
     override suspend fun toggleBookmark(eventId: Long) {

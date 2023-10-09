@@ -20,8 +20,8 @@ import com.addhen.fosdem.model.api.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.LocalDate
 import me.tatarka.inject.annotations.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
 @Inject
 class EventsDataRepository(
@@ -29,22 +29,18 @@ class EventsDataRepository(
   private val database: EventsDao,
 ) : EventsRepository {
 
-  override suspend fun getTracks(): AppResult<List<Track>> {
-    return try {
-      val tracks = database
-        .getTracks()
-        .map { it.toTrack() }
-      AppResult.Success(tracks)
-    } catch (e: Throwable) {
-      if (e is CancellationException) {
-        throw e
-      }
-      AppResult.Error(e.toAppError())
-    }
-  }
+  override fun getTracks(): Flow<AppResult<List<Track>>> = database
+    .getTracks()
+    .map { AppResult.Success(it.map { trackEntity -> trackEntity.toTrack() }) }
+    .catch { AppResult.Error(it.toAppError()) }
 
   override fun getEvents(): Flow<AppResult<List<Event>>> = database
     .getEvents()
+    .map { AppResult.Success(it.toEvent()) }
+    .catch { AppResult.Error(it.toAppError()) }
+
+  override fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>> = database
+    .getEvents(date)
     .map { AppResult.Success(it.toEvent()) }
     .catch { AppResult.Error(it.toAppError()) }
 
