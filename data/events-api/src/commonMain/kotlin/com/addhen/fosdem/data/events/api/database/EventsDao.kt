@@ -5,12 +5,10 @@ package com.addhen.fosdem.data.events.api.database
 
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.LocalDate
 
 interface EventsDao {
-
-  fun getEvents(date: LocalDate): Flow<List<EventEntity>>
 
   fun getEvents(): Flow<List<EventEntity>>
 
@@ -25,4 +23,6 @@ interface EventsDao {
   suspend fun addDays(days: List<DayEntity>)
 
   suspend fun getDays(): List<DayEntity>
+
+  suspend fun getTracks(): List<TrackEntity>
 }

@@ -13,3 +13,6 @@ INSERT OR IGNORE INTO rooms(
 
 findInsertRowid:
 SELECT last_insert_rowid();
+
+selectAll:
+SELECT DISTINCT * FROM rooms;

@@ -41,14 +41,6 @@ class EventsDbDao(
   private val appDatabase: Database,
   private val backgroundDispatcher: AppCoroutineDispatchers,
 ) : EventsDao {
-  override fun getEvents(date: LocalDate): Flow<List<EventEntity>> {
-    return appDatabase.eventsQueries
-      .selectAllByDate(date, eventQueriesMapper)
-      .asFlow()
-      .mapToList(backgroundDispatcher.io)
-      .map { it.updateWithRelatedData() }
-      .flowOn(backgroundDispatcher.io)
-  }
 
   override fun getEvents(): Flow<List<EventEntity>> {
     return appDatabase.eventsQueries
@@ -136,6 +128,20 @@ class EventsDbDao(
 
   override suspend fun getDays(): List<DayEntity> = withContext(backgroundDispatcher.io) {
     appDatabase.daysQueries.selectAll().executeAsList().toDays()
+  }
+
+  override suspend fun getTracks(): List<TrackEntity> = withContext(backgroundDispatcher.io) {
+    appDatabase.eventsQueries.selectEventTracks(eventTrackQueriesMapper).executeAsList()
+  }
+
+  private val eventTrackQueriesMapper = {
+      track_name: String?,
+      track_type: String?,
+    ->
+    TrackEntity(
+      name = track_name ?: "",
+      type = track_type ?: "",
+    )
   }
 
   private val eventQueriesMapper = {
