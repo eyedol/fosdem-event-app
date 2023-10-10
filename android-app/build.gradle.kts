@@ -49,7 +49,7 @@ android {
   packaging {
     resources {
       excludes += "META-INF/*.kotlin_module"
-      pickFirsts += "META-INF/versions/9/*.bin"
+      pickFirsts += "META-INF/versions/**/*.bin"
     }
   }
 
