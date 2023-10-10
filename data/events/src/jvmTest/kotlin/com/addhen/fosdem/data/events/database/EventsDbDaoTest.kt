@@ -10,6 +10,7 @@ import com.addhen.fosdem.data.events.day2Event
 import com.addhen.fosdem.data.events.day3Event
 import com.addhen.fosdem.data.events.events
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
+import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate
@@ -32,14 +33,22 @@ class EventsDbDaoTest : DatabaseTest() {
   }
 
   @Test
-  fun `successfully gets events by day one from the database`() = coroutineTestRule.runTest {
+  fun `successfully gets events by date one from the database`() = coroutineTestRule.runTest {
     // Seed some data
     sut.insert(events)
 
     val actual = sut.getEvents(day.date).first()
 
     assertEquals(1, actual.size)
-    assertEquals(listOf(events.first()), actual)
+    val expectedEvent = events.first()
+    assertEquals(
+      listOf(
+        expectedEvent.copy(
+          duration = expectedEvent.start_time.plusMinutes(expectedEvent.duration),
+        ),
+      ),
+      actual,
+    )
   }
 
   @Test
@@ -51,7 +60,13 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(2, actual.size)
 
-    assertEquals(listOf(day2Event, day3Event), actual)
+    val expectedDay2Event1 = day2Event.copy(
+      duration = day2Event.start_time.plusMinutes(day2Event.duration),
+    )
+    val expectedDay2Event2 = day3Event.copy(
+      duration = day3Event.start_time.plusMinutes(day3Event.duration),
+    )
+    assertEquals(listOf(expectedDay2Event1, expectedDay2Event2), actual)
   }
 
   @Test
@@ -61,7 +76,13 @@ class EventsDbDaoTest : DatabaseTest() {
 
     val actual = sut.getEvent(3).first()
 
-    assertEquals(events.last(), actual)
+    val expectedEvent = events.last()
+    assertEquals(
+      expectedEvent.copy(
+        duration = expectedEvent.start_time.plusMinutes(expectedEvent.duration),
+      ),
+      actual,
+    )
   }
 
   @Test

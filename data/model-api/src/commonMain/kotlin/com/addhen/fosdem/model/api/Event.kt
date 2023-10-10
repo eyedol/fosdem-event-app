@@ -266,7 +266,6 @@ val day2Event3 = Event(
   startTime = LocalTime.parse("10:00"),
   duration = LocalTime.parse("10:00").plusMinutes(
     LocalTime.parse("00:50"),
-    tzBrussels,
   ),
   title = "Building Strong Foundations for a More Secure Future",
   description = "",
@@ -293,7 +292,7 @@ val day2Event3 = Event(
   attachments = listOf(attachment2),
 )
 
-fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone): LocalTime {
+fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = tzBrussels): LocalTime {
   val atDate = Clock.System.now().toLocalDateTime(zone).date
   return (
     LocalDateTime(
