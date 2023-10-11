@@ -33,7 +33,7 @@ class RoomsDbDao(
     ->
     RoomEntity(
       id = id,
-      name = name ?: ""
+      name = name ?: "",
     )
   }
 }

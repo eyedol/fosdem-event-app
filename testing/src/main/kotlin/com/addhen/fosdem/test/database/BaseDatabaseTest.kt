@@ -1,11 +1,10 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.data.rooms.database
+package com.addhen.fosdem.test.database
 
 import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
-import com.addhen.fosdem.data.events.database.TestSqlDriverFactory
 import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Days
 import com.addhen.fosdem.data.sqldelight.api.Events
@@ -16,7 +15,7 @@ import kotlinx.datetime.toLocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
-abstract class DatabaseTest {
+abstract class BaseDatabaseTest {
   private lateinit var sqlDriver: SqlDriver
 
   lateinit var database: Database

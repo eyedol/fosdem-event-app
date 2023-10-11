@@ -4,15 +4,16 @@
 package com.addhen.fosdem.data.events.database
 
 import com.addhen.fosdem.data.events.api.database.EventsDao
-import com.addhen.fosdem.data.events.day
-import com.addhen.fosdem.data.events.day2
-import com.addhen.fosdem.data.events.day2Event
-import com.addhen.fosdem.data.events.day3Event
-import com.addhen.fosdem.data.events.events
-import com.addhen.fosdem.data.events.setDurationTime
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
+import com.addhen.fosdem.test.database.BaseDatabaseTest
+import com.addhen.fosdem.test.day
+import com.addhen.fosdem.test.day2
+import com.addhen.fosdem.test.day2Event
+import com.addhen.fosdem.test.day3Event
+import com.addhen.fosdem.test.events
+import com.addhen.fosdem.test.setDurationTime
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
-class EventsDbDaoTest : DatabaseTest() {
+class EventsDbDaoTest : BaseDatabaseTest() {
 
   @JvmField
   @RegisterExtension

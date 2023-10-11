@@ -8,5 +8,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface RoomsDao {
   fun getRooms(): Flow<List<RoomEntity>>
-
 }

@@ -5,18 +5,18 @@ package com.addhen.fosdem.data.rooms.repository
 
 import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.rooms.api.database.RoomsDao
-import com.addhen.fosdem.data.rooms.database.DatabaseTest
 import com.addhen.fosdem.data.rooms.database.RoomsDbDao
 import com.addhen.fosdem.data.rooms.repository.mapper.toRoom
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.test.CoroutineTestRule
+import com.addhen.fosdem.test.database.BaseDatabaseTest
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
-class RoomsDataRepositoryTest : DatabaseTest() {
+class RoomsDataRepositoryTest : BaseDatabaseTest() {
 
   @JvmField
   @RegisterExtension

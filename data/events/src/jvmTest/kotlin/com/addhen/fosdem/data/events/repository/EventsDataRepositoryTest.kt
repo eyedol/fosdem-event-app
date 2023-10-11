@@ -11,16 +11,16 @@ import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.createKtorEventsApiWithEvents
-import com.addhen.fosdem.data.events.database.DatabaseTest
 import com.addhen.fosdem.data.events.database.EventsDbDao
-import com.addhen.fosdem.data.events.day1Event
-import com.addhen.fosdem.data.events.day2Event
-import com.addhen.fosdem.data.events.day3Event
-import com.addhen.fosdem.data.events.events
 import com.addhen.fosdem.data.events.repository.mapper.toEvent
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
-import com.addhen.fosdem.data.events.setDurationTime
 import com.addhen.fosdem.test.CoroutineTestRule
+import com.addhen.fosdem.test.database.BaseDatabaseTest
+import com.addhen.fosdem.test.day1Event
+import com.addhen.fosdem.test.day2Event
+import com.addhen.fosdem.test.day3Event
+import com.addhen.fosdem.test.events
+import com.addhen.fosdem.test.setDurationTime
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
-class EventsDataRepositoryTest : DatabaseTest() {
+class EventsDataRepositoryTest : BaseDatabaseTest() {
 
   @JvmField
   @RegisterExtension

@@ -1,7 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.data.events
+package com.addhen.fosdem.test
 
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
@@ -146,10 +146,10 @@ val day3Event = EventEntity(
 
 val events = listOf(day1Event, day2Event, day3Event)
 
-internal fun EventEntity.setDurationTime(): EventEntity {
+fun EventEntity.setDurationTime(): EventEntity {
   return copy(duration = start_time.plusMinutes(duration))
 }
 
-internal fun List<EventEntity>.setDurationTime(): List<EventEntity> = map {
+fun List<EventEntity>.setDurationTime(): List<EventEntity> = map {
   it.setDurationTime()
 }

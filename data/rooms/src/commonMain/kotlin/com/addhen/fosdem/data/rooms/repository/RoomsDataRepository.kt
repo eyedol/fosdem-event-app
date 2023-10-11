@@ -23,5 +23,4 @@ class RoomsDataRepository(
     .getRooms()
     .map { AppResult.Success(it.toRooms()) }
     .catch { AppResult.Error(it.toAppError()) }
-
 }
