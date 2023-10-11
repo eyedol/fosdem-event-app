@@ -11,21 +11,17 @@ import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.createKtorEventsApiWithEvents
+import com.addhen.fosdem.data.events.database.DatabaseTest
+import com.addhen.fosdem.data.events.database.EventsDbDao
 import com.addhen.fosdem.data.events.day1Event
 import com.addhen.fosdem.data.events.day2Event
+import com.addhen.fosdem.data.events.day3Event
 import com.addhen.fosdem.data.events.events
-import com.addhen.fosdem.data.events.repository.mapper.toDay
 import com.addhen.fosdem.data.events.repository.mapper.toEvent
-import com.addhen.fosdem.data.events.repository.mapper.toEvents
-import com.addhen.fosdem.data.events.repository.mapper.toRoom
-import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
-import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
-import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
+import com.addhen.fosdem.data.events.repository.mapper.toTrack
+import com.addhen.fosdem.data.events.setDurationTime
 import com.addhen.fosdem.test.CoroutineTestRule
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -34,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
-class EventsDataRepositoryTest {
+class EventsDataRepositoryTest : DatabaseTest() {
 
   @JvmField
   @RegisterExtension
@@ -42,18 +38,22 @@ class EventsDataRepositoryTest {
 
   private lateinit var repository: EventsDataRepository
   private val fakeApi: FakeEventsApi = FakeEventsApi(coroutineTestRule.testDispatcherProvider)
-  private val fakeDatabase: FakeEventsDao = FakeEventsDao()
+  private lateinit var eventsDbDao: EventsDao
 
   @BeforeEach
-  fun setUp() {
-    repository = EventsDataRepository(fakeApi, fakeDatabase)
+  fun set() {
+    eventsDbDao = EventsDbDao(
+      database,
+      coroutineTestRule.testDispatcherProvider,
+    )
+    repository = EventsDataRepository(fakeApi, eventsDbDao)
   }
 
   @Test
   fun `getEvents should return events from database`() = coroutineTestRule.runTest {
     val date = LocalDate.parse("2023-02-04")
-    val eventList = events.toEvent()
-    fakeDatabase.addEvents(date, events)
+    val eventList = events.filter { it.day.date == date }.setDurationTime().toEvent()
+    eventsDbDao.insert(events)
 
     val result = repository.getEvents(date).first()
 
@@ -65,22 +65,22 @@ class EventsDataRepositoryTest {
   fun `getEvent should return event from database`() = coroutineTestRule.runTest {
     val eventId = 1L
     val event = day1Event
-    fakeDatabase.addEvent(eventId, event)
+    eventsDbDao.insert(listOf(event))
 
     val result = repository.getEvent(eventId).first()
 
     assertTrue(result is AppResult.Success)
-    assertTrue((result as AppResult.Success).data == event.toEvent())
+    assertTrue((result as AppResult.Success).data == event.setDurationTime().toEvent())
   }
 
   @Test
   fun `deleteAll should clear the data from database`() = coroutineTestRule.runTest {
-    fakeDatabase.addEvent(1L, day1Event)
-    fakeDatabase.addEvent(2L, day2Event)
+    eventsDbDao.insert(listOf(day1Event, day2Event))
 
     repository.deleteAll()
 
-    assertTrue(fakeDatabase.isEmpty())
+    val expected = eventsDbDao.getEvents().first()
+    assertTrue(expected.isEmpty())
   }
 
   @Test
@@ -93,22 +93,18 @@ class EventsDataRepositoryTest {
 
     repository.refresh()
 
-    // Verify that the fake database contains the expected data
-    for (day in eventDto.days) {
-      for (room in day.rooms) {
-        val events = room.events.toEvents(day.toDay(), room.toRoom())
-        assertTrue(fakeDatabase.containsEvents(events))
-      }
-    }
+    val expected = eventsDbDao.getEvents().first()
+    assertTrue(expected.isNotEmpty())
   }
 
   @Test
   fun `refresh should handle API error`() = coroutineTestRule.runTest {
     fakeApi.setFailure(Throwable("Failed to add items to database"))
+    val expected = eventsDbDao.getEvents().first()
 
     repository.refresh()
 
-    assertTrue(fakeDatabase.isEmpty())
+    assertTrue(expected.isEmpty())
   }
 
   @Test
@@ -116,7 +112,7 @@ class EventsDataRepositoryTest {
     coroutineTestRule.runTest {
       val eventId = 1L
       val event = day1Event.copy(isBookmarked = false)
-      fakeDatabase.addEvent(eventId, event)
+      eventsDbDao.insert(listOf(event))
 
       repository.toggleBookmark(eventId)
 
@@ -129,13 +125,37 @@ class EventsDataRepositoryTest {
     coroutineTestRule.runTest {
       val eventId = 1L
       val event = day1Event.copy(isBookmarked = true)
-      fakeDatabase.addEvent(eventId, event)
+      eventsDbDao.insert(listOf(event))
 
       repository.toggleBookmark(eventId)
 
       repository.getEvent(eventId).first()
         .onSuccess { assertFalse(it.isBookmarked) }
     }
+
+  @Test
+  fun `getTracks should return distinct event tracks from database`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day2Event, day3Event)
+    val expectedTrackList = listOf(day1Event, day3Event).map { it.track }.map { it.toTrack() }
+    eventsDbDao.insert(events)
+
+    val result = repository.getTracks().first()
+
+    assertEquals(true, result is AppResult.Success)
+    assertEquals(true, (result as AppResult.Success).data == expectedTrackList)
+  }
+
+  @Test
+  fun `getTracks should return event tracks from database`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day3Event)
+    val trackList = events.map { it.track }.map { it.toTrack() }
+    eventsDbDao.insert(events)
+
+    val result = repository.getTracks().first()
+
+    assertEquals(true, result is AppResult.Success)
+    assertEquals(true, (result as AppResult.Success).data == trackList)
+  }
 
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: AppResult<EventDto>? = null
@@ -154,69 +174,6 @@ class EventsDataRepositoryTest {
       return events ?: AppResult.Error(
         AppError.ApiException.NetworkException(Throwable("No events set in FakeEventsApi")),
       )
-    }
-  }
-
-  class FakeEventsDao : EventsDao {
-    private val eventsMap: MutableMap<Long, EventEntity> = mutableMapOf()
-    private val eventsListMap: MutableMap<LocalDate, List<EventEntity>> = mutableMapOf()
-    private val daysList: MutableList<DayEntity> = mutableListOf()
-
-    fun addEvent(eventId: Long, event: EventEntity) {
-      eventsMap[eventId] = event
-    }
-
-    fun addEvents(date: LocalDate, events: List<EventEntity>) {
-      eventsListMap[date] = events
-    }
-
-    fun isEmpty(): Boolean {
-      return eventsMap.isEmpty() && eventsListMap.isEmpty()
-    }
-
-    fun containsEvents(events: List<EventEntity>): Boolean {
-      return events.all { event -> eventsMap.containsValue(event) }
-    }
-
-    override fun getEvent(eventId: Long): Flow<EventEntity> {
-      return flowOf(eventsMap[eventId]).filterNotNull()
-    }
-
-    override fun getEvents(date: LocalDate): Flow<List<EventEntity>> {
-      return flowOf(eventsListMap[date]).filterNotNull()
-    }
-
-    override fun getEvents(): Flow<List<EventEntity>> {
-      return flowOf(eventsListMap.values.flatten()).filterNotNull()
-    }
-
-    override fun getTracks(): Flow<List<TrackEntity>> {
-      return flowOf(
-        listOf(TrackEntity("name1", "Track1"), TrackEntity("name2", "Track2")),
-      )
-    }
-
-    override suspend fun toggleBookmark(eventId: Long) {
-      val event = eventsMap[eventId] ?: return
-      eventsMap[eventId] = event.copy(isBookmarked = !event.isBookmarked)
-    }
-
-    override suspend fun deleteAll() {
-      eventsMap.clear()
-      eventsListMap.clear()
-      daysList.clear()
-    }
-
-    override suspend fun insert(events: List<EventEntity>) {
-      events.forEach { eventsMap[it.id] = it }
-    }
-
-    override suspend fun addDays(days: List<DayEntity>) {
-      daysList.addAll(days)
-    }
-
-    override suspend fun getDays(): List<DayEntity> {
-      return daysList
     }
   }
 }

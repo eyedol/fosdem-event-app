@@ -124,7 +124,7 @@ val day1Event = Event(
   links = listOf(link, link2, link3),
   speakers = listOf(speaker, speaker2),
   room = room,
-  track = Track("keynote"),
+  track = Track("Keynote", "keynote"),
   attachments = listOf(attachment, attachment2, attachment3),
 )
 
@@ -166,7 +166,7 @@ val day1Event2 = Event(
   links = listOf(link, link2, link3),
   speakers = listOf(speaker, speaker2),
   room = room,
-  track = Track("maintrack"),
+  track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment, attachment2, attachment3),
 )
 
@@ -208,7 +208,7 @@ val day2Event1 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2),
   room = room2,
-  track = Track("maintrack"),
+  track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
 )
 
@@ -257,7 +257,7 @@ val day2Event2 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
   room = room2,
-  track = Track("maintrack"),
+  track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
 )
 
@@ -288,7 +288,7 @@ val day2Event3 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
   room = room2,
-  track = Track("maintrack"),
+  track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
 )
 

@@ -3,4 +3,4 @@
 
 package com.addhen.fosdem.model.api
 
-data class Track(val name: String)
+data class Track(val name: String, val type: String)
