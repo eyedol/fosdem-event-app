@@ -9,6 +9,7 @@ import com.addhen.fosdem.core.api.di.ApplicationScope
 import com.addhen.fosdem.core.api.di.CoreApiBinds
 import com.addhen.fosdem.data.core.api.di.CoreDataApiBinds
 import com.addhen.fosdem.data.events.di.EventsDataBinds
+import com.addhen.fosdem.data.rooms.di.RoomsDataBinds
 import com.addhen.fosdem.data.sqldelight.database.di.SqlDelightDatabaseComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -17,6 +18,7 @@ interface DataComponent :
   CoreApiBinds,
   CoreDataApiBinds,
   EventsDataBinds,
+  RoomsDataBinds,
   SqlDelightDatabaseComponent
 
 @Component

@@ -149,6 +149,8 @@ dependencies {
   implementation(projects.featureUi.main)
   implementation(projects.data.events)
   implementation(projects.data.eventsApi)
+  implementation(projects.data.rooms)
+  implementation(projects.data.roomsApi)
   implementation(projects.data.sqldelight)
   implementation(projects.data.sqldelightApi)
   implementation(projects.data.modelApi)
