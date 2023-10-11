@@ -9,6 +9,7 @@ import com.addhen.fosdem.data.events.day2
 import com.addhen.fosdem.data.events.day2Event
 import com.addhen.fosdem.data.events.day3Event
 import com.addhen.fosdem.data.events.events
+import com.addhen.fosdem.data.events.setDurationTime
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
@@ -41,14 +42,7 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(1, actual.size)
     val expectedEvent = events.first()
-    assertEquals(
-      listOf(
-        expectedEvent.copy(
-          duration = expectedEvent.start_time.plusMinutes(expectedEvent.duration),
-        ),
-      ),
-      actual,
-    )
+    assertEquals(listOf(expectedEvent.setDurationTime()), actual)
   }
 
   @Test
@@ -60,12 +54,8 @@ class EventsDbDaoTest : DatabaseTest() {
 
     assertEquals(2, actual.size)
 
-    val expectedDay2Event1 = day2Event.copy(
-      duration = day2Event.start_time.plusMinutes(day2Event.duration),
-    )
-    val expectedDay2Event2 = day3Event.copy(
-      duration = day3Event.start_time.plusMinutes(day3Event.duration),
-    )
+    val expectedDay2Event1 = day2Event.setDurationTime()
+    val expectedDay2Event2 = day3Event.setDurationTime()
     assertEquals(listOf(expectedDay2Event1, expectedDay2Event2), actual)
   }
 
