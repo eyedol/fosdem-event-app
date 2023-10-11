@@ -36,6 +36,8 @@ include(
   "compose-ui:common-api",
   ":data:events",
   ":data:events-api",
+  ":data:rooms",
+  ":data:rooms-api",
   ":data:model-api",
   ":core-api",
   ":data:core-api",

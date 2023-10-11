@@ -18,16 +18,12 @@ import com.addhen.fosdem.model.api.Room
 import com.addhen.fosdem.model.api.Speaker
 import com.addhen.fosdem.model.api.Track
 
-internal fun List<DayEntity>.toDays() = map { it.toDay() }
-
 internal fun DayEntity.toDay() = Day(id = id, date = date)
 
 internal fun RoomEntity.toRoom() = Room(
-  id = 0,
+  id = id,
   name = name,
 )
-
-internal fun List<RoomEntity>.toRooms() = map { it.toRoom() }
 
 internal fun List<LinkEntity>.toLinks() = map { it.toLink() }
 
