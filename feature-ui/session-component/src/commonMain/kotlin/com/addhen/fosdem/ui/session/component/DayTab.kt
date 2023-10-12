@@ -7,6 +7,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import com.addhen.fosdem.model.api.Day
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -54,5 +55,7 @@ val dayTab2 = DayTab(
   2,
   LocalDate.parse("2023-02-05"),
 )
+
+val dayTabs = listOf(dayTab1, dayTab2).toPersistentList()
 
 fun Day.toDayTab() = DayTab(id, date)

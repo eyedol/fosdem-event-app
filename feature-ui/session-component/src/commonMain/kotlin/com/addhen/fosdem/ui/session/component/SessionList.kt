@@ -155,7 +155,7 @@ fun SessionList(
               },
               highlightQuery = highlightQuery,
               chipContent = {
-                val trackColor = trackColors(sessionItem.track.name)
+                val trackColor = trackColors(sessionItem.track.type)
                 val containerColor = trackColor.backgroundColor
                 val labelColor = trackColor.nameColor
                 SessionTag(

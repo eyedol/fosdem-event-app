@@ -22,8 +22,7 @@ import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
-import com.addhen.fosdem.ui.session.component.dayTab1
-import com.addhen.fosdem.ui.session.component.dayTab2
+import com.addhen.fosdem.ui.session.component.dayTabs
 import com.addhen.fosdem.ui.session.component.toDayTab
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.retained.collectAsRetainedState
@@ -34,7 +33,6 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -65,7 +63,7 @@ class SessionPresenter(
   @Composable
   override fun present(): SessionUiState {
     val scope = rememberCoroutineScope()
-    val days = listOf(dayTab1, dayTab2).toPersistentList()
+    val days by rememberRetained { mutableStateOf(dayTabs) }
     var isRefreshing by rememberRetained { mutableStateOf(false) }
 
     LaunchedEffect(isRefreshing) {
