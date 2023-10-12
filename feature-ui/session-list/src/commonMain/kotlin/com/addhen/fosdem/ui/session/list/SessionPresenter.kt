@@ -20,6 +20,7 @@ import com.addhen.fosdem.model.api.day1Event2
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
+import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.dayTabs
@@ -128,13 +129,7 @@ class SessionPresenter(
     val groupEventsByDay = events.groupBy { it.day }
     val sessionsWithDays = mutableMapOf<DayTab, SessionListUiState>()
     groupEventsByDay.forEach { (key, events) ->
-      val sortedAndGroupEvents = events.sortedBy { it.startTime }.groupBy {
-        it.startTime.toString() + it.duration.toString()
-      }.mapValues { entries ->
-        entries.value.sortedWith(
-          compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-        )
-      }.toPersistentMap()
+      val sortedAndGroupEvents = events.sortAndGroupedEventsItems().toPersistentMap()
       sessionsWithDays[key.toDayTab()] = SessionListUiState(sortedAndGroupEvents)
     }
     return sessionsWithDays.toPersistentMap()

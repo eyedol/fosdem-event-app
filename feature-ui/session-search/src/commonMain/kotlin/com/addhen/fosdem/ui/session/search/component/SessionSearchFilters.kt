@@ -16,12 +16,13 @@ import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 const val SearchFilterTestTag = "SearchFilter"
 
 data class SearchFilterUiState<T>(
-  val selectedItems: ImmutableList<T>,
-  val items: ImmutableList<T>,
+  val selectedItems: ImmutableList<T> = emptyList<T>().toImmutableList(),
+  val items: ImmutableList<T> = emptyList<T>().toImmutableList(),
   val isSelected: Boolean = false,
   val selectedValues: String = "",
 )

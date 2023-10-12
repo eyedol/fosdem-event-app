@@ -301,3 +301,11 @@ fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = tzBrussels): LocalTime
     ).toInstant(zone) + to.minute.minutes
     ).toLocalDateTime(zone).time
 }
+
+fun List<Event>.sortAndGroupedEventsItems() = sortedBy { it.startTime }
+  .groupBy { it.startTime.toString() + it.duration.toString() }
+  .mapValues { entries ->
+    entries.value.sortedWith(
+      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+    )
+  }

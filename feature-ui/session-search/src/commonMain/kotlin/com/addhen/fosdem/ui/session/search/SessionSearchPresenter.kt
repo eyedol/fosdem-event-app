@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.search
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
@@ -11,33 +12,35 @@ import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
-import com.addhen.fosdem.model.api.Room
+import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day1Event2
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
-import com.addhen.fosdem.model.api.room
-import com.addhen.fosdem.model.api.room2
+import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.SearchQuery
 import com.addhen.fosdem.ui.session.component.dayTabs
+import com.addhen.fosdem.ui.session.component.toDayTab
 import com.addhen.fosdem.ui.session.component.toFilterRoom
 import com.addhen.fosdem.ui.session.component.toFilterTrack
 import com.addhen.fosdem.ui.session.search.component.SearchFilterUiState
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
-import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -72,16 +75,26 @@ class SessionSearchPresenter(
     // val scope = rememberCoroutineScope()
 
     val days by rememberRetained { mutableStateOf(dayTabs) }
-    val filterRooms by roomsRepository.getRooms().map { results ->
+
+    val filterTracks = eventsRepository.getTracks().map { results ->
       when (results) {
         is AppResult.Error -> emptyList()
         is AppResult.Success -> {
-          results.data.map { it.toFilterRoom()}
+          results.data.map { it.toFilterTrack() }
         }
       }
-    }.collectAsRetainedState(emptyList())
+    }
 
-    val events by eventsRepository.getEvents().map { results ->
+    val filterRooms = roomsRepository.getRooms().map { results ->
+      when (results) {
+        is AppResult.Error -> emptyList()
+        is AppResult.Success -> {
+          results.data.map { it.toFilterRoom() }
+        }
+      }
+    }
+
+    val events = eventsRepository.getEvents().map { results ->
       when (results) {
         is AppResult.Error -> emptyList()
         is AppResult.Success -> {
@@ -90,14 +103,49 @@ class SessionSearchPresenter(
             listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
           )
           // val localResult = results
-          successSessionSheetUiSate(localResult, days)
+          results.data
         }
       }
-    }.collectAsRetainedState(SessionSheetUiState.Loading(days))
+    }
 
-    val filterStateFlow: MutableStateFlow<SearchFilters> = MutableStateFlow(
+    val searchFilters: MutableStateFlow<SearchFilters> = MutableStateFlow(
       SearchFilters(),
     )
+
+    val searchUiState by combine(
+      filterTracks,
+      filterRooms,
+      searchFilters,
+      events,
+    ) { filterTracks, filterRooms, searchFilters, events ->
+
+      val filteredSearch = eventsFiltered(
+        events,
+        SearchFilters(
+          days,
+          searchFilters.tracks,
+          searchFilters.rooms,
+          searchQuery = searchFilters.searchQuery,
+        ),
+      )
+
+      if (filteredSearch.isEmpty()) {
+        searchUiStateEmptySearch(
+          searchFilters,
+          days,
+          filterRooms.toImmutableList(),
+          filterTracks.toImmutableList(),
+        )
+      } else {
+        searchUiStateListSearch(
+          searchFilters,
+          events.sortAndGroupedEventsItems().toPersistentMap(),
+          days,
+          filterRooms.toImmutableList(),
+          filterTracks.toImmutableList(),
+        )
+      }
+    }.collectAsState(SearchUiState.Loading())
 
     fun eventSink(event: SessionSearchUiEvent) {
       when (event) {
@@ -114,38 +162,96 @@ class SessionSearchPresenter(
     }
 
     return SessionSearchUiState(
-      content = sessionSheetPreview(days, filterRooms),
-      eventSink = ::eventSink,
+      searchUiState,
+      ::eventSink,
     )
   }
 
-  private fun sessionSheetPreview(days: PersistentList<DayTab>, rooms: List<FilterRoom>): SearchUiState {
+  private fun eventsFiltered(
+    events: List<Event>,
+    filters: SearchFilters,
+  ): PersistentMap<String, List<Event>> {
+    var sessionItems = events
+    if (filters.days.isNotEmpty()) {
+      sessionItems = sessionItems.filter { timetableItem ->
+        filters.days.contains(timetableItem.day.toDayTab())
+      }
+    }
+    if (filters.tracks.isNotEmpty()) {
+      sessionItems = sessionItems.filter { timetableItem ->
+        filters.tracks.contains(timetableItem.track.toFilterTrack())
+      }
+    }
+    if (filters.rooms.isNotEmpty()) {
+      sessionItems = sessionItems.filter { timetableItem ->
+        filters.rooms.contains(timetableItem.room.toFilterRoom())
+      }
+    }
+
+    if (filters.searchQuery.isNotBlank()) {
+      sessionItems = sessionItems.filter { timetableItem ->
+        timetableItem.title.contains(
+          filters.searchQuery,
+          ignoreCase = true,
+        ) ||
+          timetableItem.abstractText.contains(
+            filters.searchQuery,
+            ignoreCase = true,
+          ) ||
+          timetableItem.description.contains(
+            filters.searchQuery,
+            ignoreCase = true,
+          )
+      }
+    }
+    return sessionItems.sortAndGroupedEventsItems().toPersistentMap()
+  }
+
+  private fun searchUiStateListSearch(
+    searchFilters: SearchFilters,
+    sessionItemMap: PersistentMap<String, List<Event>>,
+    days: PersistentList<DayTab>,
+    rooms: ImmutableList<FilterRoom>,
+    tracks: ImmutableList<FilterTrack>,
+  ): SearchUiState {
     return SearchUiState.ListSearch(
-      sortAndGroupedEventsItems,
-      searchQuery = SearchQuery(""),
-      searchFilterDayUiState = SearchFilterUiState(
-        selectedItems = emptyList<DayTab>().toImmutableList(),
+      sessionItemMap,
+      query = SearchQuery(searchFilters.searchQuery),
+      filterDayUiState = SearchFilterUiState(
+        selectedItems = searchFilters.days.toImmutableList(),
         items = days.toImmutableList(),
       ),
-      searchFilterSessionTrackUiState = SearchFilterUiState(
-        selectedItems = emptyList<FilterTrack>().toImmutableList(),
-        items = listOf(
-          day1Event.track.toFilterTrack(),
-          day2Event1.track.toFilterTrack(),
-        ).toImmutableList(),
+      filterTrackUiState = SearchFilterUiState(
+        selectedItems = searchFilters.tracks.toImmutableList(),
+        items = tracks,
       ),
-      searchFilterSessionRoomUiState = SearchFilterUiState(
+      filterRoomUiState = SearchFilterUiState(
         selectedItems = emptyList<FilterRoom>().toImmutableList(),
         items = rooms.toImmutableList(),
       ),
     )
   }
 
-  val sortAndGroupedEventsItems = listOf(day1Event, day2Event1).groupBy {
-    it.startTime.toString() + it.duration.toString()
-  }.mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+  private fun searchUiStateEmptySearch(
+    searchFilters: SearchFilters,
+    days: PersistentList<DayTab>,
+    rooms: ImmutableList<FilterRoom>,
+    tracks: ImmutableList<FilterTrack>,
+  ): SearchUiState {
+    return SearchUiState.Loading(
+      query = SearchQuery(searchFilters.searchQuery),
+      filterDayUiState = SearchFilterUiState(
+        selectedItems = searchFilters.days.toImmutableList(),
+        items = days.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        selectedItems = searchFilters.tracks.toImmutableList(),
+        items = tracks,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        selectedItems = searchFilters.rooms.toImmutableList(),
+        items = rooms,
+      ),
     )
-  }.toPersistentMap()
+  }
 }
