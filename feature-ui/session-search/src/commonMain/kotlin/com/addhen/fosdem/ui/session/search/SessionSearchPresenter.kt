@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.core.api.AppResult
@@ -42,6 +43,7 @@ import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -72,7 +74,7 @@ class SessionSearchPresenter(
 ) : Presenter<SessionSearchUiState> {
   @Composable
   override fun present(): SessionSearchUiState {
-    // val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
     val days by rememberRetained { mutableStateOf(dayTabs) }
 
@@ -117,32 +119,32 @@ class SessionSearchPresenter(
       filterRooms,
       searchFilters,
       events,
-    ) { filterTracks, filterRooms, searchFilters, events ->
+    ) { tracks, rooms, filters, eventList ->
 
       val filteredSearch = eventsFiltered(
-        events,
+        eventList,
         SearchFilters(
           days,
-          searchFilters.tracks,
-          searchFilters.rooms,
-          searchQuery = searchFilters.searchQuery,
+          filters.tracks,
+          filters.rooms,
+          searchQuery = filters.searchQuery,
         ),
       )
 
       if (filteredSearch.isEmpty()) {
         searchUiStateEmptySearch(
-          searchFilters,
+          filters,
           days,
-          filterRooms.toImmutableList(),
-          filterTracks.toImmutableList(),
+          rooms.toImmutableList(),
+          tracks.toImmutableList(),
         )
       } else {
         searchUiStateListSearch(
-          searchFilters,
-          events.sortAndGroupedEventsItems().toPersistentMap(),
+          filters,
+          eventList.sortAndGroupedEventsItems().toPersistentMap(),
           days,
-          filterRooms.toImmutableList(),
-          filterTracks.toImmutableList(),
+          rooms.toImmutableList(),
+          tracks.toImmutableList(),
         )
       }
     }.collectAsState(SearchUiState.Loading())
@@ -153,11 +155,22 @@ class SessionSearchPresenter(
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
 
-        is SessionSearchUiEvent.FilterDay -> {}
-        is SessionSearchUiEvent.FilterSessionRoom -> {}
-        is SessionSearchUiEvent.FilterSessionTrack -> {}
+        is SessionSearchUiEvent.FilterDay -> {
+          onDaySelected(event.dayTab, isSelected = false)
+        }
+
+        is SessionSearchUiEvent.FilterSessionRoom -> {
+          onRoomSelected(event.room, isSelected = false)
+        }
+
+        is SessionSearchUiEvent.FilterSessionTrack -> {
+          onTrackSelected(event.track, isSelected = false)
+        }
+
         SessionSearchUiEvent.GoToPreviousScreen -> navigator.pop()
-        is SessionSearchUiEvent.ToggleSessionBookmark -> {}
+        is SessionSearchUiEvent.ToggleSessionBookmark -> {
+          scope.launch { eventsRepository.toggleBookmark(event.eventId) }
+        }
       }
     }
 
@@ -254,4 +267,20 @@ class SessionSearchPresenter(
       ),
     )
   }
+}
+
+private fun onDaySelected(dayTab: DayTab, isSelected: Boolean) {
+
+}
+
+private fun onTrackSelected(filterTrack: FilterTrack, isSelected: Boolean) {
+
+}
+
+private fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
+
+}
+
+private fun onQueryChanged(query: String) {
+
 }
