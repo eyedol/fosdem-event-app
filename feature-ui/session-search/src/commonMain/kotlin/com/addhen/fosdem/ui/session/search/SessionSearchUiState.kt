@@ -25,11 +25,22 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
     val isBookmarked: Boolean,
   ) : SessionSearchUiEvent
 
-  data class FilterDay(val dayTab: DayTab) : SessionSearchUiEvent
+  data class FilterDay(
+    val dayTab: DayTab,
+    val isSelected: Boolean,
+  ) : SessionSearchUiEvent
 
-  data class FilterSessionRoom(val room: FilterRoom) : SessionSearchUiEvent
+  data class FilterSessionRoom(
+    val room: FilterRoom,
+    val isSelected: Boolean,
+  ) : SessionSearchUiEvent
 
-  data class FilterSessionTrack(val track: FilterTrack) : SessionSearchUiEvent
+  data class FilterSessionTrack(
+    val track: FilterTrack,
+    val isSelected: Boolean,
+  ) : SessionSearchUiEvent
+
+  data class QuerySearch(val query: String) : SessionSearchUiEvent
 
   data object GoToPreviousScreen : SessionSearchUiEvent
 }

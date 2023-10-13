@@ -42,17 +42,20 @@ internal fun SessionSearch(
 
   SessionSearchScreen(
     uiState = uiState,
+    onSearchQueryChanged = { eventSink(SessionSearchUiEvent.QuerySearch(it)) },
     onSessionItemClick = { eventSink(SessionSearchUiEvent.GoToSessionDetails(it)) },
     onBackPressClick = { eventSink(SessionSearchUiEvent.GoToPreviousScreen) },
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
-    onDaySelected = { dayTab, _ -> eventSink(SessionSearchUiEvent.FilterDay(dayTab)) },
-    onSessionTrackSelected = { track, _ ->
-      eventSink(SessionSearchUiEvent.FilterSessionTrack(track))
+    onDaySelected = { dayTab, isSelected ->
+      eventSink(SessionSearchUiEvent.FilterDay(dayTab, isSelected))
     },
-    onSessionRoomSelected = { room, _ ->
-      eventSink(SessionSearchUiEvent.FilterSessionRoom(room))
+    onSessionTrackSelected = { track, isSelected ->
+      eventSink(SessionSearchUiEvent.FilterSessionTrack(track, isSelected))
+    },
+    onSessionRoomSelected = { room, isSelected ->
+      eventSink(SessionSearchUiEvent.FilterSessionRoom(room, isSelected))
     },
     modifier = modifier,
   )

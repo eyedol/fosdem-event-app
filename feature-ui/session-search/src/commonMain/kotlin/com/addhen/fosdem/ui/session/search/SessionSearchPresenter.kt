@@ -101,9 +101,9 @@ class SessionSearchPresenter(
         is AppResult.Error -> emptyList()
         is AppResult.Success -> {
           // For testing purposes. Should be deleted before final release
-          val localResult = AppResult.Success(
-            listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
-          )
+          // val localResult = AppResult.Success(
+          //  listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
+          //)
           // val localResult = results
           results.data
         }
@@ -156,21 +156,26 @@ class SessionSearchPresenter(
         }
 
         is SessionSearchUiEvent.FilterDay -> {
-          onDaySelected(event.dayTab, isSelected = false)
+          onDaySelected(searchFilters, event.dayTab, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionRoom -> {
-          onRoomSelected(event.room, isSelected = false)
+          onRoomSelected(searchFilters, event.room, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionTrack -> {
-          onTrackSelected(event.track, isSelected = false)
+          onTrackSelected(searchFilters, event.track, event.isSelected)
         }
 
-        SessionSearchUiEvent.GoToPreviousScreen -> navigator.pop()
         is SessionSearchUiEvent.ToggleSessionBookmark -> {
           scope.launch { eventsRepository.toggleBookmark(event.eventId) }
         }
+
+        is SessionSearchUiEvent.QuerySearch -> {
+          onQueryChanged(searchFilters, event.query)
+        }
+
+        SessionSearchUiEvent.GoToPreviousScreen -> navigator.pop()
       }
     }
 
@@ -269,18 +274,50 @@ class SessionSearchPresenter(
   }
 }
 
-private fun onDaySelected(dayTab: DayTab, isSelected: Boolean) {
-
+private fun onDaySelected(
+  searchFilters: MutableStateFlow<SearchFilters>,
+  dayTab: DayTab,
+  isSelected: Boolean,
+) {
+  val selectedDays = searchFilters.value.days.toMutableList()
+  searchFilters.value = searchFilters.value.copy(
+    days = selectedDays.apply {
+      if (isSelected) add(dayTab) else remove(dayTab)
+    },
+  )
 }
 
-private fun onTrackSelected(filterTrack: FilterTrack, isSelected: Boolean) {
-
+private fun onTrackSelected(
+  searchFilters: MutableStateFlow<SearchFilters>,
+  filterTrack: FilterTrack,
+  isSelected: Boolean,
+) {
+  val selectedTracks = searchFilters.value.tracks.toMutableList()
+  searchFilters.value = searchFilters.value.copy(
+    tracks = selectedTracks.apply {
+      if (isSelected) add(filterTrack) else remove(filterTrack)
+    },
+  )
 }
 
-private fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
-
+private fun onRoomSelected(
+  searchFilters: MutableStateFlow<SearchFilters>,
+  filterRoom: FilterRoom,
+  isSelected: Boolean,
+) {
+  val selectedRooms = searchFilters.value.rooms.toMutableList()
+  searchFilters.value = searchFilters.value.copy(
+    rooms = selectedRooms.apply {
+      if (isSelected) add(filterRoom) else remove(filterRoom)
+    },
+  )
 }
 
-private fun onQueryChanged(query: String) {
-
+private fun onQueryChanged(
+  searchFilters: MutableStateFlow<SearchFilters>,
+  query: String,
+) {
+  searchFilters.value = searchFilters.value.copy(
+    searchQuery = query,
+  )
 }
