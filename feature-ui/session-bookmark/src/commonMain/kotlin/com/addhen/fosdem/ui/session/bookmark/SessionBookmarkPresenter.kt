@@ -8,6 +8,7 @@ import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event1
+import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -63,18 +64,10 @@ class SessionBookmarkPresenter(
 
   private fun sessionSheetPreview(): SessionBookmarkSheetUiState {
     return SessionBookmarkSheetUiState.ListBookmark(
-      sessionItemMap = sortAndGroupedEventsItems,
+      sessionItemMap = listOf(day1Event, day2Event1).sortAndGroupedEventsItems().toPersistentMap(),
       isAllSelected = true,
       isDayFirstSelected = false,
       isDaySecondSelected = false,
     )
   }
-
-  val sortAndGroupedEventsItems = listOf(day1Event, day2Event1).groupBy {
-    it.startTime.toString() + it.duration.toString()
-  }.mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-    )
-  }.toPersistentMap()
 }
