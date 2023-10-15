@@ -141,7 +141,7 @@ class SearchSessionUiPresenter(
   ) { tracks, rooms, eventList ->
     selectedSearchFilers = searchFilters
     val filters = searchFilters
-    val filteredSearch = eventsFiltered(
+    val filteredSearch = filterEvents(
       eventList,
       SearchFilters(
         days,
@@ -169,7 +169,7 @@ class SearchSessionUiPresenter(
     }
   }
 
-  private fun eventsFiltered(
+  private fun filterEvents(
     events: List<Event>,
     filters: SearchFilters,
   ): PersistentMap<String, List<Event>> {
@@ -257,7 +257,5 @@ class SearchSessionUiPresenter(
     )
   }
 
-  private fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(
-    searchFilters,
-  )
+  private fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
 }
