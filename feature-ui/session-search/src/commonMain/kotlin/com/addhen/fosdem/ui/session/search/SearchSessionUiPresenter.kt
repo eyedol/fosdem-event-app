@@ -222,14 +222,17 @@ class SearchSessionUiPresenter(
       filterDayUiState = SearchFilterUiState(
         selectedItems = searchFilters.days.toImmutableList(),
         items = days.toImmutableList(),
+        selectedValues = searchFilters.days.joinToString { it.title }
       ),
       filterTrackUiState = SearchFilterUiState(
         selectedItems = searchFilters.tracks.toImmutableList(),
         items = tracks,
+        selectedValues = searchFilters.tracks.joinToString { it.name }
       ),
       filterRoomUiState = SearchFilterUiState(
-        selectedItems = emptyList<FilterRoom>().toImmutableList(),
+        selectedItems = searchFilters.rooms.toImmutableList(),
         items = rooms.toImmutableList(),
+        selectedValues = searchFilters.rooms.joinToString { it.name }
       ),
     )
   }
@@ -245,14 +248,17 @@ class SearchSessionUiPresenter(
       filterDayUiState = SearchFilterUiState(
         selectedItems = searchFilters.days.toImmutableList(),
         items = days.toImmutableList(),
+        selectedValues = searchFilters.days.joinToString { it.title }
       ),
       filterTrackUiState = SearchFilterUiState(
         selectedItems = searchFilters.tracks.toImmutableList(),
         items = tracks,
+        selectedValues = searchFilters.tracks.joinToString { it.name }
       ),
       filterRoomUiState = SearchFilterUiState(
         selectedItems = searchFilters.rooms.toImmutableList(),
         items = rooms,
+        selectedValues = searchFilters.rooms.joinToString { it.name }
       ),
     )
   }
