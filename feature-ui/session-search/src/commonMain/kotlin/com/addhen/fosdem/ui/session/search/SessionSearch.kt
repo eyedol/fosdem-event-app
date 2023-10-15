@@ -70,9 +70,9 @@ private fun SessionSearchScreen(
   onBackPressClick: () -> Unit,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
-  onDaySelected: (DayTab, Boolean) -> Unit = { _, _ -> },
-  onSessionTrackSelected: (FilterTrack, Boolean) -> Unit = { _, _ -> },
-  onSessionRoomSelected: (FilterRoom, Boolean) -> Unit = { _, _ -> },
+  onDaySelected: (DayTab, Boolean) -> Unit,
+  onSessionTrackSelected: (FilterTrack, Boolean) -> Unit,
+  onSessionRoomSelected: (FilterRoom, Boolean) -> Unit,
   modifier: Modifier,
 ) {
   val scrollState = rememberLazyListState()

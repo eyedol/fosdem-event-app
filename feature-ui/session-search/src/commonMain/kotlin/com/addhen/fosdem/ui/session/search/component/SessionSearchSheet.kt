@@ -46,7 +46,7 @@ sealed interface SearchUiState {
 
   ) : SearchUiState
   data class Loading(
-    override val query: SearchQuery = SearchQuery(""),
+    override val query: SearchQuery = SearchQuery("hey"),
     override val filterDayUiState: SearchFilterUiState<DayTab> = SearchFilterUiState(),
     override val filterTrackUiState: SearchFilterUiState<FilterTrack> = SearchFilterUiState(),
     override val filterRoomUiState: SearchFilterUiState<FilterRoom> = SearchFilterUiState(),
@@ -95,11 +95,15 @@ fun SessionSearchSheet(
 
     when (uiState) {
       is Loading -> {
-        val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
-        EmptySessionItems(
-          message = message,
-          graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
-          modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
+        SessionShimmerList(
+          modifier = Modifier
+            .weight(1f)
+            .fillMaxSize(),
+          contentPadding = PaddingValues(
+            bottom = contentPadding.calculateBottomPadding(),
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            end = contentPadding.calculateEndPadding(layoutDirection),
+          ),
         )
       }
 
@@ -115,15 +119,11 @@ fun SessionSearchSheet(
       )
 
       is SearchUiState.Empty -> {
-        SessionShimmerList(
-          modifier = Modifier
-            .weight(1f)
-            .fillMaxSize(),
-          contentPadding = PaddingValues(
-            bottom = contentPadding.calculateBottomPadding(),
-            start = contentPadding.calculateStartPadding(layoutDirection),
-            end = contentPadding.calculateEndPadding(layoutDirection),
-          ),
+        val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
+        EmptySessionItems(
+          message = message,
+          graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
+          modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
         )
       }
     }
