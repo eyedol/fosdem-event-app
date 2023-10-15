@@ -46,7 +46,7 @@ sealed interface SearchUiState {
 
   ) : SearchUiState
   data class Loading(
-    override val query: SearchQuery = SearchQuery("hey"),
+    override val query: SearchQuery = SearchQuery(""),
     override val filterDayUiState: SearchFilterUiState<DayTab> = SearchFilterUiState(),
     override val filterTrackUiState: SearchFilterUiState<FilterTrack> = SearchFilterUiState(),
     override val filterRoomUiState: SearchFilterUiState<FilterRoom> = SearchFilterUiState(),

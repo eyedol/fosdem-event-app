@@ -22,7 +22,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -81,10 +84,14 @@ private fun SearchTextField(
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
   val appStrings = LocalStrings.current
+  var query by remember { mutableStateOf(searchQuery) }
 
   BasicTextField(
-    value = searchQuery,
-    onValueChange = onSearchQueryChanged,
+    value = query,
+    onValueChange = { value ->
+      query = value
+      onSearchQueryChanged(value)
+    },
     modifier = modifier
       .fillMaxWidth(1.0f)
       .focusRequester(focusRequester),
@@ -115,7 +122,10 @@ private fun SearchTextField(
           if (searchQuery.isNotEmpty()) {
             Box(modifier = Modifier.offset(x = (-4).dp)) {
               IconButton(
-                onClick = { onSearchQueryChanged("") },
+                onClick = {
+                  query = ""
+                  onSearchQueryChanged("")
+                },
               ) {
                 Icon(
                   imageVector = Icons.Default.Clear,
