@@ -7,6 +7,11 @@ import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
 import com.addhen.fosdem.model.api.Event
+import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.model.api.day1Event2
+import com.addhen.fosdem.model.api.day2Event1
+import com.addhen.fosdem.model.api.day2Event2
+import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
@@ -70,7 +75,8 @@ class SearchSessionUiPresenter(
         //  listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
         // )
         // val localResult = results
-        results.data
+        listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+        // results.data
       }
     }
   }
@@ -141,17 +147,17 @@ class SearchSessionUiPresenter(
   ) { tracks, rooms, eventList ->
     selectedSearchFilers = searchFilters
     val filters = searchFilters
-    val filteredSearch = filterEvents(
+    val filteredSessions = filterEvents(
       eventList,
       SearchFilters(
-        days,
+        filters.days,
         filters.tracks,
         filters.rooms,
         searchQuery = filters.searchQuery,
       ),
     )
 
-    if (filteredSearch.isEmpty()) {
+    if (filteredSessions.isEmpty()) {
       searchUiStateEmptySearch(
         filters,
         days,
@@ -161,7 +167,7 @@ class SearchSessionUiPresenter(
     } else {
       searchUiStateListSearch(
         filters,
-        eventList.sortAndGroupedEventsItems().toPersistentMap(),
+        filteredSessions,
         days,
         rooms.toImmutableList(),
         tracks.toImmutableList(),
@@ -175,32 +181,32 @@ class SearchSessionUiPresenter(
   ): PersistentMap<String, List<Event>> {
     var sessionItems = events
     if (filters.days.isNotEmpty()) {
-      sessionItems = sessionItems.filter { timetableItem ->
-        filters.days.contains(timetableItem.day.toDayTab())
+      sessionItems = sessionItems.filter { sessionItem ->
+        filters.days.contains(sessionItem.day.toDayTab())
       }
     }
     if (filters.tracks.isNotEmpty()) {
-      sessionItems = sessionItems.filter { timetableItem ->
-        filters.tracks.contains(timetableItem.track.toFilterTrack())
+      sessionItems = sessionItems.filter { sessionItem ->
+        filters.tracks.contains(sessionItem.track.toFilterTrack())
       }
     }
     if (filters.rooms.isNotEmpty()) {
-      sessionItems = sessionItems.filter { timetableItem ->
-        filters.rooms.contains(timetableItem.room.toFilterRoom())
+      sessionItems = sessionItems.filter { sessionItem ->
+        filters.rooms.contains(sessionItem.room.toFilterRoom())
       }
     }
 
     if (filters.searchQuery.isNotBlank()) {
-      sessionItems = sessionItems.filter { timetableItem ->
-        timetableItem.title.contains(
+      sessionItems = sessionItems.filter { sessionItem ->
+        sessionItem.title.contains(
           filters.searchQuery,
           ignoreCase = true,
         ) ||
-          timetableItem.abstractText.contains(
+          sessionItem.abstractText.contains(
             filters.searchQuery,
             ignoreCase = true,
           ) ||
-          timetableItem.description.contains(
+          sessionItem.description.contains(
             filters.searchQuery,
             ignoreCase = true,
           )
@@ -222,17 +228,17 @@ class SearchSessionUiPresenter(
       filterDayUiState = SearchFilterUiState(
         selectedItems = searchFilters.days.toImmutableList(),
         items = days.toImmutableList(),
-        selectedValues = searchFilters.days.joinToString { it.title }
+        selectedValues = searchFilters.days.joinToString { it.title },
       ),
       filterTrackUiState = SearchFilterUiState(
         selectedItems = searchFilters.tracks.toImmutableList(),
         items = tracks,
-        selectedValues = searchFilters.tracks.joinToString { it.name }
+        selectedValues = searchFilters.tracks.joinToString { it.name },
       ),
       filterRoomUiState = SearchFilterUiState(
         selectedItems = searchFilters.rooms.toImmutableList(),
         items = rooms.toImmutableList(),
-        selectedValues = searchFilters.rooms.joinToString { it.name }
+        selectedValues = searchFilters.rooms.joinToString { it.name },
       ),
     )
   }
@@ -248,17 +254,17 @@ class SearchSessionUiPresenter(
       filterDayUiState = SearchFilterUiState(
         selectedItems = searchFilters.days.toImmutableList(),
         items = days.toImmutableList(),
-        selectedValues = searchFilters.days.joinToString { it.title }
+        selectedValues = searchFilters.days.joinToString { it.title },
       ),
       filterTrackUiState = SearchFilterUiState(
         selectedItems = searchFilters.tracks.toImmutableList(),
         items = tracks,
-        selectedValues = searchFilters.tracks.joinToString { it.name }
+        selectedValues = searchFilters.tracks.joinToString { it.name },
       ),
       filterRoomUiState = SearchFilterUiState(
         selectedItems = searchFilters.rooms.toImmutableList(),
         items = rooms,
-        selectedValues = searchFilters.rooms.joinToString { it.name }
+        selectedValues = searchFilters.rooms.joinToString { it.name },
       ),
     )
   }
