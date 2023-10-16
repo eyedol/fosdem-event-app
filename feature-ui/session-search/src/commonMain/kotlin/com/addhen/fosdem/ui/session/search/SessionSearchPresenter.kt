@@ -8,18 +8,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.retained.collectAsRetainedState
-import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -54,8 +55,15 @@ class SessionSearchPresenter(
   override fun present(): SessionSearchUiState {
     val scope = rememberCoroutineScope()
 
-    var query by rememberRetained { mutableStateOf("") }
+    var query by rememberSaveable { mutableStateOf("") }
+
+    var selectedFilters by rememberSaveable(stateSaver = SearchFilters.Saver) {
+      mutableStateOf(searchUiPresenter.selectedSearchFilers)
+    }
     val searchUiState by searchUiPresenter.observeSearchFiltersAction
+      .onStart {
+        searchUiPresenter.selectedSearchFilers = selectedFilters
+      }
       .collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {

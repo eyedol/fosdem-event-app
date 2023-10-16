@@ -4,18 +4,45 @@
 package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
 import com.addhen.fosdem.model.api.Room
 import com.addhen.fosdem.model.api.Track
 
 @Immutable
-data class FilterRoom(val id: Long, val name: String)
+data class FilterRoom(val id: Long, val name: String) {
+
+  companion object {
+    val Saver: Saver<FilterRoom, *> = listSaver(
+      save = { listOf(it.id.toString(), it.name) },
+      restore = {
+        FilterRoom(
+          id = it.first().toLong(),
+          name = it.last().toString(),
+        )
+      },
+    )
+  }
+}
 
 @Immutable
-data class FilterTrack(val name: String)
+data class FilterTrack(val name: String, val type: String) {
+  companion object {
+    val Saver: Saver<FilterTrack, *> = listSaver(
+      save = { listOf(it.name, it.type) },
+      restore = {
+        FilterTrack(
+          name = it.first().toString(),
+          type = it.last().toString(),
+        )
+      },
+    )
+  }
+}
 
 fun Room.toFilterRoom() = FilterRoom(
   id,
   name,
 )
 
-fun Track.toFilterTrack() = FilterTrack(name)
+fun Track.toFilterTrack() = FilterTrack(name, type)

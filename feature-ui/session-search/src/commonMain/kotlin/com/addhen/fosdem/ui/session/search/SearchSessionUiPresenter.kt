@@ -81,7 +81,7 @@ class SearchSessionUiPresenter(
     }
   }
 
-  private var selectedSearchFilers = SearchFilters()
+  var selectedSearchFilers = SearchFilters()
   private val searchFilters = MutableSharedFlow<SearchFilters>(
     replay = 1,
     extraBufferCapacity = 1,
@@ -103,7 +103,7 @@ class SearchSessionUiPresenter(
       selectedSearchFilers.copy(
         days = selectedDays.apply {
           if (isSelected) add(dayTab) else remove(dayTab)
-        },
+        }.toImmutableList(),
       ),
     )
   }
@@ -117,7 +117,7 @@ class SearchSessionUiPresenter(
       selectedSearchFilers.copy(
         tracks = selectedTracks.apply {
           if (isSelected) add(filterTrack) else remove(filterTrack)
-        },
+        }.toImmutableList(),
       ),
     )
   }
@@ -128,7 +128,7 @@ class SearchSessionUiPresenter(
       selectedSearchFilers.copy(
         rooms = selectedRooms.apply {
           if (isSelected) add(filterRoom) else remove(filterRoom)
-        },
+        }.toImmutableList(),
       ),
     )
   }
