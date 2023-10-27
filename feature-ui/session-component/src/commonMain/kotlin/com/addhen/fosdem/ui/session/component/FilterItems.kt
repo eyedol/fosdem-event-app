@@ -12,7 +12,7 @@ import com.addhen.fosdem.model.api.Track
 @Immutable
 data class FilterRoom(val id: Long, val name: String) {
 
-  companion object {
+  /*companion object {
     val Saver: Saver<FilterRoom, *> = listSaver(
       save = { listOf(it.id.toString(), it.name) },
       restore = {
@@ -22,7 +22,7 @@ data class FilterRoom(val id: Long, val name: String) {
         )
       },
     )
-  }
+  }*/
 }
 
 @Immutable

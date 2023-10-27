@@ -23,6 +23,7 @@ import com.addhen.fosdem.ui.session.component.toFilterRoom
 import com.addhen.fosdem.ui.session.component.toFilterTrack
 import com.addhen.fosdem.ui.session.search.component.SearchFilterUiState
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
+import com.slack.circuit.runtime.presenter.Presenter
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
@@ -37,18 +38,16 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import me.tatarka.inject.annotations.Inject
 
 /**
  * This class encapsulates the setup of [SearchUiState] and its related
  * search or filter UI interactions.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-@Inject
-class SearchSessionUiPresenter(
+abstract class SearchSessionUiPresenter(
   eventsRepository: EventsRepository,
   roomsRepository: RoomsRepository,
-) {
+) : Presenter<SessionSearchUiState> {
 
   private val filterTracks = eventsRepository.getTracks().map { results ->
     when (results) {
@@ -94,48 +93,47 @@ class SearchSessionUiPresenter(
     .flatMapLatest { obverseSearchUiState(dayTabs, it) }
     .distinctUntilChanged()
 
-  fun onDaySelected(
+  protected fun onDaySelected(
     dayTab: DayTab,
     isSelected: Boolean,
   ) {
     val selectedDays = selectedSearchFilers.days.toMutableList()
-    tryEmit(
-      selectedSearchFilers.copy(
-        days = selectedDays.apply {
-          if (isSelected) add(dayTab) else remove(dayTab)
-        }.toImmutableList(),
-      ),
+    selectedSearchFilers = selectedSearchFilers.copy(
+      days = selectedDays.apply {
+        if (isSelected) add(dayTab) else remove(dayTab)
+      }.toImmutableList(),
     )
+    tryEmit(selectedSearchFilers)
   }
 
-  fun onTrackSelected(
+  protected fun onTrackSelected(
     filterTrack: FilterTrack,
     isSelected: Boolean,
   ) {
     val selectedTracks = selectedSearchFilers.tracks.toMutableList()
-    tryEmit(
-      selectedSearchFilers.copy(
-        tracks = selectedTracks.apply {
-          if (isSelected) add(filterTrack) else remove(filterTrack)
-        }.toImmutableList(),
-      ),
+    selectedSearchFilers = selectedSearchFilers.copy(
+      tracks = selectedTracks.apply {
+        if (isSelected) add(filterTrack) else remove(filterTrack)
+      }.toImmutableList(),
     )
+    tryEmit(selectedSearchFilers)
   }
 
-  fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
+  protected fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
     val selectedRooms = selectedSearchFilers.rooms.toMutableList()
-    tryEmit(
-      selectedSearchFilers.copy(
-        rooms = selectedRooms.apply {
-          if (isSelected) add(filterRoom) else remove(filterRoom)
-        }.toImmutableList(),
-      ),
+    selectedSearchFilers = selectedSearchFilers.copy(
+      rooms = selectedRooms.apply {
+        if (isSelected) add(filterRoom) else remove(filterRoom)
+      }.toImmutableList(),
     )
+    tryEmit(selectedSearchFilers)
   }
 
-  fun onQueryChanged(query: String) = tryEmit(
-    selectedSearchFilers.copy(searchQuery = query),
-  )
+  protected fun onQueryChanged(query: String) {
+    selectedSearchFilers = selectedSearchFilers.copy(searchQuery = query)
+  }
+
+  private fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
 
   private fun obverseSearchUiState(
     days: PersistentList<DayTab>,
@@ -268,6 +266,4 @@ class SearchSessionUiPresenter(
       ),
     )
   }
-
-  private fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
 }

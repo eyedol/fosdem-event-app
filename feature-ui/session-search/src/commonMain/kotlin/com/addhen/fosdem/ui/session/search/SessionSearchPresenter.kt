@@ -13,18 +13,16 @@ import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
+import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @Inject
 class SessionSearchUiPresenterFactory(
@@ -48,28 +46,21 @@ class SessionSearchUiPresenterFactory(
 @Inject
 class SessionSearchPresenter(
   @Assisted private val navigator: Navigator,
+  roomsRepository: RoomsRepository,
   private val eventsRepository: EventsRepository,
-  private val searchUiPresenter: SearchSessionUiPresenter,
-) : Presenter<SessionSearchUiState> {
+) : SearchSessionUiPresenter(eventsRepository, roomsRepository) {
+
   @Composable
   override fun present(): SessionSearchUiState {
     val scope = rememberCoroutineScope()
 
     var query by rememberSaveable { mutableStateOf("") }
 
-    var selectedFilters by rememberSaveable(stateSaver = SearchFilters.Saver) {
-      mutableStateOf(searchUiPresenter.selectedSearchFilers)
-    }
-    val searchUiState by searchUiPresenter.observeSearchFiltersAction
-      .onStart {
-        searchUiPresenter.selectedSearchFilers = selectedFilters
-      }
+    val searchUiState by observeSearchFiltersAction
       .collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {
-      // Debounce effect
-      delay(300.milliseconds)
-      searchUiPresenter.onQueryChanged(query)
+      onQueryChanged(query)
     }
 
     fun eventSink(event: SessionSearchUiEvent) {
@@ -79,15 +70,15 @@ class SessionSearchPresenter(
         }
 
         is SessionSearchUiEvent.FilterDay -> {
-          searchUiPresenter.onDaySelected(event.dayTab, event.isSelected)
+          onDaySelected(event.dayTab, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionRoom -> {
-          searchUiPresenter.onRoomSelected(event.room, event.isSelected)
+          onRoomSelected(event.room, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionTrack -> {
-          searchUiPresenter.onTrackSelected(event.track, event.isSelected)
+          onTrackSelected(event.track, event.isSelected)
         }
 
         is SessionSearchUiEvent.ToggleSessionBookmark -> {

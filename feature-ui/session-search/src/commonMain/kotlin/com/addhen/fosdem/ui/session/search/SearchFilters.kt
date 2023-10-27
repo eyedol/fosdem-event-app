@@ -23,8 +23,8 @@ data class SearchFilters(
       save = {
         listOf(it.days.toList(), it.searchQuery, it.rooms.toList(), it.tracks.toList())
       },
-      restore = {
 
+      restore = {
         @Suppress("UNCHECKED_CAST")
         SearchFilters(
           days = (it[0] as List<DayTab>).toImmutableList(),
