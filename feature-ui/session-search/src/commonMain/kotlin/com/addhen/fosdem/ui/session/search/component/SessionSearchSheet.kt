@@ -43,7 +43,6 @@ sealed interface SearchUiState {
     override val filterDayUiState: SearchFilterUiState<DayTab>,
     override val filterTrackUiState: SearchFilterUiState<FilterTrack>,
     override val filterRoomUiState: SearchFilterUiState<FilterRoom>,
-
   ) : SearchUiState
   data class Loading(
     override val query: SearchQuery = SearchQuery(""),

@@ -37,7 +37,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 
 /**
  * This class encapsulates the setup of [SearchUiState] and its related
@@ -80,7 +79,6 @@ abstract class SearchSessionUiPresenter(
     }
   }
 
-  var selectedSearchFilers = SearchFilters()
   private val searchFilters = MutableSharedFlow<SearchFilters>(
     replay = 1,
     extraBufferCapacity = 1,
@@ -88,53 +86,54 @@ abstract class SearchSessionUiPresenter(
   )
 
   val observeSearchFiltersAction: Flow<SearchUiState> = searchFilters
-    .onStart { emit(selectedSearchFilers) }
     .distinctUntilChanged()
     .flatMapLatest { obverseSearchUiState(dayTabs, it) }
     .distinctUntilChanged()
 
   protected fun onDaySelected(
+    searchFilters: SearchFilters,
     dayTab: DayTab,
     isSelected: Boolean,
-  ) {
-    val selectedDays = selectedSearchFilers.days.toMutableList()
-    selectedSearchFilers = selectedSearchFilers.copy(
+  ): SearchFilters {
+    val selectedDays = searchFilters.days.toMutableList()
+    return searchFilters.copy(
       days = selectedDays.apply {
         if (isSelected) add(dayTab) else remove(dayTab)
       }.toImmutableList(),
     )
-    tryEmit()
   }
 
   protected fun onTrackSelected(
+    searchFilters: SearchFilters,
     filterTrack: FilterTrack,
     isSelected: Boolean,
-  ) {
-    val selectedTracks = selectedSearchFilers.tracks.toMutableList()
-    selectedSearchFilers = selectedSearchFilers.copy(
+  ): SearchFilters {
+    val selectedTracks = searchFilters.tracks.toMutableList()
+    return searchFilters.copy(
       tracks = selectedTracks.apply {
         if (isSelected) add(filterTrack) else remove(filterTrack)
       }.toImmutableList(),
     )
-    tryEmit()
   }
 
-  protected fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
-    val selectedRooms = selectedSearchFilers.rooms.toMutableList()
-    selectedSearchFilers = selectedSearchFilers.copy(
+  protected fun onRoomSelected(
+    searchFilters: SearchFilters,
+    filterRoom: FilterRoom,
+    isSelected: Boolean,
+  ): SearchFilters {
+    val selectedRooms = searchFilters.rooms.toMutableList()
+    return searchFilters.copy(
       rooms = selectedRooms.apply {
         if (isSelected) add(filterRoom) else remove(filterRoom)
       }.toImmutableList(),
     )
-    tryEmit()
   }
 
-  protected fun onQueryChanged(query: String) {
-    selectedSearchFilers = selectedSearchFilers.copy(searchQuery = query)
-    tryEmit()
+  protected fun onQueryChanged(searchFilters: SearchFilters, query: String): SearchFilters {
+    return searchFilters.copy(searchQuery = query)
   }
 
-  private fun tryEmit(searchFilters: SearchFilters = selectedSearchFilers) = this.searchFilters.tryEmit(searchFilters)
+  protected fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
 
   private fun obverseSearchUiState(
     days: PersistentList<DayTab>,
@@ -144,7 +143,6 @@ abstract class SearchSessionUiPresenter(
     filterRooms,
     events,
   ) { tracks, rooms, eventList ->
-    selectedSearchFilers = searchFilters
     val filters = searchFilters
     val filteredSessions = filterEvents(
       eventList,

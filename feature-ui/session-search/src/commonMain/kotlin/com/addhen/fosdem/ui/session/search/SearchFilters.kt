@@ -17,9 +17,10 @@ data class SearchFilters(
   val rooms: ImmutableList<FilterRoom> = listOf<FilterRoom>().toImmutableList(),
   val searchQuery: String = "",
 ) {
+
   companion object {
 
-    val Saver: Saver<SearchFilters, Any> = listSaver(
+    val Saver: Saver<SearchFilters, *> = listSaver(
       save = {
         listOf(it.days.toList(), it.searchQuery, it.rooms.toList(), it.tracks.toList())
       },

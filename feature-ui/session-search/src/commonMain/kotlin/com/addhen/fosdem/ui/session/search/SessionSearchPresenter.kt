@@ -56,13 +56,19 @@ class SessionSearchPresenter(
 
     var query by rememberSaveable { mutableStateOf("") }
 
-
+    var selectedFilters by rememberSaveable(stateSaver = SearchFilters.Saver) {
+      mutableStateOf(SearchFilters())
+    }
 
     val searchUiState by observeSearchFiltersAction
       .collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {
-      onQueryChanged(query)
+      selectedFilters = onQueryChanged(selectedFilters, query)
+    }
+
+    LaunchedEffect(selectedFilters) {
+      tryEmit(selectedFilters)
     }
 
     fun eventSink(event: SessionSearchUiEvent) {
@@ -72,15 +78,15 @@ class SessionSearchPresenter(
         }
 
         is SessionSearchUiEvent.FilterDay -> {
-          onDaySelected(event.dayTab, event.isSelected)
+          selectedFilters = onDaySelected(selectedFilters, event.dayTab, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionRoom -> {
-          onRoomSelected(event.room, event.isSelected)
+          selectedFilters = onRoomSelected(selectedFilters, event.room, event.isSelected)
         }
 
         is SessionSearchUiEvent.FilterSessionTrack -> {
-          onTrackSelected(event.track, event.isSelected)
+          selectedFilters = onTrackSelected(selectedFilters, event.track, event.isSelected)
         }
 
         is SessionSearchUiEvent.ToggleSessionBookmark -> {

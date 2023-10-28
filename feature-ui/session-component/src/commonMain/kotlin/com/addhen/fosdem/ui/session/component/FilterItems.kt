@@ -12,8 +12,8 @@ import com.addhen.fosdem.model.api.Track
 @Immutable
 data class FilterRoom(val id: Long, val name: String) {
 
-  /*companion object {
-    val Saver: Saver<FilterRoom, *> = listSaver(
+  companion object {
+    val Saver: Saver<FilterRoom, Any> = listSaver(
       save = { listOf(it.id.toString(), it.name) },
       restore = {
         FilterRoom(
@@ -22,13 +22,13 @@ data class FilterRoom(val id: Long, val name: String) {
         )
       },
     )
-  }*/
+  }
 }
 
 @Immutable
 data class FilterTrack(val name: String, val type: String) {
   companion object {
-    val Saver: Saver<FilterTrack, *> = listSaver(
+    val Saver: Saver<FilterTrack, Any> = listSaver(
       save = { listOf(it.name, it.type) },
       restore = {
         FilterTrack(

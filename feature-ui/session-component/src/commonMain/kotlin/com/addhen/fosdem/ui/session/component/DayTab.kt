@@ -23,7 +23,7 @@ data class DayTab(val id: Long, val date: LocalDate) {
   companion object {
     private val tzBrussels = TimeZone.of("Europe/Brussels")
 
-    val Saver: Saver<DayTab, *> = listSaver(
+    val Saver: Saver<DayTab, Any> = listSaver(
       save = { listOf(it.id.toString(), it.date.toString()) },
       restore = {
         DayTab(
