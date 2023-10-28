@@ -103,7 +103,7 @@ abstract class SearchSessionUiPresenter(
         if (isSelected) add(dayTab) else remove(dayTab)
       }.toImmutableList(),
     )
-    tryEmit(selectedSearchFilers)
+    tryEmit()
   }
 
   protected fun onTrackSelected(
@@ -116,7 +116,7 @@ abstract class SearchSessionUiPresenter(
         if (isSelected) add(filterTrack) else remove(filterTrack)
       }.toImmutableList(),
     )
-    tryEmit(selectedSearchFilers)
+    tryEmit()
   }
 
   protected fun onRoomSelected(filterRoom: FilterRoom, isSelected: Boolean) {
@@ -126,14 +126,15 @@ abstract class SearchSessionUiPresenter(
         if (isSelected) add(filterRoom) else remove(filterRoom)
       }.toImmutableList(),
     )
-    tryEmit(selectedSearchFilers)
+    tryEmit()
   }
 
   protected fun onQueryChanged(query: String) {
     selectedSearchFilers = selectedSearchFilers.copy(searchQuery = query)
+    tryEmit()
   }
 
-  private fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
+  private fun tryEmit(searchFilters: SearchFilters = selectedSearchFilers) = this.searchFilters.tryEmit(searchFilters)
 
   private fun obverseSearchUiState(
     days: PersistentList<DayTab>,

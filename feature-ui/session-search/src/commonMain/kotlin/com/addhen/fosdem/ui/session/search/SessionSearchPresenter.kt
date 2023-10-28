@@ -56,6 +56,8 @@ class SessionSearchPresenter(
 
     var query by rememberSaveable { mutableStateOf("") }
 
+
+
     val searchUiState by observeSearchFiltersAction
       .collectAsRetainedState(SearchUiState.Loading())
 
