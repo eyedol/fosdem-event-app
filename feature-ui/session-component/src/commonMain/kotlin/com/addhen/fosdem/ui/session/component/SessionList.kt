@@ -59,6 +59,7 @@ fun SessionList(
   onBookmarkClick: (Long, Boolean) -> Unit,
   onSessionItemClick: (Long) -> Unit,
   highlightQuery: SearchQuery = SearchQuery.Empty,
+  shouldShowDayTitle: Boolean = false,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {
@@ -167,6 +168,12 @@ fun SessionList(
                   label = sessionItem.room.name,
                   borderColor = MaterialTheme.colorScheme.outline,
                 )
+                if(shouldShowDayTitle) {
+                  SessionTag(
+                    label = sessionItem.day.toDayTab().title,
+                    borderColor = MaterialTheme.colorScheme.outline,
+                  )
+                }
               },
             )
           }

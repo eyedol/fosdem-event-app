@@ -28,6 +28,7 @@ fun SearchList(
   onBookmarkIconClick,
   onSessionItemClick,
   highlightQuery = searchQuery,
+  shouldShowDayTitle = true,
   contentPadding,
   modifier,
 )
