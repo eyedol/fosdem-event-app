@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,6 +34,8 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.Empty
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.ListBookmark
+import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.Loading
+import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentMap
 
 sealed interface SessionBookmarkSheetUiState {
@@ -40,6 +44,12 @@ sealed interface SessionBookmarkSheetUiState {
   val isDaySecondSelected: Boolean
 
   data class Empty(
+    override val isAllSelected: Boolean,
+    override val isDayFirstSelected: Boolean,
+    override val isDaySecondSelected: Boolean,
+  ) : SessionBookmarkSheetUiState
+
+  data class Loading(
     override val isAllSelected: Boolean,
     override val isDayFirstSelected: Boolean,
     override val isDaySecondSelected: Boolean,
@@ -90,6 +100,19 @@ fun SessionBookmarkSheet(
     when (uiState) {
       is Empty -> {
         EmptyView(modifier = Modifier.padding(padding))
+      }
+
+      is Loading -> {
+        SessionShimmerList(
+          modifier = Modifier
+            .weight(1f)
+            .fillMaxSize(),
+          contentPadding = PaddingValues(
+            bottom = contentPadding.calculateBottomPadding(),
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            end = contentPadding.calculateEndPadding(layoutDirection),
+          ),
+        )
       }
 
       is ListBookmark -> {
