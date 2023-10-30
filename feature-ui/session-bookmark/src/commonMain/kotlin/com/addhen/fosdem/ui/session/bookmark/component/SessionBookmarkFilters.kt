@@ -24,6 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.ui.session.component.dayTab1
+import com.addhen.fosdem.ui.session.component.dayTab2
 
 const val BookmarkFilterChipDay1TestTag = "BookmarkFilterChipDay1TestTag"
 const val BookmarkFilterChipDay2TestTag = "BookmarkFilterChipDay2TestTag"
@@ -36,21 +38,20 @@ fun BookmarkFilters(
   onDaySecondChipClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val appString = LocalStrings.current
   Row(
     modifier
       .horizontalScroll(rememberScrollState())
       .padding(horizontal = 16.dp),
   ) {
     BookmarkFilterChip(
-      labelText = "${appString.dayTitle} 1",
+      labelText = dayTab1.title,
       isSelected = isDayFirst,
       onClick = onDayFirstChipClick,
       modifier = Modifier.testTag(BookmarkFilterChipDay1TestTag),
     )
     Spacer(modifier = Modifier.size(8.dp))
     BookmarkFilterChip(
-      labelText = "${appString.dayTitle} 2",
+      labelText = dayTab2.title,
       isSelected = isDaySecond,
       onClick = onDaySecondChipClick,
       modifier = Modifier.testTag(BookmarkFilterChipDay2TestTag),
