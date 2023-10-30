@@ -302,10 +302,10 @@ fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = tzBrussels): LocalTime
     ).toLocalDateTime(zone).time
 }
 
-fun List<Event>.sortAndGroupedEventsItems() = sortedBy { it.startTime }
-  .groupBy { it.startTime.toString() + it.duration.toString() }
-  .mapValues { entries ->
-    entries.value.sortedWith(
-      compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
-    )
-  }
+fun List<Event>.sortAndGroupedEventsItems() =
+  groupBy { it.startTime.toString() + it.duration.toString() }
+    .mapValues { entries ->
+      entries.value.sortedWith(
+        compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+      )
+    }

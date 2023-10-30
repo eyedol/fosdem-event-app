@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.ui.session.component.dayTab1
 import com.addhen.fosdem.ui.session.component.dayTab2
 
