@@ -14,6 +14,7 @@ import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
+import com.addhen.fosdem.ui.session.common.SessionFilters
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
@@ -56,8 +57,8 @@ class SessionSearchPresenter(
 
     var query by rememberSaveable { mutableStateOf("") }
 
-    var selectedFilters by rememberSaveable(stateSaver = SearchFilters.Saver) {
-      mutableStateOf(SearchFilters())
+    var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
+      mutableStateOf(SessionFilters())
     }
 
     val searchUiState by observeSearchFiltersAction

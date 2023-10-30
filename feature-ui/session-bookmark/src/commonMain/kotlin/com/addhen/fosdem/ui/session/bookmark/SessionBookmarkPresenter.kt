@@ -4,17 +4,29 @@
 package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
+import com.addhen.fosdem.ui.session.common.SessionFilters
+import com.addhen.fosdem.ui.session.component.dayTab1
+import com.addhen.fosdem.ui.session.component.dayTab2
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.toPersistentMap
+import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -39,10 +51,22 @@ class SessionBookmarkUiPresenterFactory(
 @Inject
 class SessionBookmarkPresenter(
   @Assisted private val navigator: Navigator,
-) : Presenter<SessionBookmarkUiState> {
+  private val eventsRepository: EventsRepository,
+) : BaseBookmarkSessionUiPresenter(eventsRepository) {
   @Composable
   override fun present(): SessionBookmarkUiState {
-    // val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
+
+    var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
+      mutableStateOf(SessionFilters())
+    }
+
+    val bookmarkSheetUiState by observeSessionFiltersAction
+      .collectAsRetainedState(SessionBookmarkSheetUiState.Loading())
+
+    LaunchedEffect(selectedFilters) {
+      tryEmit(selectedFilters)
+    }
 
     fun eventSink(event: SessionBookmarkUiEvent) {
       when (event) {
@@ -50,24 +74,21 @@ class SessionBookmarkPresenter(
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
         SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
-        SessionBookmarkUiEvent.FilterFirstDayBookmarks -> TODO()
-        SessionBookmarkUiEvent.FilterSecondDayBookmarks -> TODO()
-        is SessionBookmarkUiEvent.ToggleSessionBookmark -> TODO()
+        SessionBookmarkUiEvent.FilterFirstDayBookmarks -> {
+          selectedFilters = onDaySelected(selectedFilters, dayTab1)
+        }
+        SessionBookmarkUiEvent.FilterSecondDayBookmarks -> {
+          selectedFilters = onDaySelected(selectedFilters, dayTab2)
+        }
+        is SessionBookmarkUiEvent.ToggleSessionBookmark -> {
+          scope.launch { eventsRepository.toggleBookmark(event.eventId) }
+        }
       }
     }
 
     return SessionBookmarkUiState(
-      content = sessionSheetPreview(),
+      content = bookmarkSheetUiState,
       eventSink = ::eventSink,
-    )
-  }
-
-  private fun sessionSheetPreview(): SessionBookmarkSheetUiState {
-    return SessionBookmarkSheetUiState.ListBookmark(
-      sessionItemMap = listOf(day1Event, day2Event1).sortAndGroupedEventsItems().toPersistentMap(),
-      isAllSelected = true,
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
     )
   }
 }

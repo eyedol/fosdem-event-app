@@ -50,9 +50,9 @@ sealed interface SessionBookmarkSheetUiState {
   ) : SessionBookmarkSheetUiState
 
   data class Loading(
-    override val isAllSelected: Boolean,
-    override val isDayFirstSelected: Boolean,
-    override val isDaySecondSelected: Boolean,
+    override val isAllSelected: Boolean = false,
+    override val isDayFirstSelected: Boolean = false,
+    override val isDaySecondSelected: Boolean = false,
   ) : SessionBookmarkSheetUiState
 
   data class ListBookmark(

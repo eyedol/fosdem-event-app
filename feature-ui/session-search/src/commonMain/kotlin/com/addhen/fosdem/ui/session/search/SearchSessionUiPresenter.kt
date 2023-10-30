@@ -13,6 +13,7 @@ import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
+import com.addhen.fosdem.ui.session.common.SessionFilters
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
@@ -79,7 +80,7 @@ abstract class SearchSessionUiPresenter(
     }
   }
 
-  private val searchFilters = MutableSharedFlow<SearchFilters>(
+  private val searchFilters = MutableSharedFlow<SessionFilters>(
     replay = 1,
     extraBufferCapacity = 1,
     onBufferOverflow = BufferOverflow.DROP_OLDEST,
@@ -91,10 +92,10 @@ abstract class SearchSessionUiPresenter(
     .distinctUntilChanged()
 
   protected fun onDaySelected(
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
     dayTab: DayTab,
     isSelected: Boolean,
-  ): SearchFilters {
+  ): SessionFilters {
     val selectedDays = searchFilters.days.toMutableList()
     return searchFilters.copy(
       days = selectedDays.apply {
@@ -104,10 +105,10 @@ abstract class SearchSessionUiPresenter(
   }
 
   protected fun onTrackSelected(
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
     filterTrack: FilterTrack,
     isSelected: Boolean,
-  ): SearchFilters {
+  ): SessionFilters {
     val selectedTracks = searchFilters.tracks.toMutableList()
     return searchFilters.copy(
       tracks = selectedTracks.apply {
@@ -117,10 +118,10 @@ abstract class SearchSessionUiPresenter(
   }
 
   protected fun onRoomSelected(
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
     filterRoom: FilterRoom,
     isSelected: Boolean,
-  ): SearchFilters {
+  ): SessionFilters {
     val selectedRooms = searchFilters.rooms.toMutableList()
     return searchFilters.copy(
       rooms = selectedRooms.apply {
@@ -129,15 +130,15 @@ abstract class SearchSessionUiPresenter(
     )
   }
 
-  protected fun onQueryChanged(searchFilters: SearchFilters, query: String): SearchFilters {
+  protected fun onQueryChanged(searchFilters: SessionFilters, query: String): SessionFilters {
     return searchFilters.copy(searchQuery = query)
   }
 
-  protected fun tryEmit(searchFilters: SearchFilters) = this.searchFilters.tryEmit(searchFilters)
+  protected fun tryEmit(searchFilters: SessionFilters) = this.searchFilters.tryEmit(searchFilters)
 
   private fun obverseSearchUiState(
     days: PersistentList<DayTab>,
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
   ): Flow<SearchUiState> = combine(
     filterTracks,
     filterRooms,
@@ -146,7 +147,7 @@ abstract class SearchSessionUiPresenter(
     val filters = searchFilters
     val filteredSessions = filterEvents(
       eventList,
-      SearchFilters(
+      SessionFilters(
         filters.days,
         filters.tracks,
         filters.rooms,
@@ -174,7 +175,7 @@ abstract class SearchSessionUiPresenter(
 
   private fun filterEvents(
     events: List<Event>,
-    filters: SearchFilters,
+    filters: SessionFilters,
   ): PersistentMap<String, List<Event>> {
     var sessionItems = events
     if (filters.days.isNotEmpty()) {
@@ -213,7 +214,7 @@ abstract class SearchSessionUiPresenter(
   }
 
   private fun searchUiStateListSearch(
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
     sessionItemMap: PersistentMap<String, List<Event>>,
     days: PersistentList<DayTab>,
     rooms: ImmutableList<FilterRoom>,
@@ -241,7 +242,7 @@ abstract class SearchSessionUiPresenter(
   }
 
   private fun searchUiStateEmptySearch(
-    searchFilters: SearchFilters,
+    searchFilters: SessionFilters,
     days: PersistentList<DayTab>,
     rooms: ImmutableList<FilterRoom>,
     tracks: ImmutableList<FilterTrack>,
