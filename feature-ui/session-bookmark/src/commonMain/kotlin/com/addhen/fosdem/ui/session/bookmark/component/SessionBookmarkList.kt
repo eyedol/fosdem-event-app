@@ -25,6 +25,7 @@ fun BookmarkList(
   scrollState,
   onBookmarkIconClick,
   onSessionItemClick,
+  shouldShowDayTitle = true,
   contentPadding = contentPadding,
   modifier = modifier,
 )
