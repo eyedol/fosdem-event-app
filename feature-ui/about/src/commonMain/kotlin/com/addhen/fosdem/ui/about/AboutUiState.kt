@@ -21,9 +21,13 @@ sealed interface AboutUiEvent : CircuitUiEvent {
 
 sealed class AboutItem {
   data object License : AboutItem()
-  data object PrivacyPolicy : AboutItem()
-  data object X : AboutItem()
-  data object Mastadon : AboutItem()
-  data object Instagram : AboutItem()
-  data object Facebook : AboutItem()
+
+  sealed class AboutUrlItem(open val url: String): AboutItem() {
+    data object PrivacyPolicy : AboutUrlItem("")
+
+    data object X : AboutUrlItem("")
+    data object Mastadon : AboutUrlItem("")
+    data object Instagram : AboutUrlItem("")
+    data object Facebook : AboutUrlItem("")
+  }
 }

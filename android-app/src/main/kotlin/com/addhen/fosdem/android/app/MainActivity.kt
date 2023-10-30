@@ -4,11 +4,13 @@
 package com.addhen.fosdem.android.app
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -57,6 +59,12 @@ class MainActivity : BaseActivity() {
       component.mainContent(
         backstack,
         navigator,
+        { url ->
+          if (url.isNotEmpty()) {
+            val intent = CustomTabsIntent.Builder().build()
+            intent.launchUrl(this@MainActivity, Uri.parse(url))
+          }
+        },
         Modifier,
       )
     }

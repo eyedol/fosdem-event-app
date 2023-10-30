@@ -5,6 +5,7 @@ package com.addhen.fosdem.ui.about
 
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.core.api.screens.AboutScreen
+import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -36,8 +37,31 @@ class AboutPresenter(
   override fun present(): AboutUiState {
     fun eventSink(event: AboutUiEvent) {
       when (event) {
-        is AboutUiEvent.GoToAboutItem -> TODO()
-        is AboutUiEvent.GoToLink -> TODO()
+        is AboutUiEvent.GoToAboutItem -> {
+          when (val aboutItem = event.aboutItem) {
+            is AboutItem.AboutUrlItem.PrivacyPolicy -> {
+              navigator.goTo(UrlScreen(aboutItem.url))
+            }
+            is AboutItem.AboutUrlItem.Facebook -> {
+              navigator.goTo(UrlScreen(aboutItem.url))
+            }
+            is AboutItem.AboutUrlItem.Instagram -> {
+              navigator.goTo(UrlScreen(aboutItem.url))
+            }
+            is AboutItem.License -> {
+              // DO IT
+            }
+            is AboutItem.AboutUrlItem.Mastadon -> {
+              navigator.goTo(UrlScreen(aboutItem.url))
+            }
+            is AboutItem.AboutUrlItem.X -> {
+              navigator.goTo(UrlScreen(aboutItem.url))
+            }
+          }
+        }
+        is AboutUiEvent.GoToLink -> {
+          navigator.goTo(UrlScreen(event.url))
+        }
         AboutUiEvent.GoToSession -> TODO()
       }
     }

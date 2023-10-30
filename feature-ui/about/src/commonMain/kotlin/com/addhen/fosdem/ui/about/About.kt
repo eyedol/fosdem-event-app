@@ -129,7 +129,7 @@ private fun AboutScreen(
             onAboutItemClick(AboutItem.License)
           },
           onPrivacyPolicyItemClick = {
-            onAboutItemClick(AboutItem.PrivacyPolicy)
+            onAboutItemClick(AboutItem.AboutUrlItem.PrivacyPolicy)
           },
           licenseLabel = appStrings.licenseTitle,
           privacyPolicy = appStrings.privacyPolicyTitle,
@@ -138,16 +138,16 @@ private fun AboutScreen(
           AboutFooterLinks(
             versionName = uiState.versionName,
             onMastadonClick = {
-              onAboutItemClick(AboutItem.Mastadon)
+              onAboutItemClick(AboutItem.AboutUrlItem.Mastadon)
             },
             onXClick = {
-              onAboutItemClick(AboutItem.X)
+              onAboutItemClick(AboutItem.AboutUrlItem.X)
             },
             onInstagramClick = {
-              onAboutItemClick(AboutItem.Instagram)
+              onAboutItemClick(AboutItem.AboutUrlItem.Instagram)
             },
             onFacebookClick = {
-              onAboutItemClick(AboutItem.Facebook)
+              onAboutItemClick(AboutItem.AboutUrlItem.Facebook)
             },
           )
         }

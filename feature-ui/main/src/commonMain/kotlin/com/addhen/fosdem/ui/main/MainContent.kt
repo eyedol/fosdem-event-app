@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.ProvideStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
+import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -24,6 +25,7 @@ import me.tatarka.inject.annotations.Inject
 typealias MainContent = @Composable (
   backstack: SaveableBackStack,
   navigator: Navigator,
+  onOpenUrl: (String) -> Unit,
   modifier: Modifier,
 ) -> Unit
 
@@ -33,11 +35,12 @@ typealias MainContent = @Composable (
 fun MainContent(
   @Assisted backstack: SaveableBackStack,
   @Assisted navigator: Navigator,
+  @Assisted onOpenUrl: (String) -> Unit,
   circuitConfig: Circuit,
   @Assisted modifier: Modifier = Modifier,
 ) {
   val appNavigator: Navigator = remember(navigator) {
-    AppNavigator(navigator)
+    AppNavigator(navigator, onOpenUrl)
   }
 
   ProvideStrings {
@@ -62,8 +65,14 @@ fun MainContent(
 
 private class AppNavigator(
   private val navigator: Navigator,
+  private val onOpenUrl: (String) -> Unit,
 ) : Navigator {
-  override fun goTo(screen: Screen) = navigator.goTo(screen)
+  override fun goTo(screen: Screen) {
+    when (screen) {
+      is UrlScreen -> onOpenUrl(screen.url)
+      else -> navigator.goTo(screen)
+    }
+  }
 
   override fun pop(): Screen? = navigator.pop()
 

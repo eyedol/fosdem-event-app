@@ -158,6 +158,7 @@ dependencies {
   implementation(projects.coreApi)
   implementation(libs.androidx.activity.activity)
   implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.browser)
   implementation(libs.circuit.foundation)
   implementation(libs.ktor.client.okhttp)
   implementation(libs.touchlab.kermit)
