@@ -27,12 +27,14 @@ data class SessionFilters(
 
       restore = {
         @Suppress("UNCHECKED_CAST")
-        (SessionFilters(
-        days = (it[0] as List<DayTab>).toImmutableList(),
-        searchQuery = it[1].toString(),
-        rooms = (it[2] as List<FilterRoom>).toImmutableList(),
-        tracks = (it[3] as List<FilterTrack>).toImmutableList(),
-    ))
+        (
+          SessionFilters(
+            days = (it[0] as List<DayTab>).toImmutableList(),
+            searchQuery = it[1].toString(),
+            rooms = (it[2] as List<FilterRoom>).toImmutableList(),
+            tracks = (it[3] as List<FilterTrack>).toImmutableList(),
+          )
+          )
       },
     )
   }

@@ -77,7 +77,8 @@ abstract class BaseBookmarkSessionUiPresenter(
     )
   }
 
-  protected fun tryEmit(sessionFilters: SessionFilters) = this.sessionFilters.tryEmit(sessionFilters)
+  protected fun tryEmit(sessionFilters: SessionFilters) =
+    this.sessionFilters.tryEmit(sessionFilters)
 
   private fun obverseSearchUiState(
     sessionFilters: SessionFilters,
@@ -121,8 +122,8 @@ abstract class BaseBookmarkSessionUiPresenter(
       sessionItemMap,
       isDayFirstSelected = sessionFilters.days.contains(dayTab1),
       isDaySecondSelected = sessionFilters.days.contains(dayTab2),
-      isAllSelected = false
-      )
+      isAllSelected = false,
+    )
   }
 
   private fun sessionBookmarkSheetUiStateEmpty(

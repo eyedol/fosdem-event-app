@@ -13,9 +13,6 @@ import androidx.compose.runtime.setValue
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
-import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day2Event1
-import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.addhen.fosdem.ui.session.common.SessionFilters
 import com.addhen.fosdem.ui.session.component.dayTab1
@@ -25,7 +22,6 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject

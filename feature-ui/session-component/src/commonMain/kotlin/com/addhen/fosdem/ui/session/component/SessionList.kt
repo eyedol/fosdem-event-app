@@ -168,7 +168,7 @@ fun SessionList(
                   label = sessionItem.room.name,
                   borderColor = MaterialTheme.colorScheme.outline,
                 )
-                if(shouldShowDayTitle) {
+                if (shouldShowDayTitle) {
                   SessionTag(
                     label = sessionItem.day.toDayTab().title,
                     borderColor = MaterialTheme.colorScheme.outline,
