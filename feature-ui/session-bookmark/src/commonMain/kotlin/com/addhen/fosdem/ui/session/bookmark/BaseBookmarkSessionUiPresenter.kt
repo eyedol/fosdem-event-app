@@ -122,7 +122,6 @@ abstract class BaseBookmarkSessionUiPresenter(
       sessionItemMap,
       isDayFirstSelected = sessionFilters.days.contains(dayTab1),
       isDaySecondSelected = sessionFilters.days.contains(dayTab2),
-      isAllSelected = false,
     )
   }
 
@@ -130,7 +129,6 @@ abstract class BaseBookmarkSessionUiPresenter(
     sessionFilters: SessionFilters,
   ): SessionBookmarkSheetUiState {
     return SessionBookmarkSheetUiState.Empty(
-      isAllSelected = false,
       isDayFirstSelected = sessionFilters.days.contains(dayTab1),
       isDaySecondSelected = sessionFilters.days.contains(dayTab2),
     )

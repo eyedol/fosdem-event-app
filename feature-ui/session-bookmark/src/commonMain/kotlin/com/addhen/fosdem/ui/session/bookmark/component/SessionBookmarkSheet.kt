@@ -39,25 +39,21 @@ import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentMap
 
 sealed interface SessionBookmarkSheetUiState {
-  val isAllSelected: Boolean
   val isDayFirstSelected: Boolean
   val isDaySecondSelected: Boolean
 
   data class Empty(
-    override val isAllSelected: Boolean,
     override val isDayFirstSelected: Boolean,
     override val isDaySecondSelected: Boolean,
   ) : SessionBookmarkSheetUiState
 
   data class Loading(
-    override val isAllSelected: Boolean = false,
     override val isDayFirstSelected: Boolean = false,
     override val isDaySecondSelected: Boolean = false,
   ) : SessionBookmarkSheetUiState
 
   data class ListBookmark(
     val sessionItemMap: PersistentMap<String, List<Event>>,
-    override val isAllSelected: Boolean,
     override val isDayFirstSelected: Boolean,
     override val isDaySecondSelected: Boolean,
   ) : SessionBookmarkSheetUiState
@@ -69,7 +65,6 @@ fun SessionBookmarkSheet(
   scrollState: LazyListState,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
-  onAllFilterChipClick: () -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
   contentPadding: PaddingValues,
@@ -80,10 +75,8 @@ fun SessionBookmarkSheet(
     modifier = modifier.fillMaxSize(),
   ) {
     BookmarkFilters(
-      isAll = uiState.isAllSelected,
       isDayFirst = uiState.isDayFirstSelected,
       isDaySecond = uiState.isDaySecondSelected,
-      onAllFilterChipClick = onAllFilterChipClick,
       onDayFirstChipClick = onDayFirstChipClick,
       onDaySecondChipClick = onDaySecondChipClick,
       modifier = Modifier.padding(

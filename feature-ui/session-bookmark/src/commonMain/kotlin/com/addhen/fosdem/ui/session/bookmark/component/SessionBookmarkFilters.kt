@@ -25,16 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 
-const val BookmarkFilterChipAllTestTag = "BookmarkFilterChipAllTestTag"
 const val BookmarkFilterChipDay1TestTag = "BookmarkFilterChipDay1TestTag"
 const val BookmarkFilterChipDay2TestTag = "BookmarkFilterChipDay2TestTag"
 
 @Composable
 fun BookmarkFilters(
-  isAll: Boolean,
   isDayFirst: Boolean,
   isDaySecond: Boolean,
-  onAllFilterChipClick: () -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
   modifier: Modifier = Modifier,
@@ -45,13 +42,6 @@ fun BookmarkFilters(
       .horizontalScroll(rememberScrollState())
       .padding(horizontal = 16.dp),
   ) {
-    BookmarkFilterChip(
-      labelText = appString.bookmarkFilterAllTitle,
-      isSelected = isAll,
-      onClick = onAllFilterChipClick,
-      modifier = Modifier.testTag(BookmarkFilterChipAllTestTag),
-    )
-    Spacer(modifier = Modifier.size(8.dp))
     BookmarkFilterChip(
       labelText = "${appString.dayTitle} 1",
       isSelected = isDayFirst,

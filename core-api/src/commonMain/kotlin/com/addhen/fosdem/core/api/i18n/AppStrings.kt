@@ -32,7 +32,6 @@ data class AppStrings(
   val addToCalendarTitle: String,
   val addToBookmarksTitle: String,
   val removeFromBookmarksTitle: String,
-  val bookmarkFilterAllTitle: String,
   val bookmarkedItemEmpty: String,
   val bookmarkedItemNotFound: String,
   val dayTitle: String,
