@@ -22,5 +22,5 @@ sealed interface SessionUiEvent : CircuitUiEvent {
 
   data object RefreshSession : SessionUiEvent
 
-  data object SearchSession : SessionUiEvent
+  data object BookSession : SessionUiEvent
 }

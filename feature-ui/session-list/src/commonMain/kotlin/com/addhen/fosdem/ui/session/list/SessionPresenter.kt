@@ -9,9 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
-import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
@@ -98,7 +98,7 @@ class SessionPresenter(
           scope.launch { repository.toggleBookmark(event.eventId) }
         }
 
-        SessionUiEvent.SearchSession -> navigator.goTo(SessionSearchScreen)
+        SessionUiEvent.BookSession -> navigator.goTo(SessionBookmarkScreen)
         SessionUiEvent.RefreshSession -> isRefreshing = true
       }
     }

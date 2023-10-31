@@ -4,7 +4,7 @@
 package com.addhen.fosdem.ui.session.list.component
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +26,7 @@ fun SessionTopArea(
   isRefreshing: Boolean,
   appStrings: AppStrings,
   onRefreshClick: () -> Unit,
-  onSearchClick: () -> Unit,
+  onBookmarkClicks: () -> Unit,
   titleIcon: @Composable () -> Unit,
   modifier: Modifier = Modifier,
 ) {
@@ -36,11 +36,11 @@ fun SessionTopArea(
     actions = {
       IconButton(
         modifier = Modifier.testTag(SearchButtonTestTag),
-        onClick = { onSearchClick() },
+        onClick = { onBookmarkClicks() },
       ) {
         Icon(
-          imageVector = Icons.Default.Search,
-          contentDescription = appStrings.searchContentDescription,
+          imageVector = Icons.Default.Bookmarks,
+          contentDescription = appStrings.bookmarkContentDescription,
         )
       }
       RefreshButton(

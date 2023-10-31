@@ -78,7 +78,7 @@ internal fun Session(
     onToggleSessionBookmark = { eventId, isBookmarked ->
       eventSink(SessionUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
-    onSearchClick = { eventSink(SessionUiEvent.SearchSession) },
+    onSearchClick = { eventSink(SessionUiEvent.BookSession) },
     onSessionRefreshClick = { eventSink(SessionUiEvent.RefreshSession) },
     contentPadding = PaddingValues(),
     modifier = modifier,
@@ -152,7 +152,7 @@ private fun SessionScreen(
       SessionTopArea(
         isRefreshing = uiState.isRefreshing,
         onRefreshClick = onSessionRefreshClick,
-        onSearchClick = onSearchClick,
+        onBookmarkClicks = onSearchClick,
         appStrings = appStrings,
         titleIcon = {},
       )

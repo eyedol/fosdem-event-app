@@ -3,7 +3,11 @@
 
 package com.addhen.fosdem.ui.session.bookmark.component
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -16,7 +20,9 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SessionBookmarkTopArea() {
+fun SessionBookmarkTopArea(
+  onBackClick: () -> Unit,
+) {
   val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
   val appStrings = LocalStrings.current
 
@@ -33,6 +39,14 @@ fun SessionBookmarkTopArea() {
           text = appStrings.bookmarkTitle,
           style = MaterialTheme.typography.titleLarge,
           modifier = Modifier.alpha(scrollBehavior.state.overlappedFraction),
+        )
+      }
+    },
+    navigationIcon = {
+      IconButton(onClick = onBackClick) {
+        Icon(
+          imageVector = Icons.Default.ArrowBack,
+          contentDescription = null,
         )
       }
     },

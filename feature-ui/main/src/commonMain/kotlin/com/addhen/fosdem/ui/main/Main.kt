@@ -16,14 +16,14 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Map
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
@@ -38,8 +38,8 @@ import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.MapScreen
-import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.ui.main.component.MainNavigationBar
 import com.addhen.fosdem.ui.main.component.MainNavigationDrawer
 import com.addhen.fosdem.ui.main.component.MainNavigationItem
@@ -146,11 +146,11 @@ fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
       selectedImageVector = Icons.Filled.CalendarMonth,
     ),
     MainNavigationItem(
-      screen = SessionBookmarkScreen,
-      label = strings.bookmarkTitle,
-      contentDescription = strings.bookmarkContentDescription,
-      iconImageVector = Icons.Outlined.Bookmark,
-      selectedImageVector = Icons.Filled.Bookmark,
+      screen = SessionSearchScreen,
+      label = strings.searchTitle,
+      contentDescription = strings.searchContentDescription,
+      iconImageVector = Icons.Outlined.Search,
+      selectedImageVector = Icons.Filled.Search,
     ),
     MainNavigationItem(
       screen = MapScreen,

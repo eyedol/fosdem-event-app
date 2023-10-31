@@ -44,7 +44,6 @@ internal fun SessionSearch(
     uiState = uiState,
     onSearchQueryChanged = { eventSink(SessionSearchUiEvent.QuerySearch(it)) },
     onSessionItemClick = { eventSink(SessionSearchUiEvent.GoToSessionDetails(it)) },
-    onBackPressClick = { eventSink(SessionSearchUiEvent.GoToPreviousScreen) },
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
@@ -67,7 +66,6 @@ const val SearchScreenTestTag = "SearchScreenTestTag"
 private fun SessionSearchScreen(
   uiState: SessionSearchUiState,
   onSearchQueryChanged: (String) -> Unit = {},
-  onBackPressClick: () -> Unit,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
   onDaySelected: (DayTab, Boolean) -> Unit,
@@ -82,7 +80,6 @@ private fun SessionSearchScreen(
       SearchTextFieldAppBar(
         searchQuery = uiState.content.query.queryText,
         onSearchQueryChanged = onSearchQueryChanged,
-        onBackClick = onBackPressClick,
         testTag = SearchScreenTestTag,
       )
     },

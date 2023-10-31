@@ -43,6 +43,7 @@ internal fun SessionBookmark(
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
     },
+    onBackClick = { eventSink(SessionBookmarkUiEvent.GoToPreviousScreen) },
     onDayFirstChipClick = { eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks) },
     onDaySecondChipClick = { eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks) },
     modifier = modifier,
@@ -56,6 +57,7 @@ private fun SessionBookmarkScreen(
   uiState: SessionBookmarkUiState,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
+  onBackClick: () -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
   modifier: Modifier,
@@ -65,7 +67,7 @@ private fun SessionBookmarkScreen(
     modifier = Modifier
       .testTag(BookmarkScreenTestTag)
       .then(modifier),
-    topBar = { SessionBookmarkTopArea() },
+    topBar = { SessionBookmarkTopArea(onBackClick) },
   ) { padding ->
     SessionBookmarkSheet(
       modifier = Modifier,

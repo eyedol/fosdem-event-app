@@ -16,7 +16,6 @@ fun SearchTextFieldAppBarPreview() {
       SearchTextFieldAppBar(
         searchQuery = "",
         onSearchQueryChanged = {},
-        onBackClick = {},
         testTag = "",
       )
     }

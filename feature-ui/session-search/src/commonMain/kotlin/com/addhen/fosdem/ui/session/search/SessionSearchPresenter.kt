@@ -95,8 +95,6 @@ class SessionSearchPresenter(
         }
 
         is SessionSearchUiEvent.QuerySearch -> query = event.query
-
-        SessionSearchUiEvent.GoToPreviousScreen -> navigator.pop()
       }
     }
 

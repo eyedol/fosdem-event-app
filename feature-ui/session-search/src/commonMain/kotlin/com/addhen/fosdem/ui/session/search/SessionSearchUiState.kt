@@ -41,6 +41,4 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
   ) : SessionSearchUiEvent
 
   data class QuerySearch(val query: String) : SessionSearchUiEvent
-
-  data object GoToPreviousScreen : SessionSearchUiEvent
 }

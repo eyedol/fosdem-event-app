@@ -79,6 +79,8 @@ class SessionBookmarkPresenter(
         is SessionBookmarkUiEvent.ToggleSessionBookmark -> {
           scope.launch { eventsRepository.toggleBookmark(event.eventId) }
         }
+
+        SessionBookmarkUiEvent.GoToPreviousScreen -> navigator.pop()
       }
     }
 
