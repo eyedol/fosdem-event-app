@@ -47,7 +47,7 @@ subprojects {
             "-Xjspecify-annotations=strict",
             // expect/actual classes (including interfaces, objects, annotations, enums, actual typealiases) in Beta
             // https://youtrack.jetbrains.com/issue/KT-61573
-            "-Xexpect-actual-classes",
+            //"-Xexpect-actual-classes",
           )
         }
       }
