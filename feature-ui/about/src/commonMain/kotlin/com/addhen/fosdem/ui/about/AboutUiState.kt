@@ -22,7 +22,7 @@ sealed interface AboutUiEvent : CircuitUiEvent {
 sealed class AboutItem {
   data object License : AboutItem()
 
-  sealed class AboutUrlItem(open val url: String): AboutItem() {
+  sealed class AboutUrlItem(open val url: String) : AboutItem() {
     data object PrivacyPolicy : AboutUrlItem("")
 
     data object X : AboutUrlItem("")

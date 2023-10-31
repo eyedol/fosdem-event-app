@@ -9,6 +9,7 @@ import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
 import com.addhen.fosdem.test.day
+import com.addhen.fosdem.test.day1Event
 import com.addhen.fosdem.test.day2
 import com.addhen.fosdem.test.day2Event
 import com.addhen.fosdem.test.day3Event
@@ -107,6 +108,32 @@ class EventsDbDaoTest : BaseDatabaseTest() {
     sut.deleteAll()
 
     val actual = sut.getEvents(day.date).first()
+
+    assertEquals(true, actual.isEmpty())
+  }
+
+  @Test
+  fun `successfully gets all bookmarked events`() = coroutineTestRule.runTest {
+    // Seed some data
+    val event = day1Event.copy(isBookmarked = true)
+    val event2 = day2Event.copy(isBookmarked = true)
+    val events = listOf(event, event2)
+    sut.insert(events)
+
+    val actual = sut.getAllBookmarkedEvents().first()
+
+    assertEquals(true, actual == events.setDurationTime())
+  }
+
+  @Test
+  fun `successfully gets an empty bookmarked events`() = coroutineTestRule.runTest {
+    // Seed some data
+    val event = day1Event.copy(isBookmarked = false)
+    val event2 = day2Event.copy(isBookmarked = false)
+    val events = listOf(event, event2)
+    sut.insert(events)
+
+    val actual = sut.getAllBookmarkedEvents().first()
 
     assertEquals(true, actual.isEmpty())
   }

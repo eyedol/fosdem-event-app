@@ -53,8 +53,8 @@ abstract class BaseBookmarkSessionUiPresenter(
           listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
           // results.data
         }
+      }
     }
-  }
 
   private val sessionFilters = MutableSharedFlow<SessionFilters>(
     replay = 1,

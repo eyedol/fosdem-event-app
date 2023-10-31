@@ -157,6 +157,37 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     assertEquals(true, (result as AppResult.Success).data == trackList)
   }
 
+  @Test
+  fun `getAllBookmarkedEvents should successfully load all bookmarked events`() =
+    coroutineTestRule.runTest {
+      val event = day1Event.copy(isBookmarked = true)
+      val event2 = day2Event.copy(isBookmarked = true)
+      val events = listOf(event, event2)
+      // Calling setDurationTime to parse the duration time from the DTO otherwise the
+      // assertion fails
+      val eventList = events.setDurationTime().map { it.toEvent() }
+      eventsDbDao.insert(events)
+
+      val results = repository.getAllBookmarkedEvents().first()
+
+      assertEquals(true, results is AppResult.Success)
+      assertEquals(true, (results as AppResult.Success).data == eventList)
+    }
+
+  @Test
+  fun `getAllBookmarkedEvents should successfully return empty bookmarked events`() =
+    coroutineTestRule.runTest {
+      val event = day1Event.copy(isBookmarked = false)
+      val event2 = day2Event.copy(isBookmarked = false)
+      val events = listOf(event, event2)
+      eventsDbDao.insert(events)
+
+      val results = repository.getAllBookmarkedEvents().first()
+
+      assertEquals(true, results is AppResult.Success)
+      assertEquals(true, (results as AppResult.Success).data.isEmpty())
+    }
+
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: AppResult<EventDto>? = null
 
