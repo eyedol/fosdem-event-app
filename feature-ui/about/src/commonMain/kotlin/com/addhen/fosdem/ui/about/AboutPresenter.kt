@@ -39,23 +39,11 @@ class AboutPresenter(
       when (event) {
         is AboutUiEvent.GoToAboutItem -> {
           when (val aboutItem = event.aboutItem) {
-            is AboutItem.AboutUrlItem.PrivacyPolicy -> {
-              navigator.goTo(UrlScreen(aboutItem.url))
-            }
-            is AboutItem.AboutUrlItem.Facebook -> {
-              navigator.goTo(UrlScreen(aboutItem.url))
-            }
-            is AboutItem.AboutUrlItem.Instagram -> {
+            is AboutItem.PrivacyPolicy -> {
               navigator.goTo(UrlScreen(aboutItem.url))
             }
             is AboutItem.License -> {
               // DO IT
-            }
-            is AboutItem.AboutUrlItem.Mastadon -> {
-              navigator.goTo(UrlScreen(aboutItem.url))
-            }
-            is AboutItem.AboutUrlItem.X -> {
-              navigator.goTo(UrlScreen(aboutItem.url))
             }
           }
         }

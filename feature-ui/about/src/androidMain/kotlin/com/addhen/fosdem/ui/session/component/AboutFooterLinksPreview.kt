@@ -15,11 +15,7 @@ fun AboutFooterLinksPreview() {
   AppTheme {
     Surface {
       AboutFooterLinks(
-        versionName = "1.2",
-        onMastadonClick = {},
-        onXClick = {},
-        onInstagramClick = {},
-        onFacebookClick = {},
+        versionName = "1.2.0",
       )
     }
   }
