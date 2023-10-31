@@ -45,6 +45,9 @@ subprojects {
             // https://kotlinlang.org/docs/whatsnew1520.html#support-for-jspecify-nullness-annotations
             "-Xtype-enhancement-improvements-strict-mode",
             "-Xjspecify-annotations=strict",
+            // expect/actual classes (including interfaces, objects, annotations, enums, actual typealiases) in Beta
+            // https://youtrack.jetbrains.com/issue/KT-61573
+            "-Xexpect-actual-classes",
           )
         }
       }
