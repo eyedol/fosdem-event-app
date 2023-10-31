@@ -40,7 +40,7 @@ class EventsDataRepository(
     .catch { AppResult.Error(it.toAppError()) }
 
   override fun getAllBookmarkedEvents(): Flow<AppResult<List<Event>>> = database
-    .getEvents()
+    .getAllBookmarkedEvents()
     .map { AppResult.Success(it.toEvent()) }
     .catch { AppResult.Error(it.toAppError()) }
 

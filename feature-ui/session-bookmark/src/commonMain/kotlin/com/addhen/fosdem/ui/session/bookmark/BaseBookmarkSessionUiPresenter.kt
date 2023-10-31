@@ -39,18 +39,20 @@ abstract class BaseBookmarkSessionUiPresenter(
   eventsRepository: EventsRepository,
 ) : Presenter<SessionBookmarkUiState> {
 
-  private val events = eventsRepository.getEvents().map { results ->
-    when (results) {
-      is AppResult.Error -> emptyList()
-      is AppResult.Success -> {
-        // For testing purposes. Should be deleted before final release
-        // val localResult = AppResult.Success(
-        //  listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
-        // )
-        // val localResult = results
-        listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-        // results.data
-      }
+  private val events = eventsRepository
+    .getAllBookmarkedEvents()
+    .map { results ->
+      when (results) {
+        is AppResult.Error -> emptyList()
+        is AppResult.Success -> {
+          // For testing purposes. Should be deleted before final release
+          // val localResult = AppResult.Success(
+          //  listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
+          // )
+          // val localResult = results
+          listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+          // results.data
+        }
     }
   }
 
