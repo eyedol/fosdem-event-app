@@ -39,6 +39,11 @@ class EventsDataRepository(
     .map { AppResult.Success(it.toEvent()) }
     .catch { AppResult.Error(it.toAppError()) }
 
+  override fun getAllBookmarkedEvents(): Flow<AppResult<List<Event>>> = database
+    .getEvents()
+    .map { AppResult.Success(it.toEvent()) }
+    .catch { AppResult.Error(it.toAppError()) }
+
   override fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>> = database
     .getEvents(date)
     .map { AppResult.Success(it.toEvent()) }

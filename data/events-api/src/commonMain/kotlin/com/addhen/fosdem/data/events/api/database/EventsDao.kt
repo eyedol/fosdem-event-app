@@ -15,6 +15,8 @@ interface EventsDao {
 
   fun getEvents(): Flow<List<EventEntity>>
 
+  fun getAllBookmarkedEvents(): Flow<List<EventEntity>>
+
   fun getEvent(eventId: Long): Flow<EventEntity>
 
   fun getTracks(): Flow<List<TrackEntity>>

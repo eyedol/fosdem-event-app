@@ -13,6 +13,8 @@ interface EventsRepository {
 
   fun getEvents(): Flow<AppResult<List<Event>>>
 
+  fun getAllBookmarkedEvents(): Flow<AppResult<List<Event>>>
+
   fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>>
 
   fun getEvent(id: Long): Flow<AppResult<Event>>

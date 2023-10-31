@@ -104,3 +104,13 @@ WHERE id = ?;
 
 selectEventTracks:
 SELECT DISTINCT track_name, track_type FROM events;
+
+selectAllEventsBookmarked:
+SELECT
+  events.*,
+  days.*,
+  rooms.*
+FROM events
+INNER JOIN days ON events.date = days.date
+INNER JOIN rooms ON events.room_id = rooms.id
+WHERE events.isBookmarked = 1;
