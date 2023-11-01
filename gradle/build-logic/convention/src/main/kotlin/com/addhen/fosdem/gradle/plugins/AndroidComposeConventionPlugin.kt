@@ -18,12 +18,6 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     with(target) {
       androidLibrary {
-        android {
-          buildFeatures.compose = true
-          composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("composeCompiler").get().toString()
-          }
-        }
         dependencies {
           implementation(libs.findLibrary("compose.ui.tooling.preview"))
           debugImplementation(libs.findLibrary("compose.ui.tooling"))
