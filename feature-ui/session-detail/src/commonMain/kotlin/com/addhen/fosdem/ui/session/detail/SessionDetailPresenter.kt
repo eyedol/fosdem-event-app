@@ -5,6 +5,7 @@ package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.slack.circuit.runtime.CircuitContext
@@ -44,6 +45,7 @@ class SessionDetailPresenter(
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {}
         is SessionDetailUiEvent.ShareSession -> {}
         is SessionDetailUiEvent.ToggleSessionBookmark -> {}
+        is SessionDetailUiEvent.ShowLink -> navigator.goTo(UrlScreen(event.url))
       }
     }
 

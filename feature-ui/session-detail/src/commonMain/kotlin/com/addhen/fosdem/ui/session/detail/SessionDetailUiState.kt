@@ -24,4 +24,6 @@ sealed interface SessionDetailUiEvent : CircuitUiEvent {
   data class RegisterSessionToCalendar(val event: Event) : SessionDetailUiEvent
 
   data class ShareSession(val event: Event) : SessionDetailUiEvent
+
+  data class ShowLink(val url: String): SessionDetailUiEvent
 }

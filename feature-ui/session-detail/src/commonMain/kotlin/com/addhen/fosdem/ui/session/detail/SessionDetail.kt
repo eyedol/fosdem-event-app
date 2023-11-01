@@ -68,7 +68,9 @@ internal fun SessionDetail(
     onBookmarkClick = { eventId ->
       eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId))
     },
-    onLinkClick = {},
+    onLinkClick = { url ->
+      eventSink(SessionDetailUiEvent.ShowLink(url))
+    },
     onCalendarRegistrationClick = { event ->
       eventSink(SessionDetailUiEvent.RegisterSessionToCalendar(event))
     },
