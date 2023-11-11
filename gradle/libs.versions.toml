@@ -27,6 +27,7 @@ coroutines = "1.7.3"
 lyricist = "1.6.2"
 composeLintChecks = "1.2.0"
 browser = "1.7.0"
+benasherUUid = "0.8.2"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -96,6 +97,7 @@ compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-pre
 compose-ui-tooling = { group = "org.jetbrains.compose.ui", name = "ui-tooling", version.ref = "compose-multiplatform" }
 compose-animation-graphics = { group = "org.jetbrains.compose.animation", name = " animation-graphics", version.ref = "compose-multiplatform" }
 compose-lint-check = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintChecks" }
+benasher-uuid = { module = "com.benasher44:uuid", version.ref = "benasherUUid" }
 
 [bundles]
 common-test = [

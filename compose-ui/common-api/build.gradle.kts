@@ -15,10 +15,11 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(projects.coreApi)
-        implementation(libs.circuit.foundation)
         implementation(compose.foundation)
         implementation(compose.material)
         implementation(compose.materialIconsExtended)
+        implementation(libs.circuit.foundation)
+        implementation(libs.benasher.uuid)
         api(compose.material3)
         api(libs.compose.material3.windowsizeclass)
         api(libs.lyricist.library)
