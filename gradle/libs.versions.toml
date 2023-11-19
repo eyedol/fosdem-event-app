@@ -26,7 +26,7 @@ junit5 = "5.10.1"
 coroutines = "1.7.3"
 lyricist = "1.6.2"
 composeLintChecks = "1.2.0"
-browser = "1.6.0"
+browser = "1.7.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
