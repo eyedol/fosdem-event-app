@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.gradle.plugins
 
-import com.addhen.fosdem.gradle.android
 import com.addhen.fosdem.gradle.androidLibrary
 import com.addhen.fosdem.gradle.debugImplementation
 import com.addhen.fosdem.gradle.implementation

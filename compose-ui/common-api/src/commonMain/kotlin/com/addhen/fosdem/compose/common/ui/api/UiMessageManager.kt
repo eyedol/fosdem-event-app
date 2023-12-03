@@ -1,4 +1,4 @@
-// Copyright 2019, Google LLC, Christopher Banes and the Tivi project contributors
+// Copyright 2019, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
 package com.addhen.fosdem.compose.common.ui.api

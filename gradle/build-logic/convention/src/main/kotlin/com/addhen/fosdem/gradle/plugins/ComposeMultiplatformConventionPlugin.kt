@@ -6,8 +6,6 @@ package com.addhen.fosdem.gradle.plugins
 import com.addhen.fosdem.gradle.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.compose.ComposeExtension
 
 class ComposeMultiplatformConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) = with(target) {

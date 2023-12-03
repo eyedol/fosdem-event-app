@@ -25,7 +25,7 @@ fun Project.configureSpotless() {
         .editorConfigOverride(
           mapOf(
             "ij_kotlin_imports_layout" to "*,java.**,javax.**,kotlin.**,^",
-            "android" to "true"
+            "android" to "true",
           ),
         )
       trimTrailingWhitespace()
