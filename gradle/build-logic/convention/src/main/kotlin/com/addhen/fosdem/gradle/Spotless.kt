@@ -22,9 +22,11 @@ fun Project.configureSpotless() {
       targetExclude("$buildDir/**/*.kt")
       targetExclude("bin/**/*.kt")
       ktlint(ktlintVersion)
-        .userData(mapOf("android" to "true"))
         .editorConfigOverride(
-          mapOf("ij_kotlin_imports_layout" to "*,java.**,javax.**,kotlin.**,^"),
+          mapOf(
+            "ij_kotlin_imports_layout" to "*,java.**,javax.**,kotlin.**,^",
+            "android" to "true"
+          ),
         )
       trimTrailingWhitespace()
       indentWithSpaces()
