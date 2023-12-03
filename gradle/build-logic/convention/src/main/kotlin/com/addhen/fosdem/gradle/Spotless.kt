@@ -19,7 +19,7 @@ fun Project.configureSpotless() {
     val ktlintVersion = libs.findVersion("ktlint").get().requiredVersion
     kotlin {
       target("**/*.kt")
-      targetExclude("$buildDir/**/*.kt")
+      targetExclude("${layout.buildDirectory}/**/*.kt")
       targetExclude("bin/**/*.kt")
       ktlint(ktlintVersion)
         .editorConfigOverride(
