@@ -6,6 +6,8 @@ package com.addhen.fosdem.gradle.plugins
 import com.addhen.fosdem.gradle.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.compose.ComposeExtension
 
 class ComposeMultiplatformConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) = with(target) {
@@ -15,6 +17,10 @@ class ComposeMultiplatformConventionPlugin : Plugin<Project> {
 }
 
 fun Project.configureCompose() {
+  compose {
+    kotlinCompilerPlugin.set(libs.findVersion("compose-compiler").get().requiredVersion)
+  }
+
   val composeVersion = libs.findVersion("compose-multiplatform").get().requiredVersion
   configurations.configureEach {
     resolutionStrategy.eachDependency {
@@ -27,4 +33,8 @@ fun Project.configureCompose() {
       }
     }
   }
+}
+
+fun Project.compose(block: ComposeExtension.() -> Unit) {
+  extensions.configure<ComposeExtension>(block)
 }
