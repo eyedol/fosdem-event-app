@@ -26,6 +26,9 @@ data object MapScreen : AppScreen(name = "Map()")
 data object AboutScreen : AppScreen(name = "About()")
 
 @CommonParcelize
+data object LicensesScreen : AppScreen(name = "Licenses()")
+
+@CommonParcelize
 data class UrlScreen(val url: String) : AppScreen(name = "UrlScreen()") {
   override val arguments get() = mapOf("url" to url)
 }

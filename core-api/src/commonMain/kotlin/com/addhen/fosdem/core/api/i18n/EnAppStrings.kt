@@ -49,4 +49,5 @@ val EnAppStrings = AppStrings(
   sessionEmpty = "No session loaded",
   refresh = "Refresh",
   dragHandleContentDescription = "Drag Handle",
+  openSourceLicenses = "Open Source Licenses"
 )
