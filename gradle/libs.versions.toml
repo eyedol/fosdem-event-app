@@ -83,6 +83,7 @@ xml-util-serialization-jvm = { module = "io.github.pdvrieze.xmlutil:serializatio
 xml-util-serialization-android = { module = "io.github.pdvrieze.xmlutil:serialization-android", version.ref = "xmlUtilSerialization" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 # Build logic dependencies

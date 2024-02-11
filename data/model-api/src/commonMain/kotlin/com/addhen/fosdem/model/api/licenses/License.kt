@@ -1,6 +1,6 @@
 package com.addhen.fosdem.model.api.licenses
 
-data class LicenseItem(
+data class License(
   val groupId: String,
   val artifactId: String,
   val version: String,

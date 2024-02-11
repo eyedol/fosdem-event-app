@@ -14,7 +14,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-  // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+   repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
   repositories {
     google()
     mavenCentral()
@@ -40,6 +40,7 @@ include(
   ":data:rooms",
   ":data:rooms-api",
   ":data:model-api",
+  ":data:licenses-api",
   ":core-api",
   ":data:core-api",
   ":data:sqldelight",

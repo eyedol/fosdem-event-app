@@ -4,7 +4,7 @@
 package com.addhen.fosdem.ui.licenses
 
 import androidx.compose.runtime.Immutable
-import com.addhen.fosdem.model.api.licenses.LicenseItem
+import com.addhen.fosdem.model.api.licenses.License
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
@@ -21,5 +21,5 @@ sealed interface LicensesUiEvent : CircuitUiEvent {
 
 data class LicenseGroup(
   val id: String,
-  val artifacts: List<LicenseItem>
+  val artifacts: List<License>
 )
