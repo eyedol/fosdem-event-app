@@ -5,6 +5,8 @@ package com.addhen.fosdem.gradle.plugins
 
 import com.addhen.fosdem.gradle.androidApplication
 import com.addhen.fosdem.gradle.configureAndroid
+import com.addhen.fosdem.gradle.configureAndroidLicensesTasks
+import com.addhen.fosdem.gradle.configureLicensee
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -16,6 +18,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
     }
     androidApplication {
       configureAndroid()
+      configureLicensee()
+      configureAndroidLicensesTasks()
     }
   }
 }
