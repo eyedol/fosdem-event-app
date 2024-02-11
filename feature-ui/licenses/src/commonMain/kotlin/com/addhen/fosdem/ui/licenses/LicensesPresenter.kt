@@ -4,7 +4,6 @@
 package com.addhen.fosdem.ui.licenses
 
 import androidx.compose.runtime.Composable
-import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.LicensesScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.runtime.CircuitContext
@@ -39,12 +38,12 @@ class LicensesPresenter(
     fun eventSink(event: LicensesUiEvent) {
       when (event) {
         is LicensesUiEvent.GoToLink -> navigator.goTo(UrlScreen(event.url))
+        LicensesUiEvent.NavigateUp -> navigator.pop()
       }
     }
 
-    // TODO load session types
     return LicensesUiState(
-      versionName = "1.0.0",
+      licenses = emptyList(),
       eventSink = ::eventSink,
     )
   }

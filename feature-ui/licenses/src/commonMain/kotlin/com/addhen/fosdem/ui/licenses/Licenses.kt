@@ -3,10 +3,21 @@
 
 package com.addhen.fosdem.ui.licenses
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -17,18 +28,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import com.addhen.fosdem.compose.common.ui.api.AppImage
+import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
-import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.core.api.screens.AboutScreen
-import com.addhen.fosdem.ui.about.component.AboutDetail
-import com.addhen.fosdem.ui.about.component.AboutFooterLinks
-import com.addhen.fosdem.ui.about.component.aboutOthers
+import com.addhen.fosdem.ui.licenses.component.Preference
+import com.addhen.fosdem.ui.licenses.component.PreferenceHeader
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
@@ -61,17 +68,19 @@ internal fun About(
   LicensesScreen(
     uiState = uiState,
     snackbarHostState,
+    onNavigationIconClick = { eventSink(LicensesUiEvent.NavigateUp) },
     onLinkClick = { url -> eventSink(LicensesUiEvent.GoToLink(url)) },
     contentPadding = PaddingValues(),
     modifier = modifier,
   )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun LicensesScreen(
   uiState: LicensesUiState,
   snackbarHostState: SnackbarHostState,
+  onNavigationIconClick: () -> Unit,
   onLinkClick: (url: String) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier,
@@ -86,17 +95,17 @@ private fun LicensesScreen(
     topBar = {
       TopAppBar(
         title = {
-          if (scrollBehavior.state.overlappedFraction == 0f) {
-            Text(
-              text = appStrings.aboutTitle,
-              style = MaterialTheme.typography.headlineLarge,
-              fontWeight = FontWeight.Medium,
-            )
-          } else {
-            Text(
-              text = appStrings.aboutTitle,
-              style = MaterialTheme.typography.titleLarge,
-              modifier = Modifier.alpha(scrollBehavior.state.overlappedFraction),
+          Text(
+            text = appStrings.openSourceLicenses,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Medium,
+          )
+        },
+        navigationIcon = {
+          IconButton(onClick = onNavigationIconClick) {
+            Icon(
+              imageVector = Icons.Filled.ArrowBack,
+              contentDescription = LocalStrings.current.openSourceLicenses,
             )
           }
         },
@@ -112,30 +121,36 @@ private fun LicensesScreen(
     ),
     content = { padding ->
       LazyColumn(
-        Modifier
-          .nestedScroll(scrollBehavior.nestedScrollConnection),
-        contentPadding = padding,
+        modifier = Modifier
+          .padding(padding)
+          .fillMaxWidth(),
       ) {
-        item {
-          AboutDetail(
-            onLinkClick = onLinkClick,
-            abountImageResource = imageResource(AppImage.AboutBanner),
-          )
-        }
-        aboutOthers(
-          onLicenseItemClick = {
-            onAboutItemClick(AboutItem.License)
-          },
-          onPrivacyPolicyItemClick = {
-            onAboutItemClick(AboutItem.PrivacyPolicy(""))
-          },
-          licenseLabel = appStrings.licenseTitle,
-          privacyPolicy = appStrings.privacyPolicyTitle,
-        )
-        item {
-          AboutFooterLinks(
-            versionName = uiState.versionName,
-          )
+        uiState.licenses.forEach { group ->
+          stickyHeader {
+            PreferenceHeader(
+              title = "",
+              modifier = Modifier.fillMaxSize(),
+              tonalElevation = 1.dp,
+            )
+          }
+
+          items(group.artifacts) { artifact ->
+            Preference(
+              title = (artifact.name ?: artifact.artifactId),
+              summary = {
+                Column {
+                  Text("${artifact.artifactId} v${artifact.version}")
+
+                  artifact.spdxLicenses?.forEach { license ->
+                    Text(license.name)
+                  }
+                }
+              },
+              modifier = Modifier.clickable {
+                onLinkClick("artifact")
+              },
+            )
+          }
         }
       }
     },
