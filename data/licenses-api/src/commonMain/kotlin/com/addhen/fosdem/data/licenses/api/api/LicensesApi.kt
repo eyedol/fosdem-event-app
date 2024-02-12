@@ -3,9 +3,8 @@
 
 package com.addhen.fosdem.data.licenses.api.api
 
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.licenses.api.api.dto.LicenseDto
 
 interface LicensesApi {
-  suspend fun fetchLicenses(): AppResult<LicenseDto>
+  suspend fun fetchLicenses(): List<LicenseDto>
 }

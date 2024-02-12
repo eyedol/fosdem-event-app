@@ -11,8 +11,8 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.XmlDeclMode
@@ -50,8 +50,8 @@ class ApiService(val url: String, val httpClient: HttpClient) {
       val response = apiCall.invoke()
       AppResult.Success(response)
     } catch (throwable: Throwable) {
+      coroutineContext.ensureActive()
       when (throwable) {
-        is CancellationException -> throw throwable
         is AppError -> AppResult.Error(throwable)
         else -> AppResult.Error(throwable.toAppError())
       }

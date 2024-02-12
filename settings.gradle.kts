@@ -40,6 +40,7 @@ include(
   ":data:rooms",
   ":data:rooms-api",
   ":data:model-api",
+  ":data:licenses",
   ":data:licenses-api",
   ":core-api",
   ":data:core-api",
