@@ -128,7 +128,7 @@ private fun LicensesScreen(
         uiState.licenses.forEach { group ->
           stickyHeader {
             PreferenceHeader(
-              title = "",
+              title = group.id,
               modifier = Modifier.fillMaxSize(),
               tonalElevation = 1.dp,
             )
