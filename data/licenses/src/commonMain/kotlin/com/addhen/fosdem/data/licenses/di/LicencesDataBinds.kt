@@ -1,3 +1,6 @@
+// Copyright 2024, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.data.licenses.di
 
 import com.addhen.fosdem.data.licenses.api.repository.LicensesRepository

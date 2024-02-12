@@ -48,7 +48,7 @@ data class AppStrings(
   val sessionEmpty: String,
   val refresh: String,
   val dragHandleContentDescription: String,
-  val openSourceLicenses: String
+  val openSourceLicenses: String,
 )
 
 object Locales {

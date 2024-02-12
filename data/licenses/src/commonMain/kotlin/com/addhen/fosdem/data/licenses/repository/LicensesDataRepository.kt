@@ -9,9 +9,9 @@ import com.addhen.fosdem.data.licenses.api.api.LicensesApi
 import com.addhen.fosdem.data.licenses.api.repository.LicensesRepository
 import com.addhen.fosdem.data.licenses.repository.mapper.toLicense
 import com.addhen.fosdem.model.api.licenses.License
-import kotlin.coroutines.coroutineContext
 import kotlinx.coroutines.ensureActive
 import me.tatarka.inject.annotations.Inject
+import kotlin.coroutines.coroutineContext
 
 @Inject
 class LicensesDataRepository(

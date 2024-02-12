@@ -21,5 +21,5 @@ sealed interface LicensesUiEvent : CircuitUiEvent {
 
 data class LicenseGroup(
   val id: String,
-  val artifacts: List<License>
+  val artifacts: List<License>,
 )
