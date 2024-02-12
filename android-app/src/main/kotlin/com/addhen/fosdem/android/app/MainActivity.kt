@@ -4,7 +4,6 @@
 package com.addhen.fosdem.android.app
 
 import android.app.Activity
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
@@ -14,11 +13,11 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import com.addhen.fosdem.android.app.di.ActivityComponent
 import com.addhen.fosdem.android.app.di.AppComponent
 import com.addhen.fosdem.android.app.di.UiComponent
-import com.addhen.fosdem.android.app.di.create
 import com.addhen.fosdem.core.api.di.ActivityScope
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.main.MainContent
@@ -62,7 +61,7 @@ class MainActivity : BaseActivity() {
         { url ->
           if (url.isNotEmpty()) {
             val intent = CustomTabsIntent.Builder().build()
-            intent.launchUrl(this@MainActivity, Uri.parse(url))
+            intent.launchUrl(this@MainActivity, url.toUri())
           }
         },
         Modifier,
