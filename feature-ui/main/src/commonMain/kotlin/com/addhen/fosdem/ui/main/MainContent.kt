@@ -18,6 +18,7 @@ import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.screen.PopResult
 import com.slack.circuit.runtime.screen.Screen
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -74,9 +75,14 @@ private class AppNavigator(
     }
   }
 
-  override fun pop(): Screen? = navigator.pop()
+  override fun peek(): Screen? = navigator.peek()
 
-  override fun resetRoot(newRoot: Screen): List<Screen> = navigator.resetRoot(newRoot)
+  override fun peekBackStack(): List<Screen> = navigator.peekBackStack()
+
+  override fun pop(result: PopResult?): Screen? = navigator.pop(result)
+
+  override fun resetRoot(newRoot: Screen, saveState: Boolean, restoreState: Boolean): List<Screen> =
+    navigator.resetRoot(newRoot, saveState, restoreState)
 }
 
 val LocalNavigator = staticCompositionLocalOf<Navigator> { Navigator.NoOp }

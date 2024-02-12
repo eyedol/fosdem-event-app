@@ -14,7 +14,7 @@ import kotlinx.serialization.json.decodeFromStream
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-class AndroidAssetLicensesApi(
+class AndroidLicensesApi(
   private val context: Application,
   private val dispatchers: AppCoroutineDispatchers,
 ) : LicensesApi {

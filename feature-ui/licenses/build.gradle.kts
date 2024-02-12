@@ -24,7 +24,9 @@ kotlin {
 
     val commonMain by getting {
       dependencies {
+        implementation(projects.data.coreApi)
         implementation(projects.data.modelApi)
+        implementation(projects.data.licensesApi)
         implementation(projects.coreApi)
         implementation(projects.composeUi.commonApi)
         implementation(libs.circuit.runtime)

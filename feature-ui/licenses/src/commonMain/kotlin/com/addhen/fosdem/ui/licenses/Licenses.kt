@@ -33,7 +33,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
-import com.addhen.fosdem.core.api.screens.AboutScreen
+import com.addhen.fosdem.core.api.screens.LicensesScreen
 import com.addhen.fosdem.ui.licenses.component.Preference
 import com.addhen.fosdem.ui.licenses.component.PreferenceHeader
 import com.slack.circuit.runtime.CircuitContext
@@ -47,9 +47,9 @@ const val LicensesScreenTestTag = "LicensesScreen"
 @Inject
 class LicensesUiFactory : Ui.Factory {
   override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
-    is AboutScreen -> {
+    is LicensesScreen -> {
       ui<LicensesUiState> { state, modifier ->
-        About(state, modifier)
+        License(state, modifier)
       }
     }
 
@@ -58,7 +58,7 @@ class LicensesUiFactory : Ui.Factory {
 }
 
 @Composable
-internal fun About(
+internal fun License(
   uiState: LicensesUiState,
   modifier: Modifier = Modifier,
 ) {

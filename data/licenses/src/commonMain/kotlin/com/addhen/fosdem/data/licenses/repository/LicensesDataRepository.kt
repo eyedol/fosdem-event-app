@@ -18,7 +18,7 @@ class LicensesDataRepository(
   private val licensesApi: LicensesApi,
 ) : LicensesRepository {
 
-  override suspend fun getLicense(): AppResult<List<License>> {
+  override suspend fun getLicenses(): AppResult<List<License>> {
     return try {
       val licenses = licensesApi.fetchLicenses()
       AppResult.Success(licenses.map { it.toLicense() })

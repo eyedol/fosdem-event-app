@@ -123,7 +123,7 @@ fun Main(
       ContentWithOverlays {
         NavigableCircuitContent(
           navigator = navigator,
-          backstack = backstack,
+          backStack = backstack,
           decoration = remember(navigator) {
             GestureNavigationDecoration(onBackInvoked = navigator::pop)
           },

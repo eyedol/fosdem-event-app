@@ -8,5 +8,5 @@ import com.addhen.fosdem.model.api.licenses.License
 
 interface LicensesRepository {
 
-  suspend fun getLicense(): AppResult<List<License>>
+  suspend fun getLicenses(): AppResult<List<License>>
 }

@@ -5,6 +5,8 @@ package com.addhen.fosdem.ui.about
 
 import androidx.compose.runtime.Composable
 import com.addhen.fosdem.core.api.screens.AboutScreen
+import com.addhen.fosdem.core.api.screens.LicensesScreen
+import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -42,19 +44,22 @@ class AboutPresenter(
             is AboutItem.PrivacyPolicy -> {
               navigator.goTo(UrlScreen(aboutItem.url))
             }
+
             is AboutItem.License -> {
-              // DO IT
+              navigator.goTo(LicensesScreen)
             }
           }
         }
+
         is AboutUiEvent.GoToLink -> {
           navigator.goTo(UrlScreen(event.url))
         }
-        AboutUiEvent.GoToSession -> TODO()
+
+        AboutUiEvent.GoToSession -> navigator.goTo(SessionScreen)
       }
     }
 
-    // TODO load session types
+    // TODO load about info from application data info
     return AboutUiState(
       versionName = "1.0.0",
       eventSink = ::eventSink,
