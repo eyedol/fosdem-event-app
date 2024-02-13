@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.about
 
 import androidx.compose.runtime.Composable
+import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.LicensesScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
@@ -34,6 +35,7 @@ class AboutUiPresenterFactory(
 @Inject
 class AboutPresenter(
   @Assisted private val navigator: Navigator,
+  private val applicationInfo: ApplicationInfo
 ) : Presenter<AboutUiState> {
   @Composable
   override fun present(): AboutUiState {
@@ -61,7 +63,7 @@ class AboutPresenter(
 
     // TODO load about info from application data info
     return AboutUiState(
-      versionName = "1.0.0",
+      versionName = applicationInfo.versionName,
       eventSink = ::eventSink,
     )
   }
