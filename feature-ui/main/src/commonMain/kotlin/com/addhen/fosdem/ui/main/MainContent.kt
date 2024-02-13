@@ -83,7 +83,11 @@ private class AppNavigator(
 
   override fun pop(result: PopResult?): Screen? = navigator.pop(result)
 
-  override fun resetRoot(newRoot: Screen, saveState: Boolean, restoreState: Boolean): ImmutableList<Screen> =
+  override fun resetRoot(
+    newRoot: Screen,
+    saveState: Boolean,
+    restoreState: Boolean,
+  ): ImmutableList<Screen> =
     navigator.resetRoot(newRoot, saveState, restoreState).toImmutableList()
 }
 

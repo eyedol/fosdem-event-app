@@ -35,7 +35,7 @@ class AboutUiPresenterFactory(
 @Inject
 class AboutPresenter(
   @Assisted private val navigator: Navigator,
-  private val applicationInfo: ApplicationInfo
+  private val applicationInfo: ApplicationInfo,
 ) : Presenter<AboutUiState> {
   @Composable
   override fun present(): AboutUiState {
