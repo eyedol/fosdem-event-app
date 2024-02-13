@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-  // Makes it possible to run the app from IDE run menu
+  // Makes it possible to run the app from the IDE run menu
   jvm {
     withJava()
   }
@@ -21,13 +21,16 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(projects.composeUi.commonApi)
         implementation(projects.featureUi.about)
         implementation(projects.featureUi.sessionSearch)
         implementation(projects.featureUi.sessionBookmark)
         implementation(projects.featureUi.sessionDetail)
         implementation(projects.featureUi.sessionList)
         implementation(projects.featureUi.main)
-        implementation(projects.composeUi.commonApi)
+        implementation(projects.featureUi.licenses)
+        implementation(projects.data.licenses)
+        implementation(projects.data.licensesApi)
         implementation(projects.data.events)
         implementation(projects.data.eventsApi)
         implementation(projects.data.rooms)
@@ -39,6 +42,8 @@ kotlin {
         implementation(projects.coreApi)
         implementation(compose.desktop.currentOs)
         implementation(libs.circuit.foundation)
+        // Needed to get ApiService to resolve as it needs HttpClient class from Ktor
+        implementation(libs.ktor.client.okhttp)
       }
     }
   }

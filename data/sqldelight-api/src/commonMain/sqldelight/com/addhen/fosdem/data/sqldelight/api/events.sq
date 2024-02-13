@@ -1,5 +1,3 @@
-import kotlinx.datetime.LocalDate;
-
 CREATE TABLE IF NOT EXISTS `events`(
   id INTEGER NOT NULL PRIMARY KEY,
   `room_id` INTEGER,
@@ -21,11 +19,12 @@ CREATE TABLE IF NOT EXISTS `events`(
 CREATE UNIQUE INDEX IF NOT EXISTS `index_events_room_id` ON `events` (`room_id`);
 
 -- triggers
-CREATE TRIGGER delete_all_tables
+CREATE TRIGGER delete_all_app_tables
 AFTER DELETE ON `events`
 BEGIN
   DELETE FROM links;
   DELETE FROM rooms;
+  DELETE FROM days;
   DELETE FROM speakers;
   DELETE FROM attachments;
   DELETE FROM event_links;

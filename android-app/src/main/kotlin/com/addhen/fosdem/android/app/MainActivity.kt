@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
     setContent {
-      val backstack = rememberSaveableBackStack { push(SessionScreen) }
+      val backstack = rememberSaveableBackStack(listOf(SessionScreen))
       val navigator = rememberCircuitNavigator(backstack)
 
       component.mainContent(

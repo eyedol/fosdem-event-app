@@ -20,6 +20,8 @@ import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.PopResult
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -77,12 +79,12 @@ private class AppNavigator(
 
   override fun peek(): Screen? = navigator.peek()
 
-  override fun peekBackStack(): List<Screen> = navigator.peekBackStack()
+  override fun peekBackStack(): ImmutableList<Screen> = navigator.peekBackStack().toImmutableList()
 
   override fun pop(result: PopResult?): Screen? = navigator.pop(result)
 
-  override fun resetRoot(newRoot: Screen, saveState: Boolean, restoreState: Boolean): List<Screen> =
-    navigator.resetRoot(newRoot, saveState, restoreState)
+  override fun resetRoot(newRoot: Screen, saveState: Boolean, restoreState: Boolean): ImmutableList<Screen> =
+    navigator.resetRoot(newRoot, saveState, restoreState).toImmutableList()
 }
 
 val LocalNavigator = staticCompositionLocalOf<Navigator> { Navigator.NoOp }

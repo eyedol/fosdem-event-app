@@ -27,11 +27,12 @@ fun main() = application {
       WindowComponent.create(appComponent)
     }
 
-    val backstack = rememberSaveableBackStack { push(SessionScreen) }
+    val backstack = rememberSaveableBackStack(listOf(SessionScreen))
     val navigator = rememberCircuitNavigator(backstack) { /* no-op */ }
     component.mainContent(
       backstack,
       navigator,
+      { /* Implement opening of external links */ },
       Modifier,
     )
   }
