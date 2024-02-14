@@ -11,7 +11,7 @@ import org.jetbrains.skia.Image
 import java.io.File
 
 actual class ImageResource(
-  private val file: File,
+  file: File,
 ) {
 
   val image: ImageBitmap = file.inputStream().use { it.readBytes().toImageBitmap() }
