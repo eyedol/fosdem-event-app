@@ -7,7 +7,9 @@ import com.addhen.fosdem.core.api.AppCoroutineDispatchers
 import com.addhen.fosdem.data.licenses.api.api.LicensesApi
 import com.addhen.fosdem.data.licenses.api.api.dto.LicenseDto
 import kotlinx.coroutines.withContext
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 class JvmLicensesApi(
   private val dispatchers: AppCoroutineDispatchers,
 ) : LicensesApi {

@@ -12,11 +12,13 @@ import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import me.tatarka.inject.annotations.Inject
 import platform.Foundation.NSBundle
 import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
 import platform.posix.memcpy
 
+@Inject
 class IosLicensesApi(
   private val dispatchers: AppCoroutineDispatchers,
 ) : LicensesApi {
