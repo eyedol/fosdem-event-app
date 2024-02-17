@@ -22,13 +22,13 @@ actual class ImageResource(
 
 @Composable
 actual fun AppImage.asImageResource() = remember(this) {
-  val inputStream = when (this) {
-    AppImage.FosdemLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
-    AppImage.InstagramLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
-    AppImage.MastadonLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
-    AppImage.XLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
-    AppImage.FacebookLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
-    AppImage.AboutBanner -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+  val fileName = when (this) {
+    AppImage.FosdemLogo -> "fosdem_logo.webp"
+    AppImage.InstagramLogo -> "fosdem_logo.webp"
+    AppImage.MastadonLogo -> "fosdem_logo.webp"
+    AppImage.XLogo -> "fosdem_logo.webp"
+    AppImage.FacebookLogo -> "fosdem_logo.webp"
+    AppImage.AboutBanner -> "fosdem_logo.webp"
   }
-  ImageResource(inputStream!!)
+  ImageResource(this::class.java.getResourceAsStream("/$fileName")!!)
 }
