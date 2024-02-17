@@ -7,14 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import java.io.InputStream
 import org.jetbrains.skia.Image
-import java.io.File
 
 actual class ImageResource(
-  file: File,
+  inputStream: InputStream,
 ) {
 
-  val image: ImageBitmap = file.inputStream().use { it.readBytes().toImageBitmap() }
+  val image: ImageBitmap = inputStream.use { it.readBytes().toImageBitmap() }
 
   private fun ByteArray.toImageBitmap(): ImageBitmap =
     Image.makeFromEncoded(this).toComposeImageBitmap()
@@ -22,13 +22,13 @@ actual class ImageResource(
 
 @Composable
 actual fun AppImage.asImageResource() = remember(this) {
-  val file = when (this) {
-    AppImage.FosdemLogo -> File("path_to_fosdem_logo")
-    AppImage.InstagramLogo -> TODO()
-    AppImage.MastadonLogo -> TODO()
-    AppImage.XLogo -> TODO()
-    AppImage.FacebookLogo -> TODO()
-    AppImage.AboutBanner -> TODO()
+  val inputStream = when (this) {
+    AppImage.FosdemLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+    AppImage.InstagramLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+    AppImage.MastadonLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+    AppImage.XLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+    AppImage.FacebookLogo -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
+    AppImage.AboutBanner -> this::class.java.getResourceAsStream("/fosdem_logo.webp")
   }
-  ImageResource(file)
+  ImageResource(inputStream!!)
 }
