@@ -3,7 +3,9 @@
 
 package com.addhen.fosdem.gradle.plugins
 
+import com.addhen.fosdem.gradle.configureJvmLicensesTasks
 import com.addhen.fosdem.gradle.configureKotlin
+import com.addhen.fosdem.gradle.configureLicensee
 import com.addhen.fosdem.gradle.configureSpotless
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -74,6 +76,8 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 
       configureSpotless()
       configureKotlin()
+      configureLicensee()
+      configureJvmLicensesTasks()
     }
   }
 }
