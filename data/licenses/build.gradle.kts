@@ -1,3 +1,6 @@
+import com.addhen.fosdem.gradle.configureLicensee
+import com.addhen.fosdem.gradle.configureJvmLicensesTasks
+
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -41,6 +44,9 @@ kotlin {
       }
     }
   }
+
+  configureLicensee()
+  configureJvmLicensesTasks()
 }
 
 // Needed for tests to run otherwise it errors

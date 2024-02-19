@@ -3,9 +3,7 @@
 
 package com.addhen.fosdem.gradle.plugins
 
-import com.addhen.fosdem.gradle.configureJvmLicensesTasks
 import com.addhen.fosdem.gradle.configureKotlin
-import com.addhen.fosdem.gradle.configureLicensee
 import com.addhen.fosdem.gradle.configureSpotless
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -76,8 +74,6 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 
       configureSpotless()
       configureKotlin()
-      configureLicensee()
-      configureJvmLicensesTasks()
     }
   }
 }
@@ -85,10 +81,6 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 fun Project.addKspDependencyForAllTargets(
   dependencyNotation: Any,
 ) = addKspDependencyForAllTargets("", dependencyNotation)
-
-fun Project.addKspTestDependencyForAllTargets(
-  dependencyNotation: Any,
-) = addKspDependencyForAllTargets("Test", dependencyNotation)
 
 private fun Project.addKspDependencyForAllTargets(
   configurationNameSuffix: String,
