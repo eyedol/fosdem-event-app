@@ -46,7 +46,6 @@ internal fun Map(
   uiState: MapUiState,
   modifier: Modifier = Modifier,
 ) {
-
   MapScreen(
     uiState = uiState,
     contentPadding = PaddingValues(),
@@ -61,7 +60,6 @@ private fun MapScreen(
   modifier: Modifier,
   contentPadding: PaddingValues,
 ) {
-
   val layoutDirection = LocalLayoutDirection.current
   val appStrings = LocalStrings.current
   Scaffold(

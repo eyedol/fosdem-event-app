@@ -4,7 +4,6 @@
 package com.addhen.fosdem.ui.map
 
 import androidx.compose.runtime.Composable
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
 import com.addhen.fosdem.core.api.screens.MapScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -35,7 +34,6 @@ class MapPresenter(
 ) : Presenter<MapUiState> {
   @Composable
   override fun present(): MapUiState {
-
     fun eventSink(event: MapUiEvent) {
       when (event) {
         MapUiEvent.NavigateUp -> navigator.pop()

@@ -6,7 +6,6 @@ package com.addhen.fosdem.android.app.di
 import android.app.Application
 import android.content.Context
 import com.addhen.fosdem.android.app.App
-import com.addhen.fosdem.android.app.R
 import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.Flavor
 import com.addhen.fosdem.core.api.di.ApplicationScope

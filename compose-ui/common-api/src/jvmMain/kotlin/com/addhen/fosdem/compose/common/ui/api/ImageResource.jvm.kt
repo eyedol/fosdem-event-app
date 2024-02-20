@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import java.io.InputStream
 import org.jetbrains.skia.Image
+import java.io.InputStream
 
 actual class ImageResource(
   inputStream: InputStream,
