@@ -27,6 +27,7 @@ dependencyResolutionManagement {
 
 include(
   "feature-ui:about",
+  "feature-ui:map",
   "feature-ui:licenses",
   "feature-ui:session-search",
   "feature-ui:session-bookmark",

@@ -142,6 +142,7 @@ android {
 
 dependencies {
   implementation(projects.featureUi.about)
+  implementation(projects.featureUi.map)
   implementation(projects.featureUi.sessionSearch)
   implementation(projects.featureUi.sessionBookmark)
   implementation(projects.featureUi.sessionDetail)

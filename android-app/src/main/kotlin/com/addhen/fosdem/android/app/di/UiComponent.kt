@@ -6,6 +6,7 @@ package com.addhen.fosdem.android.app.di
 import com.addhen.fosdem.core.api.di.ActivityScope
 import com.addhen.fosdem.ui.about.di.AboutComponent
 import com.addhen.fosdem.ui.licenses.di.LicensesComponent
+import com.addhen.fosdem.ui.map.di.MapComponent
 import com.addhen.fosdem.ui.session.bookmark.di.SessionBookmarkComponent
 import com.addhen.fosdem.ui.session.detail.di.SessionDetailComponent
 import com.addhen.fosdem.ui.session.list.di.SessionComponent
@@ -21,6 +22,7 @@ interface UiComponent :
   SessionBookmarkComponent,
   SessionSearchComponent,
   AboutComponent,
+  MapComponent,
   LicensesComponent {
 
   @Provides
