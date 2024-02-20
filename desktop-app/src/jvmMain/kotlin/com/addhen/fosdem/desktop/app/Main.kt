@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.desktop.app.di.AppComponent
 import com.addhen.fosdem.desktop.app.di.WindowComponent
@@ -20,7 +21,7 @@ fun main() = application {
   }
 
   Window(
-    title = "FOSDEM",
+    title = LocalStrings.current.appName,
     onCloseRequest = ::exitApplication,
   ) {
     val component = remember(appComponent) {

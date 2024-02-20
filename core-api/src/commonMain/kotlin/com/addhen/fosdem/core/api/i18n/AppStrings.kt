@@ -8,6 +8,7 @@ val Strings: Map<String, AppStrings> = mapOf(
 )
 
 data class AppStrings(
+  val appName: String,
   val sessionTitle: String,
   val searchTitle: String,
   val aboutTitle: String,
