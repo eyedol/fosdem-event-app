@@ -12,7 +12,7 @@ import kotlinx.collections.immutable.toPersistentList
 
 @MultiThemePreviews
 @Composable
-fun SessionHeaderPreview() {
+private fun SessionHeaderPreview() {
   AppTheme {
     Surface {
       SessionHeader()

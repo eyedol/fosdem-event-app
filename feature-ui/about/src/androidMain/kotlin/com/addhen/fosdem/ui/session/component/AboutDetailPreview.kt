@@ -13,7 +13,7 @@ import com.addhen.fosdem.ui.about.component.AboutDetail
 
 @MultiThemePreviews
 @Composable
-fun AboutDetailPreview() {
+private fun AboutDetailPreview() {
   AppTheme {
     Surface {
       AboutDetail(

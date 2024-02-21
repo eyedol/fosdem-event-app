@@ -11,7 +11,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 
 @MultiThemePreviews
 @Composable
-fun RefreshButtonPreview() {
+private fun RefreshButtonPreview() {
   AppTheme {
     Surface {
       Column {

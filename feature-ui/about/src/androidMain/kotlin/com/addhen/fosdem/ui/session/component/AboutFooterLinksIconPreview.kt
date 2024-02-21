@@ -13,7 +13,7 @@ import com.addhen.fosdem.ui.about.component.AboutSummaryCardRow
 
 @MultiThemePreviews
 @Composable
-fun AboutFooterLinksIconPreview() {
+private fun AboutFooterLinksIconPreview() {
   AppTheme {
     Surface {
       AboutSummaryCardRow(

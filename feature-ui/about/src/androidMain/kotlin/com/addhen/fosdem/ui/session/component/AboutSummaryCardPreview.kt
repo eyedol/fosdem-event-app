@@ -11,7 +11,7 @@ import com.addhen.fosdem.ui.about.component.AboutSummaryCard
 
 @MultiThemePreviews
 @Composable
-fun AboutSummaryCardPreview() {
+private fun AboutSummaryCardPreview() {
   AppTheme {
     Surface {
       AboutSummaryCard(onLinkClick = {})

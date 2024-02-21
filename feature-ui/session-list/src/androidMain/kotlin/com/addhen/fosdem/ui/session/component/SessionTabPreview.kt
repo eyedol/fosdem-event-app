@@ -13,7 +13,7 @@ import com.addhen.fosdem.ui.session.list.component.rememberSessionTabState
 
 @MultiThemePreviews
 @Composable
-fun SessionTabRowPreview() {
+private fun SessionTabRowPreview() {
   val scrollState = rememberSessionTabState()
   val selectedTabIndex = 0
   AppTheme {

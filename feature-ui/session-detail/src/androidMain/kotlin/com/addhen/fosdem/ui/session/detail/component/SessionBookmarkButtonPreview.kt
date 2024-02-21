@@ -10,7 +10,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 
 @MultiThemePreviews
 @Composable
-fun SessionBookmarkButtonPreview() {
+private fun SessionBookmarkButtonPreview() {
   AppTheme {
     Surface {
       SessionBookmarkButton(

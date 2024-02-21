@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.toPersistentMap
 
 @MultiThemePreviews
 @Composable
-fun SessionSheetPreview() {
+private fun SessionSheetPreview() {
   val sessionListUiState = SessionListUiState(
     sortAndGroupedEventsItems,
   )

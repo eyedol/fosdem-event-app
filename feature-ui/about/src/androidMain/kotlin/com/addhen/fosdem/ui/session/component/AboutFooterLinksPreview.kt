@@ -11,7 +11,7 @@ import com.addhen.fosdem.ui.about.component.AboutFooterLinks
 
 @MultiThemePreviews
 @Composable
-fun AboutFooterLinksPreview() {
+private fun AboutFooterLinksPreview() {
   AppTheme {
     Surface {
       AboutFooterLinks(

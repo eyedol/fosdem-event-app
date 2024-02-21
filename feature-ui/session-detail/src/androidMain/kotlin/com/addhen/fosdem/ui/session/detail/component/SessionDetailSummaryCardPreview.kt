@@ -12,7 +12,7 @@ import com.addhen.fosdem.model.api.day1Event
 
 @MultiThemePreviews
 @Composable
-fun SessionDetailSummaryCardPreview() {
+private fun SessionDetailSummaryCardPreview() {
   val appString = EnAppStrings
   AppTheme {
     Surface {

@@ -17,7 +17,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 
 @MultiThemePreviews
 @Composable
-fun EmptySessionItemsPreview() {
+private fun EmptySessionItemsPreview() {
   AppTheme {
     Surface {
       EmptySessionItems(

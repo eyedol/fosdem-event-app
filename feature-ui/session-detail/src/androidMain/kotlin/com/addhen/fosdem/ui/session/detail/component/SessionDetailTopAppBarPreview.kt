@@ -14,7 +14,7 @@ import com.addhen.fosdem.model.api.day1Event
 @OptIn(ExperimentalMaterial3Api::class)
 @MultiThemePreviews
 @Composable
-fun SessionDetailTopAppBarPreview() {
+private fun SessionDetailTopAppBarPreview() {
   AppTheme {
     Surface {
       SessionDetailTopAppBar(
@@ -25,7 +25,7 @@ fun SessionDetailTopAppBarPreview() {
         onShareClick = {},
         onCalendarRegistrationClick = {},
 
-      )
+        )
     }
   }
 }

@@ -11,7 +11,7 @@ import com.addhen.fosdem.model.api.day1Event
 
 @MultiThemePreviews
 @Composable
-fun SessionListItemPreview() {
+private fun SessionListItemPreview() {
   AppTheme {
     Surface {
       SessionListItem(

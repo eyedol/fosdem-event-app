@@ -14,7 +14,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 
 @MultiThemePreviews
 @Composable
-fun AutoSizedCircularProgressIndicatorPreview() {
+private fun AutoSizedCircularProgressIndicatorPreview() {
   AppTheme {
     Surface {
       Column {

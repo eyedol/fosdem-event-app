@@ -10,7 +10,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 
 @MultiThemePreviews
 @Composable
-fun SearchTextFieldAppBarPreview() {
+private fun SearchTextFieldAppBarPreview() {
   AppTheme {
     Surface {
       SearchTextFieldAppBar(

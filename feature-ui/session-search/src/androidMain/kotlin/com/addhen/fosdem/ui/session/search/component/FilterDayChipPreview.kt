@@ -24,7 +24,7 @@ fun Day.toDayTab() = DayTab(
 
 @MultiThemePreviews
 @Composable
-fun FilterDayChipPreview() {
+private fun FilterDayChipPreview() {
   val dayTab = day.toDayTab()
   val dayTab2 = day2.toDayTab()
   var uiState by remember {

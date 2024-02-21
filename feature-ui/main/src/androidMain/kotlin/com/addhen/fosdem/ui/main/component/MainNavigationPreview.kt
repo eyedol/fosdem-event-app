@@ -24,7 +24,7 @@ import com.addhen.fosdem.ui.main.buildNavigationItems
 
 @MultiThemePreviews
 @Composable
-fun MainNavigationPreview() {
+private fun MainNavigationPreview() {
   val strings = EnAppStrings
   val navigationItems = remember(strings) { buildNavigationItems(strings) }
   AppTheme {

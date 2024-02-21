@@ -11,7 +11,7 @@ import com.addhen.fosdem.model.api.day1Event
 
 @MultiThemePreviews
 @Composable
-fun SessionDetailContentPreview() {
+private fun SessionDetailContentPreview() {
   val uiState = SessionDetailItemSectionUiState(
     event = day1Event,
   )

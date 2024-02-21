@@ -13,7 +13,7 @@ import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiS
 
 @MultiThemePreviews
 @Composable
-fun SessionDetailItemPreview() {
+private fun SessionDetailItemPreview() {
   val sessionDetailUiState = SessionDetailItemSectionUiState(
     event = day1Event,
   )

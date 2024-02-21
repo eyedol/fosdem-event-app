@@ -11,7 +11,7 @@ import com.addhen.fosdem.compose.common.ui.api.theme.trackColors
 
 @MultiThemePreviews
 @Composable
-fun SessionTagPreview() {
+private fun SessionTagPreview() {
   val trackColor = trackColors("devroom")
   AppTheme {
     Surface {

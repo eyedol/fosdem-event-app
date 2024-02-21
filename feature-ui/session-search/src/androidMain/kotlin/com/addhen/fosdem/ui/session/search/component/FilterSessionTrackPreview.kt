@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 @MultiThemePreviews
 @Composable
-fun FilterSessionTrackPreview() {
+private fun FilterSessionTrackPreview() {
   var uiState by remember {
     mutableStateOf(
       SearchFilterUiState(

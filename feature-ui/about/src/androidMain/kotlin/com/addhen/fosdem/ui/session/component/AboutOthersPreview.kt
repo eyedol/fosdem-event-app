@@ -12,7 +12,7 @@ import com.addhen.fosdem.ui.about.component.aboutOthers
 
 @MultiThemePreviews
 @Composable
-internal fun AboutOthersPreview() {
+private fun AboutOthersPreview() {
   AppTheme {
     Surface {
       LazyColumn {
