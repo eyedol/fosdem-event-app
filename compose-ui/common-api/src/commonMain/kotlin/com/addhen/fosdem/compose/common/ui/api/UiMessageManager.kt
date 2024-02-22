@@ -3,6 +3,10 @@
 
 package com.addhen.fosdem.compose.common.ui.api
 
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.benasher44.uuid.uuid4
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,17 +15,40 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+@Composable
+fun SnackbarMessageEffect(
+  snackbarHostState: SnackbarHostState,
+  message: UiMessage?,
+  onSnackbarActionPerformed: () -> Unit = {},
+  onMessageShown: (id: Long) -> Unit,
+) {
+  message?.let {
+    LaunchedEffect(it) {
+      val snackBarResult = snackbarHostState.showSnackbar(
+        message = it.message,
+        actionLabel = it.actionLabel,
+      )
+
+      onMessageShown(it.id)
+      if (snackBarResult == SnackbarResult.ActionPerformed) onSnackbarActionPerformed()
+    }
+  }
+}
+
 data class UiMessage(
   val message: String,
+  val actionLabel: String? = null,
   val id: Long = uuid4().mostSignificantBits,
 )
 
 fun UiMessage(
   t: Throwable,
+  actionLabel: String? = null,
   id: Long = uuid4().mostSignificantBits,
 ): UiMessage = UiMessage(
   message = t.message ?: "Error occurred: $t",
   id = id,
+  actionLabel = actionLabel,
 )
 
 class UiMessageManager {

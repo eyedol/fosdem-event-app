@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
-import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
-
 plugins {
   id("com.addhen.fosdem.android.library")
   id("com.addhen.fosdem.kotlin.multiplatform")
@@ -26,6 +24,7 @@ kotlin {
         api(libs.kotlininject.runtime)
         api(libs.circuit.runtime)
         api(libs.lyricist.core)
+        api(libs.touchlab.kermit)
       }
     }
 

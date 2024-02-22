@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.ui.session.search
 
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
 import com.addhen.fosdem.model.api.Event
@@ -50,34 +49,15 @@ abstract class SearchSessionUiPresenter(
 ) : Presenter<SessionSearchUiState> {
 
   private val filterTracks = eventsRepository.getTracks().map { results ->
-    when (results) {
-      is AppResult.Error -> emptyList()
-      is AppResult.Success -> {
-        results.data.map { it.toFilterTrack() }
-      }
-    }
+    results.map { it.toFilterTrack() }
   }
 
   private val filterRooms = roomsRepository.getRooms().map { results ->
-    when (results) {
-      is AppResult.Error -> emptyList()
-      is AppResult.Success -> results.data.map { it.toFilterRoom() }
-    }
+    results.map { it.toFilterRoom() }
   }
 
-  private val events = eventsRepository.getEvents().map { results ->
-    when (results) {
-      is AppResult.Error -> emptyList()
-      is AppResult.Success -> {
-        // For testing purposes. Should be deleted before final release
-        // val localResult = AppResult.Success(
-        //  listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
-        // )
-        // val localResult = results
-        listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-        // results.data
-      }
-    }
+  private val events = eventsRepository.getEvents().map { _ ->
+    listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
   }
 
   private val searchFilters = MutableSharedFlow<SessionFilters>(

@@ -3,9 +3,7 @@
 
 package com.addhen.fosdem.data.events.repository
 
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.core.api.onSuccess
-import com.addhen.fosdem.data.core.api.toAppError
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -18,7 +16,6 @@ import com.addhen.fosdem.data.events.repository.mapper.toTrack
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.Track
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
 import me.tatarka.inject.annotations.Inject
@@ -29,32 +26,29 @@ class EventsDataRepository(
   private val database: EventsDao,
 ) : EventsRepository {
 
-  override fun getTracks(): Flow<AppResult<List<Track>>> = database
+  override fun getTracks(): Flow<List<Track>> = database
     .getTracks()
-    .map { AppResult.Success(it.map { trackEntity -> trackEntity.toTrack() }) }
-    .catch { AppResult.Error(it.toAppError()) }
+    .map { it.map { trackEntity -> trackEntity.toTrack() } }
 
-  override fun getEvents(): Flow<AppResult<List<Event>>> = database
-    .getEvents()
-    .map { AppResult.Success(it.toEvent()) }
-    .catch { AppResult.Error(it.toAppError()) }
+  override fun getEvents(): Flow<List<Event>> {
+    return database
+      .getEvents()
+      .map { it.toEvent() }
+  }
 
-  override fun getAllBookmarkedEvents(): Flow<AppResult<List<Event>>> = database
+  override fun getAllBookmarkedEvents(): Flow<List<Event>> = database
     .getAllBookmarkedEvents()
-    .map { AppResult.Success(it.toEvent()) }
-    .catch { AppResult.Error(it.toAppError()) }
+    .map { it.toEvent() }
 
-  override fun getEvents(date: LocalDate): Flow<AppResult<List<Event>>> = database
+  override fun getEvents(date: LocalDate): Flow<List<Event>> = database
     .getEvents(date)
-    .map { AppResult.Success(it.toEvent()) }
-    .catch { AppResult.Error(it.toAppError()) }
+    .map { it.toEvent() }
 
   override fun getEvent(
     id: Long,
-  ): Flow<AppResult<Event>> = database
+  ): Flow<Event> = database
     .getEvent(id)
-    .map { AppResult.Success(it.toEvent()) }
-    .catch { AppResult.Error(it.toAppError()) }
+    .map { it.toEvent() }
 
   override suspend fun deleteAll() = database.deleteAll()
 

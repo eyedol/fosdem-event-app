@@ -51,4 +51,5 @@ val EnAppStrings = AppStrings(
   refresh = "Refresh",
   dragHandleContentDescription = "Drag Handle",
   openSourceLicenses = "Open Source Licenses",
+  tryAgain = "Try again",
 )

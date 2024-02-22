@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -12,6 +13,7 @@ import com.slack.circuit.runtime.CircuitUiState
 data class SessionUiState(
   val content: SessionSheetUiState,
   val isRefreshing: Boolean,
+  val message: UiMessage? = null,
   val eventSink: (SessionUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -23,4 +25,6 @@ sealed interface SessionUiEvent : CircuitUiEvent {
   data object RefreshSession : SessionUiEvent
 
   data object BookSession : SessionUiEvent
+
+  data object ClearMessage : SessionUiEvent
 }

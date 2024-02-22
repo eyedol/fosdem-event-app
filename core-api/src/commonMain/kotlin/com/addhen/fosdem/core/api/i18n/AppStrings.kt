@@ -50,6 +50,7 @@ data class AppStrings(
   val refresh: String,
   val dragHandleContentDescription: String,
   val openSourceLicenses: String,
+  val tryAgain: String,
 )
 
 object Locales {

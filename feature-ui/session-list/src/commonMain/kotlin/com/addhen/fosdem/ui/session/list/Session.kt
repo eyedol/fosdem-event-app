@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
+import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.ui.session.component.SessionHeader
 import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
@@ -45,8 +46,8 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
-import me.tatarka.inject.annotations.Inject
 import kotlin.math.roundToInt
+import me.tatarka.inject.annotations.Inject
 
 const val SessionScreenTestTag = "SessionScreen"
 
@@ -80,6 +81,8 @@ internal fun Session(
     },
     onSearchClick = { eventSink(SessionUiEvent.BookSession) },
     onSessionRefreshClick = { eventSink(SessionUiEvent.RefreshSession) },
+    onPerformSnackbarAction = { eventSink(SessionUiEvent.RefreshSession) },
+    onMessageShown = { eventSink(SessionUiEvent.ClearMessage) },
     contentPadding = PaddingValues(),
     modifier = modifier,
   )
@@ -115,6 +118,8 @@ private fun SessionScreen(
   onToggleSessionBookmark: (eventId: Long, isBookmarked: Boolean) -> Unit,
   onSearchClick: () -> Unit,
   onSessionRefreshClick: () -> Unit,
+  onPerformSnackbarAction: () -> Unit,
+  onMessageShown: (id: Long) -> Unit,
   modifier: Modifier = Modifier,
   contentPadding: PaddingValues = PaddingValues(),
 ) {
@@ -128,6 +133,13 @@ private fun SessionScreen(
   }
   val sessionTopGradient = sessionTopGradient()
   val bottomPaddingPx = with(density) { contentPadding.calculateBottomPadding().toPx() }
+  SnackbarMessageEffect(
+    snackbarHostState = snackbarHostState,
+    message = uiState.message,
+    onSnackbarActionPerformed = onPerformSnackbarAction,
+    onMessageShown = onMessageShown,
+  )
+
   Scaffold(
     modifier = modifier
       .testTag(SessionScreenTestTag)
@@ -211,6 +223,7 @@ private fun SessionScreen(
 private fun WindowSizeClass.gradientEndRatio(): Float = when {
   widthSizeClass == WindowWidthSizeClass.Compact ||
     widthSizeClass == WindowWidthSizeClass.Medium -> 0.5f
+
   heightSizeClass == WindowHeightSizeClass.Compact -> 0.2f
   else -> 0.2f
 }

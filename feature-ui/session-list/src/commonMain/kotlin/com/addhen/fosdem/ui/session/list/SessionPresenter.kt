@@ -5,14 +5,19 @@ package com.addhen.fosdem.ui.session.list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
+import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.day1Event
@@ -35,6 +40,7 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toPersistentMap
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
@@ -66,6 +72,9 @@ class SessionPresenter(
     val scope = rememberCoroutineScope()
     val days by rememberRetained { mutableStateOf(dayTabs) }
     var isRefreshing by rememberRetained { mutableStateOf(false) }
+    val uiMessageManager = remember { UiMessageManager() }
+    val message by uiMessageManager.message.collectAsState(null)
+    val appStrings = LocalStrings.current
 
     LaunchedEffect(isRefreshing) {
       if (isRefreshing) {
@@ -74,19 +83,21 @@ class SessionPresenter(
       }
     }
 
-    val events by repository.getEvents().map { results ->
-      when (results) {
-        is AppResult.Error -> SessionSheetUiState.Error(days)
-        is AppResult.Success -> {
-          // For testing purposes. Should be deleted before final release
-          val localResult = AppResult.Success(
-            listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
-          )
-          // val localResult = results
-          successSessionSheetUiSate(localResult, days)
-        }
-      }
-    }.collectAsRetainedState(SessionSheetUiState.Loading(days))
+    val events by repository.getEvents().map { _ ->
+      successSessionSheetUiSate(
+        listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
+        days,
+      )
+    }.catch {
+      Logger.e(it) { "Error occurred" }
+      uiMessageManager.emitMessage(
+        UiMessage(
+          it,
+          actionLabel = appStrings.tryAgain,
+        ),
+      )
+    }
+      .collectAsRetainedState(SessionSheetUiState.Loading(days))
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {
@@ -100,23 +111,27 @@ class SessionPresenter(
 
         SessionUiEvent.BookSession -> navigator.goTo(SessionBookmarkScreen)
         SessionUiEvent.RefreshSession -> isRefreshing = true
+        SessionUiEvent.ClearMessage -> {
+          scope.launch { uiMessageManager.clearMessage(message!!.id) }
+        }
       }
     }
 
     return SessionUiState(
       isRefreshing = isRefreshing,
       content = events,
+      message = message,
       eventSink = ::eventSink,
     )
   }
 
   private fun successSessionSheetUiSate(
-    results: AppResult.Success<List<Event>>,
+    results: List<Event>,
     days: PersistentList<DayTab>,
   ): SessionSheetUiState {
-    if (results.data.isEmpty()) return SessionSheetUiState.Empty(days)
+    if (results.isEmpty()) return SessionSheetUiState.Empty(days)
 
-    val sessionGroupedAndMapWithDays = groupAndMapEventsWithDays(results.data)
+    val sessionGroupedAndMapWithDays = groupAndMapEventsWithDays(results)
     return SessionSheetUiState.ListSession(
       days = days,
       sessionListUiStates = sessionGroupedAndMapWithDays,
