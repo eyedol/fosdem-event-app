@@ -11,7 +11,11 @@ import org.gradle.kotlin.dsl.configure
 fun Project.configureJava() {
   java {
     toolchain {
-      languageVersion.set(JavaLanguageVersion.of(21))
+      languageVersion.set(
+        JavaLanguageVersion.of(
+          libs.findVersion("jdk").get().toString().removeSuffix("-ea").toInt(),
+        ),
+      )
     }
   }
 }
