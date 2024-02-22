@@ -20,9 +20,9 @@ interface EventsRepository {
 
   fun getTracks(): Flow<List<Track>>
 
-  suspend fun toggleBookmark(id: Long)
+  suspend fun toggleBookmark(id: Long): Result<Unit>
 
   suspend fun deleteAll()
 
-  suspend fun refresh()
+  suspend fun refresh(): Result<Unit>
 }

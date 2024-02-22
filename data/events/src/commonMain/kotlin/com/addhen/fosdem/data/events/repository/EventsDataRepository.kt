@@ -14,8 +14,10 @@ import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.Track
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withTimeout
 import kotlinx.datetime.LocalDate
 import me.tatarka.inject.annotations.Inject
 
@@ -51,7 +53,13 @@ class EventsDataRepository(
 
   override suspend fun deleteAll() = database.deleteAll()
 
-  override suspend fun refresh() {
+  override suspend fun refresh() = runCatching {
+    withTimeout(5.minutes) {
+      refreshEvents()
+    }
+  }
+
+  private suspend fun refreshEvents() {
     val eventDto = api.fetchEvents()
     database.deleteAll()
     database.addDays(eventDto.days.toDays())

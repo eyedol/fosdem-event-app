@@ -15,6 +15,7 @@ import co.touchlab.kermit.Logger
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
@@ -65,7 +66,7 @@ class SessionUiPresenterFactory(
 @Inject
 class SessionPresenter(
   @Assisted private val navigator: Navigator,
-  private val repository: EventsRepository,
+  private val repository: Lazy<EventsRepository>,
 ) : Presenter<SessionUiState> {
   @Composable
   override fun present(): SessionUiState {
@@ -78,12 +79,18 @@ class SessionPresenter(
 
     LaunchedEffect(isRefreshing) {
       if (isRefreshing) {
-        repository.refresh()
+        val results = repository.value.refresh()
+        results.onException {
+          Logger.e(it) { "Error occurred refreshing events" }
+          uiMessageManager.emitMessage(
+            UiMessage(it, actionLabel = appStrings.tryAgain),
+          )
+        }
         isRefreshing = false
       }
     }
 
-    val events by repository.getEvents().map { _ ->
+    val events by repository.value.getEvents().map { _ ->
       successSessionSheetUiSate(
         listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
         days,
@@ -106,7 +113,7 @@ class SessionPresenter(
         }
 
         is SessionUiEvent.ToggleSessionBookmark -> {
-          scope.launch { repository.toggleBookmark(event.eventId) }
+          scope.launch { repository.value.toggleBookmark(event.eventId) }
         }
 
         SessionUiEvent.BookSession -> navigator.goTo(SessionBookmarkScreen)
