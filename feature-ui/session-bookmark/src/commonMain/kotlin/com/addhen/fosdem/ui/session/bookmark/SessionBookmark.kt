@@ -5,9 +5,12 @@ package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheet
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkTopArea
@@ -35,10 +38,12 @@ internal fun SessionBookmark(
   uiState: SessionBookmarkUiState,
   modifier: Modifier = Modifier,
 ) {
+  val snackbarHostState = remember { SnackbarHostState() }
   val eventSink = uiState.eventSink
 
   SessionBookmarkScreen(
     uiState = uiState,
+    snackbarHostState = snackbarHostState,
     onSessionItemClick = { eventSink(SessionBookmarkUiEvent.GoToSessionDetails(it)) },
     onBookmarkClick = { eventId, isBookmarked ->
       eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
@@ -46,6 +51,7 @@ internal fun SessionBookmark(
     onBackClick = { eventSink(SessionBookmarkUiEvent.GoToPreviousScreen) },
     onDayFirstChipClick = { eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks) },
     onDaySecondChipClick = { eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks) },
+    onMessageShown = { eventSink(SessionBookmarkUiEvent.ClearMessage) },
     modifier = modifier,
   )
 }
@@ -55,14 +61,23 @@ const val BookmarkScreenTestTag = "BookmarkScreenTestTag"
 @Composable
 private fun SessionBookmarkScreen(
   uiState: SessionBookmarkUiState,
+  snackbarHostState: SnackbarHostState,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long, Boolean) -> Unit,
   onBackClick: () -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
+  onMessageShown: (id: Long) -> Unit,
   modifier: Modifier,
 ) {
   val scrollState = rememberLazyListState()
+
+  SnackbarMessageEffect(
+    snackbarHostState = snackbarHostState,
+    message = uiState.message,
+    onMessageShown = onMessageShown,
+  )
+
   Scaffold(
     modifier = Modifier
       .testTag(BookmarkScreenTestTag)

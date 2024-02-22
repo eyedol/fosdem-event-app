@@ -5,11 +5,17 @@ package com.addhen.fosdem.ui.session.bookmark
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
+import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -39,6 +45,7 @@ class SessionBookmarkUiPresenterFactory(
       is SessionBookmarkScreen -> {
         presenterFactory(navigator)
       }
+
       else -> null
     }
   }
@@ -47,8 +54,8 @@ class SessionBookmarkUiPresenterFactory(
 @Inject
 class SessionBookmarkPresenter(
   @Assisted private val navigator: Navigator,
-  private val eventsRepository: EventsRepository,
-) : BaseBookmarkSessionUiPresenter(eventsRepository) {
+  private val eventsRepository: Lazy<EventsRepository>,
+) : BaseBookmarkSessionUiPresenter(eventsRepository.value) {
   @Composable
   override fun present(): SessionBookmarkUiState {
     val scope = rememberCoroutineScope()
@@ -59,6 +66,8 @@ class SessionBookmarkPresenter(
 
     val bookmarkSheetUiState by observeSessionFiltersAction
       .collectAsRetainedState(SessionBookmarkSheetUiState.Loading())
+    val uiMessageManager = remember { UiMessageManager() }
+    val message by uiMessageManager.message.collectAsState(null)
 
     LaunchedEffect(selectedFilters) {
       tryEmit(selectedFilters)
@@ -69,23 +78,38 @@ class SessionBookmarkPresenter(
         is SessionBookmarkUiEvent.GoToSessionDetails -> {
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
+
         SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
         SessionBookmarkUiEvent.FilterFirstDayBookmarks -> {
           selectedFilters = onDaySelected(selectedFilters, dayTab1)
         }
+
         SessionBookmarkUiEvent.FilterSecondDayBookmarks -> {
           selectedFilters = onDaySelected(selectedFilters, dayTab2)
         }
+
         is SessionBookmarkUiEvent.ToggleSessionBookmark -> {
-          scope.launch { eventsRepository.toggleBookmark(event.eventId) }
+          scope.launch {
+            eventsRepository.value.toggleBookmark(event.eventId)
+              .onException {
+                Logger.e(it) { "Error occurred while toggling bookmark" }
+                uiMessageManager.emitMessage(
+                  UiMessage(it),
+                )
+              }
+          }
         }
 
         SessionBookmarkUiEvent.GoToPreviousScreen -> navigator.pop()
+        SessionBookmarkUiEvent.ClearMessage -> {
+          scope.launch { uiMessageManager.clearMessage(message!!.id) }
+        }
       }
     }
 
     return SessionBookmarkUiState(
       content = bookmarkSheetUiState,
+      message = message,
       eventSink = ::eventSink,
     )
   }

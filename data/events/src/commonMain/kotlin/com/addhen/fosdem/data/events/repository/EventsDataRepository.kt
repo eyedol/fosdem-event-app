@@ -70,5 +70,7 @@ class EventsDataRepository(
     }
   }
 
-  override suspend fun toggleBookmark(id: Long) = database.toggleBookmark(id)
+  override suspend fun toggleBookmark(id: Long) = runCatching {
+    database.toggleBookmark(id)
+  }
 }
