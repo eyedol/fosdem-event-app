@@ -3,10 +3,9 @@
 
 package com.addhen.fosdem.data.licenses.api.repository
 
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.model.api.licenses.License
 
 interface LicensesRepository {
 
-  suspend fun getLicenses(): AppResult<List<License>>
+  suspend fun getLicenses(): List<License>
 }

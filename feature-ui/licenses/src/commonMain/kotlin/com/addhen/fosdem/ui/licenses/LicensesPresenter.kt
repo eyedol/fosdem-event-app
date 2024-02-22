@@ -8,8 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import com.addhen.fosdem.core.api.screens.LicensesScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
-import com.addhen.fosdem.data.core.api.onError
-import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.licenses.api.repository.LicensesRepository
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -42,19 +40,15 @@ class LicensesPresenter(
   @Composable
   override fun present(): LicensesUiState {
     val licenses by produceState(emptyList()) {
-      licensesRepository.getLicenses()
-        .onSuccess { licenses ->
-          value = licenses.groupBy { it.groupId }
-            .map { (groupId, artifacts) ->
-              LicenseGroup(
-                id = groupId,
-                artifacts = artifacts.sortedBy { it.artifactId },
-              )
-            }
-            .sortedBy { it.id }
-        }.onError {
-          value = emptyList<LicenseGroup>()
+      val licenses = licensesRepository.getLicenses()
+      value = licenses.groupBy { it.groupId }
+        .map { (groupId, artifacts) ->
+          LicenseGroup(
+            id = groupId,
+            artifacts = artifacts.sortedBy { it.artifactId },
+          )
         }
+        .sortedBy { it.id }
     }
 
     fun eventSink(event: LicensesUiEvent) {
