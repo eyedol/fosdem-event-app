@@ -9,7 +9,7 @@ plugins {
   alias(libs.plugins.sqldelight)
 }
 
-android.namespace = "com.addhen.fosdem.data.events.api"
+android.namespace = "com.addhen.fosdem.data.rooms.api"
 
 kotlin {
   sourceSets {
