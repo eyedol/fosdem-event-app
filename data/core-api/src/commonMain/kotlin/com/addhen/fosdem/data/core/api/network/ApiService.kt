@@ -3,16 +3,12 @@
 
 package com.addhen.fosdem.data.core.api.network
 
-import com.addhen.fosdem.data.core.api.AppError
-import com.addhen.fosdem.data.core.api.AppResult
-import com.addhen.fosdem.data.core.api.toAppError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.XmlDeclMode
@@ -32,7 +28,7 @@ class ApiService(val url: String, val httpClient: HttpClient) {
   suspend inline fun <reified T : Any> get(
     dispatcher: CoroutineDispatcher,
     crossinline block: HttpRequestBuilder.() -> Unit = {},
-  ): AppResult<T> = makeApiCall(dispatcher) {
+  ): T = makeApiCall(dispatcher) {
     httpClient.get(url, block).asType<T>()
   }
 
@@ -45,16 +41,7 @@ class ApiService(val url: String, val httpClient: HttpClient) {
   suspend inline fun <reified T> makeApiCall(
     dispatcher: CoroutineDispatcher,
     crossinline apiCall: suspend () -> T,
-  ): AppResult<T> = withContext(dispatcher) {
-    try {
-      val response = apiCall.invoke()
-      AppResult.Success(response)
-    } catch (throwable: Throwable) {
-      coroutineContext.ensureActive()
-      when (throwable) {
-        is AppError -> AppResult.Error(throwable)
-        else -> AppResult.Error(throwable.toAppError())
-      }
-    }
+  ): T = withContext(dispatcher) {
+    apiCall.invoke()
   }
 }

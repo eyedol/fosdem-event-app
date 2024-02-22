@@ -4,9 +4,6 @@
 package com.addhen.fosdem.data.events.repository
 
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
-import com.addhen.fosdem.data.core.api.AppError
-import com.addhen.fosdem.data.core.api.AppResult
-import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import com.addhen.fosdem.data.events.api.database.EventsDao
@@ -57,8 +54,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
     val result = repository.getEvents(date).first()
 
-    assertEquals(true, result is AppResult.Success)
-    assertEquals(true, (result as AppResult.Success).data == eventList)
+    assertEquals(true, result == eventList)
   }
 
   @Test
@@ -69,8 +65,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
     val result = repository.getEvent(eventId).first()
 
-    assertTrue(result is AppResult.Success)
-    assertTrue((result as AppResult.Success).data == event.setDurationTime().toEvent())
+    assertTrue(result == event.setDurationTime().toEvent())
   }
 
   @Test
@@ -87,8 +82,8 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   fun `refresh should update data in the database`() = coroutineTestRule.runTest {
     val eventDto = (
       createKtorEventsApiWithEvents(coroutineTestRule.testDispatcherProvider)
-        .fetchEvents() as AppResult.Success
-      ).data
+        .fetchEvents()
+      )
     fakeApi.setEvents(eventDto)
 
     repository.refresh()
@@ -116,8 +111,8 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
       repository.toggleBookmark(eventId)
 
-      repository.getEvent(eventId).first()
-        .onSuccess { assertTrue(it.isBookmarked) }
+      val actual = repository.getEvent(eventId).first()
+      assertTrue(actual.isBookmarked)
     }
 
   @Test
@@ -129,8 +124,8 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
       repository.toggleBookmark(eventId)
 
-      repository.getEvent(eventId).first()
-        .onSuccess { assertFalse(it.isBookmarked) }
+      val actual = repository.getEvent(eventId).first()
+      assertFalse(actual.isBookmarked)
     }
 
   @Test
@@ -139,10 +134,9 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     val expectedTrackList = listOf(day1Event, day3Event).map { it.track }.map { it.toTrack() }
     eventsDbDao.insert(events)
 
-    val result = repository.getTracks().first()
+    val actual = repository.getTracks().first()
 
-    assertEquals(true, result is AppResult.Success)
-    assertEquals(true, (result as AppResult.Success).data == expectedTrackList)
+    assertEquals(true, actual == expectedTrackList)
   }
 
   @Test
@@ -151,10 +145,9 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     val trackList = events.map { it.track }.map { it.toTrack() }
     eventsDbDao.insert(events)
 
-    val result = repository.getTracks().first()
+    val actual = repository.getTracks().first()
 
-    assertEquals(true, result is AppResult.Success)
-    assertEquals(true, (result as AppResult.Success).data == trackList)
+    assertEquals(true, actual == trackList)
   }
 
   @Test
@@ -168,10 +161,9 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       val eventList = events.setDurationTime().map { it.toEvent() }
       eventsDbDao.insert(events)
 
-      val results = repository.getAllBookmarkedEvents().first()
+      val actual = repository.getAllBookmarkedEvents().first()
 
-      assertEquals(true, results is AppResult.Success)
-      assertEquals(true, (results as AppResult.Success).data == eventList)
+      assertEquals(true, actual == eventList)
     }
 
   @Test
@@ -182,29 +174,27 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       val events = listOf(event, event2)
       eventsDbDao.insert(events)
 
-      val results = repository.getAllBookmarkedEvents().first()
+      val actual = repository.getAllBookmarkedEvents().first()
 
-      assertEquals(true, results is AppResult.Success)
-      assertEquals(true, (results as AppResult.Success).data.isEmpty())
+      assertEquals(true, actual.isEmpty())
     }
 
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
-    private var events: AppResult<EventDto>? = null
+    private var events: EventDto? = null
+    private lateinit var error: Throwable
 
     fun setEvents(eventDto: EventDto) {
-      events = AppResult.Success(eventDto)
+      events = eventDto
     }
 
-    fun setFailure(error: Throwable) {
-      events = AppResult.Error(AppError.ApiException.NetworkException(error))
+    fun setFailure(throwable: Throwable) {
+      events = null
+      this.error = throwable
     }
 
-    override suspend fun fetchEvents(): AppResult<EventDto> {
-      if (events != null && events is AppResult.Error) return events as AppResult.Error
+    override suspend fun fetchEvents(): EventDto {
       events = createKtorEventsApiWithEvents(dispatchers).fetchEvents()
-      return events ?: AppResult.Error(
-        AppError.ApiException.NetworkException(Throwable("No events set in FakeEventsApi")),
-      )
+      return events ?: throw error
     }
   }
 }

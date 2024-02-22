@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.data.events.repository
 
-import com.addhen.fosdem.data.core.api.onSuccess
 import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -53,16 +52,14 @@ class EventsDataRepository(
   override suspend fun deleteAll() = database.deleteAll()
 
   override suspend fun refresh() {
-    api.fetchEvents()
-      .onSuccess { eventDto ->
-        database.deleteAll()
-        database.addDays(eventDto.days.toDays())
-        eventDto.days.forEach { day ->
-          day.rooms.forEach { room ->
-            database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
-          }
-        }
+    val eventDto = api.fetchEvents()
+    database.deleteAll()
+    database.addDays(eventDto.days.toDays())
+    eventDto.days.forEach { day ->
+      day.rooms.forEach { room ->
+        database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
       }
+    }
   }
 
   override suspend fun toggleBookmark(id: Long) = database.toggleBookmark(id)
