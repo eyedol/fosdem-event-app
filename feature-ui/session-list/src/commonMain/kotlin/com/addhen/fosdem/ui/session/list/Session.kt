@@ -46,8 +46,8 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
-import kotlin.math.roundToInt
 import me.tatarka.inject.annotations.Inject
+import kotlin.math.roundToInt
 
 const val SessionScreenTestTag = "SessionScreen"
 

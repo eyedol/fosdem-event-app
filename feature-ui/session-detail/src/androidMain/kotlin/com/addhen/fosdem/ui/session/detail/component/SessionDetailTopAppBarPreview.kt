@@ -25,7 +25,7 @@ private fun SessionDetailTopAppBarPreview() {
         onShareClick = {},
         onCalendarRegistrationClick = {},
 
-        )
+      )
     }
   }
 }

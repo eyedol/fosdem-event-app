@@ -18,7 +18,9 @@ import com.addhen.fosdem.test.day2Event
 import com.addhen.fosdem.test.day3Event
 import com.addhen.fosdem.test.events
 import com.addhen.fosdem.test.setDurationTime
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -39,10 +41,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
   @BeforeEach
   fun set() {
-    eventsDbDao = EventsDbDao(
-      database,
-      coroutineTestRule.testDispatcherProvider,
-    )
+    eventsDbDao = EventsDbDao(database, coroutineTestRule.testDispatcherProvider)
     repository = EventsDataRepository(fakeApi, eventsDbDao)
   }
 
@@ -80,13 +79,11 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
 
   @Test
   fun `refresh should update data in the database`() = coroutineTestRule.runTest {
-    val eventDto = (
-      createKtorEventsApiWithEvents(coroutineTestRule.testDispatcherProvider)
-        .fetchEvents()
-      )
-    fakeApi.setEvents(eventDto)
-
-    repository.refresh()
+    // We need to limit the parallelism to 1 to avoid the test
+    // failing due to the use of `withTimeout` in the refresh method
+    withContext(Dispatchers.Default.limitedParallelism(1)) {
+      repository.refresh()
+    }
 
     val expected = eventsDbDao.getEvents().first()
     assertTrue(expected.isNotEmpty())
@@ -182,10 +179,6 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: EventDto? = null
     private lateinit var error: Throwable
-
-    fun setEvents(eventDto: EventDto) {
-      events = eventDto
-    }
 
     fun setFailure(throwable: Throwable) {
       events = null

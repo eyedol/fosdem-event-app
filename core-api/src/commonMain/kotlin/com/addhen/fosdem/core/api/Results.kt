@@ -1,3 +1,6 @@
+// Copyright 2024, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.core.api
 
 import kotlinx.coroutines.CancellationException

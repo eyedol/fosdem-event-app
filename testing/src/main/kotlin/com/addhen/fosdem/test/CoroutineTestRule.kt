@@ -19,10 +19,10 @@ import org.junit.jupiter.api.extension.ExtensionContext
 
 @ExperimentalCoroutinesApi
 class CoroutineTestRule(
-  val dispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()),
+  private val dispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()),
 ) : BeforeEachCallback, AfterEachCallback {
 
-  val scope = TestScope(dispatcher)
+  private val scope = TestScope(dispatcher)
 
   val testDispatcherProvider = AppCoroutineDispatchers(
     io = dispatcher,
