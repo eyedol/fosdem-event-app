@@ -11,23 +11,20 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
-import kotlinx.datetime.LocalDate
 
 internal fun List<EventDto.Days>.toDays() = map { it.toDay() }
 
 internal fun EventDto.Days.toDay() = DayEntity(id = index.toLong(), date = date)
 
 internal fun EventDto.Days.Rooms.toRoom() = RoomEntity(
-  id = 0,
+  id = null, // Auto incremented in the database
   name = name,
 )
-
-internal fun List<EventDto.Days.Rooms>.toRooms() = map { it.toRoom() }
 
 internal fun List<EventDto.Days.Rooms.Event.Link>.toLinks() = map { it.toLink() }
 
 internal fun EventDto.Days.Rooms.Event.Link.toLink() = LinkEntity(
-  id = 0,
+  id = null, // Auto incremented in the database
   url = href,
   text = text,
 )
@@ -41,7 +38,7 @@ internal fun EventDto.Days.Rooms.Event.Speaker.toSpeaker() = SpeakerEntity(
 internal fun List<EventDto.Days.Rooms.Event.Attachment>.toAttachments() = map { it.toAttachment() }
 
 internal fun EventDto.Days.Rooms.Event.Attachment.toAttachment() = AttachmentEntity(
-  id = 0,
+  id = null, // Auto incremented in the database
   type = type,
   url = href,
   name = name ?: "",
@@ -53,7 +50,7 @@ internal fun EventDto.Days.Rooms.Event.toEvent(dayEntity: DayEntity, roomEntity:
     title = title,
     date = dayEntity.date,
     room = roomEntity,
-    day = DayEntity(0, LocalDate.parse("2023-09-02")),
+    day = dayEntity,
     start_time = start,
     duration = duration,
     isBookmarked = false,

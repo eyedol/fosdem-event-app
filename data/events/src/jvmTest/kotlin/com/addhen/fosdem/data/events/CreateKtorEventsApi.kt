@@ -13,6 +13,12 @@ fun createKtorEventsApiWithEvents(dispatchers: AppCoroutineDispatchers): KtorEve
   return KtorEventsApi(api, dispatchers)
 }
 
+fun createKtorEventsApiWithLiveEvents(dispatchers: AppCoroutineDispatchers): KtorEventsApi {
+  val schedulesXml = TestResourceUtil.readScheduleXml()
+  val api = createApiService(schedulesXml)
+  return KtorEventsApi(api, dispatchers)
+}
+
 fun createKtorEventsApiWithError(dispatchers: AppCoroutineDispatchers): KtorEventsApi {
   val api = createApiService(errorXml)
   return KtorEventsApi(api, dispatchers)

@@ -7,7 +7,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.model.api.Room
 
 internal fun RoomEntity.toRoom() = Room(
-  id = id,
+  id = id ?: 0L,
   name = name,
 )
 

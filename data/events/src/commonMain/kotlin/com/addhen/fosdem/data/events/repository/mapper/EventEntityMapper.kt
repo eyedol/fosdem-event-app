@@ -21,14 +21,14 @@ import com.addhen.fosdem.model.api.Track
 internal fun DayEntity.toDay() = Day(id = id, date = date)
 
 internal fun RoomEntity.toRoom() = Room(
-  id = id,
+  id = id ?: 0L,
   name = name,
 )
 
 internal fun List<LinkEntity>.toLinks() = map { it.toLink() }
 
 internal fun LinkEntity.toLink() = Link(
-  id = id,
+  id = id ?: 0L,
   url = url,
   text = text,
 )
@@ -42,7 +42,7 @@ internal fun SpeakerEntity.toSpeaker() = Speaker(
 internal fun List<AttachmentEntity>.toAttachments() = map { it.toAttachment() }
 
 internal fun AttachmentEntity.toAttachment() = Attachment(
-  id = id,
+  id = id ?: 0L,
   type = type,
   url = url,
   name = name,

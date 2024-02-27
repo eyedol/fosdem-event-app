@@ -4,6 +4,6 @@
 package com.addhen.fosdem.data.sqldelight.api.entities
 
 data class RoomEntity(
-  val id: Long,
+  val id: Long?,
   val name: String,
 )

@@ -8,8 +8,11 @@ import com.addhen.fosdem.data.events.api.api.EventsApi
 import com.addhen.fosdem.data.events.api.api.dto.EventDto
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.events.createKtorEventsApiWithEvents
+import com.addhen.fosdem.data.events.createKtorEventsApiWithLiveEvents
 import com.addhen.fosdem.data.events.database.EventsDbDao
+import com.addhen.fosdem.data.events.repository.mapper.toDay
 import com.addhen.fosdem.data.events.repository.mapper.toEvent
+import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
@@ -88,6 +91,49 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     val expected = eventsDbDao.getEvents().first()
     assertTrue(expected.isNotEmpty())
   }
+
+  @Test
+  fun `refresh get full xml schedule should update data in the databases`() =
+    coroutineTestRule.runTest {
+      val expectedScheduleSize = 874
+      val schedulesService = FakeEventsApiWithSchedulesXml(coroutineTestRule.testDispatcherProvider)
+
+      val sut = EventsDataRepository(schedulesService, eventsDbDao)
+
+      // We need to limit the parallelism to 1 to avoid the test
+      // failing due to the use of `withTimeout` in the refresh method
+      withContext(Dispatchers.Default.limitedParallelism(1)) {
+        sut.refresh()
+      }
+
+      val eventsDto = schedulesService.events
+      val actual = eventsDbDao.getEvents().first()
+      assertTrue(actual.isNotEmpty())
+      assertEquals(expectedScheduleSize, actual.size)
+
+      var roomIdCounter = 0L
+      var linkIdCounter = 0L
+      var attachmentIdCounter = 0L
+
+      eventsDto.days.forEach { day ->
+        day.rooms.forEach { room ->
+          room.events.forEach { event ->
+            val actualEvent = actual.find { it.id == event.id }
+            assertEquals(true, actualEvent != null)
+            // Calling setDurationTime to parse the duration time from the DTO otherwise the
+            // assertion fails
+            val expectedEventEntity = event.toEvent(day.toDay(), room.toRoom()).setDurationTime()
+            val modfiled = expectedEventEntity.copy(links = expectedEventEntity.links.map {
+              it.copy(id = ++linkIdCounter)
+            }, attachments = expectedEventEntity.attachments.map {
+              it.copy(id = ++attachmentIdCounter)
+            }, room = expectedEventEntity.room.copy(id = ++roomIdCounter))
+            println("Expected: ${expectedEventEntity.duration} actual: ${actualEvent?.duration}")
+            assertEquals(modfiled, actualEvent)
+          }
+        }
+      }
+    }
 
   @Test
   fun `refresh should handle API error`() = coroutineTestRule.runTest {
@@ -188,6 +234,17 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     override suspend fun fetchEvents(): EventDto {
       events = createKtorEventsApiWithEvents(dispatchers).fetchEvents()
       return events ?: throw error
+    }
+  }
+
+  internal class FakeEventsApiWithSchedulesXml(
+    private val dispatchers: AppCoroutineDispatchers,
+  ) : EventsApi {
+
+    lateinit var events: EventDto
+    override suspend fun fetchEvents(): EventDto {
+      events = createKtorEventsApiWithLiveEvents(dispatchers).fetchEvents()
+      return events
     }
   }
 }

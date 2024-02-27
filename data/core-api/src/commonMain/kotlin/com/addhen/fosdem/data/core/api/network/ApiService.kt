@@ -16,15 +16,6 @@ import nl.adaptivity.xmlutil.serialization.XML
 
 class ApiService(val url: String, val httpClient: HttpClient) {
 
-  val defaultXml: XML = XML {
-    repairNamespaces = true
-    xmlDeclMode = XmlDeclMode.None
-    indentString = ""
-    autoPolymorphic = false
-    defaultPolicy { ignoreUnknownChildren() }
-    this.xmlDeclMode
-  }
-
   suspend inline fun <reified T : Any> get(
     dispatcher: CoroutineDispatcher,
     crossinline block: HttpRequestBuilder.() -> Unit = {},
@@ -35,7 +26,7 @@ class ApiService(val url: String, val httpClient: HttpClient) {
   suspend inline fun <reified T : Any> HttpResponse.asType(): T {
     val xmlText = bodyAsText()
     val serializer = serializer<T>()
-    return defaultXml.decodeFromString(serializer, xmlText)
+    return DEFAULT_XML.decodeFromString(serializer, xmlText)
   }
 
   suspend inline fun <reified T> makeApiCall(
@@ -43,5 +34,17 @@ class ApiService(val url: String, val httpClient: HttpClient) {
     crossinline apiCall: suspend () -> T,
   ): T = withContext(dispatcher) {
     apiCall.invoke()
+  }
+
+  companion object {
+
+    val DEFAULT_XML: XML = XML {
+      repairNamespaces = true
+      xmlDeclMode = XmlDeclMode.None
+      indentString = ""
+      autoPolymorphic = false
+      defaultPolicy { ignoreUnknownChildren() }
+      this.xmlDeclMode
+    }
   }
 }
