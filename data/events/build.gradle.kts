@@ -31,6 +31,7 @@ kotlin {
         implementation(libs.kotlinx.datetime)
         implementation(libs.sqldelight.coroutines)
         implementation(libs.sqldelight.primitive)
+        implementation(libs.kotlinx.coroutines.core)
       }
     }
 

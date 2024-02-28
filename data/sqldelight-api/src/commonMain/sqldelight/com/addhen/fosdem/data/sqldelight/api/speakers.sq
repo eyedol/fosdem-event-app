@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS `speakers` (
-  `id` INTEGER NOT NULL,
-  `name` TEXT NOT NULL,
-  PRIMARY KEY(`id`)
+  `id` INTEGER PRIMARY KEY,
+  `name` TEXT NOT NULL
 );
 
 -- queries

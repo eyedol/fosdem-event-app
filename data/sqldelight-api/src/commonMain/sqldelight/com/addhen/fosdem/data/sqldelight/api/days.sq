@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `days`(
 -- queries
 
 insert:
-INSERT OR IGNORE INTO days(
+INSERT OR REPLACE INTO days(
     `id`,
     `date`
 ) VALUES(

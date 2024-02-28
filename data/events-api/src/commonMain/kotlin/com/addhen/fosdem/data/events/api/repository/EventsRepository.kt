@@ -22,7 +22,5 @@ interface EventsRepository {
 
   suspend fun toggleBookmark(id: Long): Result<Unit>
 
-  suspend fun deleteAll()
-
   suspend fun refresh(): Result<Unit>
 }

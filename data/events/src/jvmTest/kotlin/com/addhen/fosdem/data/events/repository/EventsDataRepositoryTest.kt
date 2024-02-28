@@ -71,16 +71,6 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   }
 
   @Test
-  fun `deleteAll should clear the data from database`() = coroutineTestRule.runTest {
-    eventsDbDao.insert(listOf(day1Event, day2Event))
-
-    repository.deleteAll()
-
-    val expected = eventsDbDao.getEvents().first()
-    assertTrue(expected.isEmpty())
-  }
-
-  @Test
   fun `refresh should update data in the database`() = coroutineTestRule.runTest {
     // We need to limit the parallelism to 1 to avoid the test
     // failing due to the use of `withTimeout` in the refresh method
@@ -123,12 +113,15 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
             // Calling setDurationTime to parse the duration time from the DTO otherwise the
             // assertion fails
             val expectedEventEntity = event.toEvent(day.toDay(), room.toRoom()).setDurationTime()
-            val modfiled = expectedEventEntity.copy(links = expectedEventEntity.links.map {
-              it.copy(id = ++linkIdCounter)
-            }, attachments = expectedEventEntity.attachments.map {
-              it.copy(id = ++attachmentIdCounter)
-            }, room = expectedEventEntity.room.copy(id = ++roomIdCounter))
-            println("Expected: ${expectedEventEntity.duration} actual: ${actualEvent?.duration}")
+            val modfiled = expectedEventEntity.copy(
+              links = expectedEventEntity.links.map {
+                it.copy(id = ++linkIdCounter)
+              },
+              attachments = expectedEventEntity.attachments.map {
+                it.copy(id = ++attachmentIdCounter)
+              },
+              room = expectedEventEntity.room.copy(id = ++roomIdCounter),
+            )
             assertEquals(modfiled, actualEvent)
           }
         }

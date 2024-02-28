@@ -9,6 +9,7 @@ data class AppCoroutineDispatchers(
   val io: CoroutineDispatcher,
   val default: CoroutineDispatcher,
   val databaseRead: CoroutineDispatcher,
+  val databaseWrite: CoroutineDispatcher,
   val computation: CoroutineDispatcher,
   val main: CoroutineDispatcher,
 )

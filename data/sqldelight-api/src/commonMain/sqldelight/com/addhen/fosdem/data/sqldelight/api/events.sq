@@ -13,11 +13,6 @@ CREATE TABLE IF NOT EXISTS `events`(
   FOREIGN KEY (room_id) REFERENCES rooms(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
--- indices
-
---CREATE UNIQUE INDEX IF NOT EXISTS `index_events_day_id` ON `events` (`day_id`);
-CREATE UNIQUE INDEX IF NOT EXISTS `index_events_room_id` ON `events` (`room_id`);
-
 -- triggers
 CREATE TRIGGER IF NOT EXISTS delete_all_app_tables
 AFTER DELETE ON `events`
@@ -35,7 +30,7 @@ END;
 -- queries
 
 insert:
-INSERT INTO events(
+INSERT OR REPLACE INTO events(
     `id`,
     `date`,
     `room_id`,

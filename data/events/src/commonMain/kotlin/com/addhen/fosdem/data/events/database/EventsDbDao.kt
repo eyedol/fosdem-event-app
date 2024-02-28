@@ -21,7 +21,6 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
-import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -86,45 +85,16 @@ class EventsDbDao(
     appDatabase.eventsQueries.toggleBookmark(eventId)
   }
 
-  override suspend fun deleteAll() {
-    appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
-      appDatabase.eventsQueries.deleteAll()
-    }
+  override suspend fun deleteAll() = withContext(backgroundDispatcher.databaseRead) {
+    appDatabase.eventsQueries.deleteAll()
   }
 
-  override suspend fun insert(events: List<EventEntity>) {
-    appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
+  override suspend fun insert(events: List<EventEntity>) =
+    withContext(backgroundDispatcher.databaseWrite) {
       events.forEach { eventEntity ->
-        appDatabase.daysQueries.insert(eventEntity.day.id, eventEntity.day.date)
-        // Add speakers as a separate insert query
-        eventEntity.speakers.forEach {
-          appDatabase.speakersQueries.insert(it.id, it.name)
-          appDatabase.event_speakersQueries.insert(it.id, eventEntity.id)
-        }
-        // Add links as a separate insert query
-        eventEntity.links.forEach { linkEntity ->
-          appDatabase.linksQueries.insert(linkEntity.id, linkEntity.url, linkEntity.text)
-          val lastLinkRowId = appDatabase.linksQueries.findInsertRowid().executeAsOne()
-          appDatabase.event_linksQueries.insert(lastLinkRowId, eventEntity.id)
-        }
-
-        // Add room as a separate insert query
-        appDatabase.roomsQueries.insert(id = eventEntity.room.id, name = eventEntity.room.name)
-        val lastRoomRowId: Long = appDatabase.roomsQueries.findInsertRowid().executeAsOne()
-
-        // Add attachments as a separate insert query.
-        eventEntity.attachments.forEach { attachmentEntity ->
-          appDatabase.attachmentsQueries.insert(
-            id = attachmentEntity.id,
-            type = attachmentEntity.type,
-            url = attachmentEntity.url,
-            name = attachmentEntity.name,
-          )
-          val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
-          appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
-        }
-
-        // Add events as a separate insert query
+        // Insert room
+        val lastRoomRowId = selInsertRoom(eventEntity.room)
+        // Insert event
         appDatabase.eventsQueries.insert(
           eventEntity.id,
           eventEntity.date,
@@ -138,20 +108,56 @@ class EventsDbDao(
           eventEntity.track.name,
           eventEntity.track.type,
         )
+
+        // Insert attachments and attachment-event relations
+        eventEntity.attachments.forEach { attachmentEntity ->
+          appDatabase.attachmentsQueries.insert(
+            id = attachmentEntity.id,
+            type = attachmentEntity.type,
+            url = attachmentEntity.url,
+            name = attachmentEntity.name,
+          )
+          val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
+          appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
+        }
+
+        // Insert speakers and speaker-event relations
+        eventEntity.speakers.forEach {
+          appDatabase.speakersQueries.insert(it.id, it.name)
+          appDatabase.event_speakersQueries.insert(it.id, eventEntity.id)
+        }
+
+        // Insert links and link-event relations
+        eventEntity.links.forEach { linkEntity ->
+          appDatabase.linksQueries.insert(linkEntity.id, linkEntity.url, linkEntity.text)
+          val lastLinkRowId = appDatabase.linksQueries.findInsertRowid().executeAsOne()
+          appDatabase.event_linksQueries.insert(lastLinkRowId, eventEntity.id)
+        }
       }
     }
-  }
 
-  override suspend fun addDays(days: List<DayEntity>) {
-    appDatabase.transactionWithContext(backgroundDispatcher.databaseRead) {
+  override suspend fun addDays(days: List<DayEntity>) =
+    withContext(backgroundDispatcher.databaseWrite) {
       days.forEach {
         appDatabase.daysQueries.insert(it.id, it.date)
       }
     }
+
+  override suspend fun getDays(): List<DayEntity> = withContext(backgroundDispatcher.databaseRead) {
+    appDatabase.daysQueries.selectAll().executeAsList().toDays()
   }
 
-  override suspend fun getDays(): List<DayEntity> = withContext(backgroundDispatcher.io) {
-    appDatabase.daysQueries.selectAll().executeAsList().toDays()
+  private fun selInsertRoom(roomEntity: RoomEntity): Long {
+    // Update room if room exists else insert and return id of the room.
+    // Doing this because the room_id is needed to be added to the EventEntity
+    // before the event is inserted into the table.
+    val roomId = appDatabase.roomsQueries.selectIdByName(roomEntity.name).executeAsOneOrNull()
+    return if (roomId != null) {
+      roomId
+    } else {
+      appDatabase.roomsQueries.insert(roomEntity.id, roomEntity.name)
+      appDatabase.roomsQueries.findInsertRowid().executeAsOne()
+    }
   }
 
   private val eventTrackQueriesMapper = {

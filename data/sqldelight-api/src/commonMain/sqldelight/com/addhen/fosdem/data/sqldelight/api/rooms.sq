@@ -1,18 +1,18 @@
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` TEXT
-  --UNIQUE (name)
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` TEXT NOT NULL UNIQUE
 );
 
 -- queries
 insert:
-INSERT OR IGNORE INTO rooms(
-    `id`,
-    `name`
-) VALUES(?,?);
+INSERT OR REPLACE INTO rooms(`id`, `name`)
+VALUES (?, ?);
 
 findInsertRowid:
 SELECT last_insert_rowid();
 
 selectAll:
 SELECT DISTINCT * FROM rooms;
+
+selectIdByName:
+SELECT id FROM rooms WHERE name = ?;

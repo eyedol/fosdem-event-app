@@ -18,6 +18,7 @@ interface CoreApiBinds {
     io = Dispatchers.IO,
     default = Dispatchers.Default,
     databaseRead = Dispatchers.IO.limitedParallelism(4),
+    databaseWrite = Dispatchers.IO.limitedParallelism(1),
     computation = Dispatchers.Default,
     main = Dispatchers.Main,
   )

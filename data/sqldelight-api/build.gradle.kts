@@ -15,6 +15,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(libs.kotlinx.datetime)
+        implementation(libs.kotlinx.coroutines.core)
         implementation(libs.kotlininject.runtime)
         implementation(libs.sqldelight.coroutines)
         implementation(libs.sqldelight.primitive)

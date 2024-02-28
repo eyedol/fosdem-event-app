@@ -51,8 +51,6 @@ class EventsDataRepository(
     .getEvent(id)
     .map { it.toEvent() }
 
-  override suspend fun deleteAll() = database.deleteAll()
-
   override suspend fun refresh() = runCatching {
     withTimeout(3.minutes) {
       refreshEvents()

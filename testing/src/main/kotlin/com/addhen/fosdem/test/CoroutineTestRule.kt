@@ -28,6 +28,7 @@ class CoroutineTestRule(
     io = dispatcher,
     default = dispatcher,
     databaseRead = dispatcher,
+    databaseWrite = dispatcher,
     computation = dispatcher,
     main = dispatcher,
   )
