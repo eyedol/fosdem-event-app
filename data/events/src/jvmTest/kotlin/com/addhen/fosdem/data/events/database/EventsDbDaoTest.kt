@@ -5,6 +5,8 @@ package com.addhen.fosdem.data.events.database
 
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
+import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
@@ -16,6 +18,7 @@ import com.addhen.fosdem.test.day3Event
 import com.addhen.fosdem.test.events
 import com.addhen.fosdem.test.setDurationTime
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -38,7 +41,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully gets events by date one from the database`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     val actual = sut.getEvents(day.date).first()
 
@@ -50,13 +53,13 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully gets events by day two from the database`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     val actual = sut.getEvents(day2.date).first()
 
     assertEquals(2, actual.size)
 
-    val expectedDay2Event1 = day2Event.setDurationTime()
+    val expectedDay2Event1 = day2Event.setDurationTime().setRoomId()
     val expectedDay2Event2 = day3Event.setDurationTime()
     assertEquals(listOf(expectedDay2Event1, expectedDay2Event2), actual)
   }
@@ -64,7 +67,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully gets events by id`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     val actual = sut.getEvent(3).first()
 
@@ -80,7 +83,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully toggles event isBookmarked field to true`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     sut.toggleBookmark(3)
     val actual = sut.getEvent(3).first()
@@ -91,7 +94,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully toggles event isBookmarked field to false`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     sut.toggleBookmark(3) // Initial toggle state is false, this call toggles it to true
     sut.toggleBookmark(3) // Now toggle it back to false
@@ -103,7 +106,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   @Test
   fun `successfully deletes all events and its related data`() = coroutineTestRule.runTest {
     // Seed some data
-    sut.insert(events)
+    givenDaysAndEventsData()
 
     sut.deleteAll()
 
@@ -113,16 +116,19 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   }
 
   @Test
-  fun `successfully gets all bookmarked events`() = coroutineTestRule.runTest {
+  fun `successfully gets all bookmarked events`() = runTest {
     // Seed some data
     val event = day1Event.copy(isBookmarked = true)
     val event2 = day2Event.copy(isBookmarked = true)
-    val events = listOf(event, event2)
-    sut.insert(events)
+    val inputEvents = listOf(event, event2)
+    val expected = listOf(
+      event,
+      event2.setRoomId(), // Change event2 room id to 1 as room name is unique
+    ).setDurationTime()
+    givenDaysAndEventsData(inputEvents)
 
     val actual = sut.getAllBookmarkedEvents().first()
-
-    assertEquals(true, actual == events.setDurationTime())
+    assertEquals(expected, actual)
   }
 
   @Test
@@ -131,7 +137,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
     val event = day1Event.copy(isBookmarked = false)
     val event2 = day2Event.copy(isBookmarked = false)
     val events = listOf(event, event2)
-    sut.insert(events)
+    givenDaysAndEventsData(events)
 
     val actual = sut.getAllBookmarkedEvents().first()
 
@@ -151,5 +157,14 @@ class EventsDbDaoTest : BaseDatabaseTest() {
     val actual = sut.getDays()
 
     assertEquals(days, actual)
+  }
+
+  private suspend fun givenDaysAndEventsData(inputEvents: List<EventEntity> = events) {
+    sut.addDays(listOf(day, day2))
+    sut.insert(inputEvents)
+  }
+
+  private fun EventEntity.setRoomId(roomId: Long = 1): EventEntity {
+    return copy(room = RoomEntity(id = roomId, name = room.name))
   }
 }

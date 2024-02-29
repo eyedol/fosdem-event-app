@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `attachments`(
 -- queries
 
 insert:
-INSERT OR IGNORE INTO attachments (
+INSERT OR REPLACE INTO attachments (
     `id`,
     `type`,
     `url`,

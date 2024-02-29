@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `links` (
 
 -- queries
 insert:
-INSERT OR IGNORE INTO links(
+INSERT OR REPLACE INTO links(
     `id`,
     `url`,
     `text`

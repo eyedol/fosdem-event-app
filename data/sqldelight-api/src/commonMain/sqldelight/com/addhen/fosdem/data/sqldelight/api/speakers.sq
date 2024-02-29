@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `speakers` (
 
 -- queries
 insert:
-INSERT OR IGNORE INTO speakers (
+INSERT OR REPLACE INTO speakers (
   `id`,
   `name`
 ) VALUES(

@@ -21,7 +21,7 @@ INNER JOIN speakers s ON es.speaker_id = s.id
 WHERE e.date = ? AND e.id = ?;
 
 insert:
-INSERT OR IGNORE INTO event_speakers (
+INSERT OR REPLACE INTO event_speakers (
   speaker_id,
   event_id
 ) VALUES (
