@@ -6,11 +6,6 @@ CREATE TABLE IF NOT EXISTS `event_speakers`(
   FOREIGN KEY (speaker_id) REFERENCES speakers(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
--- indices
-
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_speaker_id` ON `event_speakers` (`speaker_id`);
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_speakers_event_id` ON `event_speakers` (`event_id`);
-
 -- queries
 
 selectSpeakers:

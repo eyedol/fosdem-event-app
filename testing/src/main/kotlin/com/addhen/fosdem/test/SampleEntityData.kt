@@ -153,3 +153,7 @@ fun EventEntity.setDurationTime(): EventEntity {
 fun List<EventEntity>.setDurationTime(): List<EventEntity> = map {
   it.setDurationTime()
 }
+
+fun EventEntity.setRoomId(roomId: Long = 1): EventEntity {
+  return copy(room = RoomEntity(id = roomId, name = room.name))
+}

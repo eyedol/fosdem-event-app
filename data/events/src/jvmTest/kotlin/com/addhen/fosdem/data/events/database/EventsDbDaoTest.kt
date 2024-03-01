@@ -6,7 +6,6 @@ package com.addhen.fosdem.data.events.database
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
-import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
@@ -17,6 +16,7 @@ import com.addhen.fosdem.test.day2Event
 import com.addhen.fosdem.test.day3Event
 import com.addhen.fosdem.test.events
 import com.addhen.fosdem.test.setDurationTime
+import com.addhen.fosdem.test.setRoomId
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
@@ -162,9 +162,5 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   private suspend fun givenDaysAndEventsData(inputEvents: List<EventEntity> = events) {
     sut.addDays(listOf(day, day2))
     sut.insert(inputEvents)
-  }
-
-  private fun EventEntity.setRoomId(roomId: Long = 1): EventEntity {
-    return copy(room = RoomEntity(id = roomId, name = room.name))
   }
 }

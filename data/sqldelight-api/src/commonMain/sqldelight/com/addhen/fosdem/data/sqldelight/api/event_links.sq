@@ -6,11 +6,6 @@ CREATE TABLE IF NOT EXISTS `event_links`(
   FOREIGN KEY (link_id) REFERENCES links(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
--- indices
-
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_links_link_id` ON `event_links` (`link_id`);
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_links_event_id` ON `event_links` (`event_id`);
-
 -- queries
 
 insert:

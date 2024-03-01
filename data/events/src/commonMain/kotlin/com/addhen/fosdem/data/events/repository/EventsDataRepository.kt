@@ -61,8 +61,8 @@ class EventsDataRepository(
     val eventDto = api.fetchEvents()
     database.deleteAll()
     database.addDays(eventDto.days.toDays())
-    eventDto.days.forEach { day ->
-      day.rooms.forEach { room ->
+    for (day in eventDto.days) {
+      for (room in day.rooms) {
         database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
       }
     }

@@ -14,13 +14,17 @@ import com.addhen.fosdem.data.events.repository.mapper.toDay
 import com.addhen.fosdem.data.events.repository.mapper.toEvent
 import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
+import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
+import com.addhen.fosdem.test.day
 import com.addhen.fosdem.test.day1Event
+import com.addhen.fosdem.test.day2
 import com.addhen.fosdem.test.day2Event
 import com.addhen.fosdem.test.day3Event
 import com.addhen.fosdem.test.events
 import com.addhen.fosdem.test.setDurationTime
+import com.addhen.fosdem.test.setRoomId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -52,7 +56,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   fun `getEvents should return events from database`() = coroutineTestRule.runTest {
     val date = LocalDate.parse("2023-02-04")
     val eventList = events.filter { it.day.date == date }.setDurationTime().toEvent()
-    eventsDbDao.insert(events)
+    givenDaysAndEventsData(events)
 
     val result = repository.getEvents(date).first()
 
@@ -63,7 +67,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   fun `getEvent should return event from database`() = coroutineTestRule.runTest {
     val eventId = 1L
     val event = day1Event
-    eventsDbDao.insert(listOf(event))
+    givenDaysAndEventsData(listOf(event))
 
     val result = repository.getEvent(eventId).first()
 
@@ -85,7 +89,8 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   @Test
   fun `refresh get full xml schedule should update data in the databases`() =
     coroutineTestRule.runTest {
-      val expectedScheduleSize = 874
+      // It's the actual size of all the events in the schedules.xml file
+      val expectedScheduleSize = 108
       val schedulesService = FakeEventsApiWithSchedulesXml(coroutineTestRule.testDispatcherProvider)
 
       val sut = EventsDataRepository(schedulesService, eventsDbDao)
@@ -101,28 +106,27 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       assertTrue(actual.isNotEmpty())
       assertEquals(expectedScheduleSize, actual.size)
 
-      var roomIdCounter = 0L
       var linkIdCounter = 0L
       var attachmentIdCounter = 0L
 
       eventsDto.days.forEach { day ->
         day.rooms.forEach { room ->
           room.events.forEach { event ->
-            val actualEvent = actual.find { it.id == event.id }
-            assertEquals(true, actualEvent != null)
             // Calling setDurationTime to parse the duration time from the DTO otherwise the
             // assertion fails
+            val actualEvent = actual.find { it.id == event.id }
             val expectedEventEntity = event.toEvent(day.toDay(), room.toRoom()).setDurationTime()
-            val modfiled = expectedEventEntity.copy(
+            val actualEventEntityWithRelatedData = expectedEventEntity.copy(
               links = expectedEventEntity.links.map {
                 it.copy(id = ++linkIdCounter)
               },
               attachments = expectedEventEntity.attachments.map {
                 it.copy(id = ++attachmentIdCounter)
               },
-              room = expectedEventEntity.room.copy(id = ++roomIdCounter),
+              room = expectedEventEntity.room.copy(id = actualEvent?.room?.id),
             )
-            assertEquals(modfiled, actualEvent)
+            assertEquals(true, actualEvent != null)
+            assertEquals(actualEventEntityWithRelatedData, actualEvent)
           }
         }
       }
@@ -143,7 +147,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     coroutineTestRule.runTest {
       val eventId = 1L
       val event = day1Event.copy(isBookmarked = false)
-      eventsDbDao.insert(listOf(event))
+      givenDaysAndEventsData(listOf(event))
 
       repository.toggleBookmark(eventId)
 
@@ -156,7 +160,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     coroutineTestRule.runTest {
       val eventId = 1L
       val event = day1Event.copy(isBookmarked = true)
-      eventsDbDao.insert(listOf(event))
+      givenDaysAndEventsData(listOf(event))
 
       repository.toggleBookmark(eventId)
 
@@ -168,7 +172,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   fun `getTracks should return distinct event tracks from database`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day2Event, day3Event)
     val expectedTrackList = listOf(day1Event, day3Event).map { it.track }.map { it.toTrack() }
-    eventsDbDao.insert(events)
+    givenDaysAndEventsData(events)
 
     val actual = repository.getTracks().first()
 
@@ -179,7 +183,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   fun `getTracks should return event tracks from database`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day3Event)
     val trackList = events.map { it.track }.map { it.toTrack() }
-    eventsDbDao.insert(events)
+    givenDaysAndEventsData(events)
 
     val actual = repository.getTracks().first()
 
@@ -194,12 +198,15 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       val events = listOf(event, event2)
       // Calling setDurationTime to parse the duration time from the DTO otherwise the
       // assertion fails
-      val eventList = events.setDurationTime().map { it.toEvent() }
-      eventsDbDao.insert(events)
+      val expected = listOf(
+        event.setDurationTime(),
+        event2.setRoomId().setDurationTime(),
+      ).map { it.toEvent() }
+      givenDaysAndEventsData(events)
 
       val actual = repository.getAllBookmarkedEvents().first()
 
-      assertEquals(true, actual == eventList)
+      assertEquals(expected, actual)
     }
 
   @Test
@@ -208,12 +215,17 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       val event = day1Event.copy(isBookmarked = false)
       val event2 = day2Event.copy(isBookmarked = false)
       val events = listOf(event, event2)
-      eventsDbDao.insert(events)
+      givenDaysAndEventsData(events)
 
       val actual = repository.getAllBookmarkedEvents().first()
 
       assertEquals(true, actual.isEmpty())
     }
+
+  private suspend fun givenDaysAndEventsData(inputEvents: List<EventEntity> = events) {
+    eventsDbDao.addDays(listOf(day, day2))
+    eventsDbDao.insert(inputEvents)
+  }
 
   class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: EventDto? = null

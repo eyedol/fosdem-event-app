@@ -6,11 +6,6 @@ CREATE TABLE IF NOT EXISTS `event_attachments`(
   FOREIGN KEY (attachment_id) REFERENCES attachments(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
--- indices
-
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_attachments_attachment_id` ON `event_attachments` (`attachment_id`);
-CREATE UNIQUE INDEX IF NOT EXISTS `index_event_attachments_event_id` ON `event_attachments` (`event_id`);
-
 -- queries
 
 insert:
