@@ -7,9 +7,9 @@ import com.addhen.fosdem.core.api.di.ApplicationScope
 import com.addhen.fosdem.data.core.api.network.KtorHttpClientApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
-import java.util.concurrent.TimeUnit
 import me.tatarka.inject.annotations.Provides
 import okhttp3.ConnectionPool
+import java.util.concurrent.TimeUnit
 
 actual interface HttpClientPlatformComponent {
 

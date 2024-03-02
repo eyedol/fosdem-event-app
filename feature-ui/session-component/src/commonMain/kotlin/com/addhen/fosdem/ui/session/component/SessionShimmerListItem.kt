@@ -64,39 +64,39 @@ private fun SessionShimmerListItem(modifier: Modifier = Modifier) {
   Column(
     modifier = modifier.testTag(SessionShimmerListItemTestTag),
   ) {
-      Spacer(modifier = Modifier.size(5.dp))
-      Row(verticalAlignment = Alignment.CenterVertically) {
-          //  Shimmer effect on top
-          Box(
-              modifier = Modifier
-                  .height(50.dp)
-                  .fillMaxWidth()
-                  .shimmerBackground(RoundedCornerShape(4.dp)),
+    Spacer(modifier = Modifier.size(5.dp))
+    Row(verticalAlignment = Alignment.CenterVertically) {
+      //  Shimmer effect on top
+      Box(
+        modifier = Modifier
+          .height(50.dp)
+          .fillMaxWidth()
+          .shimmerBackground(RoundedCornerShape(4.dp)),
 
-              )
-      }
-      Spacer(modifier = Modifier.size(12.dp))
-      Row {
-          //  Shimmer effect on bottom(left)
-          Box(
-              modifier = Modifier
-                  .height(40.dp)
-                  .width(40.dp)
-                  .clip(RoundedCornerShape(12.dp))
-                  .shimmerBackground(RoundedCornerShape(4.dp))
-                  .background(Color.LightGray),
-          )
-          Spacer(modifier = Modifier.size(10.dp))
-          //  Shimmer effect on bottom(right)
-          Box(
-              modifier = Modifier
-                  .height(32.dp)
-                  .width(80.dp)
-                  .shimmerBackground(RoundedCornerShape(4.dp)),
-          )
-      }
-      Spacer(modifier = Modifier.size(15.dp))
-      HorizontalDivider()
+      )
+    }
+    Spacer(modifier = Modifier.size(12.dp))
+    Row {
+      //  Shimmer effect on bottom(left)
+      Box(
+        modifier = Modifier
+          .height(40.dp)
+          .width(40.dp)
+          .clip(RoundedCornerShape(12.dp))
+          .shimmerBackground(RoundedCornerShape(4.dp))
+          .background(Color.LightGray),
+      )
+      Spacer(modifier = Modifier.size(10.dp))
+      //  Shimmer effect on bottom(right)
+      Box(
+        modifier = Modifier
+          .height(32.dp)
+          .width(80.dp)
+          .shimmerBackground(RoundedCornerShape(4.dp)),
+      )
+    }
+    Spacer(modifier = Modifier.size(15.dp))
+    HorizontalDivider()
   }
 }
 

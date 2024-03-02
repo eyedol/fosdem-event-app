@@ -98,27 +98,27 @@ fun Main(
         .fillMaxSize()
         .padding(paddingValues),
     ) {
-        if (navigationType == NavigationType.RAIL) {
-            MainNavigationRail(
-                selectedNavigation = rootScreen,
-                navigationItems = navigationItems,
-                onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
-                modifier = Modifier.fillMaxHeight(),
-            )
+      if (navigationType == NavigationType.RAIL) {
+        MainNavigationRail(
+          selectedNavigation = rootScreen,
+          navigationItems = navigationItems,
+          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+          modifier = Modifier.fillMaxHeight(),
+        )
 
-            HorizontalDivider(
-                Modifier
-                    .fillMaxHeight()
-                    .width(1.dp)
-            )
-        } else if (navigationType == NavigationType.PERMANENT_DRAWER) {
-            MainNavigationDrawer(
-                selectedNavigation = rootScreen,
-                navigationItems = navigationItems.toPersistentList(),
-                onNavigationSelected = { navigator.resetRoot(it) },
-                modifier = Modifier.fillMaxHeight(),
-            )
-        }
+        HorizontalDivider(
+          Modifier
+            .fillMaxHeight()
+            .width(1.dp),
+        )
+      } else if (navigationType == NavigationType.PERMANENT_DRAWER) {
+        MainNavigationDrawer(
+          selectedNavigation = rootScreen,
+          navigationItems = navigationItems.toPersistentList(),
+          onNavigationSelected = { navigator.resetRoot(it) },
+          modifier = Modifier.fillMaxHeight(),
+        )
+      }
 
       ContentWithOverlays {
         NavigableCircuitContent(

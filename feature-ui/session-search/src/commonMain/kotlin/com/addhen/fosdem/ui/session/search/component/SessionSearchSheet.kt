@@ -78,53 +78,53 @@ fun SessionSearchSheet(
       .padding(top = contentPadding.calculateTopPadding())
       .then(modifier),
   ) {
-      HorizontalDivider(
-          thickness = 1.dp,
-          color = MaterialTheme.colorScheme.outline
-      )
+    HorizontalDivider(
+      thickness = 1.dp,
+      color = MaterialTheme.colorScheme.outline,
+    )
 
-      SearchFilter(
-          searchFilterDayUiState = uiState.filterDayUiState,
-          searchFilterSessionTrackUiState = uiState.filterTrackUiState,
-          searchFilterSessionRoomUiState = uiState.filterRoomUiState,
-          onDaySelected = onDaySelected,
-          onSessionRoomSelected = onSessionRoomSelected,
-          onSessionTrackSelected = onSessionTrackSelected,
-      )
+    SearchFilter(
+      searchFilterDayUiState = uiState.filterDayUiState,
+      searchFilterSessionTrackUiState = uiState.filterTrackUiState,
+      searchFilterSessionRoomUiState = uiState.filterRoomUiState,
+      onDaySelected = onDaySelected,
+      onSessionRoomSelected = onSessionRoomSelected,
+      onSessionTrackSelected = onSessionTrackSelected,
+    )
 
-      when (uiState) {
-          is Loading -> {
-              SessionShimmerList(
-                  modifier = Modifier
-                      .weight(1f)
-                      .fillMaxSize(),
-                  contentPadding = PaddingValues(
-                      bottom = contentPadding.calculateBottomPadding(),
-                      start = contentPadding.calculateStartPadding(layoutDirection),
-                      end = contentPadding.calculateEndPadding(layoutDirection),
-                  ),
-              )
-          }
-
-          is ListSearch -> SearchList(
-              contentPadding = PaddingValues(
-                  bottom = contentPadding.calculateBottomPadding(),
-              ),
-              scrollState = scrollState,
-              sessionItemMap = uiState.sessionItemMap,
-              searchQuery = uiState.query,
-              onSessionItemClick = onSessionItemClick,
-              onBookmarkIconClick = onBookmarkClick,
-          )
-
-          is SearchUiState.Empty -> {
-              val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
-              EmptySessionItems(
-                  message = message,
-                  graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
-                  modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
-              )
-          }
+    when (uiState) {
+      is Loading -> {
+        SessionShimmerList(
+          modifier = Modifier
+            .weight(1f)
+            .fillMaxSize(),
+          contentPadding = PaddingValues(
+            bottom = contentPadding.calculateBottomPadding(),
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            end = contentPadding.calculateEndPadding(layoutDirection),
+          ),
+        )
       }
+
+      is ListSearch -> SearchList(
+        contentPadding = PaddingValues(
+          bottom = contentPadding.calculateBottomPadding(),
+        ),
+        scrollState = scrollState,
+        sessionItemMap = uiState.sessionItemMap,
+        searchQuery = uiState.query,
+        onSessionItemClick = onSessionItemClick,
+        onBookmarkIconClick = onBookmarkClick,
+      )
+
+      is SearchUiState.Empty -> {
+        val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
+        EmptySessionItems(
+          message = message,
+          graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
+          modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
+        )
+      }
+    }
   }
 }

@@ -57,18 +57,17 @@ class EventsDataRepository(
     }
   }
 
+  override suspend fun toggleBookmark(id: Long) = runCatching {
+    database.toggleBookmark(id)
+  }
+
   private suspend fun refreshEvents() {
     val eventDto = api.fetchEvents()
-    database.deleteAll()
-    database.addDays(eventDto.days.toDays())
+    database.getDays().ifEmpty { database.addDays(eventDto.days.toDays()) }
     for (day in eventDto.days) {
       for (room in day.rooms) {
         database.insert(room.events.toEvents(day.toDay(), room.toRoom()))
       }
     }
-  }
-
-  override suspend fun toggleBookmark(id: Long) = runCatching {
-    database.toggleBookmark(id)
   }
 }
