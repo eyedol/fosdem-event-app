@@ -9,8 +9,8 @@ import me.tatarka.inject.annotations.Provides
 
 private const val baseUrl = "https://fosdem.org/schedule/xml"
 
-interface CoreDataApiBinds : OkHttpPlatformComponent, CoreDataApiComponent
-expect interface OkHttpPlatformComponent
+interface CoreDataApiBinds : HttpClientPlatformComponent, CoreDataApiComponent
+expect interface HttpClientPlatformComponent
 interface CoreDataApiComponent {
 
   @Provides

@@ -10,7 +10,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import me.tatarka.inject.annotations.Provides
 import okhttp3.Interceptor
 
-actual interface OkHttpPlatformComponent {
+actual interface HttpClientPlatformComponent {
 
   @ApplicationScope
   @Provides
