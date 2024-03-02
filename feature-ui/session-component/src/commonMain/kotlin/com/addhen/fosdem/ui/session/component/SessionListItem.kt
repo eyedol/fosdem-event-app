@@ -20,7 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
@@ -149,6 +149,6 @@ fun SessionListItem(
       }
     }
     Spacer(modifier = Modifier.size(15.dp))
-    Divider()
+    HorizontalDivider()
   }
 }

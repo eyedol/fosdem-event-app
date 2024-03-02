@@ -24,7 +24,7 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
@@ -98,27 +98,27 @@ fun Main(
         .fillMaxSize()
         .padding(paddingValues),
     ) {
-      if (navigationType == NavigationType.RAIL) {
-        MainNavigationRail(
-          selectedNavigation = rootScreen,
-          navigationItems = navigationItems,
-          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
-          modifier = Modifier.fillMaxHeight(),
-        )
+        if (navigationType == NavigationType.RAIL) {
+            MainNavigationRail(
+                selectedNavigation = rootScreen,
+                navigationItems = navigationItems,
+                onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+                modifier = Modifier.fillMaxHeight(),
+            )
 
-        Divider(
-          Modifier
-            .fillMaxHeight()
-            .width(1.dp),
-        )
-      } else if (navigationType == NavigationType.PERMANENT_DRAWER) {
-        MainNavigationDrawer(
-          selectedNavigation = rootScreen,
-          navigationItems = navigationItems.toPersistentList(),
-          onNavigationSelected = { navigator.resetRoot(it) },
-          modifier = Modifier.fillMaxHeight(),
-        )
-      }
+            HorizontalDivider(
+                Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
+        } else if (navigationType == NavigationType.PERMANENT_DRAWER) {
+            MainNavigationDrawer(
+                selectedNavigation = rootScreen,
+                navigationItems = navigationItems.toPersistentList(),
+                onNavigationSelected = { navigator.resetRoot(it) },
+                modifier = Modifier.fillMaxHeight(),
+            )
+        }
 
       ContentWithOverlays {
         NavigableCircuitContent(

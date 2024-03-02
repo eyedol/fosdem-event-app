@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -58,7 +57,6 @@ fun BookmarkFilters(
   }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BookmarkFilterChip(
   labelText: String,
@@ -73,6 +71,8 @@ private fun BookmarkFilterChip(
   val selectedChipBoarderColor = FilterChipDefaults.filterChipBorder(
     borderColor = MaterialTheme.colorScheme.outline,
     borderWidth = 0.dp,
+    selected = isSelected,
+    enabled = true,
   )
   FilterChip(
     onClick = onClick,
@@ -97,7 +97,10 @@ private fun BookmarkFilterChip(
     border = if (isSelected) {
       selectedChipBoarderColor
     } else {
-      FilterChipDefaults.filterChipBorder()
+      FilterChipDefaults.filterChipBorder(
+        selected = isSelected,
+        enabled = true,
+      )
     },
     selected = isSelected,
   )
