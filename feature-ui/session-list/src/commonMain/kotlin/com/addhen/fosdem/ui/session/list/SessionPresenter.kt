@@ -67,7 +67,7 @@ class SessionPresenter(
   override fun present(): SessionUiState {
     val scope = rememberCoroutineScope()
     val days by rememberRetained { mutableStateOf(dayTabs) }
-    var isRefreshing by rememberRetained { mutableStateOf(true) }
+    var isRefreshing by rememberRetained { mutableStateOf(false) }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
     val appStrings = LocalStrings.current

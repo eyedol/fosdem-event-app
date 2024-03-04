@@ -4,20 +4,29 @@
 package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import co.touchlab.kermit.Logger
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
+import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
-import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class SessionDetailUiPresenterFactory(
-  private val presenterFactory: (Navigator) -> SessionDetailPresenter,
+  private val presenterFactory: (SessionDetailScreen, Navigator) -> SessionDetailPresenter,
 ) : Presenter.Factory {
   override fun create(
     screen: Screen,
@@ -25,7 +34,7 @@ class SessionDetailUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is SessionDetailScreen -> presenterFactory(navigator)
+      is SessionDetailScreen -> presenterFactory(screen, navigator)
       else -> null
     }
   }
@@ -33,15 +42,19 @@ class SessionDetailUiPresenterFactory(
 
 @Inject
 class SessionDetailPresenter(
+  @Assisted private val screen: SessionDetailScreen,
   @Assisted private val navigator: Navigator,
+  private val repository: Lazy<EventsRepository>,
 ) : Presenter<SessionDetailUiState> {
   @Composable
   override fun present(): SessionDetailUiState {
     // val scope = rememberCoroutineScope()
+    val uiMessageManager = remember { UiMessageManager() }
+    val appString = LocalStrings.current
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
-        SessionDetailUiEvent.GoToSession -> { navigator.pop() }
+        SessionDetailUiEvent.GoToSession -> navigator.pop()
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {}
         is SessionDetailUiEvent.ShareSession -> {}
         is SessionDetailUiEvent.ToggleSessionBookmark -> {}
@@ -49,15 +62,21 @@ class SessionDetailPresenter(
       }
     }
 
-    val sessionDetailUiState = SessionDetailItemSectionUiState(
-      event = day1Event,
-    )
-    val uiState = ScreenDetailScreenUiState.Loaded(
-      sessionDetailUiState = sessionDetailUiState,
-      viewBookmarkListRequestState = ViewBookmarkListRequestState.Requested,
-    )
+    val uiState by repository.value.getEvent(screen.eventId).map { event ->
+      ScreenDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(event),
+        viewBookmarkListRequestState = ViewBookmarkListRequestState.Requested,
+      )
+    }.catch {
+      Logger.e(it) { "Error occurred" }
+      uiMessageManager.emitMessage(
+        UiMessage(
+          it,
+          actionLabel = appString.tryAgain,
+        ),
+      )
+    }.collectAsRetainedState(ScreenDetailScreenUiState.Loading)
 
-    // TODO load session types
     return SessionDetailUiState(
       sessionDetailScreenUiState = uiState,
       eventSink = ::eventSink,

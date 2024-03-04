@@ -6,11 +6,6 @@ package com.addhen.fosdem.ui.session.search
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day1Event2
-import com.addhen.fosdem.model.api.day2Event1
-import com.addhen.fosdem.model.api.day2Event2
-import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.common.SessionFilters
 import com.addhen.fosdem.ui.session.component.DayTab
@@ -56,9 +51,7 @@ abstract class SearchSessionUiPresenter(
     results.map { it.toFilterRoom() }
   }
 
-  private val events = eventsRepository.getEvents().map { _ ->
-    listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-  }
+  private val events = eventsRepository.getEvents()
 
   private val searchFilters = MutableSharedFlow<SessionFilters>(
     replay = 1,
