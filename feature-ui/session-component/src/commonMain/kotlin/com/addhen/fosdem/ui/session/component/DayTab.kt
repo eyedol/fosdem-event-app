@@ -50,10 +50,9 @@ data class DayTab(val id: Long, val date: LocalDate) {
   }
 }
 
-val saturdayTab = DayTab(1, firstSaturdayOfFebruary())
-
-val sundayTab = DayTab(2, firstSaturdayOfFebruary().plus(1, DateTimeUnit.DAY))
-
+val saturday = firstSaturdayOfFebruary()
+val saturdayTab = DayTab(1, saturday)
+val sundayTab = DayTab(2, saturday.plus(1, DateTimeUnit.DAY))
 val dayTabs = listOf(saturdayTab, sundayTab).toPersistentList()
 
 fun Day.toDayTab() = DayTab(id, date)
