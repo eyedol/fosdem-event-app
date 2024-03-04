@@ -23,3 +23,6 @@ SELECT
 FROM events e INNER JOIN event_links el ON e.id = el.event_id
 INNER JOIN links l ON el.link_id = l.id
 WHERE e.date = ? AND e.id = ?;
+
+delete:
+DELETE FROM event_links;

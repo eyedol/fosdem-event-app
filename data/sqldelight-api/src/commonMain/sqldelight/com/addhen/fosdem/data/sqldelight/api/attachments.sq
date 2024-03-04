@@ -17,3 +17,6 @@ INSERT OR REPLACE INTO attachments (
 
 findInsertRowid:
 SELECT last_insert_rowid();
+
+delete:
+DELETE FROM attachments;

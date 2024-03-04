@@ -13,3 +13,5 @@ INSERT OR REPLACE INTO speakers (
   :name
 );
 
+delete:
+DELETE FROM speakers;

@@ -23,3 +23,6 @@ INSERT OR REPLACE INTO event_speakers (
   :speaker_id,
   :event_id
 );
+
+delete:
+DELETE FROM event_speakers;

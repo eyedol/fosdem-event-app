@@ -21,6 +21,7 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
+import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -42,43 +43,29 @@ class EventsDbDao(
 ) : EventsDao {
 
   override fun getEvents(): Flow<List<EventEntity>> {
-    return appDatabase.eventsQueries
-      .selectAll(eventQueriesMapper)
-      .asFlow()
-      .mapToList(backgroundDispatcher.io)
-      .map { it.updateWithRelatedData() }
+    return appDatabase.eventsQueries.selectAll(eventQueriesMapper).asFlow()
+      .mapToList(backgroundDispatcher.io).map { it.updateWithRelatedData() }
       .flowOn(backgroundDispatcher.io)
   }
 
   override fun getAllBookmarkedEvents(): Flow<List<EventEntity>> {
-    return appDatabase.eventsQueries
-      .selectAllEventsBookmarked(eventQueriesMapper)
-      .asFlow()
-      .mapToList(backgroundDispatcher.io)
-      .map { it.updateWithRelatedData() }
+    return appDatabase.eventsQueries.selectAllEventsBookmarked(eventQueriesMapper).asFlow()
+      .mapToList(backgroundDispatcher.io).map { it.updateWithRelatedData() }
       .flowOn(backgroundDispatcher.io)
   }
 
-  override fun getEvents(date: LocalDate): Flow<List<EventEntity>> = appDatabase
-    .eventsQueries
-    .selectAllByDate(date, eventQueriesMapper)
-    .asFlow()
-    .mapToList(backgroundDispatcher.io)
-    .map { it.updateWithRelatedData() }
-    .flowOn(backgroundDispatcher.io)
+  override fun getEvents(date: LocalDate): Flow<List<EventEntity>> =
+    appDatabase.eventsQueries.selectAllByDate(date, eventQueriesMapper).asFlow()
+      .mapToList(backgroundDispatcher.io).map { it.updateWithRelatedData() }
+      .flowOn(backgroundDispatcher.io)
 
-  override fun getTracks(): Flow<List<TrackEntity>> = appDatabase
-    .eventsQueries
-    .selectEventTracks(eventTrackQueriesMapper)
-    .asFlow()
-    .mapToList(backgroundDispatcher.io)
-    .flowOn(backgroundDispatcher.io)
+  override fun getTracks(): Flow<List<TrackEntity>> =
+    appDatabase.eventsQueries.selectEventTracks(eventTrackQueriesMapper).asFlow()
+      .mapToList(backgroundDispatcher.io).flowOn(backgroundDispatcher.io)
 
   override fun getEvent(eventId: Long): Flow<EventEntity> {
-    return appDatabase.eventsQueries.selectById(eventId, eventQueriesMapper)
-      .asFlow()
-      .mapToOne(backgroundDispatcher.io)
-      .map { it.withRelatedData() }
+    return appDatabase.eventsQueries.selectById(eventId, eventQueriesMapper).asFlow()
+      .mapToOne(backgroundDispatcher.io).map { it.withRelatedData() }
   }
 
   override suspend fun toggleBookmark(eventId: Long) = withContext(backgroundDispatcher.io) {
@@ -86,7 +73,12 @@ class EventsDbDao(
   }
 
   override suspend fun deleteAll() = withContext(backgroundDispatcher.databaseRead) {
-    appDatabase.eventsQueries.deleteAll()
+    appDatabase.attachmentsQueries.delete()
+    appDatabase.event_attachmentsQueries.delete()
+    appDatabase.event_linksQueries.delete()
+    appDatabase.event_speakersQueries.delete()
+    appDatabase.linksQueries.delete()
+    appDatabase.speakersQueries.delete()
   }
 
   override suspend fun insert(events: List<EventEntity>) =
@@ -95,44 +87,7 @@ class EventsDbDao(
         // Insert room
         val lastRoomRowId = selInsertRoom(eventEntity.room)
         // Insert event
-        appDatabase.eventsQueries.insert(
-          eventEntity.id,
-          eventEntity.date,
-          lastRoomRowId,
-          eventEntity.start_time,
-          eventEntity.start_time.plusMinutes(eventEntity.duration),
-          eventEntity.title,
-          eventEntity.isBookmarked,
-          eventEntity.abstractText,
-          eventEntity.description,
-          eventEntity.track.name,
-          eventEntity.track.type,
-        )
-
-        // Insert attachments and attachment-event relations
-        eventEntity.attachments.forEach { attachmentEntity ->
-          appDatabase.attachmentsQueries.insert(
-            id = attachmentEntity.id,
-            type = attachmentEntity.type,
-            url = attachmentEntity.url,
-            name = attachmentEntity.name,
-          )
-          val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
-          appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
-        }
-
-        // Insert speakers and speaker-event relations
-        eventEntity.speakers.forEach {
-          appDatabase.speakersQueries.insert(it.id, it.name)
-          appDatabase.event_speakersQueries.insert(it.id, eventEntity.id)
-        }
-
-        // Insert links and link-event relations
-        eventEntity.links.forEach { linkEntity ->
-          appDatabase.linksQueries.insert(linkEntity.id, linkEntity.url, linkEntity.text)
-          val lastLinkRowId = appDatabase.linksQueries.findInsertRowid().executeAsOne()
-          appDatabase.event_linksQueries.insert(lastLinkRowId, eventEntity.id)
-        }
+        upsertEvent(eventEntity, lastRoomRowId)
       }
     }
 
@@ -259,8 +214,76 @@ class EventsDbDao(
 
   private fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = timeZoneBrussels): LocalTime {
     val atDate = Clock.System.now().toLocalDateTime(zone).date
-    return (LocalDateTime(atDate, this).toInstant(zone) + to.minute.minutes)
-      .toLocalDateTime(zone)
-      .time
+    return (
+      LocalDateTime(
+        atDate,
+        this,
+      ).toInstant(zone) + to.minute.minutes
+      ).toLocalDateTime(zone).time
+  }
+
+  private suspend fun upsertEvent(
+    entity: EventEntity,
+    lastRoomRowId: Long,
+  ) {
+    // Update event if exists else insert
+    appDatabase.transactionWithContext(backgroundDispatcher.databaseWrite) {
+      appDatabase.eventsQueries.updateById(
+        lastRoomRowId,
+        entity.date,
+        entity.start_time,
+        entity.start_time.plusMinutes(entity.duration),
+        entity.isBookmarked,
+        entity.title,
+        entity.abstractText,
+        entity.description,
+        entity.track.name,
+        entity.track.type,
+        entity.id,
+      )
+      if (appDatabase.eventsQueries.changes().executeAsOne() == 0L) {
+        appDatabase.eventsQueries.insert(
+          entity.id,
+          entity.date,
+          lastRoomRowId,
+          entity.start_time,
+          entity.start_time.plusMinutes(entity.duration),
+          entity.title,
+          entity.isBookmarked,
+          entity.abstractText,
+          entity.description,
+          entity.track.name,
+          entity.track.type,
+        )
+      }
+      insertRelatedData(entity)
+    }
+  }
+
+  private fun insertRelatedData(eventEntity: EventEntity) {
+    // update attachment if exists else insert
+    for (attachment in eventEntity.attachments) {
+      appDatabase.attachmentsQueries.insert(
+        id = attachment.id,
+        type = attachment.type,
+        url = attachment.url,
+        name = attachment.name,
+      )
+      val lastAttachmentRowId = appDatabase.attachmentsQueries.findInsertRowid().executeAsOne()
+      appDatabase.event_attachmentsQueries.insert(lastAttachmentRowId, eventEntity.id)
+    }
+
+    // update speakers if exists else insert
+    for (speaker in eventEntity.speakers) {
+      appDatabase.speakersQueries.insert(speaker.id, speaker.name)
+      appDatabase.event_speakersQueries.insert(speaker.id, eventEntity.id)
+    }
+
+    // Insert links
+    for (link in eventEntity.links) {
+      appDatabase.linksQueries.insert(link.id, link.url, link.text)
+      val lastLinkRowId = appDatabase.linksQueries.findInsertRowid().executeAsOne()
+      appDatabase.event_linksQueries.insert(lastLinkRowId, eventEntity.id)
+    }
   }
 }

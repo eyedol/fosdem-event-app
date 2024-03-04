@@ -108,3 +108,21 @@ FROM events
 INNER JOIN days ON events.date = days.date
 INNER JOIN rooms ON events.room_id = rooms.id
 WHERE events.isBookmarked = 1;
+
+updateById:
+UPDATE events
+SET
+  room_id = :room_id,
+  date = :date,
+  start_time = :start_time,
+  duration = :duration,
+  isBookmarked = :isBookmarked,
+  title = :title,
+  abstract_text = :abstract_text,
+  description = :description,
+  track_name = :track_name,
+  track_type = :track_type
+WHERE id = :id;
+
+changes:
+SELECT changes();

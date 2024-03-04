@@ -105,31 +105,30 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
       val actual = eventsDbDao.getEvents().first()
       assertTrue(actual.isNotEmpty())
       assertEquals(expectedScheduleSize, actual.size)
+      assertEvents(eventsDto, actual)
+    }
 
-      var linkIdCounter = 0L
-      var attachmentIdCounter = 0L
+  @Test
+  fun `given refresh is called twice get schedule and update data in the db with no duplicates`() =
+    coroutineTestRule.runTest {
+      // It's the actual size of all the events in the schedules.xml file
+      val expectedScheduleSize = 108
+      val schedulesService = FakeEventsApiWithSchedulesXml(coroutineTestRule.testDispatcherProvider)
 
-      eventsDto.days.forEach { day ->
-        day.rooms.forEach { room ->
-          room.events.forEach { event ->
-            // Calling setDurationTime to parse the duration time from the DTO otherwise the
-            // assertion fails
-            val actualEvent = actual.find { it.id == event.id }
-            val expectedEventEntity = event.toEvent(day.toDay(), room.toRoom()).setDurationTime()
-            val actualEventEntityWithRelatedData = expectedEventEntity.copy(
-              links = expectedEventEntity.links.map {
-                it.copy(id = ++linkIdCounter)
-              },
-              attachments = expectedEventEntity.attachments.map {
-                it.copy(id = ++attachmentIdCounter)
-              },
-              room = expectedEventEntity.room.copy(id = actualEvent?.room?.id),
-            )
-            assertEquals(true, actualEvent != null)
-            assertEquals(actualEventEntityWithRelatedData, actualEvent)
-          }
-        }
+      val sut = EventsDataRepository(schedulesService, eventsDbDao)
+
+      // We need to limit the parallelism to 1 to avoid the test
+      // failing due to the use of `withTimeout` in the refresh method
+      withContext(Dispatchers.Default.limitedParallelism(1)) {
+        sut.refresh()
+        sut.refresh()
       }
+
+      val eventsDto = schedulesService.events
+      val actual = eventsDbDao.getEvents().first()
+      assertTrue(actual.isNotEmpty())
+      assertEquals(expectedScheduleSize, actual.size)
+      assertEvents(eventsDto, actual)
     }
 
   @Test
@@ -227,7 +226,37 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     eventsDbDao.insert(inputEvents)
   }
 
-  class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
+  private fun assertEvents(eventsDto: EventDto, actual: List<EventEntity>) {
+    eventsDto.days.forEach { day ->
+      day.rooms.forEach { room ->
+        room.events.forEach { event ->
+          // Calling setDurationTime to parse the duration time from the DTO otherwise the
+          // assertion fails
+          val actualEvent = actual.find { it.id == event.id }
+          val expectedEventEntity = event.toEvent(day.toDay(), room.toRoom()).setDurationTime()
+          val actualEventEntityWithRelatedData = expectedEventEntity.copy(
+            links = actualEvent?.links?.map {
+              // Using the same id from the db for the links as it's auto incremented
+              // and hard to maintain for assertions. If the id is not the same, the assertion fails
+              it.copy(id = it.id)
+            } ?: emptyList(),
+            attachments = actualEvent?.attachments?.map {
+              // Using the same id from the db for the attachments as it's auto incremented
+              // and hard to maintain for assertions. If the id is not the same, the assertion fails
+              it.copy(id = it.id)
+            } ?: emptyList(),
+            // Using the same id from the db for the rooms as it's auto incremented
+            // and hard to maintain for assertions. If the id is not the same, the assertion fails
+            room = expectedEventEntity.room.copy(id = actualEvent?.room?.id),
+          )
+          assertEquals(true, actualEvent != null)
+          assertEquals(actualEventEntityWithRelatedData, actualEvent)
+        }
+      }
+    }
+  }
+
+  internal class FakeEventsApi(private val dispatchers: AppCoroutineDispatchers) : EventsApi {
     private var events: EventDto? = null
     private lateinit var error: Throwable
 

@@ -23,3 +23,6 @@ SELECT
 FROM events e INNER JOIN event_attachments ea ON e.id = ea.event_id
 INNER JOIN attachments a ON ea.attachment_id = a.id
 WHERE e.date = ? AND e.id = ?;
+
+delete:
+DELETE FROM event_attachments;

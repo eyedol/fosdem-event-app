@@ -63,6 +63,7 @@ class EventsDataRepository(
 
   private suspend fun refreshEvents() {
     val eventDto = api.fetchEvents()
+    database.deleteAll()
     database.getDays().ifEmpty { database.addDays(eventDto.days.toDays()) }
     for (day in eventDto.days) {
       for (room in day.rooms) {

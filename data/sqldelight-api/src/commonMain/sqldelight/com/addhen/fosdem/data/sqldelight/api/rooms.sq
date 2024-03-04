@@ -16,3 +16,6 @@ SELECT DISTINCT * FROM rooms;
 
 selectIdByName:
 SELECT id FROM rooms WHERE name = ?;
+
+delete:
+DELETE FROM rooms WHERE id = ?;
