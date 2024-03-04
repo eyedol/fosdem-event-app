@@ -21,11 +21,6 @@ import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day1Event2
-import com.addhen.fosdem.model.api.day2Event1
-import com.addhen.fosdem.model.api.day2Event2
-import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
@@ -72,7 +67,7 @@ class SessionPresenter(
   override fun present(): SessionUiState {
     val scope = rememberCoroutineScope()
     val days by rememberRetained { mutableStateOf(dayTabs) }
-    var isRefreshing by rememberRetained { mutableStateOf(false) }
+    var isRefreshing by rememberRetained { mutableStateOf(true) }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
     val appStrings = LocalStrings.current
@@ -90,11 +85,8 @@ class SessionPresenter(
       }
     }
 
-    val events by repository.value.getEvents().map { _ ->
-      successSessionSheetUiSate(
-        listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3),
-        days,
-      )
+    val events by repository.value.getEvents().map { events ->
+      successSessionSheetUiSate(events, days)
     }.catch {
       Logger.e(it) { "Error occurred" }
       uiMessageManager.emitMessage(
@@ -103,8 +95,7 @@ class SessionPresenter(
           actionLabel = appStrings.tryAgain,
         ),
       )
-    }
-      .collectAsRetainedState(SessionSheetUiState.Loading(days))
+    }.collectAsRetainedState(SessionSheetUiState.Loading(days))
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {

@@ -20,6 +20,7 @@ kotlin {
         implementation(libs.ktor.client.content.negotiation)
         implementation(libs.ktor.client.serialization)
         implementation(libs.kotlinx.serialization.core)
+        implementation(libs.kotlinx.datetime)
         implementation(libs.xml.util.serialization)
         implementation(libs.touchlab.kermit)
         api(libs.kotlininject.runtime)

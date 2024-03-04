@@ -8,6 +8,7 @@ package com.addhen.fosdem.compose.common.ui.api.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import co.touchlab.kermit.Logger
 
 data class TrackTypeColor(
   val nameColor: Color = md_theme_light_track_type_name,
@@ -48,6 +49,16 @@ sealed interface TrackColorScheme {
         backgroundColor = md_theme_light_track_type_certification,
       ),
     ),
+    junior(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_certification,
+      ),
+    ),
+    bof(
+      TrackTypeColor(
+        backgroundColor = md_theme_light_track_type_certification,
+      ),
+    ),
   }
 
   enum class Dark(override val trackTypeColor: TrackTypeColor) : TrackColorScheme {
@@ -81,12 +92,24 @@ sealed interface TrackColorScheme {
         backgroundColor = md_theme_dark_track_type_certification,
       ),
     ),
+    junior(
+      TrackTypeColor(
+        backgroundColor = md_theme_dark_track_type_certification,
+      ),
+    ),
+    bof(
+      TrackTypeColor(
+        backgroundColor = md_theme_dark_track_type_certification,
+      ),
+    ),
   }
 }
 
 @Composable
 fun trackColors(name: String) = if (isSystemInDarkTheme()) {
+  Logger.d { "Track $name" }
   TrackColorScheme.Dark.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
 } else {
+  Logger.d { "Track $name" }
   TrackColorScheme.Light.entries.first { it.name.equals(name, ignoreCase = true) }.trackTypeColor
 }

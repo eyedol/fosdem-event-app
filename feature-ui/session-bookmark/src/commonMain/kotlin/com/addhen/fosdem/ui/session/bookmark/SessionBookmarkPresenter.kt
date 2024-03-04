@@ -21,8 +21,8 @@ import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.addhen.fosdem.ui.session.common.SessionFilters
-import com.addhen.fosdem.ui.session.component.dayTab1
-import com.addhen.fosdem.ui.session.component.dayTab2
+import com.addhen.fosdem.ui.session.component.saturdayTab
+import com.addhen.fosdem.ui.session.component.sundayTab
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -81,11 +81,11 @@ class SessionBookmarkPresenter(
 
         SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
         SessionBookmarkUiEvent.FilterFirstDayBookmarks -> {
-          selectedFilters = onDaySelected(selectedFilters, dayTab1)
+          selectedFilters = onDaySelected(selectedFilters, saturdayTab)
         }
 
         SessionBookmarkUiEvent.FilterSecondDayBookmarks -> {
-          selectedFilters = onDaySelected(selectedFilters, dayTab2)
+          selectedFilters = onDaySelected(selectedFilters, sundayTab)
         }
 
         is SessionBookmarkUiEvent.ToggleSessionBookmark -> {

@@ -14,8 +14,8 @@ import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.addhen.fosdem.ui.session.common.SessionFilters
 import com.addhen.fosdem.ui.session.component.DayTab
-import com.addhen.fosdem.ui.session.component.dayTab1
-import com.addhen.fosdem.ui.session.component.dayTab2
+import com.addhen.fosdem.ui.session.component.saturdayTab
+import com.addhen.fosdem.ui.session.component.sundayTab
 import com.addhen.fosdem.ui.session.component.toDayTab
 import com.slack.circuit.runtime.presenter.Presenter
 import kotlinx.collections.immutable.PersistentMap
@@ -110,8 +110,8 @@ abstract class BaseBookmarkSessionUiPresenter(
   ): SessionBookmarkSheetUiState {
     return SessionBookmarkSheetUiState.ListBookmark(
       sessionItemMap,
-      isDayFirstSelected = sessionFilters.days.contains(dayTab1),
-      isDaySecondSelected = sessionFilters.days.contains(dayTab2),
+      isDayFirstSelected = sessionFilters.days.contains(saturdayTab),
+      isDaySecondSelected = sessionFilters.days.contains(sundayTab),
     )
   }
 
@@ -119,8 +119,8 @@ abstract class BaseBookmarkSessionUiPresenter(
     sessionFilters: SessionFilters,
   ): SessionBookmarkSheetUiState {
     return SessionBookmarkSheetUiState.Empty(
-      isDayFirstSelected = sessionFilters.days.contains(dayTab1),
-      isDaySecondSelected = sessionFilters.days.contains(dayTab2),
+      isDayFirstSelected = sessionFilters.days.contains(saturdayTab),
+      isDaySecondSelected = sessionFilters.days.contains(sundayTab),
     )
   }
 }
