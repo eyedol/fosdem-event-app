@@ -67,7 +67,8 @@ SELECT
 FROM events
 INNER JOIN days ON events.date = days.date
 INNER JOIN rooms ON events.room_id = rooms.id
-WHERE events.date = ?;
+WHERE events.date = ?
+ORDER BY events.start_time;
 
 selectAll:
 SELECT
@@ -76,7 +77,8 @@ SELECT
   rooms.*
 FROM events
 INNER JOIN days ON events.date = days.date
-INNER JOIN rooms ON events.room_id = rooms.id;
+INNER JOIN rooms ON events.room_id = rooms.id
+ORDER BY events.start_time;
 
 selectById:
 SELECT
@@ -107,7 +109,8 @@ SELECT
 FROM events
 INNER JOIN days ON events.date = days.date
 INNER JOIN rooms ON events.room_id = rooms.id
-WHERE events.isBookmarked = 1;
+WHERE events.isBookmarked = 1
+ORDER BY events.start_time;
 
 updateById:
 UPDATE events

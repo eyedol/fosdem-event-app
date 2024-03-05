@@ -149,7 +149,6 @@ internal fun SessionSheet(
         }
 
         is SessionSheetUiState.ListSession -> {
-          Logger.d("SessionSheetUiState.ListSession ${uiState.sessionListUiStates}")
           SessionList(
             uiState = requireNotNull(uiState.sessionListUiStates[selectedDay]),
             scrollState = rememberLazyListState(),
