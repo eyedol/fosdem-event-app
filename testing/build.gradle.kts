@@ -15,6 +15,6 @@ dependencies {
   api(libs.junit.jupiter)
   api(libs.ktor.client.mock)
   api(libs.coroutines.test)
-  api("app.cash.turbine:turbine:1.0.0")
+  api("app.cash.turbine:turbine:1.1.0")
 }
 
