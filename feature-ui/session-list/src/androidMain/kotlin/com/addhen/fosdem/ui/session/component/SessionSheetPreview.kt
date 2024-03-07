@@ -53,17 +53,17 @@ private fun SessionSheetPreview() {
 }
 
 val sortAndGroupedEventsItems = listOf(day1Event, day2Event1).groupBy {
-  it.startTime.toString() + it.duration.toString()
+  it.startAt.toString() + it.duration.toString()
 }.mapValues { entries ->
   entries.value.sortedWith(
-    compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+    compareBy({ it.day.date.toString() }, { it.startAt.toString() }),
   )
 }.toPersistentMap()
 
 val sortAndGroupedEventsItems2 = listOf(day2Event1).groupBy {
-  it.startTime.toString() + it.duration.toString()
+  it.startAt.toString() + it.duration.toString()
 }.mapValues { entries ->
   entries.value.sortedWith(
-    compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+    compareBy({ it.day.date.toString() }, { it.startAt.toString() }),
   )
 }.toPersistentMap()

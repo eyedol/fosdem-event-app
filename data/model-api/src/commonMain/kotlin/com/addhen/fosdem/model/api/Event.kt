@@ -3,6 +3,9 @@
 
 package com.addhen.fosdem.model.api
 
+import com.addhen.fosdem.core.api.timeZoneBrussels
+import kotlin.time.Duration.Companion.minutes
+import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -10,13 +13,11 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Duration.Companion.minutes
-
-val tzBrussels = TimeZone.of("Europe/Brussels")
 
 data class Event(
   val id: Long,
-  val startTime: LocalTime,
+  val startAt: LocalTime,
+  val endAt: LocalTime,
   val duration: LocalTime,
   val title: String,
   val description: String,
@@ -111,11 +112,12 @@ val day2 = Day(
 
 val day1Event = Event(
   id = 1,
-  startTime = LocalTime.parse("09:30"),
-  duration = LocalTime.parse("09:30").plusMinutes(
+  startAt = LocalTime.parse("09:30"),
+  endAt = LocalTime.parse("09:30").plusMinutes(
     LocalTime.parse("00:25"),
-    tzBrussels,
+    timeZoneBrussels,
   ),
+  duration = LocalTime.parse("00:25"),
   title = "Welcome to FOSDEM 2023",
   description = "Welcome to FOSDEM 2023!",
   isBookmarked = false,
@@ -130,11 +132,12 @@ val day1Event = Event(
 
 val day1Event2 = Event(
   id = 2,
-  startTime = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(
+  startAt = LocalTime.parse("10:00"),
+  endAt = LocalTime.parse("10:00").plusMinutes(
     LocalTime.parse("00:50"),
-    tzBrussels,
+    timeZoneBrussels,
   ),
+  duration = LocalTime.parse("00:50"),
   title = "Celebrating 25 years of Open Source",
   description = "The open source software label was coined at a strategy session held on " +
     "February 3rd, 1998 in Palo Alto, California. That same month, the Open Source Initiative " +
@@ -172,11 +175,11 @@ val day1Event2 = Event(
 
 val day2Event1 = Event(
   id = 3,
-  startTime = LocalTime.parse("09:00"),
-  duration = LocalTime.parse("09:00").plusMinutes(
+  startAt = LocalTime.parse("09:00"),
+  endAt = LocalTime.parse("09:00").plusMinutes(
     LocalTime.parse("00:50"),
-    tzBrussels,
   ),
+  duration = LocalTime.parse("00:50"),
   title = "Open Source in Environmental Sustainability",
   description = "",
   isBookmarked = false,
@@ -214,10 +217,12 @@ val day2Event1 = Event(
 
 val day2Event2 = Event(
   id = 4,
-  startTime = LocalTime.parse("10:00"),
+  startAt = LocalTime.parse("10:00"),
   duration = LocalTime.parse("10:00").plusMinutes(
     LocalTime.parse("00:50"),
-    tzBrussels,
+  ),
+  endAt = LocalTime.parse("10:00").plusMinutes(
+    LocalTime.parse("00:50"),
   ),
   title = "Making the world a better place through Open Source",
   description = "If software is eating the world, then, by all metrics, Open Source is eating " +
@@ -263,10 +268,11 @@ val day2Event2 = Event(
 
 val day2Event3 = Event(
   id = 5,
-  startTime = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(
+  startAt = LocalTime.parse("10:00"),
+  endAt = LocalTime.parse("10:00").plusMinutes(
     LocalTime.parse("00:50"),
   ),
+  duration = LocalTime.parse("00:50"),
   title = "Building Strong Foundations for a More Secure Future",
   description = "",
   isBookmarked = true,
@@ -292,7 +298,7 @@ val day2Event3 = Event(
   attachments = listOf(attachment2),
 )
 
-fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = tzBrussels): LocalTime {
+fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = timeZoneBrussels): LocalTime {
   val atDate = Clock.System.now().toLocalDateTime(zone).date
   return (
     LocalDateTime(
@@ -303,9 +309,15 @@ fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = tzBrussels): LocalTime
 }
 
 fun List<Event>.sortAndGroupedEventsItems() =
-  groupBy { it.startTime.toString() + it.duration.toString() }
+  groupBy {
+    it.startAt.toString() + it.endAt.toString()
+  }
     .mapValues { entries ->
       entries.value.sortedWith(
-        compareBy({ it.day.date.toString() }, { it.startTime.toString() }),
+        compareBy({ it.day.date.toString() }, { it.startAt.toString() }),
       )
-    }
+    }.sortMapByKey().toPersistentMap()
+
+fun <K : Comparable<K>, V> Map<out K, V>.sortMapByKey(): Map<K, V> {
+  return this.toList().sortedBy { it.first }.toMap()
+}

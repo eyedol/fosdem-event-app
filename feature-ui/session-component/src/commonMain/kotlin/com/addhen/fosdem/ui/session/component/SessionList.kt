@@ -119,7 +119,7 @@ fun SessionList(
             },
           ) {
             Text(
-              text = sessionItem.startTime.toString(),
+              text = sessionItem.startAt.toString(),
               fontWeight = FontWeight.Medium,
               modifier = Modifier.clearAndSetSemantics {},
             )
@@ -130,7 +130,7 @@ fun SessionList(
                 .background(MaterialTheme.colorScheme.outlineVariant),
             )
             Text(
-              text = sessionItem.duration.toString(),
+              text = sessionItem.endAt.toString(),
               fontWeight = FontWeight.Medium,
               modifier = Modifier.clearAndSetSemantics {},
             )

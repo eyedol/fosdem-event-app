@@ -13,5 +13,11 @@ INSERT OR REPLACE INTO speakers (
   :name
 );
 
+selectById:
+SELECT id FROM speakers WHERE id = ?;
+
 delete:
 DELETE FROM speakers;
+
+findInsertRowid:
+SELECT last_insert_rowid();

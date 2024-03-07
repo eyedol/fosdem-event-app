@@ -7,7 +7,6 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
-import com.addhen.fosdem.core.api.timeZoneBrussels
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Attachments
@@ -22,18 +21,12 @@ import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
 import com.addhen.fosdem.data.sqldelight.api.transactionWithContext
-import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import me.tatarka.inject.annotations.Inject
 
 @Inject
@@ -78,7 +71,6 @@ class EventsDbDao(
     appDatabase.event_linksQueries.delete()
     appDatabase.event_speakersQueries.delete()
     appDatabase.linksQueries.delete()
-    appDatabase.speakersQueries.delete()
   }
 
   override suspend fun insert(events: List<EventEntity>) =
@@ -103,7 +95,7 @@ class EventsDbDao(
   }
 
   private fun selInsertRoom(roomEntity: RoomEntity): Long {
-    // Update room if room exists else insert and return id of the room.
+    // Select room id if room exists else insert and return id of the room.
     // Doing this because the room_id is needed to be added to the EventEntity
     // before the event is inserted into the table.
     val roomId = appDatabase.roomsQueries.selectIdByName(roomEntity.name).executeAsOneOrNull()
@@ -112,6 +104,17 @@ class EventsDbDao(
     } else {
       appDatabase.roomsQueries.insert(roomEntity.id, roomEntity.name)
       appDatabase.roomsQueries.findInsertRowid().executeAsOne()
+    }
+  }
+
+  private fun selInsertSpeaker(speakerEntity: SpeakerEntity): Long {
+    // Select speaker if speaker exists else insert and return id of the speaker.
+    val speakerId = appDatabase.speakersQueries.selectById(speakerEntity.id).executeAsOneOrNull()
+    return if (speakerId != null) {
+      speakerId
+    } else {
+      appDatabase.speakersQueries.insert(speakerEntity.id, speakerEntity.name)
+      appDatabase.speakersQueries.findInsertRowid().executeAsOne()
     }
   }
 
@@ -212,14 +215,11 @@ class EventsDbDao(
     return map { it.withRelatedData() }
   }
 
-  private fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = timeZoneBrussels): LocalTime {
-    val atDate = Clock.System.now().toLocalDateTime(zone).date
-    return (
-      LocalDateTime(
-        atDate,
-        this,
-      ).toInstant(zone) + to.minute.minutes
-      ).toLocalDateTime(zone).time
+  private fun LocalTime.plusMinutes(to: LocalTime): LocalTime {
+    val minutes = (this.hour * 60 + this.minute) + (to.hour * 60 + to.minute)
+    val hours = minutes / 60 % 24
+    val minutesRemaining = minutes % 60
+    return LocalTime(hours, minutesRemaining)
   }
 
   private suspend fun upsertEvent(
@@ -275,8 +275,8 @@ class EventsDbDao(
 
     // update speakers if exists else insert
     for (speaker in eventEntity.speakers) {
-      appDatabase.speakersQueries.insert(speaker.id, speaker.name)
-      appDatabase.event_speakersQueries.insert(speaker.id, eventEntity.id)
+      val speakerId = selInsertSpeaker(speaker)
+      appDatabase.event_speakersQueries.insert(speakerId, eventEntity.id)
     }
 
     // Insert links

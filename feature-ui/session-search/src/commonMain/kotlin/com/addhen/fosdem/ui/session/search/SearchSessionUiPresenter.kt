@@ -23,7 +23,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -183,7 +182,7 @@ abstract class SearchSessionUiPresenter(
           )
       }
     }
-    return sessionItems.sortAndGroupedEventsItems().toPersistentMap()
+    return sessionItems.sortAndGroupedEventsItems()
   }
 
   private fun searchUiStateListSearch(

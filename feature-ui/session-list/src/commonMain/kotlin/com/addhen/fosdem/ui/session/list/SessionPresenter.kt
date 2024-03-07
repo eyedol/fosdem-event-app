@@ -141,7 +141,7 @@ class SessionPresenter(
     val groupEventsByDay = events.groupBy { it.day }
     val sessionsWithDays = mutableMapOf<DayTab, SessionListUiState>()
     groupEventsByDay.asSequence().forEach { (key, events) ->
-      val sortedAndGroupEvents = events.sortAndGroupedEventsItems().toPersistentMap()
+      val sortedAndGroupEvents = events.sortAndGroupedEventsItems()
       sessionsWithDays[key.toDayTab()] = SessionListUiState(sortedAndGroupEvents)
     }
     return sessionsWithDays.toPersistentMap()

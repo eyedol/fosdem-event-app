@@ -20,7 +20,6 @@ import com.addhen.fosdem.ui.session.component.toDayTab
 import com.slack.circuit.runtime.presenter.Presenter
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -101,7 +100,7 @@ abstract class BaseBookmarkSessionUiPresenter(
         filters.days.contains(sessionItem.day.toDayTab())
       }
     }
-    return sessionItems.sortAndGroupedEventsItems().toPersistentMap()
+    return sessionItems.sortAndGroupedEventsItems()
   }
 
   private fun sessionBookmarkSheetUiStateList(

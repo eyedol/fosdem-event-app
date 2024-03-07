@@ -13,6 +13,7 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
+        implementation(projects.coreApi)
         implementation(libs.kotlinx.datetime)
       }
     }
