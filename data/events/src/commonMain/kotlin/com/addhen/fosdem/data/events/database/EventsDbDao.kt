@@ -67,10 +67,17 @@ class EventsDbDao(
   }
 
   override suspend fun deleteRelatedData() = withContext(backgroundDispatcher.databaseRead) {
+    // Delete attachments table and its event_attachments linked table to aid in regenerating its
+    // ID as the data received from the API does not contain the IDs of the attachments. So we
+    // always need to start afresh to facilitating in the event the attachments associated with
+    // an event changes.
     appDatabase.attachmentsQueries.delete()
-    appDatabase.event_attachmentsQueries.delete()
-    appDatabase.event_linksQueries.delete()
+    // Manually deleting event_speakers data because we're not deleting from the speakers as it comes
+    // with its own IDs from the API. So we usually update an existing data or insert new data for it.
+    // Hence we delete everything in the linked event_speakers table to make it easier to manage it. We just do a
+    // simple insert for it.
     appDatabase.event_speakersQueries.delete()
+    // Same treatment for links and event_links as we do for attachments and event_attachments.
     appDatabase.linksQueries.delete()
   }
 
