@@ -47,7 +47,7 @@ fun SessionDetailSummaryCard(
         SessionDetailSummaryCardRow(
           leadingIcon = Icons.Outlined.Schedule,
           label = dateTitle,
-          content = sessionItem.day.date.toString(),
+          content = "${sessionItem.day.date} (${sessionItem.startAt} - ${sessionItem.endAt}) ${sessionItem.duration}",
         )
         SessionDetailSummaryCardRow(
           leadingIcon = Icons.Outlined.Home,

@@ -3,7 +3,7 @@
 
 package com.addhen.fosdem.data.events.repository.mapper
 
-import co.touchlab.kermit.Logger
+import com.addhen.fosdem.core.api.minus
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
@@ -18,9 +18,6 @@ import com.addhen.fosdem.model.api.Link
 import com.addhen.fosdem.model.api.Room
 import com.addhen.fosdem.model.api.Speaker
 import com.addhen.fosdem.model.api.Track
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
 
 internal fun DayEntity.toDay() = Day(id = id, date = date)
 
@@ -61,7 +58,7 @@ internal fun EventEntity.toEvent() = Event(
   room = room.toRoom(),
   startAt = start_time,
   endAt = duration,
-  duration = duration,
+  duration = duration - start_time,
   isBookmarked = isBookmarked,
   abstractText = abstractText,
   description = description,
@@ -72,8 +69,3 @@ internal fun EventEntity.toEvent() = Event(
 )
 
 internal fun List<EventEntity>.toEvent() = map { it.toEvent() }
-
-private fun LocalTime.toLocalDateTime(localDate: LocalDate): LocalDateTime {
-  Logger.d("${localDate}T$this:00")
-  return LocalDateTime.parse("${localDate}T$this:00")
-}
