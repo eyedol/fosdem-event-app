@@ -4,6 +4,7 @@
 package com.addhen.fosdem.model.api
 
 import com.addhen.fosdem.core.api.plus
+import com.addhen.fosdem.core.api.toLocalDateTime
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -275,11 +276,15 @@ val day2Event3 = Event(
 
 fun List<Event>.sortAndGroupedEventsItems() =
   groupBy {
-    it.startAt.toString() + it.endAt.toString()
+    val date = it.day.date
+    it.startAt.toLocalDateTime(date).toString() + it.endAt.toLocalDateTime(date).toString()
   }
     .mapValues { entries ->
       entries.value.sortedWith(
-        compareBy({ it.day.date.toString() }, { it.startAt.toString() }),
+        compareBy(
+          { it.day.date.toString() },
+          { it.startAt.toLocalDateTime(it.day.date).toString() },
+        ),
       )
     }.sortMapByKey().toPersistentMap()
 

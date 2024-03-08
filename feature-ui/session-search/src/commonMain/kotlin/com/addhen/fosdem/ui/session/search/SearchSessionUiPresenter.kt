@@ -13,6 +13,8 @@ import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.SearchQuery
 import com.addhen.fosdem.ui.session.component.dayTabs
+import com.addhen.fosdem.ui.session.component.saturdayTab
+import com.addhen.fosdem.ui.session.component.sundayTab
 import com.addhen.fosdem.ui.session.component.toDayTab
 import com.addhen.fosdem.ui.session.component.toFilterRoom
 import com.addhen.fosdem.ui.session.component.toFilterTrack
@@ -50,7 +52,12 @@ abstract class SearchSessionUiPresenter(
     results.map { it.toFilterRoom() }
   }
 
-  private val events = eventsRepository.getEvents()
+  private val events = combine(
+    eventsRepository.getEvents(saturdayTab.date),
+    eventsRepository.getEvents(sundayTab.date),
+  ) { saturdayEvents, sundayEvents ->
+    saturdayEvents + sundayEvents
+  }
 
   private val searchFilters = MutableSharedFlow<SessionFilters>(
     replay = 1,

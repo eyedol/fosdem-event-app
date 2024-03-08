@@ -1,6 +1,8 @@
 package com.addhen.fosdem.core.api
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.atTime
 
 operator fun LocalTime.plus(to: LocalTime): LocalTime {
   val minutes = (this.hour * 60 + this.minute) + (to.hour * 60 + to.minute)
@@ -25,3 +27,5 @@ operator fun LocalTime.minus(other: LocalTime): LocalTime {
 
   return LocalTime(hours, minutesRemaining)
 }
+
+fun LocalTime.toLocalDateTime(date: LocalDate) = date.atTime(this)
