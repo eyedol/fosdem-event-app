@@ -23,7 +23,7 @@ interface EventsDao {
 
   suspend fun toggleBookmark(eventId: Long)
 
-  suspend fun deleteAll()
+  suspend fun deleteRelatedData()
 
   suspend fun insert(events: List<EventEntity>)
 

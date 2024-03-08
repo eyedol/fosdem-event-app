@@ -104,15 +104,19 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   }
 
   @Test
-  fun `successfully deletes all events and its related data`() = coroutineTestRule.runTest {
+  fun `successfully deletes all events related data`() = coroutineTestRule.runTest {
     // Seed some data
     givenDaysAndEventsData()
 
-    sut.deleteAll()
+    sut.deleteRelatedData()
 
     val actual = sut.getEvents(day.date).first()
+    val days = sut.getDays()
 
-    assertEquals(true, actual.isEmpty())
+    //assertEquals(true, actual.isEmpty())
+    assertEquals(true, actual.isNotEmpty())
+    assertEquals(true, days.isNotEmpty())
+    assertEvents(actual)
   }
 
   @Test
@@ -162,5 +166,13 @@ class EventsDbDaoTest : BaseDatabaseTest() {
   private suspend fun givenDaysAndEventsData(inputEvents: List<EventEntity> = events) {
     sut.addDays(listOf(day, day2))
     sut.insert(inputEvents)
+  }
+
+  private fun assertEvents(actual: List<EventEntity>) {
+    for (event in actual) {
+      assertEquals(true, event.links.isEmpty())
+      assertEquals(true, event.attachments.isEmpty())
+      assertEquals(true, event.speakers.isEmpty())
+    }
   }
 }

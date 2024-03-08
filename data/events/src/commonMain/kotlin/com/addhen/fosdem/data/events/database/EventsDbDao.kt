@@ -65,7 +65,7 @@ class EventsDbDao(
     appDatabase.eventsQueries.toggleBookmark(eventId)
   }
 
-  override suspend fun deleteAll() = withContext(backgroundDispatcher.databaseRead) {
+  override suspend fun deleteRelatedData() = withContext(backgroundDispatcher.databaseRead) {
     appDatabase.attachmentsQueries.delete()
     appDatabase.event_attachmentsQueries.delete()
     appDatabase.event_linksQueries.delete()
