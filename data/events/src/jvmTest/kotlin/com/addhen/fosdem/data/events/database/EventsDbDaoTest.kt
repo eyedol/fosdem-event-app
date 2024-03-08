@@ -61,7 +61,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
 
     val expectedDay2Event1 = day2Event.setDurationTime().setRoomId()
     val expectedDay2Event2 = day3Event.setDurationTime()
-    assertEquals(listOf(expectedDay2Event1, expectedDay2Event2), actual)
+    assertEquals(listOf(expectedDay2Event2, expectedDay2Event1), actual)
   }
 
   @Test
