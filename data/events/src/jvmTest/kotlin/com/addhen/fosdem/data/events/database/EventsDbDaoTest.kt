@@ -3,10 +3,10 @@
 
 package com.addhen.fosdem.data.events.database
 
+import com.addhen.fosdem.core.api.plus
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
-import com.addhen.fosdem.model.api.plusMinutes
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.database.BaseDatabaseTest
 import com.addhen.fosdem.test.day
@@ -74,7 +74,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
     val expectedEvent = events.last()
     assertEquals(
       expectedEvent.copy(
-        duration = expectedEvent.start_time.plusMinutes(expectedEvent.duration),
+        duration = expectedEvent.start_time + expectedEvent.duration,
       ),
       actual,
     )

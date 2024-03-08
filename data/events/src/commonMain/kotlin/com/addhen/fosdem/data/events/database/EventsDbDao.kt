@@ -7,6 +7,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
+import com.addhen.fosdem.core.api.plus
 import com.addhen.fosdem.data.events.api.database.EventsDao
 import com.addhen.fosdem.data.sqldelight.Database
 import com.addhen.fosdem.data.sqldelight.api.Attachments
@@ -215,13 +216,6 @@ class EventsDbDao(
     return map { it.withRelatedData() }
   }
 
-  private fun LocalTime.plusMinutes(to: LocalTime): LocalTime {
-    val minutes = (this.hour * 60 + this.minute) + (to.hour * 60 + to.minute)
-    val hours = minutes / 60 % 24
-    val minutesRemaining = minutes % 60
-    return LocalTime(hours, minutesRemaining)
-  }
-
   private suspend fun upsertEvent(
     entity: EventEntity,
     lastRoomRowId: Long,
@@ -232,7 +226,7 @@ class EventsDbDao(
         lastRoomRowId,
         entity.date,
         entity.start_time,
-        entity.start_time.plusMinutes(entity.duration),
+        entity.start_time + entity.duration,
         entity.isBookmarked,
         entity.title,
         entity.abstractText,
@@ -247,7 +241,7 @@ class EventsDbDao(
           entity.date,
           lastRoomRowId,
           entity.start_time,
-          entity.start_time.plusMinutes(entity.duration),
+          entity.start_time + entity.duration,
           entity.title,
           entity.isBookmarked,
           entity.abstractText,

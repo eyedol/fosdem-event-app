@@ -3,16 +3,10 @@
 
 package com.addhen.fosdem.model.api
 
-import com.addhen.fosdem.core.api.timeZoneBrussels
-import kotlin.time.Duration.Companion.minutes
+import com.addhen.fosdem.core.api.plus
 import kotlinx.collections.immutable.toPersistentMap
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 
 data class Event(
   val id: Long,
@@ -83,11 +77,6 @@ val link3 = Link(
   text = "FOSSi Foundation website",
 )
 
-val room3 = Room(
-  id = 3,
-  name = "K.1.105 (La Fontaine)",
-)
-
 val speaker3 = Speaker(
   id = 3,
   name = "Philipp Wagner",
@@ -113,10 +102,7 @@ val day2 = Day(
 val day1Event = Event(
   id = 1,
   startAt = LocalTime.parse("09:30"),
-  endAt = LocalTime.parse("09:30").plusMinutes(
-    LocalTime.parse("00:25"),
-    timeZoneBrussels,
-  ),
+  endAt = LocalTime.parse("09:30") + LocalTime.parse("00:25"),
   duration = LocalTime.parse("00:25"),
   title = "Welcome to FOSDEM 2023",
   description = "Welcome to FOSDEM 2023!",
@@ -133,10 +119,7 @@ val day1Event = Event(
 val day1Event2 = Event(
   id = 2,
   startAt = LocalTime.parse("10:00"),
-  endAt = LocalTime.parse("10:00").plusMinutes(
-    LocalTime.parse("00:50"),
-    timeZoneBrussels,
-  ),
+  endAt = LocalTime.parse("10:00") + LocalTime.parse("00:50"),
   duration = LocalTime.parse("00:50"),
   title = "Celebrating 25 years of Open Source",
   description = "The open source software label was coined at a strategy session held on " +
@@ -176,9 +159,7 @@ val day1Event2 = Event(
 val day2Event1 = Event(
   id = 3,
   startAt = LocalTime.parse("09:00"),
-  endAt = LocalTime.parse("09:00").plusMinutes(
-    LocalTime.parse("00:50"),
-  ),
+  endAt = LocalTime.parse("09:00") + LocalTime.parse("00:50"),
   duration = LocalTime.parse("00:50"),
   title = "Open Source in Environmental Sustainability",
   description = "",
@@ -218,12 +199,8 @@ val day2Event1 = Event(
 val day2Event2 = Event(
   id = 4,
   startAt = LocalTime.parse("10:00"),
-  duration = LocalTime.parse("10:00").plusMinutes(
-    LocalTime.parse("00:50"),
-  ),
-  endAt = LocalTime.parse("10:00").plusMinutes(
-    LocalTime.parse("00:50"),
-  ),
+  duration = LocalTime.parse("00:50"),
+  endAt = LocalTime.parse("10:00") + LocalTime.parse("00:50"),
   title = "Making the world a better place through Open Source",
   description = "If software is eating the world, then, by all metrics, Open Source is eating " +
     "software. That means that collaborations and innovation that happen every day in the open " +
@@ -269,9 +246,7 @@ val day2Event2 = Event(
 val day2Event3 = Event(
   id = 5,
   startAt = LocalTime.parse("10:00"),
-  endAt = LocalTime.parse("10:00").plusMinutes(
-    LocalTime.parse("00:50"),
-  ),
+  endAt = LocalTime.parse("10:00") + LocalTime.parse("00:50"),
   duration = LocalTime.parse("00:50"),
   title = "Building Strong Foundations for a More Secure Future",
   description = "",
@@ -297,16 +272,6 @@ val day2Event3 = Event(
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
 )
-
-fun LocalTime.plusMinutes(to: LocalTime, zone: TimeZone = timeZoneBrussels): LocalTime {
-  val atDate = Clock.System.now().toLocalDateTime(zone).date
-  return (
-    LocalDateTime(
-      atDate,
-      this,
-    ).toInstant(zone) + to.minute.minutes
-    ).toLocalDateTime(zone).time
-}
 
 fun List<Event>.sortAndGroupedEventsItems() =
   groupBy {

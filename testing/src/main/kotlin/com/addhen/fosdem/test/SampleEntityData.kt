@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.test
 
+import com.addhen.fosdem.core.api.plus
 import com.addhen.fosdem.data.sqldelight.api.entities.AttachmentEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.DayEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
@@ -10,7 +11,6 @@ import com.addhen.fosdem.data.sqldelight.api.entities.LinkEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.RoomEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.SpeakerEntity
 import com.addhen.fosdem.data.sqldelight.api.entities.TrackEntity
-import com.addhen.fosdem.model.api.plusMinutes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
@@ -147,7 +147,7 @@ val day3Event = EventEntity(
 val events = listOf(day1Event, day2Event, day3Event)
 
 fun EventEntity.setDurationTime(): EventEntity {
-  return copy(duration = start_time.plusMinutes(duration))
+  return copy(duration = start_time + duration)
 }
 
 fun List<EventEntity>.setDurationTime(): List<EventEntity> = map {
