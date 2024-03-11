@@ -46,7 +46,7 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
-import com.addhen.fosdem.ui.session.detail.converter.convert
+import com.addhen.fosdem.ui.session.detail.html.converter.toAnnotatedString
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -112,7 +112,7 @@ private fun DescriptionSection(
 ) {
   var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-  convert(description)
+  toAnnotatedString(description)
 
   SelectionContainer {
     Column(
