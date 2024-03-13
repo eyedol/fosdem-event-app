@@ -118,7 +118,7 @@ private fun DescriptionSection(
         .animateContentSize()
         .then(modifier),
     ) {
-      //Text( text =  toAnnotatedString(description))
+
       ClickableLinkText(
         style = MaterialTheme
           .typography
