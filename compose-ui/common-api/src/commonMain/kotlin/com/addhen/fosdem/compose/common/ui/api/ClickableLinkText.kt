@@ -22,6 +22,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import com.addhen.fosdem.compose.ui.html.api.Html
 
 @Composable
 private fun findResults(
@@ -38,18 +39,19 @@ private fun getAnnotatedString(
   content: String,
   findUrlResults: Sequence<MatchResult>,
 ): AnnotatedString {
+  val htmlAnnotatedString = Html.fromHtml(content)
   return buildAnnotatedString {
+    append(htmlAnnotatedString)
     pushStyle(
       style = SpanStyle(
         color = MaterialTheme.colorScheme.inverseSurface,
       ),
     )
-    append(content)
     pop()
 
     var lastIndex = 0
     findUrlResults.forEach { matchResult ->
-      val startIndex = content.indexOf(
+      val startIndex = htmlAnnotatedString.indexOf(
         string = matchResult.value,
         startIndex = lastIndex,
       )

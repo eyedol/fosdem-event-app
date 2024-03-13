@@ -46,7 +46,6 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
-import com.addhen.fosdem.ui.session.detail.html.converter.toAnnotatedString
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -111,8 +110,7 @@ private fun DescriptionSection(
   onLinkClick: (url: String) -> Unit,
 ) {
   var isExpanded by rememberSaveable { mutableStateOf(false) }
-
-  toAnnotatedString(description)
+  onLinkClick("")
 
   SelectionContainer {
     Column(
@@ -120,6 +118,7 @@ private fun DescriptionSection(
         .animateContentSize()
         .then(modifier),
     ) {
+      //Text( text =  toAnnotatedString(description))
       ClickableLinkText(
         style = MaterialTheme
           .typography

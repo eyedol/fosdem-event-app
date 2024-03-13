@@ -1,26 +1,30 @@
-package com.addhen.fosdem.ui.session.detail.html.converter
+package com.addhen.fosdem.compose.ui.html.api
 
 import androidx.compose.ui.text.AnnotatedString
 import co.touchlab.kermit.Logger
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
 
-object HtmlConverter {
-  fun toAnnotatedString(html: String): AnnotatedString {
-    val output = HtmlWriter(AnnotatedString.Builder())
+class KouspHtmlConverter: HtmlConverter {
+  override fun fromHtml(html: String): AnnotatedString {
+    val output = HtmlAnnotedStringBuilder()
     val handler = KsoupHtmlHandler
       .Builder()
       .onOpenTag { name, _, _ ->
-        "br" -> handleLineBreakOpenTag()
+        when (name) {
+          HtmlTag.P.tag -> output.handleLineBreakOpenTag()
+        }
         Logger.d { "tag opening name: $name" }
       }
       .onText { text ->
         if (text.isBlank()) return@onText
-        output.append(text)
+        output.write(text)
         Logger.d { "text received: $text" }
       }
       .onCloseTag { name, _ ->
-        "br" -> handleLineBreakCloseTag()
+        when ( name ) {
+          HtmlTag.P.tag -> output.handleLineBreakCloseTag()
+        }
         Logger.d { "tag closing name: $name" }
       }
       .build()
@@ -34,5 +38,4 @@ object HtmlConverter {
 
     return output.toAnnotatedString()
   }
-
 }

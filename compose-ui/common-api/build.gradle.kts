@@ -15,6 +15,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         implementation(projects.coreApi)
+        implementation(projects.composeUi.htmlApi)
         implementation(compose.foundation)
         implementation(compose.material)
         implementation(compose.materialIconsExtended)

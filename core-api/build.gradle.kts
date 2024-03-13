@@ -20,7 +20,6 @@ kotlin {
         implementation(libs.kotlinx.serialization.core)
         implementation(libs.xml.util.serialization)
         implementation(libs.kotlinx.datetime)
-        implementation(libs.touchlab.kermit)
         api(libs.kotlininject.runtime)
         api(libs.circuit.runtime)
         api(libs.lyricist.core)
