@@ -11,6 +11,6 @@ object Html {
   @Composable
   fun fromHtml(
     source: String,
-    htmlConverter: HtmlConverter = KouspHtmlConverter(),
+    htmlConverter: HtmlConverter = KsoupHtmlConverter(),
   ): AnnotatedString = htmlConverter.fromHtml(source)
 }

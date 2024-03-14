@@ -8,7 +8,7 @@ import co.touchlab.kermit.Logger
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
 
-class KouspHtmlConverter : HtmlConverter {
+class KsoupHtmlConverter : HtmlConverter {
 
   override fun fromHtml(html: String): AnnotatedString {
     val output = HtmlAnnotatedStringBuilder()
