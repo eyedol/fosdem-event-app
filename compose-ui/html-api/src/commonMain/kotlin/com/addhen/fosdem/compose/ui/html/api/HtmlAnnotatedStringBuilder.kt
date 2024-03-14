@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 internal class HtmlAnnotatedStringBuilder(
@@ -32,7 +33,7 @@ internal class HtmlAnnotatedStringBuilder(
     output.pushStyle(
       ParagraphStyle(
         textAlign = TextAlign.Justify,
-        textIndent = TextIndent(firstLine = 15.sp, restLine = 28.sp),
+        textIndent = TextIndent(firstLine = 1.em, restLine = 1.8.em),
         lineBreak = LineBreak.Paragraph,
       ),
     )
