@@ -11,4 +11,7 @@ interface HtmlConverter {
 enum class HtmlTag(val tag: String) {
   P("p"),
   BR("br"),
+  EM("em"),
+  STRONG("strong"),
+  NONE("none")
 }

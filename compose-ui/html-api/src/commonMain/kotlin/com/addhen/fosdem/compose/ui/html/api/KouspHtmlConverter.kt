@@ -6,26 +6,35 @@ import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
 
 class KouspHtmlConverter: HtmlConverter {
+
   override fun fromHtml(html: String): AnnotatedString {
-    val output = HtmlAnnotedStringBuilder()
+    val output = HtmlAnnotatedStringBuilder()
     val handler = KsoupHtmlHandler
       .Builder()
       .onOpenTag { name, _, _ ->
-        when (name) {
-          HtmlTag.P.tag -> output.handleLineBreakOpenTag()
-        }
         Logger.d { "tag opening name: $name" }
+
+        when (name) {
+          HtmlTag.P.tag -> output.handleParagraphOpenTag()
+          HtmlTag.BR.tag -> output.handleLineBreakOpenTag()
+          HtmlTag.EM.tag -> output.handleEmOpenTag()
+          HtmlTag.STRONG.tag -> output.handleStrongOpenTag()
+        }
       }
       .onText { text ->
-        if (text.isBlank()) return@onText
-        output.write(text)
         Logger.d { "text received: $text" }
+        if (text.isBlank()) return@onText
+
+        output.write(text)
       }
       .onCloseTag { name, _ ->
-        when ( name ) {
-          HtmlTag.P.tag -> output.handleLineBreakCloseTag()
-        }
         Logger.d { "tag closing name: $name" }
+
+        when ( name ) {
+          HtmlTag.P.tag -> output.handleParagraphCloseTag()
+          HtmlTag.EM.tag -> output.handleEmCloseTag()
+          HtmlTag.STRONG.tag -> output.handleStrongCloseTag()
+        }
       }
       .build()
 
