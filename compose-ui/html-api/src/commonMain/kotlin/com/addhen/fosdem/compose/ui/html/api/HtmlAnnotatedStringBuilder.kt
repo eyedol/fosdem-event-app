@@ -1,3 +1,6 @@
+// Copyright 2024, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.compose.ui.html.api
 
 import androidx.compose.ui.text.AnnotatedString
@@ -30,8 +33,8 @@ internal class HtmlAnnotatedStringBuilder(
       ParagraphStyle(
         textAlign = TextAlign.Justify,
         textIndent = TextIndent(firstLine = 15.sp, restLine = 28.sp),
-        lineBreak = LineBreak.Paragraph
-      )
+        lineBreak = LineBreak.Paragraph,
+      ),
     )
   }
 

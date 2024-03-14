@@ -1,3 +1,6 @@
+// Copyright 2024, Addhen Limited and the FOSDEM app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.compose.ui.html.api
 
 import androidx.compose.ui.text.AnnotatedString
@@ -5,7 +8,7 @@ import co.touchlab.kermit.Logger
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
 
-class KouspHtmlConverter: HtmlConverter {
+class KouspHtmlConverter : HtmlConverter {
 
   override fun fromHtml(html: String): AnnotatedString {
     val output = HtmlAnnotatedStringBuilder()
@@ -32,7 +35,7 @@ class KouspHtmlConverter: HtmlConverter {
       .onCloseTag { name, _ ->
         Logger.d { "tag closing name: $name" }
 
-        when ( name ) {
+        when (name) {
           HtmlTag.P.tag -> output.handleParagraphCloseTag()
           HtmlTag.EM.tag -> output.handleEmCloseTag()
           HtmlTag.STRONG.tag -> output.handleStrongCloseTag()

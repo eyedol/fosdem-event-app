@@ -113,7 +113,7 @@ class EventsDbDaoTest : BaseDatabaseTest() {
     val actual = sut.getEvents(day.date).first()
     val days = sut.getDays()
 
-    //assertEquals(true, actual.isEmpty())
+    // assertEquals(true, actual.isEmpty())
     assertEquals(true, actual.isNotEmpty())
     assertEquals(true, days.isNotEmpty())
     assertEvents(actual)

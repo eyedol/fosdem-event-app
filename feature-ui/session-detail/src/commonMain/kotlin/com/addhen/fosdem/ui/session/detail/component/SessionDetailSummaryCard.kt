@@ -44,10 +44,12 @@ fun SessionDetailSummaryCard(
           .fillMaxWidth()
           .padding(horizontal = 16.dp, vertical = 24.dp),
       ) {
+        val content = "${sessionItem.day.date} (${sessionItem.startAt} - " +
+          "${sessionItem.endAt}) ${sessionItem.duration}"
         SessionDetailSummaryCardRow(
           leadingIcon = Icons.Outlined.Schedule,
           label = dateTitle,
-          content = "${sessionItem.day.date} (${sessionItem.startAt} - ${sessionItem.endAt}) ${sessionItem.duration}",
+          content = content,
         )
         SessionDetailSummaryCardRow(
           leadingIcon = Icons.Outlined.Home,

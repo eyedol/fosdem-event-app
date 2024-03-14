@@ -118,7 +118,6 @@ private fun DescriptionSection(
         .animateContentSize()
         .then(modifier),
     ) {
-
       ClickableLinkText(
         style = MaterialTheme
           .typography
