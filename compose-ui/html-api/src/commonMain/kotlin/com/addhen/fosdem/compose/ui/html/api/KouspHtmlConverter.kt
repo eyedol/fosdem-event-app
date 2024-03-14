@@ -18,6 +18,8 @@ class KouspHtmlConverter: HtmlConverter {
           HtmlTag.P.tag -> output.handleParagraphOpenTag()
           HtmlTag.BR.tag -> output.handleLineBreakOpenTag()
           HtmlTag.EM.tag -> output.handleEmOpenTag()
+          HtmlTag.UL.tag -> output.handleUlOpenTag()
+          HtmlTag.LI.tag -> output.handleLiOpenTag()
           HtmlTag.STRONG.tag -> output.handleStrongOpenTag()
         }
       }
@@ -34,6 +36,8 @@ class KouspHtmlConverter: HtmlConverter {
           HtmlTag.P.tag -> output.handleParagraphCloseTag()
           HtmlTag.EM.tag -> output.handleEmCloseTag()
           HtmlTag.STRONG.tag -> output.handleStrongCloseTag()
+          HtmlTag.UL.tag -> output.handleUlCloseTag()
+          HtmlTag.LI.tag -> output.handleLiCloseTag()
         }
       }
       .build()

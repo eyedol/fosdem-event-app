@@ -12,6 +12,8 @@ enum class HtmlTag(val tag: String) {
   P("p"),
   BR("br"),
   EM("em"),
+  UL("ul"),
+  LI("li"),
   STRONG("strong"),
   NONE("none")
 }

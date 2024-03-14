@@ -6,15 +6,33 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.unit.sp
 
-class HtmlAnnotatedStringBuilder(
-  private val output: AnnotatedString.Builder = AnnotatedString.Builder()
+internal class HtmlAnnotatedStringBuilder(
+  private val output: AnnotatedString.Builder = AnnotatedString.Builder(),
 ) {
 
-  var tag: HtmlTag =  HtmlTag.NONE
+  private var tag: HtmlTag = HtmlTag.NONE
 
   fun handleLineBreakOpenTag() {
     tag = HtmlTag.BR
+  }
+
+  fun handleUlOpenTag() {
+    tag = HtmlTag.UL
+  }
+
+  fun handleLiOpenTag() {
+    tag = HtmlTag.LI
+    output.pushStyle(
+      ParagraphStyle(
+        textAlign = TextAlign.Justify,
+        textIndent = TextIndent(firstLine = 15.sp, restLine = 28.sp),
+        lineBreak = LineBreak.Paragraph
+      )
+    )
   }
 
   fun handleEmOpenTag() {
@@ -42,12 +60,30 @@ class HtmlAnnotatedStringBuilder(
     output.pop()
   }
 
+  fun handleUlCloseTag() {
+    output.append("\r\n")
+  }
+
+  fun handleLiCloseTag() {
+    output.pop()
+  }
+
   fun write(text: String) {
     when (tag) {
       HtmlTag.P, HtmlTag.BR -> {
         output.append(text)
         output.append("\r\n")
       }
+
+      HtmlTag.UL -> {
+        output.append("\r\n")
+      }
+
+      HtmlTag.LI -> {
+        output.append("\u2022 ")
+        output.append(text)
+      }
+
       else -> output.append(text)
     }
   }
