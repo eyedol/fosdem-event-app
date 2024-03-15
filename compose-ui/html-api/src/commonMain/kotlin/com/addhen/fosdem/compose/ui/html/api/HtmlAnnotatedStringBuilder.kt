@@ -5,17 +5,14 @@ package com.addhen.fosdem.compose.ui.html.api
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 
 internal class HtmlAnnotatedStringBuilder(
@@ -40,8 +37,8 @@ internal class HtmlAnnotatedStringBuilder(
       style = SpanStyle(
         textDecoration = TextDecoration.Underline,
         color = linkTextColor,
-        fontWeight = FontWeight.Bold
-      )
+        fontWeight = FontWeight.Bold,
+      ),
     )
   }
 
