@@ -110,7 +110,6 @@ private fun DescriptionSection(
   onLinkClick: (url: String) -> Unit,
 ) {
   var isExpanded by rememberSaveable { mutableStateOf(false) }
-  onLinkClick("")
 
   SelectionContainer {
     Column(
@@ -124,6 +123,7 @@ private fun DescriptionSection(
           .bodyLarge
           .copy(color = MaterialTheme.colorScheme.onSurface),
         content = description,
+        isHtmlContent = true,
         onLinkClick = onLinkClick,
         regex = "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex(),
         overflow = TextOverflow.Ellipsis,

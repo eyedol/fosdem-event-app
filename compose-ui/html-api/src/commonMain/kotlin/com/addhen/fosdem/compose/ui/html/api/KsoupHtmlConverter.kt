@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.compose.ui.html.api
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import co.touchlab.kermit.Logger
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler
@@ -10,11 +11,11 @@ import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlParser
 
 class KsoupHtmlConverter : HtmlConverter {
 
-  override fun fromHtml(html: String): AnnotatedString {
-    val output = HtmlAnnotatedStringBuilder()
+  override fun fromHtml(html: String, linkTextColor: Color): AnnotatedString {
+    val output = HtmlAnnotatedStringBuilder(linkTextColor)
     val handler = KsoupHtmlHandler
       .Builder()
-      .onOpenTag { name, _, _ ->
+      .onOpenTag { name, attributes, _ ->
         Logger.d { "tag opening name: $name" }
 
         when (name) {
@@ -24,6 +25,7 @@ class KsoupHtmlConverter : HtmlConverter {
           HtmlTag.UL.tag -> output.handleUlOpenTag()
           HtmlTag.LI.tag -> output.handleLiOpenTag()
           HtmlTag.STRONG.tag -> output.handleStrongOpenTag()
+          HtmlTag.A.tag -> output.handleAOpenTag(attributes["href"].orEmpty())
         }
       }
       .onText { text ->
@@ -41,6 +43,7 @@ class KsoupHtmlConverter : HtmlConverter {
           HtmlTag.STRONG.tag -> output.handleStrongCloseTag()
           HtmlTag.UL.tag -> output.handleUlCloseTag()
           HtmlTag.LI.tag -> output.handleLiCloseTag()
+          HtmlTag.A.tag -> output.handleACloseTag()
         }
       }
       .build()

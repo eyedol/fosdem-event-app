@@ -3,11 +3,12 @@
 
 package com.addhen.fosdem.compose.ui.html.api
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 
 interface HtmlConverter {
 
-  fun fromHtml(html: String): AnnotatedString
+  fun fromHtml(html: String, linkTextColor: Color): AnnotatedString
 }
 
 enum class HtmlTag(val tag: String) {

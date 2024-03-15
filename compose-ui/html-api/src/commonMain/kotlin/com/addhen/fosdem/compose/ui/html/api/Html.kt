@@ -4,6 +4,7 @@
 package com.addhen.fosdem.compose.ui.html.api
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 
 object Html {
@@ -11,6 +12,7 @@ object Html {
   @Composable
   fun fromHtml(
     source: String,
+    linkTextColor: Color,
     htmlConverter: HtmlConverter = KsoupHtmlConverter(),
-  ): AnnotatedString = htmlConverter.fromHtml(source)
+  ): AnnotatedString = htmlConverter.fromHtml(source, linkTextColor)
 }

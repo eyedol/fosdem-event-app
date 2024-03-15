@@ -24,59 +24,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import com.addhen.fosdem.compose.ui.html.api.Html
 
-@Composable
-private fun findResults(
-  content: String,
-  regex: Regex,
-): Sequence<MatchResult> {
-  return remember(content) {
-    regex.findAll(content)
-  }
-}
-
-@Composable
-private fun getAnnotatedString(
-  content: String,
-  findUrlResults: Sequence<MatchResult>,
-): AnnotatedString {
-  val htmlAnnotatedString = Html.fromHtml(content)
-  return buildAnnotatedString {
-    append(htmlAnnotatedString)
-    pushStyle(
-      style = SpanStyle(
-        color = MaterialTheme.colorScheme.inverseSurface,
-      ),
-    )
-    pop()
-
-    var lastIndex = 0
-    findUrlResults.forEach { matchResult ->
-      val startIndex = htmlAnnotatedString.indexOf(
-        string = matchResult.value,
-        startIndex = lastIndex,
-      )
-      val endIndex = startIndex + matchResult.value.length
-      addStyle(
-        style = SpanStyle(
-          color = MaterialTheme.colorScheme.primary,
-          textDecoration = TextDecoration.Underline,
-          fontWeight = FontWeight.Bold,
-        ),
-        start = startIndex,
-        end = endIndex,
-      )
-      addStringAnnotation(
-        tag = matchResult.value,
-        annotation = matchResult.value,
-        start = startIndex,
-        end = endIndex,
-      )
-
-      lastIndex = endIndex
-    }
-  }
-}
-
 /**
  * Provides ClickableText with underline for the specified regex.
  * When underlining a string other than a url, please specify the url as well.
@@ -88,6 +35,7 @@ private fun getAnnotatedString(
 fun ClickableLinkText(
   style: TextStyle,
   content: String,
+  isHtmlContent: Boolean = false,
   onLinkClick: (url: String) -> Unit,
   regex: Regex,
   modifier: Modifier = Modifier,
@@ -97,18 +45,13 @@ fun ClickableLinkText(
   onContentLick: () -> Unit = {},
   onOverflow: (Boolean) -> Unit = {},
 ) {
-  val findResults = findResults(
-    content = content,
-    regex = regex,
-  )
-
-  val annotatedString = getAnnotatedString(
-    content = content,
-    findUrlResults = findResults,
-  )
-
+  val findResults = findResults(content = content, regex = regex)
+  val annotatedString = if (isHtmlContent) {
+    Html.fromHtml(content, MaterialTheme.colorScheme.primary)
+  } else {
+    getAnnotatedString(content = content, findUrlResults = findResults)
+  }
   val layoutResult = remember { mutableStateOf<LayoutCoordinates?>(null) }
-
   val density = LocalDensity.current
 
   val isOverflowing by remember {
@@ -145,3 +88,56 @@ fun ClickableLinkText(
     },
   )
 }
+
+@Composable
+private fun findResults(
+  content: String,
+  regex: Regex,
+): Sequence<MatchResult> {
+  return remember(content) {
+    regex.findAll(content)
+  }
+}
+
+@Composable
+private fun getAnnotatedString(
+  content: String,
+  findUrlResults: Sequence<MatchResult>,
+): AnnotatedString {
+  return buildAnnotatedString {
+    pushStyle(
+      style = SpanStyle(
+        color = MaterialTheme.colorScheme.inverseSurface,
+      ),
+    )
+    append(content)
+    pop()
+
+    var lastIndex = 0
+    findUrlResults.forEach { matchResult ->
+      val startIndex = content.indexOf(
+        string = matchResult.value,
+        startIndex = lastIndex,
+      )
+      val endIndex = startIndex + matchResult.value.length
+      addStyle(
+        style = SpanStyle(
+          color = MaterialTheme.colorScheme.primary,
+          textDecoration = TextDecoration.Underline,
+          fontWeight = FontWeight.Bold,
+        ),
+        start = startIndex,
+        end = endIndex,
+      )
+      addStringAnnotation(
+        tag = matchResult.value,
+        annotation = matchResult.value,
+        start = startIndex,
+        end = endIndex,
+      )
+
+      lastIndex = endIndex
+    }
+  }
+}
+
