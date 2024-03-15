@@ -11,6 +11,7 @@ interface HtmlConverter {
 }
 
 enum class HtmlTag(val tag: String) {
+  A("a"),
   P("p"),
   BR("br"),
   EM("em"),

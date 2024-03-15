@@ -12,10 +12,9 @@ import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 
 internal class HtmlAnnotatedStringBuilder(
-  private val output: AnnotatedString.Builder = AnnotatedString.Builder(),
+  private val builder: AnnotatedString.Builder = AnnotatedString.Builder(),
 ) {
 
   private var tag: HtmlTag = HtmlTag.NONE
@@ -30,7 +29,7 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleLiOpenTag() {
     tag = HtmlTag.LI
-    output.pushStyle(
+    builder.pushStyle(
       ParagraphStyle(
         textAlign = TextAlign.Justify,
         textIndent = TextIndent(firstLine = 1.em, restLine = 1.8.em),
@@ -40,57 +39,57 @@ internal class HtmlAnnotatedStringBuilder(
   }
 
   fun handleEmOpenTag() {
-    output.pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
+    builder.pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
   }
 
   fun handleStrongOpenTag() {
-    output.pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+    builder.pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
   }
 
   fun handleParagraphOpenTag() {
     tag = HtmlTag.P
-    output.pushStyle(ParagraphStyle(lineBreak = LineBreak.Paragraph))
+    builder.pushStyle(ParagraphStyle(lineBreak = LineBreak.Paragraph))
   }
 
   fun handleStrongCloseTag() {
-    output.pop()
+    builder.pop()
   }
 
   fun handleEmCloseTag() {
-    output.pop()
+    builder.pop()
   }
 
   fun handleParagraphCloseTag() {
-    output.pop()
+    builder.pop()
   }
 
   fun handleUlCloseTag() {
-    output.append("\r\n")
+    builder.append("\r\n")
   }
 
   fun handleLiCloseTag() {
-    output.pop()
+    builder.pop()
   }
 
   fun write(text: String) {
     when (tag) {
       HtmlTag.P, HtmlTag.BR -> {
-        output.append(text)
-        output.append("\r\n")
+        builder.append(text)
+        builder.append("\r\n")
       }
 
       HtmlTag.UL -> {
-        output.append("\r\n")
+        builder.append("\r\n")
       }
 
       HtmlTag.LI -> {
-        output.append("\u2022 ")
-        output.append(text)
+        builder.append("\u2022 ")
+        builder.append(text)
       }
 
-      else -> output.append(text)
+      else -> builder.append(text)
     }
   }
 
-  fun toAnnotatedString() = output.toAnnotatedString()
+  fun toAnnotatedString() = builder.toAnnotatedString()
 }
