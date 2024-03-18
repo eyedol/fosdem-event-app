@@ -53,6 +53,7 @@ fun ClickableLinkText(
   }
   val layoutResult = remember { mutableStateOf<LayoutCoordinates?>(null) }
   val density = LocalDensity.current
+  val isLinkClicked = remember { mutableStateOf(false) }
 
   val isOverflowing by remember {
     derivedStateOf {
@@ -75,15 +76,19 @@ fun ClickableLinkText(
     overflow = overflow,
     maxLines = maxLines,
     onClick = { offset ->
-      onContentLick()
       findResults.forEach { matchResult ->
         annotatedString.getStringAnnotations(
           tag = matchResult.value,
           start = offset,
           end = offset,
         ).firstOrNull()?.let {
+          isLinkClicked.value = true
           onLinkClick(url ?: matchResult.value)
         }
+      }
+      if (isLinkClicked.value.not()) {
+        isLinkClicked.value = false
+        onContentLick()
       }
     },
   )
