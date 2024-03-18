@@ -62,7 +62,7 @@ fun SearchTextFieldAppBar(
   )
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchTextField(
   modifier: Modifier = Modifier,
@@ -77,7 +77,7 @@ private fun SearchTextField(
   var query by remember { mutableStateOf(searchQuery) }
 
   BasicTextField(
-    value = query,
+    value = query.trim(),
     onValueChange = { value ->
       query = value
       onSearchQueryChanged(value)
