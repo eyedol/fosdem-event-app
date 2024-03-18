@@ -36,7 +36,7 @@ include(
   "feature-ui:session-component",
   "feature-ui:main",
   "compose-ui:common-api",
-  "compose-ui:html-api",
+  "compose-ui:html",
   ":data:events",
   ":data:events-api",
   ":data:rooms",
