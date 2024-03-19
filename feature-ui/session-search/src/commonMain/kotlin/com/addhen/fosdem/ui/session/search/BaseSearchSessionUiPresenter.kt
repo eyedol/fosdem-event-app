@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.map
  * search or filter UI interactions.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-abstract class SearchSessionUiPresenter(
+abstract class BaseSearchSessionUiPresenter(
   eventsRepository: EventsRepository,
   roomsRepository: RoomsRepository,
 ) : Presenter<SessionSearchUiState> {
@@ -156,7 +156,7 @@ abstract class SearchSessionUiPresenter(
     events: List<Event>,
     filters: SessionFilters,
   ): PersistentMap<String, List<Event>> {
-    var sessionItems = events
+    var sessionItems = events.asSequence()
     if (filters.days.isNotEmpty()) {
       sessionItems = sessionItems.filter { sessionItem ->
         filters.days.contains(sessionItem.day.toDayTab())
@@ -189,7 +189,7 @@ abstract class SearchSessionUiPresenter(
           )
       }
     }
-    return sessionItems.sortAndGroupedEventsItems()
+    return sessionItems.toList().sortAndGroupedEventsItems()
   }
 
   private fun searchUiStateListSearch(

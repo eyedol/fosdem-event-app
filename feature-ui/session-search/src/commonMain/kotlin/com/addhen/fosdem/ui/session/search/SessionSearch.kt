@@ -78,7 +78,7 @@ private fun SessionSearchScreen(
     modifier = modifier.testTag(SearchScreenTestTag),
     topBar = {
       SearchTextFieldAppBar(
-        searchQuery = uiState.content.query.queryText.trim(),
+        searchQuery = uiState.content.query.queryText,
         onSearchQueryChanged = onSearchQueryChanged,
         testTag = SearchScreenTestTag,
       )

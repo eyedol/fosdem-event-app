@@ -89,7 +89,7 @@ private fun SearchTextField(
     textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
     cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
     singleLine = true,
-    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+    keyboardOptions = KeyboardOptions.Default,
     keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
     decorationBox = @Composable { innerTextField ->
       TextFieldDefaults.DecorationBox(
@@ -115,6 +115,9 @@ private fun SearchTextField(
                 onClick = {
                   query = ""
                   onSearchQueryChanged("")
+                  // This is mostly for iOS, otherwise there is no way to dismiss the iOS
+                  // keyboard once opened.
+                  keyboardController?.hide()
                 },
               ) {
                 Icon(
