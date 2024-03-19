@@ -27,7 +27,6 @@ data class SearchFilterUiState<T>(
   val selectedValues: String = "",
 )
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchFilter(
   searchFilterDayUiState: SearchFilterUiState<DayTab>,
