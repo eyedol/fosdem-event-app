@@ -216,11 +216,17 @@ private fun MaterialSection(
       verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
       for (material in materials) {
+        val nameRegex = material.name
+          .replace("(", "\\(")
+          .replace(")", "\\)")
+          .replace("/", "\\/")
+          .toRegex()
+
         ClickableLinkText(
           style = MaterialTheme.typography.bodyMedium,
           content = " \u2022 ${material.name}",
           onLinkClick = onLinkClick,
-          regex = material.name.toRegex(),
+          regex = nameRegex,
           url = material.url,
         )
       }
