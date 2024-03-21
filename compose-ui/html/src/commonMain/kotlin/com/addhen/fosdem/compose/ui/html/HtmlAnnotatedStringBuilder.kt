@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
@@ -34,11 +35,7 @@ internal class HtmlAnnotatedStringBuilder(
     tag = HtmlTag.A
     builder.pushStringAnnotation(tag = linkUrl, annotation = linkUrl)
     builder.pushStyle(
-      style = SpanStyle(
-        textDecoration = TextDecoration.Underline,
-        color = linkTextColor,
-        fontWeight = FontWeight.Bold,
-      ),
+      style = linkSpanStyle(),
     )
   }
 
@@ -107,9 +104,58 @@ internal class HtmlAnnotatedStringBuilder(
         builder.append(text)
       }
 
-      else -> builder.append(text)
+      else -> {
+        builder.plus(getLinksUrlAnnotatedString(text))
+      }
     }
   }
 
   fun toAnnotatedString() = builder.toAnnotatedString()
+
+  private fun linkSpanStyle() = SpanStyle(
+    textDecoration = TextDecoration.Underline,
+    color = linkTextColor,
+    fontWeight = FontWeight.Bold,
+  )
+
+  /**
+   * Use this to style links in text that are not html anchor <a>.
+   *
+   * This will underline the link as an hyperlink just like it has been done
+   * for the <a /> html tags
+   */
+  private fun getLinksUrlAnnotatedString(content: String): AnnotatedString {
+    return buildAnnotatedString {
+
+      append(content)
+      pop()
+
+      val links = "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex().findAll(content)
+      var lastIndex = 0
+      links.forEach { matchResult ->
+        val startIndex = content.indexOf(
+          string = matchResult.value,
+          startIndex = lastIndex,
+        )
+        val endIndex = startIndex + matchResult.value.length
+        addStyle(
+          style = SpanStyle(
+            color = linkTextColor,
+            textDecoration = TextDecoration.Underline,
+            fontWeight = FontWeight.Bold,
+          ),
+          start = startIndex,
+          end = endIndex,
+        )
+        addStringAnnotation(
+          tag = matchResult.value,
+          annotation = matchResult.value,
+          start = startIndex,
+          end = endIndex,
+        )
+
+        lastIndex = endIndex
+      }
+    }
+  }
 }
