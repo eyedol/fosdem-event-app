@@ -105,7 +105,12 @@ internal class HtmlAnnotatedStringBuilder(
       }
 
       else -> {
-        builder.plus(getLinksUrlAnnotatedString(text))
+        val links = findLinks(text)
+        if (links.isEmpty()) {
+          builder.append(text)
+        } else {
+          builder.plus(getLinksUrlAnnotatedString(text))
+        }
       }
     }
   }
@@ -118,19 +123,23 @@ internal class HtmlAnnotatedStringBuilder(
     fontWeight = FontWeight.Bold,
   )
 
+
+  private fun findLinks(content: String ): Sequence<MatchResult>  {
+    return "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex().findAll(content)
+  }
+
   /**
    * Use this to style links in text that are not html anchor <a>.
    *
    * This will underline the link as an hyperlink just like it has been done
-   * for the <a /> html tags
+   * for the <a /> html tags.
    */
-  private fun getLinksUrlAnnotatedString(content: String): AnnotatedString {
+  private fun getLinksUrlAnnotatedString(content: String, links: Sequence<MatchResult>): AnnotatedString {
     return buildAnnotatedString {
 
       append(content)
       pop()
 
-      val links = "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex().findAll(content)
       var lastIndex = 0
       links.forEach { matchResult ->
         val startIndex = content.indexOf(
