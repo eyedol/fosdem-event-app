@@ -106,10 +106,10 @@ internal class HtmlAnnotatedStringBuilder(
 
       else -> {
         val links = findLinks(text)
-        if (links.isEmpty()) {
+        if (links.count() == 0) {
           builder.append(text)
         } else {
-          builder.plus(getLinksUrlAnnotatedString(text))
+          builder.append(getLinksUrlAnnotatedString(text, links))
         }
       }
     }
