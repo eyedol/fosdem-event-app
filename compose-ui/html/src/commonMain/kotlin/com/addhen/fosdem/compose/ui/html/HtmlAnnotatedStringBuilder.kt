@@ -91,7 +91,7 @@ internal class HtmlAnnotatedStringBuilder(
   fun write(text: String) {
     when (tag) {
       HtmlTag.P, HtmlTag.BR -> {
-        builder.append(text)
+        styleLinksUrlsOrAppend(text)
         builder.append("\r\n")
       }
 
@@ -105,13 +105,17 @@ internal class HtmlAnnotatedStringBuilder(
       }
 
       else -> {
-        val links = findLinks(text)
-        if (links.count() == 0) {
-          builder.append(text)
-        } else {
-          builder.append(getLinksUrlAnnotatedString(text, links))
-        }
+        styleLinksUrlsOrAppend(text)
       }
+    }
+  }
+
+  private fun styleLinksUrlsOrAppend(text: String) {
+    val links = findLinks(text)
+    if (links.count() == 0) {
+      builder.append(text)
+    } else {
+      builder.append(getLinksUrlAnnotatedString(text, links))
     }
   }
 
@@ -138,7 +142,6 @@ internal class HtmlAnnotatedStringBuilder(
     return buildAnnotatedString {
 
       append(content)
-      pop()
 
       var lastIndex = 0
       links.forEach { matchResult ->
