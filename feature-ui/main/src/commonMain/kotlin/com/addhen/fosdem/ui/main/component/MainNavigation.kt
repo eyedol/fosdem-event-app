@@ -26,8 +26,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.slack.circuit.backstack.SaveableBackStack
-import com.slack.circuit.backstack.isAtRoot
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.PersistentList
@@ -141,10 +139,12 @@ private fun MainNavigationItemIcon(item: MainNavigationItem, selected: Boolean) 
 
 internal fun Navigator.resetRootIfDifferent(
   screen: Screen,
-  backstack: SaveableBackStack,
+  saveState: Boolean = false,
+  restoreState: Boolean = false,
 ) {
-  if (!backstack.isAtRoot || backstack.topRecord?.screen != screen) {
-    resetRoot(screen)
+  val backStack = peekBackStack()
+  if (backStack.size > 1 || backStack.lastOrNull() != screen) {
+    resetRoot(screen, saveState, restoreState)
   }
 }
 

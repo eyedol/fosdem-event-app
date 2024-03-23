@@ -77,7 +77,9 @@ fun Main(
         MainNavigationBar(
           selectedNavigation = rootScreen,
           navigationItems = navigationItems,
-          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+          onNavigationSelected = {
+            navigator.resetRootIfDifferent(it, saveState = true, restoreState = true)
+          },
           modifier = Modifier.fillMaxWidth(),
         )
       } else {
@@ -102,7 +104,9 @@ fun Main(
         MainNavigationRail(
           selectedNavigation = rootScreen,
           navigationItems = navigationItems,
-          onNavigationSelected = { navigator.resetRootIfDifferent(it, backstack) },
+          onNavigationSelected = {
+            navigator.resetRootIfDifferent(it, saveState = true, restoreState = true)
+          },
           modifier = Modifier.fillMaxHeight(),
         )
 
