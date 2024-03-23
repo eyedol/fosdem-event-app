@@ -127,8 +127,7 @@ internal class HtmlAnnotatedStringBuilder(
     fontWeight = FontWeight.Bold,
   )
 
-
-  private fun findLinks(content: String ): Sequence<MatchResult>  {
+  private fun findLinks(content: String): Sequence<MatchResult> {
     return "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex().findAll(content)
   }
 
@@ -138,9 +137,11 @@ internal class HtmlAnnotatedStringBuilder(
    * This will underline the link as an hyperlink just like it has been done
    * for the <a /> html tags.
    */
-  private fun getLinksUrlAnnotatedString(content: String, links: Sequence<MatchResult>): AnnotatedString {
+  private fun getLinksUrlAnnotatedString(
+    content: String,
+    links: Sequence<MatchResult>,
+  ): AnnotatedString {
     return buildAnnotatedString {
-
       append(content)
 
       var lastIndex = 0
