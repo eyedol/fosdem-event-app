@@ -50,7 +50,14 @@ class KsoupHtmlConverter : HtmlConverter {
 
     val parser = KsoupHtmlParser(handler)
     try {
-      parser.write(html)
+      // Due to AnnotatedString not supporting nested ParagraphStyles,
+      // removing any <p> tag between any <li> tag to avoid the app from crashing.
+      // See the issue below opened to address it.
+      // Issue link: https://issuetracker.google.com/issues/315006870?pli=1
+      val strippedParagraphTag = html
+        .replace("<li>\n<p>", "<li>")
+        .replace("</p>\n</li>", "</li>")
+      parser.write(strippedParagraphTag)
     } finally {
       parser.end()
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.em
+import co.touchlab.kermit.Logger
 
 internal class HtmlAnnotatedStringBuilder(
   private val linkTextColor: Color,
