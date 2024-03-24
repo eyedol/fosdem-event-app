@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.em
-import co.touchlab.kermit.Logger
 
 internal class HtmlAnnotatedStringBuilder(
   private val linkTextColor: Color,
@@ -23,6 +22,8 @@ internal class HtmlAnnotatedStringBuilder(
 ) {
 
   private var tag: HtmlTag = HtmlTag.NONE
+  private var isOlTagOpened = false
+  private var olCounter = 0
 
   fun handleLineBreakOpenTag() {
     tag = HtmlTag.BR
@@ -30,6 +31,11 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleUlOpenTag() {
     tag = HtmlTag.UL
+  }
+
+  fun handleOlOpenTag() {
+    tag = HtmlTag.OL
+    isOlTagOpened = true
   }
 
   fun handleAOpenTag(linkUrl: String) {
@@ -47,10 +53,14 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleLiOpenTag() {
     tag = HtmlTag.LI
+    var restLine = 1.8.em
+    if (isOlTagOpened) {
+      restLine = 2.5.em
+    }
     builder.pushStyle(
       ParagraphStyle(
         textAlign = TextAlign.Justify,
-        textIndent = TextIndent(firstLine = 1.em, restLine = 1.8.em),
+        textIndent = TextIndent(firstLine = 1.em, restLine = restLine),
         lineBreak = LineBreak.Paragraph,
       ),
     )
@@ -85,6 +95,12 @@ internal class HtmlAnnotatedStringBuilder(
     builder.append("\r\n")
   }
 
+  fun handleOlCloseTag() {
+    isOlTagOpened = false
+    olCounter = 0
+    builder.append("\r\n")
+  }
+
   fun handleLiCloseTag() {
     builder.pop()
   }
@@ -96,12 +112,16 @@ internal class HtmlAnnotatedStringBuilder(
         builder.append("\r\n")
       }
 
-      HtmlTag.UL -> {
+      HtmlTag.UL, HtmlTag.OL -> {
         builder.append("\r\n")
       }
 
       HtmlTag.LI -> {
-        builder.append("\u2022 ")
+        if (isOlTagOpened) {
+          builder.append("${++olCounter}. ")
+        } else {
+          builder.append("\u2022 ")
+        }
         builder.append(text)
       }
 
