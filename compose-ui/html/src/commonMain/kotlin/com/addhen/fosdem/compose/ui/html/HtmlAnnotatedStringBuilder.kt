@@ -76,7 +76,10 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleParagraphOpenTag() {
     tag = HtmlTag.P
-    builder.pushStyle(ParagraphStyle(lineBreak = LineBreak.Paragraph))
+    builder.pushStyle(ParagraphStyle(
+      textAlign = TextAlign.Start,
+      lineBreak = LineBreak.Paragraph)
+    )
   }
 
   fun handleStrongCloseTag() {
