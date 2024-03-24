@@ -55,11 +55,11 @@ internal class HtmlAnnotatedStringBuilder(
     tag = HtmlTag.LI
     var restLine = 1.8.em
     if (isOlTagOpened) {
-      restLine = 2.5.em
+      restLine = 2.em
     }
     builder.pushStyle(
       ParagraphStyle(
-        textAlign = TextAlign.Justify,
+        textAlign = TextAlign.Start,
         textIndent = TextIndent(firstLine = 1.em, restLine = restLine),
         lineBreak = LineBreak.Paragraph,
       ),
