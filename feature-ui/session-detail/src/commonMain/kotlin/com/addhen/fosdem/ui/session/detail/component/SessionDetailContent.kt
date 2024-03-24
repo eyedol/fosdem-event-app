@@ -125,7 +125,7 @@ private fun DescriptionSection(
         content = description,
         isHtmlContent = true,
         onLinkClick = onLinkClick,
-        regex = "(https)(://[\\w/:%#$&?()~.=+\\-]+)".toRegex(),
+        regex = "(?:https?|ftp)://[\\w+&@#/%?=~_|!:,.;]*[\\w+&@#/%=~_|]".toRegex(),
         overflow = TextOverflow.Ellipsis,
         maxLines = if (isExpanded) Int.MAX_VALUE else 5,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
