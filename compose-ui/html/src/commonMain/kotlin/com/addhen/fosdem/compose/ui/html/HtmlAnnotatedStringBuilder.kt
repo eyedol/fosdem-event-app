@@ -14,7 +14,9 @@ import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 
 internal class HtmlAnnotatedStringBuilder(
   private val linkTextColor: Color,
@@ -108,6 +110,65 @@ internal class HtmlAnnotatedStringBuilder(
     builder.pop()
   }
 
+  fun handleH1OpenTag() {
+    tag = HtmlTag.H1
+    builder.pushStyle(headingSpanStyle(22.sp))
+  }
+
+  fun handleH1CloseTag() {
+    builder.pop()
+  }
+
+  fun handleH2OpenTag() {
+    tag = HtmlTag.H2
+    builder.pushStyle(headingSpanStyle(20.sp))
+  }
+
+  fun handleH3OpenTag() {
+    tag = HtmlTag.H2
+    builder.pushStyle(headingSpanStyle(18.sp))
+  }
+
+  fun handleH4OpenTag() {
+    tag = HtmlTag.H2
+    builder.pushStyle(headingSpanStyle(16.sp))
+  }
+
+  fun handleH5OpenTag() {
+    tag = HtmlTag.H2
+    builder.pushStyle(headingSpanStyle(14.sp))
+  }
+
+  fun handleH6OpenTag() {
+    tag = HtmlTag.H2
+    builder.pushStyle(headingSpanStyle(12.sp))
+  }
+
+  fun handleH2CloseTag() {
+    builder.pop()
+    builder.append("\r\n")
+  }
+
+  fun handleH3CloseTag() {
+    builder.pop()
+    builder.append("\r\n")
+  }
+
+  fun handleH4CloseTag() {
+    builder.pop()
+    builder.append("\r\n")
+  }
+
+  fun handleH5CloseTag() {
+    builder.pop()
+    builder.append("\r\n")
+  }
+
+  fun handleH6CloseTag() {
+    builder.pop()
+    builder.append("\r\n")
+  }
+
   fun write(text: String) {
     when (tag) {
       HtmlTag.P, HtmlTag.BR -> {
@@ -148,6 +209,11 @@ internal class HtmlAnnotatedStringBuilder(
   private fun linkSpanStyle() = SpanStyle(
     textDecoration = TextDecoration.Underline,
     color = linkTextColor,
+    fontWeight = FontWeight.Bold,
+  )
+
+  private fun headingSpanStyle(fontSize: TextUnit) = SpanStyle(
+    fontSize = fontSize,
     fontWeight = FontWeight.Bold,
   )
 

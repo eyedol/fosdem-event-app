@@ -25,6 +25,12 @@ class KsoupHtmlConverter : HtmlConverter {
           HtmlTag.UL.tag -> output.handleUlOpenTag()
           HtmlTag.OL.tag -> output.handleOlOpenTag()
           HtmlTag.LI.tag -> output.handleLiOpenTag()
+          HtmlTag.H1.tag -> output.handleH1OpenTag()
+          HtmlTag.H2.tag -> output.handleH2OpenTag()
+          HtmlTag.H3.tag -> output.handleH3OpenTag()
+          HtmlTag.H4.tag -> output.handleH4OpenTag()
+          HtmlTag.H5.tag -> output.handleH5OpenTag()
+          HtmlTag.H6.tag -> output.handleH6OpenTag()
           HtmlTag.STRONG.tag -> output.handleStrongOpenTag()
           HtmlTag.A.tag -> output.handleAOpenTag(attributes["href"].orEmpty())
         }
@@ -45,6 +51,12 @@ class KsoupHtmlConverter : HtmlConverter {
           HtmlTag.UL.tag -> output.handleUlCloseTag()
           HtmlTag.OL.tag -> output.handleOlCloseTag()
           HtmlTag.LI.tag -> output.handleLiCloseTag()
+          HtmlTag.H1.tag -> output.handleH1CloseTag()
+          HtmlTag.H2.tag -> output.handleH2CloseTag()
+          HtmlTag.H3.tag -> output.handleH3CloseTag()
+          HtmlTag.H4.tag -> output.handleH4CloseTag()
+          HtmlTag.H5.tag -> output.handleH5CloseTag()
+          HtmlTag.H6.tag -> output.handleH6CloseTag()
           HtmlTag.A.tag -> output.handleACloseTag()
         }
       }
