@@ -125,22 +125,22 @@ internal class HtmlAnnotatedStringBuilder(
   }
 
   fun handleH3OpenTag() {
-    tag = HtmlTag.H2
+    tag = HtmlTag.H3
     builder.pushStyle(headingSpanStyle(18.sp))
   }
 
   fun handleH4OpenTag() {
-    tag = HtmlTag.H2
+    tag = HtmlTag.H4
     builder.pushStyle(headingSpanStyle(16.sp))
   }
 
   fun handleH5OpenTag() {
-    tag = HtmlTag.H2
+    tag = HtmlTag.H5
     builder.pushStyle(headingSpanStyle(14.sp))
   }
 
   fun handleH6OpenTag() {
-    tag = HtmlTag.H2
+    tag = HtmlTag.H6
     builder.pushStyle(headingSpanStyle(12.sp))
   }
 
