@@ -218,7 +218,7 @@ internal class HtmlAnnotatedStringBuilder(
   )
 
   private fun findLinks(content: String): Sequence<MatchResult> {
-    return "(?:https?|ftp):\\/\\/[\\w+&@#\\/%?=~_|!:,.;]*[\\w+&@#\\/%=~_|]".toRegex().findAll(content)
+    return "(?:https?|ftp):\\/\\/[\\w+&@#\\/%?=~_|!:,.;-]*[\\w+&@#\\/%=~_|]".toRegex().findAll(content)
   }
 
   /**
