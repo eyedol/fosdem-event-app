@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.ui.session.search.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -15,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -73,6 +75,7 @@ fun SessionSearchSheet(
   modifier: Modifier = Modifier,
 ) {
   val layoutDirection = LocalLayoutDirection.current
+  val localFocusManager = LocalFocusManager.current
   Column(
     modifier = Modifier
       .padding(top = contentPadding.calculateTopPadding())
@@ -119,6 +122,7 @@ fun SessionSearchSheet(
 
       is SearchUiState.Empty -> {
         val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
+        localFocusManager.clearFocus()
         EmptySessionItems(
           message = message,
           graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
