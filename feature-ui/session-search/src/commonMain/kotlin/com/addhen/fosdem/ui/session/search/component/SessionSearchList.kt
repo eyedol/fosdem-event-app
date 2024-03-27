@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import co.touchlab.kermit.Logger
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.SearchQuery
 import com.addhen.fosdem.ui.session.component.SessionList
