@@ -197,15 +197,6 @@ internal class HtmlAnnotatedStringBuilder(
     }
   }
 
-  private fun styleLinksUrlsOrAppend(text: String) {
-    val links = findLinks(text)
-    if (links.count() == 0) {
-      builder.append(text)
-    } else {
-      builder.append(getLinksUrlAnnotatedString(text, links))
-    }
-  }
-
   fun toAnnotatedString() = builder.toAnnotatedString()
 
   private fun linkSpanStyle() = SpanStyle(
@@ -221,6 +212,15 @@ internal class HtmlAnnotatedStringBuilder(
 
   private fun findLinks(content: String): Sequence<MatchResult> {
     return "(?:https?|ftp)://[\\w+&@#/%?=~_|!:,.;-]*[\\w+&@#/%=~_|]".toRegex().findAll(content)
+  }
+
+  private fun styleLinksUrlsOrAppend(text: String) {
+    val links = findLinks(text)
+    if (links.count() == 0) {
+      builder.append(text)
+    } else {
+      builder.append(getLinksUrlAnnotatedString(text, links))
+    }
   }
 
   /**
