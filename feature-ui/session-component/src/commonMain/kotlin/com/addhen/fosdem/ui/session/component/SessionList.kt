@@ -91,7 +91,7 @@ fun SessionList(
       }
       Row(
         modifier = Modifier
-          .padding(start = 16.dp)
+          .padding(start = 16.dp, end = 16.dp)
           .onGloballyPositioned {
             rowHeight = it.size.height
           },
