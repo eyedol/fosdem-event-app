@@ -14,16 +14,15 @@ import org.jetbrains.compose.resources.vectorResource
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun imageVectorResource(
-  resource: ImageVectorResource
+  resource: ImageVectorResource,
 ): ImageVector = vectorResource(resource.drawableResource)
 
 @OptIn(ExperimentalResourceApi::class)
-enum class ImageVectorResource (val drawableResource: DrawableResource) {
+enum class ImageVectorResource(val drawableResource: DrawableResource) {
   FosdemLogo(Res.drawable.fosdem_logo),
   InstagramLogo(Res.drawable.fosdem_logo),
   MastadonLogo(Res.drawable.fosdem_logo),
   XLogo(Res.drawable.fosdem_logo),
   FacebookLogo(Res.drawable.fosdem_logo),
-  AboutBanner(Res.drawable.fosdem_logo)
-  ;
+  AboutBanner(Res.drawable.fosdem_logo),
 }
