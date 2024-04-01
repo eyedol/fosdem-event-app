@@ -4,13 +4,13 @@
 package com.addhen.fosdem.ui.map
 
 import androidx.compose.runtime.Immutable
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class MapUiState(
-  val imageResource: ImageResource?,
+  val imageResource: ImageVectorResource?,
   val eventSink: (MapUiEvent) -> Unit,
 ) : CircuitUiState
 

@@ -29,9 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.addhen.fosdem.compose.common.ui.api.AppImage
-import com.addhen.fosdem.compose.common.ui.api.imageResource
-import com.addhen.fosdem.compose.common.ui.api.painterResource
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
+import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import kotlinx.collections.immutable.toPersistentList
@@ -43,7 +42,7 @@ data class Tag(val title: String, val color: Color)
 @Composable
 fun SessionHeader(modifier: Modifier = Modifier) {
   val appTitle = "FOSDEM"
-  val appLogo = imageResource(AppImage.FosdemLogo)
+  val appLogo = imageVectorResource(ImageVectorResource.FosdemLogo)
   val year = "24"
   val location = "@ Brussels, Belgium"
   val tags = tags()
@@ -106,7 +105,7 @@ fun SessionHeader(modifier: Modifier = Modifier) {
             width = 120.dp,
             height = 120.dp,
           ),
-          painter = painterResource(appLogo),
+          imageVector = appLogo,
           contentDescription = null,
         )
       }

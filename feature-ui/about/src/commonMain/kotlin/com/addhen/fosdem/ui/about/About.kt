@@ -22,9 +22,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import com.addhen.fosdem.compose.common.ui.api.AppImage
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
-import com.addhen.fosdem.compose.common.ui.api.imageResource
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.ui.about.component.AboutDetail
 import com.addhen.fosdem.ui.about.component.AboutFooterLinks
@@ -121,7 +120,7 @@ private fun AboutScreen(
         item {
           AboutDetail(
             onLinkClick = onLinkClick,
-            abountImageResource = imageResource(AppImage.AboutBanner),
+            abountImageResource = ImageVectorResource.AboutBanner,
           )
         }
         aboutOthers(

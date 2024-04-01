@@ -5,8 +5,7 @@ package com.addhen.fosdem.ui.session.component
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.addhen.fosdem.compose.common.ui.api.AppImage
-import com.addhen.fosdem.compose.common.ui.api.imageResource
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.ui.about.component.AboutDetail
@@ -18,7 +17,7 @@ private fun AboutDetailPreview() {
     Surface {
       AboutDetail(
         onLinkClick = {},
-        abountImageResource = imageResource(appImage = AppImage.AboutBanner),
+        abountImageResource = ImageVectorResource.AboutBanner,
       )
     }
   }

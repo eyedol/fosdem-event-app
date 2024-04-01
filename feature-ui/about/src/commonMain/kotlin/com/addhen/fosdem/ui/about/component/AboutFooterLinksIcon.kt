@@ -11,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
-import com.addhen.fosdem.compose.common.ui.api.painterResource
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
+import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
+
 @Composable
 fun AboutFooterLinksIcon(
-  iconResourceImage: ImageResource,
+  iconResourceImage: ImageVectorResource,
   testTag: String,
   contentDescription: String,
   modifier: Modifier = Modifier,
@@ -28,7 +29,7 @@ fun AboutFooterLinksIcon(
       .size(48.dp),
   ) {
     Image(
-      painter = painterResource(iconResourceImage),
+      imageVector = imageVectorResource(iconResourceImage),
       contentDescription = contentDescription,
       contentScale = ContentScale.FillWidth,
     )

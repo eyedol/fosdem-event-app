@@ -13,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.ImageResource
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
-import com.addhen.fosdem.compose.common.ui.api.painterResource
+import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 
 @Composable
 fun AboutDetail(
-  abountImageResource: ImageResource,
+  abountImageResource: ImageVectorResource,
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
@@ -28,7 +28,7 @@ fun AboutDetail(
     modifier = modifier,
   ) {
     Image(
-      painter = painterResource(abountImageResource),
+      imageVector = imageVectorResource(abountImageResource),
       contentDescription = null,
       contentScale = ContentScale.FillWidth,
       modifier = Modifier
