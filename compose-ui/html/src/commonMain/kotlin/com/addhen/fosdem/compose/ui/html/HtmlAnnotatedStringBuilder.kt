@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
+private const val  CRLF = "\r\n"
+
 internal class HtmlAnnotatedStringBuilder(
   private val linkTextColor: Color,
   private val builder: AnnotatedString.Builder = AnnotatedString.Builder(),
@@ -99,13 +101,13 @@ internal class HtmlAnnotatedStringBuilder(
   }
 
   fun handleUlCloseTag() {
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleOlCloseTag() {
     isOlTagOpened = false
     olCounter = 0
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleLiCloseTag() {
@@ -148,38 +150,38 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleH2CloseTag() {
     builder.pop()
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleH3CloseTag() {
     builder.pop()
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleH4CloseTag() {
     builder.pop()
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleH5CloseTag() {
     builder.pop()
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun handleH6CloseTag() {
     builder.pop()
-    builder.append("\r\n")
+    builder.append(CRLF)
   }
 
   fun write(text: String) {
     when (tag) {
       HtmlTag.P, HtmlTag.BR -> {
         styleLinksUrlsOrAppend(text)
-        builder.append("\r\n")
+        builder.append(CRLF)
       }
 
       HtmlTag.UL, HtmlTag.OL -> {
-        builder.append("\r\n")
+        builder.append(CRLF)
       }
 
       HtmlTag.LI -> {
