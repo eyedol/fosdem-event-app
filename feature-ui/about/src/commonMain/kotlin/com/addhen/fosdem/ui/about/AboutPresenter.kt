@@ -61,7 +61,6 @@ class AboutPresenter(
       }
     }
 
-    // TODO load about info from application data info
     return AboutUiState(
       versionName = applicationInfo.versionName,
       eventSink = ::eventSink,

@@ -8,11 +8,15 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import cafe.adriel.lyricist.LanguageTag
 import cafe.adriel.lyricist.Lyricist
+import com.addhen.fosdem.core.api.ConferenceInfo
+import com.addhen.fosdem.core.api.FosdemConference
 import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.i18n.EnAppStrings
 import com.addhen.fosdem.core.api.i18n.Strings
 
 val LocalStrings: ProvidableCompositionLocal<AppStrings> = compositionLocalOf { EnAppStrings }
+
+val LocalConferenceInfo: ProvidableCompositionLocal<ConferenceInfo> = compositionLocalOf { FosdemConference }
 
 @Composable
 fun rememberStrings(
