@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 
 @Composable
@@ -49,7 +50,7 @@ fun MapContentBox(
     imageResource?.let {
       Image(
         imageVector = imageVectorResource(it),
-        contentDescription = "Floor map",
+        contentDescription = LocalStrings.current.mapContentDescription,
         modifier = modifier
           .transformable(state = state)
           .graphicsLayer(

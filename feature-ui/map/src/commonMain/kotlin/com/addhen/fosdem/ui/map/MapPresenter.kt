@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.map
 
 import androidx.compose.runtime.Composable
+import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.core.api.screens.MapScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -41,7 +42,7 @@ class MapPresenter(
     }
 
     return MapUiState(
-      imageResource = null,
+      imageResource = ImageVectorResource.FosdemCampusMap,
       eventSink = ::eventSink,
     )
   }
