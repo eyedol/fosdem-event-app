@@ -31,6 +31,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
+import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
@@ -44,10 +45,8 @@ data class Tag(val title: String, val color: Color)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SessionHeader(modifier: Modifier = Modifier) {
-  val appTitle = "FOSDEM"
+  val conferenceInfo = LocalConferenceInfo.current
   val appLogo = imageVectorResource(ImageVectorResource.FosdemLogo)
-  val year = "24"
-  val location = "@ Brussels, Belgium"
   val tags = tags()
 
   Row(
@@ -60,20 +59,20 @@ fun SessionHeader(modifier: Modifier = Modifier) {
       Text(
         text = buildAnnotatedString {
           withStyle(style = MaterialTheme.typography.displaySmall.toSpanStyle()) {
-            append(appTitle)
+            append(conferenceInfo.name)
           }
           withStyle(
             style = MaterialTheme.typography.displaySmall
               .toSpanStyle()
               .copy(color = fosdem_pink),
           ) {
-            append("\u02BC$year")
+            append("\u02BC${conferenceInfo.shortYear}")
           }
         },
       )
       Spacer(modifier = Modifier.height(1.dp))
       Text(
-        text = location,
+        text = conferenceInfo.location,
         style = MaterialTheme.typography.labelMedium,
       )
       FlowRow(
