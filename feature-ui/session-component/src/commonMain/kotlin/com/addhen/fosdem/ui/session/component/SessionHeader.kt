@@ -24,6 +24,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -32,6 +33,8 @@ import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
+import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
+import com.addhen.fosdem.compose.common.ui.api.theme.logoColors
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import kotlinx.collections.immutable.toPersistentList
 
@@ -106,6 +109,7 @@ fun SessionHeader(modifier: Modifier = Modifier) {
             height = 120.dp,
           ),
           imageVector = appLogo,
+          colorFilter = ColorFilter.tint(logoColors().background),
           contentDescription = null,
         )
       }

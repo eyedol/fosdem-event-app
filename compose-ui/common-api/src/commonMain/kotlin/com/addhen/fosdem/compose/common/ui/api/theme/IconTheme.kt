@@ -9,7 +9,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 sealed interface IconColorScheme {
-  abstract val background: Color
+  val background: Color
 
   data class Light(
     override val background: Color = md_theme_light_onBackground,

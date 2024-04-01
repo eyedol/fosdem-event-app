@@ -94,6 +94,10 @@ val md_theme_light_tag_color_alt = Color(0xFFA6A6A6)
 
 val fosdem_pink = Color(0xFFA518BA)
 
+// Logo
+val md_them_light_logo_color = Color(0xFF1D191D)
+val md_them_dark_logo_color = Color(0xFFFFFFFF)
+
 val AppLightColors = lightColorScheme(
   primary = md_theme_light_primary,
   onPrimary = md_theme_light_onPrimary,
