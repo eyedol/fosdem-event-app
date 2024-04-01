@@ -9,12 +9,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.addhen.fosdem.compose.common.ui.api.FontResource
+import com.addhen.fosdem.compose.common.ui.api.AppFontResource
 import com.addhen.fosdem.compose.common.ui.api.fontFamilyResource
 
 @Composable
 internal fun appTypography(): Typography {
-  val signika = fontFamilyResource(FontResource.Signika)
+  val signika = fontFamilyResource(AppFontResource.Signika)
 
   return Typography(
     displayLarge = TextStyle(
