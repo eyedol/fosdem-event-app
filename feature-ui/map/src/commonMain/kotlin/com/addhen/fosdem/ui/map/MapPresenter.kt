@@ -10,12 +10,11 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class MapUiPresenterFactory(
-  private val presenterFactory: (Navigator) -> MapPresenter,
+  private val presenterFactory: () -> MapPresenter,
 ) : Presenter.Factory {
   override fun create(
     screen: Screen,
@@ -23,27 +22,17 @@ class MapUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is MapScreen -> presenterFactory(navigator)
+      is MapScreen -> presenterFactory()
       else -> null
     }
   }
 }
 
 @Inject
-class MapPresenter(
-  @Assisted private val navigator: Navigator,
-) : Presenter<MapUiState> {
+class MapPresenter : Presenter<MapUiState> {
   @Composable
   override fun present(): MapUiState {
-    fun eventSink(event: MapUiEvent) {
-      when (event) {
-        MapUiEvent.NavigateUp -> navigator.pop()
-      }
-    }
 
-    return MapUiState(
-      imageResource = ImageVectorResource.FosdemCampusMap,
-      eventSink = ::eventSink,
-    )
+    return MapUiState(imageResource = ImageVectorResource.FosdemCampusMap)
   }
 }

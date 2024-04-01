@@ -10,10 +10,5 @@ import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class MapUiState(
-  val imageResource: ImageVectorResource?,
-  val eventSink: (MapUiEvent) -> Unit,
+  val imageResource: ImageVectorResource?
 ) : CircuitUiState
-
-sealed interface MapUiEvent : CircuitUiEvent {
-  data object NavigateUp : MapUiEvent
-}

@@ -87,9 +87,7 @@ private fun MapScreen(
       MapContentBox(
         imageResource = uiState.imageResource,
         innerPadding = padding,
-        modifier = Modifier
-          .fillMaxSize()
-          .clickable { uiState.eventSink(MapUiEvent.NavigateUp) },
+        modifier = Modifier.fillMaxSize()
       )
     },
   )
