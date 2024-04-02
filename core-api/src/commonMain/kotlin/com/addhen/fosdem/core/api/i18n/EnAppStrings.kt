@@ -7,7 +7,6 @@ import cafe.adriel.lyricist.LyricistStrings
 
 @LyricistStrings(languageTag = Locales.EN, default = true)
 val EnAppStrings = AppStrings(
-  appName = "FOSDEM",
   sessionTitle = "Sessions",
   mapTitle = "Map",
   searchTitle = "Search",
