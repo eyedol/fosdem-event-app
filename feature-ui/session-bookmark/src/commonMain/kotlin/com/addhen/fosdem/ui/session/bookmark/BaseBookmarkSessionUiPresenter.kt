@@ -5,11 +5,6 @@ package com.addhen.fosdem.ui.session.bookmark
 
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
-import com.addhen.fosdem.model.api.day1Event
-import com.addhen.fosdem.model.api.day1Event2
-import com.addhen.fosdem.model.api.day2Event1
-import com.addhen.fosdem.model.api.day2Event2
-import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.addhen.fosdem.ui.session.common.SessionFilters
@@ -29,7 +24,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 /**
- * This class encapsulates the setup of [BookmarkUiState] and its related
+ * This class encapsulates the setup of [SessionBookmarkUiState] and its related
  * filter UI interactions.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -37,11 +32,7 @@ abstract class BaseBookmarkSessionUiPresenter(
   eventsRepository: EventsRepository,
 ) : Presenter<SessionBookmarkUiState> {
 
-  private val events = eventsRepository
-    .getAllBookmarkedEvents()
-    .map { _ ->
-      listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    }
+  private val events = eventsRepository.getAllBookmarkedEvents()
 
   private val sessionFilters = MutableSharedFlow<SessionFilters>(
     replay = 1,
