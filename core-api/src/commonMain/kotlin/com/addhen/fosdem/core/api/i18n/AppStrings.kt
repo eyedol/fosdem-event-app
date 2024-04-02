@@ -51,6 +51,13 @@ data class AppStrings(
   val dragHandleContentDescription: String,
   val openSourceLicenses: String,
   val tryAgain: String,
+  val taglineBeer: String,
+  val taglineOpenSource: String,
+  val taglineFreeSoftware: String,
+  val taglineLightningTalks: String,
+  val taglineDevRooms: String,
+  val taglineHackers: String,
+  val taglineTalks: String
 )
 
 object Locales {

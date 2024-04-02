@@ -52,4 +52,11 @@ val EnAppStrings = AppStrings(
   dragHandleContentDescription = "Drag Handle",
   openSourceLicenses = "Open Source Licenses",
   tryAgain = "Try again",
+  taglineBeer = "beer",
+  taglineOpenSource = "open source",
+  taglineFreeSoftware = "free software",
+  taglineLightningTalks = "lightning talks",
+  taglineDevRooms = "devrooms",
+  taglineHackers = "8000+ hackers",
+  taglineTalks = "800+ talks"
 )
