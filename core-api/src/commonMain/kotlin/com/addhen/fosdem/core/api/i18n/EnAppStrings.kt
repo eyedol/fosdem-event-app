@@ -33,7 +33,7 @@ val EnAppStrings = AppStrings(
   addToBookmarksTitle = "Add to bookmarks",
   removeFromBookmarksTitle = "Remove from bookmarks",
   bookmarkedItemEmpty = "No sessions bookmarked",
-  bookmarkedItemNotFound = "Add the sessions you are interested in to your bookmarks\n to see them",
+  bookmarkedItemNotFound = "Add the sessions you are interested in to your bookmarks\n to see them here.",
   dayTitle = "Day",
   aboutFosdem = "FOSDEM is a two-day event organised by volunteers to promote the widespread use " +
     "of free and open source software.\n\nUsually taking place in the beautiful city of " +
