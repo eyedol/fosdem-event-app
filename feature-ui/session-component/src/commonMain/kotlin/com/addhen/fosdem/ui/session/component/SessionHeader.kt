@@ -64,7 +64,7 @@ fun SessionHeader(modifier: Modifier = Modifier) {
           withStyle(
             style = MaterialTheme.typography.displaySmall
               .toSpanStyle()
-              .copy(color = fosdem_pink),
+              .copy(color = MaterialTheme.colorScheme.primary),
           ) {
             append("\u02BC${conferenceInfo.shortYear}")
           }
