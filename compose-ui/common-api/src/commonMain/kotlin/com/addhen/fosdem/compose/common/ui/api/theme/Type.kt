@@ -14,61 +14,62 @@ import com.addhen.fosdem.compose.common.ui.api.fontFamilyResource
 
 @Composable
 internal fun appTypography(): Typography {
-  val signika = fontFamilyResource(AppFontResource.Signika)
+  val signikaRegular = fontFamilyResource(AppFontResource.SignikaRegular)
+  val signikaMedium = fontFamilyResource(AppFontResource.SignikaMedium)
 
   return Typography(
     displayLarge = TextStyle(
       fontSize = 57.sp,
-      fontFamily = signika,
+      fontFamily = signikaMedium,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 64.sp,
     ),
     displayMedium = TextStyle(
       fontSize = 45.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 52.sp,
     ),
     displaySmall = TextStyle(
       fontSize = 36.sp,
-      fontFamily = signika,
+      fontFamily = signikaMedium,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 44.sp,
     ),
     headlineLarge = TextStyle(
       fontSize = 32.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 40.sp,
     ),
     headlineMedium = TextStyle(
       fontSize = 28.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 36.sp,
     ),
     headlineSmall = TextStyle(
       fontSize = 24.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 32.sp,
     ),
     titleLarge = TextStyle(
       fontSize = 22.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 28.sp,
     ),
     titleMedium = TextStyle(
       fontSize = 16.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 24.sp,
@@ -76,7 +77,7 @@ internal fun appTypography(): Typography {
     ),
     titleSmall = TextStyle(
       fontSize = 14.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 20.sp,
@@ -84,7 +85,7 @@ internal fun appTypography(): Typography {
     ),
     labelLarge = TextStyle(
       fontSize = 14.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 20.sp,
@@ -92,7 +93,7 @@ internal fun appTypography(): Typography {
     ),
     labelMedium = TextStyle(
       fontSize = 12.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 16.sp,
@@ -100,7 +101,7 @@ internal fun appTypography(): Typography {
     ),
     labelSmall = TextStyle(
       fontSize = 11.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W500,
       fontStyle = FontStyle.Normal,
       lineHeight = 16.sp,
@@ -108,7 +109,7 @@ internal fun appTypography(): Typography {
     ),
     bodyLarge = TextStyle(
       fontSize = 16.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 24.sp,
@@ -116,7 +117,7 @@ internal fun appTypography(): Typography {
     ),
     bodyMedium = TextStyle(
       fontSize = 14.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 20.sp,
@@ -124,7 +125,7 @@ internal fun appTypography(): Typography {
     ),
     bodySmall = TextStyle(
       fontSize = 12.sp,
-      fontFamily = signika,
+      fontFamily = signikaRegular,
       fontWeight = FontWeight.W400,
       fontStyle = FontStyle.Normal,
       lineHeight = 16.sp,

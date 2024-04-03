@@ -92,7 +92,7 @@ val md_theme_dark_tag_color_alt = Color(0xFF707070)
 val md_theme_light_tag_color_main = Color(0xFF000000)
 val md_theme_light_tag_color_alt = Color(0xFFA6A6A6)
 
-val fosdem_pink = Color(0xFFA518BA)
+val fosdem_pink = Color(0xFF7B116B)
 
 // Logo
 val md_them_light_logo_color = Color(0xFF1D191D)
