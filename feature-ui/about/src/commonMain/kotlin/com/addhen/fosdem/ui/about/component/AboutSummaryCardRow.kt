@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.ui.about.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -29,7 +30,6 @@ fun AboutSummaryCardRow(
   leadingIconContentDescription: String? = null,
   onLinkClick: (url: String) -> Unit = {},
 ) {
-  val appStrings = LocalStrings.current
   Row(
     verticalAlignment = Alignment.CenterVertically,
     modifier = modifier,
@@ -40,18 +40,20 @@ fun AboutSummaryCardRow(
       modifier = Modifier.size(16.dp),
     )
     Spacer(modifier = Modifier.width(8.dp))
-    Text(
-      text = label,
-      fontWeight = FontWeight.Bold,
-      style = MaterialTheme.typography.labelLarge,
-    )
-    Spacer(modifier = Modifier.width(12.dp))
-    ClickableLinkText(
-      style = MaterialTheme.typography.bodyMedium,
-      content = content,
-      onLinkClick = onLinkClick,
-      regex = appStrings.placeLink.toRegex(),
-      url = url,
-    )
+    Column {
+      Text(
+        text = label,
+        fontWeight = FontWeight.Bold,
+        style = MaterialTheme.typography.labelLarge,
+      )
+      Spacer(modifier = Modifier.width(12.dp))
+      ClickableLinkText(
+        style = MaterialTheme.typography.bodyMedium,
+        content = content,
+        onLinkClick = onLinkClick,
+        regex = content.toRegex(),
+        url = url,
+      )
+    }
   }
 }

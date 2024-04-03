@@ -120,7 +120,7 @@ private fun AboutScreen(
         item {
           AboutDetail(
             onLinkClick = onLinkClick,
-            abountImageResource = ImageVectorResource.AboutBanner,
+            imageResource = ImageVectorResource.AboutBanner,
           )
         }
         aboutOthers(

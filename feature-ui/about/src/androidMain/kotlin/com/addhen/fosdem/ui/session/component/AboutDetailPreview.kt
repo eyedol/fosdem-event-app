@@ -17,7 +17,7 @@ private fun AboutDetailPreview() {
     Surface {
       AboutDetail(
         onLinkClick = {},
-        abountImageResource = ImageVectorResource.AboutBanner,
+        imageResource = ImageVectorResource.AboutBanner,
       )
     }
   }

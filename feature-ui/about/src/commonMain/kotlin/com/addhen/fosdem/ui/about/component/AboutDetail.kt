@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -16,8 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
@@ -27,7 +24,7 @@ import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 
 @Composable
 fun AboutDetail(
-  abountImageResource: ImageVectorResource,
+  imageResource: ImageVectorResource,
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
@@ -45,7 +42,7 @@ fun AboutDetail(
     ) {
       Column {
         Image(
-          imageVector = imageVectorResource(abountImageResource),
+          imageVector = imageVectorResource(imageResource),
           contentDescription = null,
           contentScale = ContentScale.Fit,
           modifier = Modifier
