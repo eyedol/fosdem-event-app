@@ -33,8 +33,6 @@ import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
-import com.addhen.fosdem.compose.common.ui.api.theme.fosdem_pink
-import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.logoColors
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import kotlinx.collections.immutable.toPersistentList
