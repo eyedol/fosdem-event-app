@@ -98,9 +98,9 @@ android {
 
     onVariants { variant ->
       val appName = if (variant.name == "prodRelease") {
-        "FOSDEM"
+        "FOSDEM Event"
       } else {
-        val baseName = "FOSDEM"
+        val baseName = "FOSDEM Event"
 
         val networkFlavor = variant
           .productFlavors

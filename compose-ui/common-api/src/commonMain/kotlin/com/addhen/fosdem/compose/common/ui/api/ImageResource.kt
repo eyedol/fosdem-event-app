@@ -5,9 +5,9 @@ package com.addhen.fosdem.compose.common.ui.api
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import fosdem.compose_ui.common_api.generated.resources.Res
-import fosdem.compose_ui.common_api.generated.resources.fosdem_campus_map
-import fosdem.compose_ui.common_api.generated.resources.fosdem_logo
+import fosdem_events_app.compose_ui.common_api.generated.resources.Res
+import fosdem_events_app.compose_ui.common_api.generated.resources.fosdem_campus_map
+import fosdem_events_app.compose_ui.common_api.generated.resources.fosdem_logo
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.vectorResource

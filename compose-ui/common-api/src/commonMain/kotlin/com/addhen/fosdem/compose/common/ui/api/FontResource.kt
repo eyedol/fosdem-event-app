@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import fosdem.compose_ui.common_api.generated.resources.Res
-import fosdem.compose_ui.common_api.generated.resources.signika_medium
-import fosdem.compose_ui.common_api.generated.resources.signika_regular
+import fosdem_events_app.compose_ui.common_api.generated.resources.Res
+import fosdem_events_app.compose_ui.common_api.generated.resources.signika_medium
+import fosdem_events_app.compose_ui.common_api.generated.resources.signika_regular
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.FontResource

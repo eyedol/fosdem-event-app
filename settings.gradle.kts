@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
-rootProject.name = "fosdem"
+rootProject.name = "fosdem-events-app"
 
 pluginManagement {
   includeBuild("gradle/build-logic")
