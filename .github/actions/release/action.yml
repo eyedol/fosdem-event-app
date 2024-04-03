@@ -1,0 +1,35 @@
+name: "release"
+description: "Releases to the Google Play store "
+author: "Henry Addo"
+
+inputs:
+  play_track:
+    description: "The track in which to upload the app to."
+    required: true
+  release_files:
+    description: "The Android release file(s) to upload."
+    required: true
+  mapping_file:
+    description: "The mapping.txt file used to de-obfuscate your stack traces from crash reports."
+    required: true
+  play_whats_new:
+    description: "A path to a valid whatsNewDirectory"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Release To The Play Store
+      uses: r0adkll/upload-google-play@v1.1.2
+      with:
+        serviceAccountJson: release/google-play-auto-publisher-key.json
+        packageName: com.findreels.android.app
+        status: draft
+        track: ${{ inputs.play_track }}
+        releaseFiles: ${{ inputs.release_files }}
+        mappingFile: ${{ inputs.mapping_file }}
+        whatsNewDirectory: ${{ inputs.play_whats_new }}
+
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
