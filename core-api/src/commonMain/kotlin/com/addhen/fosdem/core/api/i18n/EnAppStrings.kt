@@ -32,7 +32,8 @@ val EnAppStrings = AppStrings(
   addToBookmarksTitle = "Add to bookmarks",
   removeFromBookmarksTitle = "Remove from bookmarks",
   bookmarkedItemEmpty = "No sessions bookmarked.",
-  bookmarkedItemNotFound = "Add the sessions you are interested in to your bookmarks to see them here.",
+  bookmarkedItemNotFound = "Add the sessions you are interested in to your bookmarks to " +
+    "see them here.",
   dayTitle = "Day",
   aboutFosdem = "FOSDEM is a two-day event organised by volunteers to promote the widespread use " +
     "of free and open source software.\n\nUsually taking place in the beautiful city of " +
@@ -45,7 +46,8 @@ val EnAppStrings = AppStrings(
   licenseTitle = "License",
   privacyPolicyTitle = "Privacy Policy",
   searchNotFound = { searchTerm -> "Nothing matched your search criteria \"$searchTerm\"" },
-  searchNotFoundDescription = "Try searching by session title, a speaker, or a keyword related to a session topic.",
+  searchNotFoundDescription = "Try searching by session title, a speaker, or a keyword related " +
+    "to a session topic.",
   searchTermPlaceHolder = "Enter a session, a speaker or a term",
   sessionEmpty = "No session loaded.",
   sessionEmptyDescription = "Tap the refresh button at the top right to see them here.",
@@ -59,5 +61,5 @@ val EnAppStrings = AppStrings(
   taglineLightningTalks = "lightning talks",
   taglineDevRooms = "devrooms",
   taglineHackers = "8000+ hackers",
-  taglineTalks = "800+ talks"
+  taglineTalks = "800+ talks",
 )

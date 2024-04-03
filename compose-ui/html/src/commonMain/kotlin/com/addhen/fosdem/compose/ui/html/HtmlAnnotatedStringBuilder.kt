@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
-private const val  CRLF = "\r\n"
+private const val CRLF = "\r\n"
 
 internal class HtmlAnnotatedStringBuilder(
   private val linkTextColor: Color,

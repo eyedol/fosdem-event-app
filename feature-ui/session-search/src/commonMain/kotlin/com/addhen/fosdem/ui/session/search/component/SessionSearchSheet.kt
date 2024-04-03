@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
-import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.SearchQuery
+import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import com.addhen.fosdem.ui.session.search.component.SearchUiState.ListSearch
 import com.addhen.fosdem.ui.session.search.component.SearchUiState.Loading

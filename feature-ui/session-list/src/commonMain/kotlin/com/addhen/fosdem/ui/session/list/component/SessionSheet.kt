@@ -141,7 +141,7 @@ internal fun SessionSheet(
               imageVector = Icons.Filled.HourglassEmpty,
               contentDescription = null,
               modifier = Modifier.size(96.dp),
-              tint = iconColors().background
+              tint = iconColors().background,
             )
           }
         }

@@ -66,17 +66,17 @@ fun SessionEmptyListView(
         text = title,
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onBackground,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
       )
       Spacer(modifier = Modifier.size(8.dp))
       Text(
         text = description,
         style = MaterialTheme.typography.bodyMedium.copy(
-          fontStyle = FontStyle.Italic
+          fontStyle = FontStyle.Italic,
         ),
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
       )
     }
   }

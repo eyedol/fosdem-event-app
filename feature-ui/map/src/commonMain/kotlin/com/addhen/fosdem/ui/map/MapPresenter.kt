@@ -32,7 +32,6 @@ class MapUiPresenterFactory(
 class MapPresenter : Presenter<MapUiState> {
   @Composable
   override fun present(): MapUiState {
-
     return MapUiState(imageResource = ImageVectorResource.FosdemCampusMap)
   }
 }

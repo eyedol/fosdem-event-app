@@ -26,5 +26,5 @@ enum class ImageVectorResource(val drawableResource: DrawableResource) {
   XLogo(Res.drawable.fosdem_logo),
   FacebookLogo(Res.drawable.fosdem_logo),
   AboutBanner(Res.drawable.fosdem_logo),
-  FosdemCampusMap(Res.drawable.fosdem_campus_map)
+  FosdemCampusMap(Res.drawable.fosdem_campus_map),
 }

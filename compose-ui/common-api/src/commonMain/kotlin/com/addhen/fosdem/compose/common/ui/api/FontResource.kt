@@ -19,7 +19,7 @@ import org.jetbrains.compose.resources.FontResource
 fun fontFamilyResource(
   fontResource: AppFontResource,
   weight: FontWeight = FontWeight.Normal,
-  style: FontStyle = FontStyle.Normal
+  style: FontStyle = FontStyle.Normal,
 ): FontFamily = FontFamily(Font(fontResource.font, weight, style))
 
 @OptIn(ExperimentalResourceApi::class)

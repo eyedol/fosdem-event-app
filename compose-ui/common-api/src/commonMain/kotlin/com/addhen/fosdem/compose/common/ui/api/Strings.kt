@@ -16,7 +16,9 @@ import com.addhen.fosdem.core.api.i18n.Strings
 
 val LocalStrings: ProvidableCompositionLocal<AppStrings> = compositionLocalOf { EnAppStrings }
 
-val LocalConferenceInfo: ProvidableCompositionLocal<ConferenceInfo> = compositionLocalOf { FosdemConference }
+val LocalConferenceInfo: ProvidableCompositionLocal<ConferenceInfo> = compositionLocalOf {
+  FosdemConference
+}
 
 @Composable
 fun rememberStrings(
