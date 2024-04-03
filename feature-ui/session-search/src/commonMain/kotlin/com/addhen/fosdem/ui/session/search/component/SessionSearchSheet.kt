@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
-import com.addhen.fosdem.ui.session.component.EmptySessionItems
+import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
 import com.addhen.fosdem.ui.session.component.SearchQuery
@@ -122,11 +122,13 @@ fun SessionSearchSheet(
       is SearchUiState.Empty -> {
         val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
         localFocusManager.clearFocus()
-        EmptySessionItems(
-          message = message,
-          graphicContent = { Text(text = "\uD83D\uDD75️\u200D♂️") },
+        SessionEmptyListView(
+          title = message,
+          description = LocalStrings.current.sessionEmpty,
           modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
-        )
+        ) {
+          Text(text = "\uD83D\uDD75️\u200D♂️")
+        }
       }
     }
   }

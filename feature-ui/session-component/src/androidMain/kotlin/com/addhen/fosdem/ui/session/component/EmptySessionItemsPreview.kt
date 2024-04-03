@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
@@ -20,14 +21,14 @@ import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 private fun EmptySessionItemsPreview() {
   AppTheme {
     Surface {
-      EmptySessionItems(
-        message = "No session found",
+      SessionEmptyListView(
+        title = LocalStrings.current.sessionEmpty,
+        description = LocalStrings.current.sessionEmptyDescription,
         graphicContent = {
           Icon(
             imageVector = Icons.Filled.HourglassEmpty,
             contentDescription = null,
-            modifier = Modifier
-              .size(96.dp),
+            modifier = Modifier.size(96.dp),
             tint = iconColors().background,
           )
         },

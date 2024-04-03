@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.ui.session.component.DayTab
-import com.addhen.fosdem.ui.session.component.EmptySessionItems
+import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.SessionList
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
@@ -132,19 +132,18 @@ internal fun SessionSheet(
       }
       when (uiState) {
         is SessionSheetUiState.Empty -> {
-          EmptySessionItems(
-            message = LocalStrings.current.sessionEmpty,
-            graphicContent = {
-              Icon(
-                imageVector = Icons.Filled.HourglassEmpty,
-                contentDescription = null,
-                modifier = Modifier
-                  .size(96.dp),
-                tint = iconColors().background,
-              )
-            },
+          SessionEmptyListView(
+            title = LocalStrings.current.sessionEmpty,
+            description = LocalStrings.current.sessionEmptyDescription,
             modifier = Modifier.testTag(SessionEmptyTestTag),
-          )
+          ) {
+            Icon(
+              imageVector = Icons.Filled.HourglassEmpty,
+              contentDescription = null,
+              modifier = Modifier.size(96.dp),
+              tint = iconColors().background
+            )
+          }
         }
 
         is SessionSheetUiState.ListSession -> {
