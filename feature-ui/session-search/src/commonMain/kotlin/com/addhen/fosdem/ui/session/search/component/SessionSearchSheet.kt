@@ -124,7 +124,7 @@ fun SessionSearchSheet(
         localFocusManager.clearFocus()
         SessionEmptyListView(
           title = message,
-          description = LocalStrings.current.sessionEmpty,
+          description = LocalStrings.current.searchNotFoundDescription,
           modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
         ) {
           Text(text = "\uD83D\uDD75️\u200D♂️")
