@@ -20,7 +20,7 @@ runs:
   using: "composite"
   steps:
     - name: Release To The Play Store
-      uses: r0adkll/upload-google-play@v1.1.2
+      uses: r0adkll/upload-google-play@v1.1.3
       with:
         serviceAccountJson: release/google-play-auto-publisher-key.json
         packageName: com.findreels.android.app
