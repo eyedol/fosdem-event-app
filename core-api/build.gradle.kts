@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -57,5 +59,13 @@ android {
 
   defaultConfig {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+  compilerOptions {
+    // Enable experimental 'expect'/'actual' classes
+    // https://youtrack.jetbrains.com/issue/KT-61573
+    allWarningsAsErrors = false
   }
 }
