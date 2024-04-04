@@ -44,7 +44,7 @@ jobs:
             ~/.gradle/caches/transforms-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android/build.gradle') }}
+          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android-app/build.gradle') }}
 
       - name: Get Dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
@@ -89,14 +89,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-outputs
-          path: android/build/outputs
+          path: android-app/build/outputs
 
       - name: Upload Build Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-reports
-          path: android/build/reports
+          path: android-app/build/reports
 
       - name: Copy Test Results
         if: always()
@@ -130,7 +130,7 @@ jobs:
             ~/.gradle/caches/transforms-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android/build.gradle') }}
+          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android-app/build.gradle') }}
 
       - name: Lint
         run: ./gradlew lint --stacktrace
@@ -140,4 +140,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lint-results
-          path: android/build/reports
+          path: android-app/build/reports
