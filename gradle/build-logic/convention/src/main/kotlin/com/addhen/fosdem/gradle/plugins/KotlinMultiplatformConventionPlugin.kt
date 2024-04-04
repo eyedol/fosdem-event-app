@@ -67,6 +67,7 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
             freeCompilerArgs.addAll(
               "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
               "-opt-in=kotlinx.cinterop.BetaInteropApi",
+              "-Xexpect-actual-classes"
             )
           }
         }

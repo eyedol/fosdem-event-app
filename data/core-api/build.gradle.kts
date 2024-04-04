@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
-import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
   id("com.addhen.fosdem.android.library")
@@ -50,6 +50,14 @@ kotlin {
         implementation(libs.ktor.client.darwin)
       }
     }
+  }
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+  compilerOptions {
+    // Have to disable this due to 'duplicate library name'
+    // https://youtrack.jetbrains.com/issue/KT-51110
+    allWarningsAsErrors = false
   }
 }
 
