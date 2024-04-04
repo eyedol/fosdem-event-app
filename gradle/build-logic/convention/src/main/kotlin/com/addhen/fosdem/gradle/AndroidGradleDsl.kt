@@ -40,7 +40,6 @@ fun Project.configureAndroid() {
     // check
     lintOptions {
       disable += setOf(
-        "DialogFragmentCallbacksDetector",
         "ObsoleteLintCustomCheck",
       )
     }
