@@ -14,11 +14,11 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
+-renamesourcefileattribute SourceFile
 
 # Using ktor client in Android has missing proguard rule
 # See https://youtrack.jetbrains.com/issue/KTOR-5528
@@ -29,3 +29,8 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 -dontwarn androidx.**
+
+# For ktor ####################
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn java.lang.management.RuntimeMXBean
+################## ktor
