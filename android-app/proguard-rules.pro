@@ -34,3 +34,7 @@
 -dontwarn java.lang.management.ManagementFactory
 -dontwarn java.lang.management.RuntimeMXBean
 ################## ktor
+
+# Ksoup multiplatform #################
+-keep class com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler.Builder**, * { *; }
+################### Ksoup
