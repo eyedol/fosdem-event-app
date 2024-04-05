@@ -6,6 +6,7 @@ package com.addhen.fosdem.android.app.di
 import android.app.Application
 import android.content.Context
 import com.addhen.fosdem.android.app.App
+import com.addhen.fosdem.android.app.BuildConfig
 import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.Flavor
 import com.addhen.fosdem.core.api.di.ApplicationScope
@@ -14,7 +15,6 @@ import com.addhen.fosdem.data.core.api.di.CoreDataApiBinds
 import com.addhen.fosdem.data.events.di.EventsDataBinds
 import com.addhen.fosdem.data.licenses.di.LicencesDataBinds
 import com.addhen.fosdem.data.rooms.di.RoomsDataBinds
-import com.addhen.fosdem.android.app.BuildConfig
 import com.addhen.fosdem.data.sqldelight.database.di.SqlDelightDatabaseComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -37,7 +37,7 @@ abstract class AppComponent(
   @ApplicationScope
   @Provides
   fun provideApplicationInfo(
-    application: Application
+    application: Application,
   ): ApplicationInfo {
     val packageInfo = application.packageManager.getPackageInfo(application.packageName, 0)
 
