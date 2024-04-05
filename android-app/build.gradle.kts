@@ -23,7 +23,7 @@ android {
   defaultConfig {
     applicationId = "com.addhen.fosdem.android.app"
     versionCode = appVersionCode
-    versionName = "0.0.1-SNAPSHOT" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+    versionName = "0.1.0-SNAPSHOT" // X.Y.Z; X = Major, Y = minor, Z = Patch level
     setProperty("archivesBaseName", rootProject.name)
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -44,6 +44,11 @@ android {
         keyPassword = propOrDef("APP_RELEASE_KEY_PWD", "")
       }
     }
+  }
+
+  // Enable BuildConfig class
+  buildFeatures {
+    buildConfig = true
   }
 
   packaging {
@@ -67,6 +72,7 @@ android {
       dimension = "stage"
       // Prod build is the 'release' flavor
       versionCode = (android.defaultConfig.versionCode ?: 0) + 1
+      versionName = "0.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
       signingConfig = if (useReleaseKeystore) {
         signingConfigs.getByName("prod")
       } else {

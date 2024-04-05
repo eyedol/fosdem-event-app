@@ -62,7 +62,7 @@ class AboutPresenter(
     }
 
     return AboutUiState(
-      versionName = applicationInfo.versionName,
+      versionName = "${applicationInfo.versionName}(${applicationInfo.versionCode})",
       eventSink = ::eventSink,
     )
   }

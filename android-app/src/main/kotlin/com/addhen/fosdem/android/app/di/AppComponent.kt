@@ -14,6 +14,7 @@ import com.addhen.fosdem.data.core.api.di.CoreDataApiBinds
 import com.addhen.fosdem.data.events.di.EventsDataBinds
 import com.addhen.fosdem.data.licenses.di.LicencesDataBinds
 import com.addhen.fosdem.data.rooms.di.RoomsDataBinds
+import com.addhen.fosdem.android.app.BuildConfig
 import com.addhen.fosdem.data.sqldelight.database.di.SqlDelightDatabaseComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -35,13 +36,15 @@ abstract class AppComponent(
   @Suppress("DEPRECATION")
   @ApplicationScope
   @Provides
-  fun provideApplicationInfo(application: Application): ApplicationInfo {
+  fun provideApplicationInfo(
+    application: Application
+  ): ApplicationInfo {
     val packageInfo = application.packageManager.getPackageInfo(application.packageName, 0)
 
     return ApplicationInfo(
       packageName = application.packageName,
       debugBuild = false,
-      flavor = Flavor.Prod,
+      flavor = if ("prod" == BuildConfig.FLAVOR) Flavor.Prod else Flavor.Devel,
       versionName = packageInfo.versionName,
       versionCode = packageInfo.versionCode,
     )

@@ -29,10 +29,12 @@ abstract class AppComponent : DataComponent {
 
   @ApplicationScope
   @Provides
-  fun provideApplicationId(): ApplicationInfo = ApplicationInfo(
+  fun provideApplicationId(
+    flavor: Flavor,
+  ): ApplicationInfo = ApplicationInfo(
     packageName = "com.addhen.fosdem.desktop",
     debugBuild = true,
-    flavor = Flavor.Prod,
+    flavor = flavor,
     versionName = "1.0.0",
     versionCode = 1,
   )
