@@ -57,7 +57,9 @@ compose.desktop {
     nativeDistributions {
       targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
       packageName = "FOSDEM"
-      packageVersion = "0.1.0"
+      // Due to MacOS can't follow semantic versioning.
+      // See https://github.com/JetBrains/compose-multiplatform/issues/2360
+      packageVersion = "1.0.0"
 
       modules("java.sql")
 
