@@ -11,6 +11,14 @@ pluginManagement {
     mavenCentral()
     gradlePluginPortal()
   }
+
+  resolutionStrategy {
+    eachPlugin {
+      when (requested.id.id) {
+        "deploygate" -> useModule("com.deploygate:gradle:${requested.version}")
+      }
+    }
+  }
 }
 
 dependencyResolutionManagement {

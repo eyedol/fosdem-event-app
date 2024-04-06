@@ -32,6 +32,7 @@ browser = "1.8.0"
 benasherUUid = "0.8.4"
 licensee = "1.11.0"
 ksoup = "0.3.1"
+deployGate = "2.8.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -49,6 +50,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 cacheFixPlugin = { id = "org.gradle.android.cache-fix", version = "3.0.1" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 licensee = { id = "app.cash.licensee", version.ref = "licensee" }
+deployGate = { id = "deploygate", version.ref = "deployGate" }
 
 [libraries]
 androidx-activity-activity = { module = "androidx.activity:activity", version.ref = "androidxactivity" }
@@ -106,6 +108,7 @@ compose-animation-graphics = { group = "org.jetbrains.compose.animation", name =
 compose-lint-check = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintChecks" }
 benasher-uuid = { module = "com.benasher44:uuid", version.ref = "benasherUUid" }
 ksoup-html = { module = "com.mohamedrejeb.ksoup:ksoup-html", version.ref = "ksoup" }
+deployGate-gradlePlugin = { module = "com.deploygate:gradle", version.ref = "deployGate"}
 
 [bundles]
 common-test = [

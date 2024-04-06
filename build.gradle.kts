@@ -20,6 +20,7 @@ plugins {
   alias(libs.plugins.spotless) apply false
   alias(libs.plugins.composeMultiplatform) apply false
   alias(libs.plugins.licensee) apply false
+  alias(libs.plugins.deployGate) apply false
 }
 
 subprojects {

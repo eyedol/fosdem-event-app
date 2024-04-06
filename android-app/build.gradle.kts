@@ -9,6 +9,7 @@ plugins {
   id("com.addhen.fosdem.android.application")
   id("com.addhen.fosdem.kotlin.android")
   id("com.addhen.fosdem.compose")
+  id("com.addhen.fosdem.gradle.plugins.deploygate")
   alias(libs.plugins.ksp)
   alias(libs.plugins.moduleGradleAssertion)
 }

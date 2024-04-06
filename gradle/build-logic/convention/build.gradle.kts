@@ -28,6 +28,7 @@ dependencies {
   compileOnly(libs.spotless.gradlePlugin)
   compileOnly(libs.compose.gradlePlugin)
   compileOnly(libs.licensee.gradlePlugin)
+  compileOnly(libs.deployGate.gradlePlugin)
 }
 
 gradlePlugin {
@@ -76,6 +77,11 @@ gradlePlugin {
     register("kotlinMppKotlinSerialization") {
       id = "com.addhen.fosdem.kmp.serialization"
       implementationClass = "com.addhen.fosdem.gradle.plugins.KotlinSerializationConventionPlugin"
+    }
+
+    register("deployGate") {
+      id = "com.addhen.fosdem.gradle.plugins.deploygate"
+      implementationClass = "com.addhen.fosdem.gradle.plugins.DeployGateConventionPlugin"
     }
   }
 }
