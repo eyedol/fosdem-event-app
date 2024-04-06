@@ -57,12 +57,12 @@ compose.desktop {
     nativeDistributions {
       targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
       packageName = "FOSDEM"
-      packageVersion = "1.0.0"
+      packageVersion = "0.1.0"
 
       modules("java.sql")
 
       windows {
-        menuGroup = "FOSDEM Desktop App"
+        menuGroup = "FOSDEM Event Desktop App"
         // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
         upgradeUuid = "BF9CDA6A-1391-46D5-9ED5-383D6E68CCEB"
       }
