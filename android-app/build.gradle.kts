@@ -17,12 +17,13 @@ plugins {
 val useReleaseKeystore = rootProject.file("release/app-release.jks").exists()
 
 val appVersionCode = propOrDef("APP_VERSIONCODE", "1").toInt()
+val packageName = "com.addhen.fosdem.android.app"
 
 android {
-  namespace = "com.addhen.fosdem.android.app"
+  namespace = packageName
 
   defaultConfig {
-    applicationId = "com.addhen.fosdem.android.app"
+    applicationId = packageName
     versionCode = appVersionCode
     versionName = "0.1.0-SNAPSHOT" // X.Y.Z; X = Major, Y = minor, Z = Patch level
     setProperty("archivesBaseName", rootProject.name)
