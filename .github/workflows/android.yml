@@ -23,6 +23,8 @@ jobs:
       ORG_GRADLE_PROJECT_APP_RELEASE_KEYSTORE_PWD: ${{ secrets.ORG_GRADLE_PROJECT_APP_RELEASE_KEYSTORE_PWD }}
       ORG_GRADLE_PROJECT_APP_RELEASE_KEY_PWD: ${{ secrets.ORG_GRADLE_PROJECT_APP_RELEASE_KEY_PWD }}
       ORG_GRADLE_PROJECT_APP_RELEASE_KEYSTORE_ALIAS: ${{ secrets.ORG_GRADLE_PROJECT_APP_RELEASE_KEYSTORE_ALIAS }}
+      ORG_GRADLE_PROJECT_APP_DEPLOYGATE_API_TOKEN: ${{ secrets.ORG_GRADLE_PROJECT_APP_DEPLOYGATE_API_TOKEN }}
+      ORG_GRADLE_PROJECT_APP_DEPLOYGATE_ORGANIZATION: ${{  secrets.ORG_GRADLE_PROJECT_APP_DEPLOYGATE_ORGANIZATION }}
 
     steps:
       - name: Setup App Version Number
@@ -58,11 +60,14 @@ jobs:
       - name: Check Spotless
         run: ./gradlew spotlessCheck --stacktrace
 
-      #- name: Run Unit Tests
-      #  run: ./gradlew test --stacktrace
+      - name: Run Unit Tests
+        run: ./gradlew test --stacktrace
 
-      - name: Assemble Bundle
-        run: ./gradlew assemble bundle
+      - name: Upload DevelRelease to deployGate
+        run: ./gradlew uploadDeployGateAabDevelRelease --stacktrace
+
+      #- name: Assemble Bundle
+      #  run: ./gradlew assemble bundle
 
       #      - name: Publish Devel Build To Internal Track
       #        if: github.ref == 'refs/heads/main'
@@ -71,7 +76,7 @@ jobs:
       #          play_track: internal
       #          release_files: android-app/build/outputs/bundle/develRelease/fosdem-event-app-devel-release.aab
       #          mapping_file: android-app/build/outputs/mapping/develRelease/mapping.txt
-      #
+
       #      - name: Publish Prod Builds To Alpha Track
       #        if: github.ref == 'refs/heads/main'
       #        uses: ./.github/actions/release

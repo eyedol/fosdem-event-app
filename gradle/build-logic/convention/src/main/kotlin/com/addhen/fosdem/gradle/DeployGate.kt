@@ -23,7 +23,6 @@ fun Project.configureDeployGate() {
       create("develRelease") {
         val appVersionCode = propOrDef("APP_VERSIONCODE", "1").toInt()
         message = "Build for develRelease with build number: $appVersionCode"
-        skipAssemble = true
       }
     }
   }
