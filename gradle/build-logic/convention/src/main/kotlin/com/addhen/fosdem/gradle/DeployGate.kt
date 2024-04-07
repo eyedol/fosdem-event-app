@@ -22,7 +22,10 @@ fun Project.configureDeployGate() {
     deployments {
       create("develRelease") {
         val appVersionCode = propOrDef("APP_VERSIONCODE", "1").toInt()
-        val hash = Runtime.getRuntime().exec("git rev-parse --short HEAD").inputStream.reader().use { it.readText() }.trim()
+        val hash = Runtime.getRuntime().exec("git rev-parse --short HEAD").inputStream
+          .reader()
+          .use { it.readText() }
+          .trim()
         message = "Build for develRelease with build number: $appVersionCode - $hash"
       }
     }
