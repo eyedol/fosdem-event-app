@@ -11,8 +11,8 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 
 const val DropdownFilterChipItemTestTag = "DropdownFilterChipItem"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropdownFilterChip(
   searchFilterUiState: SearchFilterUiState<T>,
@@ -40,14 +39,14 @@ fun <T> DropdownFilterChip(
   filterChipLeadingIcon: @Composable (() -> Unit)? = null,
   filterChipTrailingIcon: @Composable (() -> Unit)? = null,
   onFilterChipClick: (() -> Unit)? = null,
-  dropdownMenuItemLeadingIcon: @Composable ((T) -> Unit)? = null,
+  dropdownMenuItemLeadingIcon: @Composable (() -> Unit)? = null,
   dropdownMenuItemTrailingIcon: @Composable ((T) -> Unit)? = null,
 ) {
   var expanded by remember { mutableStateOf(false) }
   val onSelectedUpdated by rememberUpdatedState(newValue = onSelected)
 
   val expandMenu = { expanded = true }
-  val shrinkMenu = { expanded = false }
+  val collapseMenu = { expanded = false }
 
   val selectedItems = searchFilterUiState.selectedItems
 
@@ -66,18 +65,24 @@ fun <T> DropdownFilterChip(
     )
     DropdownMenu(
       expanded = expanded,
-      onDismissRequest = shrinkMenu,
+      onDismissRequest = collapseMenu,
     ) {
-      searchFilterUiState.items.forEach { item ->
+      searchFilterUiState.items.forEachIndexed { index, item ->
+
+        val leadingIcon: @Composable (() -> Unit)? = if (selectedItems.contains(item)) {
+          dropdownMenuItemLeadingIcon?.let { icon ->
+            {
+              icon()
+            }
+          }
+        } else {
+          null
+        }
         DropdownMenuItem(
           text = {
             dropdownMenuItemText(item)
           },
-          leadingIcon = dropdownMenuItemLeadingIcon?.let { icon ->
-            {
-              icon(item)
-            }
-          },
+          leadingIcon = leadingIcon,
           trailingIcon = dropdownMenuItemTrailingIcon?.let { icon ->
             {
               icon(item)
@@ -88,10 +93,18 @@ fun <T> DropdownFilterChip(
               item,
               selectedItems.contains(item).not(),
             )
-            shrinkMenu()
+            collapseMenu()
           },
           modifier = Modifier.testTag(DropdownFilterChipItemTestTag),
         )
+
+        // Add a horizontal divider for all items except the last one
+        if (index < searchFilterUiState.items.lastIndex) {
+          HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
+          )
+        }
       }
     }
   }
@@ -131,15 +144,13 @@ fun <T> DropdownFilterChip(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
       )
     },
-    dropdownMenuItemLeadingIcon = { item ->
-      if (searchFilterUiState.selectedItems.contains(item)) {
-        Icon(
-          imageVector = Icons.Default.Check,
-          contentDescription = null,
-          modifier = Modifier.size(24.dp),
-          tint = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-      }
+    dropdownMenuItemLeadingIcon = {
+      Icon(
+        imageVector = Icons.Default.Check,
+        contentDescription = null,
+        modifier = Modifier.size(24.dp),
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+      )
     },
   )
 }
