@@ -184,15 +184,18 @@ private fun SessionScreen(
         modifier = Modifier
           .fillMaxWidth()
           .onGloballyPositioned { coordinates ->
-            state.onHeaderPositioned(
-              coordinates.size.height.toFloat() - innerPadding.calculateTopPadding().value,
-            )
+            // A magic number to make scrolling the session sheet up to scroll over the
+            // header text and image but to not scroll over the top menu items.
+            val scrollToTopOffsetMagicNumber = 34.00000f
+            val headerHeight = (coordinates.size.height.toFloat() - innerPadding
+              .calculateTopPadding().value) + scrollToTopOffsetMagicNumber
+            state.onHeaderPositioned(headerHeight = headerHeight)
           },
       )
       SessionSheet(
         modifier = Modifier
           .fillMaxSize()
-          .padding(top = 131.dp)
+          .padding(top = 155.dp)
           .layout { measurable, constraints ->
             val placeable = measurable.measure(
               constraints.copy(
