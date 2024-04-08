@@ -1,4 +1,4 @@
-// Copyright 2023, Addhen Limited and the FOSDEM app project contributors
+// Copyright 2023, Addhen Limited and the FOSDEM Event app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
 package com.addhen.fosdem.ui.session.list
@@ -187,8 +187,10 @@ private fun SessionScreen(
             // A magic number to make scrolling the session sheet up to scroll over the
             // header text and image but to not scroll over the top menu items.
             val scrollToTopOffsetMagicNumber = 34.00000f
-            val headerHeight = (coordinates.size.height.toFloat() - innerPadding
-              .calculateTopPadding().value) + scrollToTopOffsetMagicNumber
+            val headerHeight = (
+              coordinates.size.height.toFloat() - innerPadding
+                .calculateTopPadding().value
+              ) + scrollToTopOffsetMagicNumber
             state.onHeaderPositioned(headerHeight = headerHeight)
           },
       )
