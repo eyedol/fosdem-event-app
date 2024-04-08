@@ -32,9 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.theme.logoColors
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
 @Immutable
@@ -128,12 +130,15 @@ private fun TagItem(tag: Tag) {
 }
 
 @Composable
-private fun tags() = listOf(
-  Tag("beer", tagColors().tagColorMain),
-  Tag("open source", tagColors().tagColorAlt),
-  Tag("free software", tagColors().tagColorMain),
-  Tag("lightning talks", tagColors().tagColorAlt),
-  Tag("devrooms", tagColors().tagColorMain),
-  Tag("800+ talks", tagColors().tagColorAlt),
-  Tag("8000+ hackers", tagColors().tagColorMain),
-).toPersistentList()
+private fun tags(): PersistentList<Tag> {
+  val appStrings = LocalStrings.current
+  return listOf(
+    Tag(appStrings.taglineBeer, tagColors().tagColorMain),
+    Tag(appStrings.taglineOpenSource, tagColors().tagColorAlt),
+    Tag(appStrings.taglineFreeSoftware, tagColors().tagColorMain),
+    Tag(appStrings.taglineLightningTalks, tagColors().tagColorAlt),
+    Tag(appStrings.taglineDevRooms, tagColors().tagColorMain),
+    Tag(appStrings.taglineTalks, tagColors().tagColorAlt),
+    Tag(appStrings.taglineHackers, tagColors().tagColorMain),
+  ).toPersistentList()
+}
