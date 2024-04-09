@@ -116,8 +116,6 @@ fun SessionListItem(
       lineHeight = 28.sp,
     )
 
-    Spacer(modifier = Modifier.size(8.dp))
-
     Spacer(modifier = Modifier.size(12.dp))
     Column {
       sessionItem.speakers.forEachIndexed { index, speaker ->
