@@ -69,11 +69,11 @@ class SessionDetailPresenter(
 
           val text =
             """
-                |Title: ${localEvent.title}
-                |Schedule: ${localEvent.day.date}: ${localEvent.startAt} - ${localEvent.endAt}
-                |Room: ${localEvent.room.name}
-                |Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}
-                |---
+                <br>|Title: ${localEvent.title}</br>
+                <br>|Schedule: ${localEvent.day.date}: ${localEvent.startAt} - ${localEvent.endAt}</br>
+                <br>|Room: ${localEvent.room.name}</br>
+                <br>|Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}</br>
+                <br>|---</br>
                 |Description: $description
             """.trimMargin()
           navigator.goTo(ShareScreen(text))

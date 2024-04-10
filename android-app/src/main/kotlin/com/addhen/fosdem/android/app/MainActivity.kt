@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
+import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowCompat
 import co.touchlab.kermit.Logger
 import com.addhen.fosdem.android.app.di.ActivityComponent
@@ -77,10 +79,10 @@ class MainActivity : BaseActivity() {
 
   private fun shareInfo(info: String) {
     if (info.isEmpty()) return
-
+    val html = HtmlCompat.fromHtml(info, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
     try {
       ShareCompat.IntentBuilder(this@MainActivity)
-        .setText(info)
+        .setText(html)
         .setType("text/plain")
         .startChooser()
     } catch (e: ActivityNotFoundException) {

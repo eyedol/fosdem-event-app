@@ -40,4 +40,3 @@ fun ProvideStrings(
 fun String.parseAsHtml(
   linkTextColor: Color = MaterialTheme.colorScheme.primary,
 ) = Html.fromHtml(this, linkTextColor)
-
