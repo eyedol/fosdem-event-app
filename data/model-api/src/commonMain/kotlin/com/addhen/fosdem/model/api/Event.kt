@@ -7,6 +7,7 @@ import com.addhen.fosdem.core.api.plus
 import com.addhen.fosdem.core.api.toLocalDateTime
 import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
 data class Event(
@@ -276,14 +277,13 @@ val day2Event3 = Event(
 
 fun List<Event>.sortAndGroupedEventsItems() =
   groupBy {
-    val date = it.day.date
-    it.startAt.toLocalDateTime(date).toString() + it.endAt.toLocalDateTime(date).toString()
+    it.startAtLocalDateTime.toString() + it.endAtLocalDateTime.toString()
   }
     .mapValues { entries ->
       entries.value.sortedWith(
         compareBy(
           { it.day.date.toString() },
-          { it.startAt.toLocalDateTime(it.day.date).toString() },
+          { it.startAtLocalDateTime.toString() },
         ),
       )
     }.sortMapByKey().toPersistentMap()
@@ -291,3 +291,20 @@ fun List<Event>.sortAndGroupedEventsItems() =
 fun <K : Comparable<K>, V> Map<out K, V>.sortMapByKey(): Map<K, V> {
   return this.toList().sortedBy { it.first }.toMap()
 }
+
+val Event.startAtLocalDateTime: LocalDateTime
+  get() = this.startAt.toLocalDateTime(day.date)
+
+val Event.endAtLocalDateTime: LocalDateTime
+  get() = this.endAt.toLocalDateTime(day.date)
+
+val Event.descriptionFullText: String
+  get() {
+    return when {
+      description.isBlank().not() && abstractText.isBlank().not() -> {
+        "${abstractText}\n\n$description"
+      }
+      description.isBlank().not() -> description
+      else -> abstractText
+    }
+  }

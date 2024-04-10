@@ -4,9 +4,10 @@
 package com.addhen.fosdem.android.app
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowCompat
 import co.touchlab.kermit.Logger
@@ -64,6 +66,9 @@ class MainActivity : BaseActivity() {
         navigator,
         { url -> launchUrl(url) },
         { info -> shareInfo(info) },
+        { title, room, description, startAtMillSeconds, endAtMillSeconds ->
+          launchCalendar(title, room, description, startAtMillSeconds, endAtMillSeconds)
+        },
         Modifier,
       )
     }
@@ -78,15 +83,47 @@ class MainActivity : BaseActivity() {
 
   private fun shareInfo(info: String) {
     if (info.isEmpty()) return
-    val html = HtmlCompat.fromHtml(info, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-    try {
+    val html = info.parseHtml()
+
+    runCatching {
       ShareCompat.IntentBuilder(this@MainActivity)
         .setText(html)
         .setType("text/plain")
         .startChooser()
-    } catch (e: ActivityNotFoundException) {
-      Logger.e(e) { "ActivityNotFoundException Fail startActivity" }
+    }.onFailure {
+      Logger.e(it) { "Failed to startActivity to share" }
     }
+  }
+
+  private fun launchCalendar(
+    title: String,
+    room: String,
+    description: String,
+    startAtMillSeconds: Long,
+    endAtMillSeconds: Long,
+  ) {
+    val calendarIntent = Intent(Intent.ACTION_INSERT).apply {
+      data = CalendarContract.Events.CONTENT_URI
+      putExtras(
+        bundleOf(
+          CalendarContract.Events.TITLE to "[$room] $title",
+          CalendarContract.Events.DESCRIPTION to description,
+          CalendarContract.Events.EVENT_LOCATION to room,
+          CalendarContract.EXTRA_EVENT_BEGIN_TIME to startAtMillSeconds,
+          CalendarContract.EXTRA_EVENT_END_TIME to endAtMillSeconds,
+        ),
+      )
+    }
+
+    runCatching {
+      this@MainActivity.startActivity(calendarIntent)
+    }.onFailure {
+      Logger.e(it) { "Failed to startActivity to register event in the calendar" }
+    }
+  }
+
+  private fun String.parseHtml(): String {
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
   }
 }
 

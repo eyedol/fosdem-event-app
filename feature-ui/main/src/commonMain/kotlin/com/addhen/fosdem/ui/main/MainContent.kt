@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.ProvideStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
+import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.backstack.SaveableBackStack
@@ -31,6 +32,7 @@ typealias MainContent = @Composable (
   navigator: Navigator,
   onOpenUrl: (String) -> Unit,
   openShare: (String) -> Unit,
+  onCalendarShare: (String, String, String, Long, Long) -> Unit,
   modifier: Modifier,
 ) -> Unit
 
@@ -42,11 +44,12 @@ fun MainContent(
   @Assisted navigator: Navigator,
   @Assisted onOpenUrl: (String) -> Unit,
   @Assisted onShare: (String) -> Unit,
+  @Assisted onCalendarShare: (String, String, String, Long, Long) -> Unit,
   circuitConfig: Circuit,
   @Assisted modifier: Modifier = Modifier,
 ) {
   val appNavigator: Navigator = remember(navigator) {
-    AppNavigator(navigator, onOpenUrl, onShare)
+    AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
   }
 
   ProvideStrings {
@@ -73,11 +76,19 @@ private class AppNavigator(
   private val navigator: Navigator,
   private val onOpenUrl: (String) -> Unit,
   private val onShare: (String) -> Unit,
+  private val onCalendarShare: (String, String, String, Long, Long) -> Unit,
 ) : Navigator {
   override fun goTo(screen: Screen) {
     when (screen) {
       is UrlScreen -> onOpenUrl(screen.url)
       is ShareScreen -> onShare(screen.info)
+      is CalendarScreen -> onCalendarShare(
+        screen.title,
+        screen.room,
+        screen.description,
+        screen.startAtMillSeconds,
+        screen.endAtMillSeconds,
+      )
       else -> navigator.goTo(screen)
     }
   }

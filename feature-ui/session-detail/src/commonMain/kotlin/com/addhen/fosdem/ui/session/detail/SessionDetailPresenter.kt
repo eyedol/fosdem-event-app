@@ -10,10 +10,15 @@ import co.touchlab.kermit.Logger
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
+import com.addhen.fosdem.core.api.timeZoneBrussels
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
+import com.addhen.fosdem.model.api.descriptionFullText
+import com.addhen.fosdem.model.api.endAtLocalDateTime
+import com.addhen.fosdem.model.api.startAtLocalDateTime
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitContext
@@ -22,6 +27,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.toInstant
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -55,17 +61,20 @@ class SessionDetailPresenter(
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
         SessionDetailUiEvent.GoToSession -> navigator.pop()
-        is SessionDetailUiEvent.RegisterSessionToCalendar -> {}
+        is SessionDetailUiEvent.RegisterSessionToCalendar -> {
+          val localEvent = event.event
+          navigator.goTo(
+            CalendarScreen(
+              localEvent.title,
+              localEvent.room.name,
+              localEvent.descriptionFullText,
+              localEvent.startAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
+              localEvent.endAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
+            ),
+          )
+        }
         is SessionDetailUiEvent.ShareSession -> {
           val localEvent = event.event
-
-          val description = when {
-            localEvent.description.isBlank().not() && localEvent.abstractText.isBlank().not() -> {
-              "${localEvent.abstractText}\n\n${localEvent.description}"
-            }
-            localEvent.description.isBlank().not() -> localEvent.description
-            else -> localEvent.abstractText
-          }
 
           val text =
             """
@@ -74,7 +83,7 @@ class SessionDetailPresenter(
                 <br>|Room: ${localEvent.room.name}</br>
                 <br>|Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}</br>
                 <br>|---</br>
-                |Description: $description
+                |Description: ${localEvent.descriptionFullText}
             """.trimMargin()
           navigator.goTo(ShareScreen(text))
         }

@@ -35,7 +35,24 @@ data class UrlScreen(val url: String) : AppScreen(name = "UrlScreen()") {
 
 @CommonParcelize
 data class ShareScreen(val info: String) : AppScreen(name = "ShareScreen()") {
-  override val arguments get() = mapOf("inf" to info)
+  override val arguments get() = mapOf("info" to info)
+}
+
+@CommonParcelize
+data class CalendarScreen(
+  val title: String,
+  val room: String,
+  val description: String,
+  val startAtMillSeconds: Long,
+  val endAtMillSeconds: Long,
+) : AppScreen(name = "CalendarScreen()") {
+  override val arguments get() = mapOf(
+    "title" to title,
+    "room" to room,
+    "description" to description,
+    "startAtMillSeconds" to startAtMillSeconds.toString(),
+    "endAtMillSeconds" to endAtMillSeconds.toString(),
+  )
 }
 
 abstract class AppScreen(val name: String) : Screen {
