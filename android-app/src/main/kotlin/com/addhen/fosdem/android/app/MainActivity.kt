@@ -84,7 +84,7 @@ class MainActivity : BaseActivity() {
         .setType("text/plain")
         .startChooser()
     } catch (e: ActivityNotFoundException) {
-      Logger.e(e) {"ActivityNotFoundException Fail startActivity"}
+      Logger.e(e) { "ActivityNotFoundException Fail startActivity" }
     }
   }
 }

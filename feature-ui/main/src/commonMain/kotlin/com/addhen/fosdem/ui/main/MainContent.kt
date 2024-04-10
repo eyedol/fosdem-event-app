@@ -72,7 +72,7 @@ fun MainContent(
 private class AppNavigator(
   private val navigator: Navigator,
   private val onOpenUrl: (String) -> Unit,
-  private val onShare: (String) -> Unit
+  private val onShare: (String) -> Unit,
 ) : Navigator {
   override fun goTo(screen: Screen) {
     when (screen) {

@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.ui.session.detail
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -76,7 +75,7 @@ class SessionDetailPresenter(
                 |Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}
                 |---
                 |Description: $description
-                """.trimMargin()
+            """.trimMargin()
           navigator.goTo(ShareScreen(text))
         }
         is SessionDetailUiEvent.ToggleSessionBookmark -> {}
