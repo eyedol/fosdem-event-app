@@ -7,7 +7,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
