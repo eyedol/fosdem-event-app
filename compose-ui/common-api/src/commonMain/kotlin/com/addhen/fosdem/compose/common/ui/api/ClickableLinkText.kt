@@ -22,7 +22,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import com.addhen.fosdem.compose.ui.html.parseAsHtml
 
 /**
  * Provides ClickableText with underline for the specified regex.
