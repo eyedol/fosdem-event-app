@@ -16,6 +16,7 @@ kotlin {
         implementation(libs.touchlab.kermit)
         implementation(libs.ksoup.html)
         implementation(compose.foundation)
+        implementation(compose.material3)
       }
     }
   }

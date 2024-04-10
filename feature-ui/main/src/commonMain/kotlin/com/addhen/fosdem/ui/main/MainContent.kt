@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.ProvideStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
+import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -29,6 +30,7 @@ typealias MainContent = @Composable (
   backstack: SaveableBackStack,
   navigator: Navigator,
   onOpenUrl: (String) -> Unit,
+  openShare: (String) -> Unit,
   modifier: Modifier,
 ) -> Unit
 
@@ -39,11 +41,12 @@ fun MainContent(
   @Assisted backstack: SaveableBackStack,
   @Assisted navigator: Navigator,
   @Assisted onOpenUrl: (String) -> Unit,
+  @Assisted onShare: (String) -> Unit,
   circuitConfig: Circuit,
   @Assisted modifier: Modifier = Modifier,
 ) {
   val appNavigator: Navigator = remember(navigator) {
-    AppNavigator(navigator, onOpenUrl)
+    AppNavigator(navigator, onOpenUrl, onShare)
   }
 
   ProvideStrings {
@@ -69,10 +72,12 @@ fun MainContent(
 private class AppNavigator(
   private val navigator: Navigator,
   private val onOpenUrl: (String) -> Unit,
+  private val onShare: (String) -> Unit
 ) : Navigator {
   override fun goTo(screen: Screen) {
     when (screen) {
       is UrlScreen -> onOpenUrl(screen.url)
+      is ShareScreen -> onShare(screen.info)
       else -> navigator.goTo(screen)
     }
   }

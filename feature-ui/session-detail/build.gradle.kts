@@ -31,6 +31,7 @@ kotlin {
         implementation(projects.data.coreApi)
         implementation(projects.coreApi)
         implementation(projects.composeUi.commonApi)
+        implementation(projects.composeUi.html)
         implementation(libs.circuit.runtime)
         implementation(libs.circuit.foundation)
         implementation(libs.circuit.overlay)

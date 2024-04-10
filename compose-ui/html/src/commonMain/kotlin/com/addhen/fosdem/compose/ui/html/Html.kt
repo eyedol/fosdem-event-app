@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.compose.ui.html
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -16,3 +17,6 @@ object Html {
     htmlConverter: HtmlConverter = KsoupHtmlConverter(),
   ): AnnotatedString = htmlConverter.fromHtml(source, linkTextColor)
 }
+
+@Composable
+fun String.parseAsHtml(linkTextColor: Color = MaterialTheme.colorScheme.primary) = Html.fromHtml(this, linkTextColor )

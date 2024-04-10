@@ -22,7 +22,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import com.addhen.fosdem.compose.ui.html.Html
+import com.addhen.fosdem.compose.ui.html.parseAsHtml
 
 /**
  * Provides ClickableText with underline for the specified regex.
@@ -47,7 +47,7 @@ fun ClickableLinkText(
 ) {
   val findResults = findResults(content = content, regex = regex)
   val annotatedString = if (isHtmlContent) {
-    Html.fromHtml(content, MaterialTheme.colorScheme.primary)
+    content.parseAsHtml()
   } else {
     getAnnotatedString(content = content, findUrlResults = findResults)
   }

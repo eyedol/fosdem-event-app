@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.ui.session.detail
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -11,6 +12,7 @@ import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
@@ -48,7 +50,6 @@ class SessionDetailPresenter(
 ) : Presenter<SessionDetailUiState> {
   @Composable
   override fun present(): SessionDetailUiState {
-    // val scope = rememberCoroutineScope()
     val uiMessageManager = remember { UiMessageManager() }
     val appString = LocalStrings.current
 
@@ -56,7 +57,28 @@ class SessionDetailPresenter(
       when (event) {
         SessionDetailUiEvent.GoToSession -> navigator.pop()
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {}
-        is SessionDetailUiEvent.ShareSession -> {}
+        is SessionDetailUiEvent.ShareSession -> {
+          val localEvent = event.event
+
+          val description = when {
+            localEvent.description.isBlank().not() && localEvent.abstractText.isBlank().not() -> {
+              "${localEvent.abstractText}\n\n${localEvent.description}"
+            }
+            localEvent.description.isBlank().not() -> localEvent.description
+            else -> localEvent.abstractText
+          }
+
+          val text =
+            """
+                |Title: ${localEvent.title}
+                |Schedule: ${localEvent.day.date}: ${localEvent.startAt} - ${localEvent.endAt}
+                |Room: ${localEvent.room.name}
+                |Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}
+                |---
+                |Description: $description
+                """.trimMargin()
+          navigator.goTo(ShareScreen(text))
+        }
         is SessionDetailUiEvent.ToggleSessionBookmark -> {}
         is SessionDetailUiEvent.ShowLink -> navigator.goTo(UrlScreen(event.url))
       }

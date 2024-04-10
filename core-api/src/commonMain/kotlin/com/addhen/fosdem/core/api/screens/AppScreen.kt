@@ -33,6 +33,11 @@ data class UrlScreen(val url: String) : AppScreen(name = "UrlScreen()") {
   override val arguments get() = mapOf("url" to url)
 }
 
+@CommonParcelize
+data class ShareScreen(val info: String) : AppScreen(name = "ShareScreen()") {
+  override val arguments get() = mapOf("inf" to info)
+}
+
 abstract class AppScreen(val name: String) : Screen {
   open val arguments: Map<String, *>? = null
 }
