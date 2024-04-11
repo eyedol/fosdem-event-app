@@ -63,11 +63,18 @@ class SessionDetailPresenter(
         SessionDetailUiEvent.GoToSession -> navigator.pop()
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {
           val localEvent = event.event
+          val text  =
+            """
+              <br>|Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}</br>
+              <br>|Url: ${localEvent.url}</br>
+              <br>|---</br>
+              |Description: ${localEvent.descriptionFullText}
+            """.trimIndent()
           navigator.goTo(
             CalendarScreen(
               localEvent.title,
               localEvent.room.name,
-              localEvent.descriptionFullText,
+              text,
               localEvent.startAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
               localEvent.endAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
             ),
@@ -82,6 +89,7 @@ class SessionDetailPresenter(
                 <br>|Schedule: ${localEvent.day.date}: ${localEvent.startAt} - ${localEvent.endAt}</br>
                 <br>|Room: ${localEvent.room.name}</br>
                 <br>|Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}</br>
+                <br>|Url: ${localEvent.url}</br>
                 <br>|---</br>
                 |Description: ${localEvent.descriptionFullText}
             """.trimMargin()

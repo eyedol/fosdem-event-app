@@ -18,6 +18,8 @@ data class Event(
   val title: String,
   val description: String,
   val abstractText: String,
+  val url: String,
+  val feedbackUrl: String,
   val isBookmarked: Boolean,
   val day: Day,
   val room: Room,
@@ -115,6 +117,8 @@ val day1Event = Event(
   speakers = listOf(speaker, speaker2),
   room = room,
   track = Track("Keynote", "keynote"),
+  url = "https://fosdem.org/events/day_one_event",
+  feedbackUrl = "https://fosdem.org/events/feedback_url",
   attachments = listOf(attachment, attachment2, attachment3),
 )
 
@@ -153,6 +157,8 @@ val day1Event2 = Event(
   day = day,
   links = listOf(link, link2, link3),
   speakers = listOf(speaker, speaker2),
+  url = "https://fosdem.org/events/day_one_event",
+  feedbackUrl = "https://fosdem.org/events/feedback_url",
   room = room,
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment, attachment2, attachment3),
@@ -193,6 +199,8 @@ val day2Event1 = Event(
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2),
+  url = "https://fosdem.org/events/day_one_event",
+  feedbackUrl = "https://fosdem.org/events/feedback_url",
   room = room2,
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
@@ -237,6 +245,8 @@ val day2Event2 = Event(
     "sector are, should come together through the positive-sum game that open source is to " +
     "impact not only the future of technology but drive impactful outcomes is some of the " +
     "most pressing global social challenges.",
+  url = "https://fosdem.org/events/day_one_event",
+  feedbackUrl = "https://fosdem.org/events/feedback_url",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
@@ -267,6 +277,8 @@ val day2Event3 = Event(
     "foundations for a more secure future. Find out what you can do to be more secure and " +
     "support " +
     "this global security effort.",
+  url = "https://fosdem.org/events/day_one_event",
+  feedbackUrl = "https://fosdem.org/events/feedback_url",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),

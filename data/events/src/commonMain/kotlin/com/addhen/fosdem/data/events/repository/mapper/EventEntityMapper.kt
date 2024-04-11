@@ -63,6 +63,8 @@ internal fun EventEntity.toEvent() = Event(
   abstractText = abstractText,
   description = description,
   track = Track(name = track.name, type = track.type),
+  url = url,
+  feedbackUrl = feedbackUrl,
   links = links.toLinks(),
   speakers = speakers.toSpeakers(),
   attachments = attachments.toAttachments(),
