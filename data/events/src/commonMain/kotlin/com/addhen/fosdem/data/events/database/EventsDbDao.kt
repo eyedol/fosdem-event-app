@@ -149,7 +149,6 @@ class EventsDbDao(
       track_name: String?,
       track_type: String?,
       url: String?,
-      feedbackUrl: String?,
       id_: Long,
       date_: LocalDate,
       id__: Long,
@@ -170,7 +169,6 @@ class EventsDbDao(
       abstractText = abstract_text,
       description = description ?: "",
       url = url ?: "",
-      feedbackUrl = feedbackUrl ?: "",
       track = TrackEntity(track_name ?: "", track_type ?: ""),
       links = emptyList(),
       speakers = emptyList(),
@@ -245,7 +243,6 @@ class EventsDbDao(
         entity.track.name,
         entity.track.type,
         entity.url,
-        entity.feedbackUrl,
         entity.id,
       )
       if (appDatabase.eventsQueries.changes().executeAsOne() == 0L) {
@@ -262,7 +259,6 @@ class EventsDbDao(
           entity.track.name,
           entity.track.type,
           entity.url,
-          entity.feedbackUrl,
         )
       }
       insertRelatedData(entity)

@@ -19,7 +19,6 @@ data class Event(
   val description: String,
   val abstractText: String,
   val url: String,
-  val feedbackUrl: String,
   val isBookmarked: Boolean,
   val day: Day,
   val room: Room,
@@ -118,7 +117,6 @@ val day1Event = Event(
   room = room,
   track = Track("Keynote", "keynote"),
   url = "https://fosdem.org/events/day_one_event",
-  feedbackUrl = "https://fosdem.org/events/feedback_url",
   attachments = listOf(attachment, attachment2, attachment3),
 )
 
@@ -158,7 +156,6 @@ val day1Event2 = Event(
   links = listOf(link, link2, link3),
   speakers = listOf(speaker, speaker2),
   url = "https://fosdem.org/events/day_one_event",
-  feedbackUrl = "https://fosdem.org/events/feedback_url",
   room = room,
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment, attachment2, attachment3),
@@ -200,7 +197,6 @@ val day2Event1 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2),
   url = "https://fosdem.org/events/day_one_event",
-  feedbackUrl = "https://fosdem.org/events/feedback_url",
   room = room2,
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
@@ -246,7 +242,6 @@ val day2Event2 = Event(
     "impact not only the future of technology but drive impactful outcomes is some of the " +
     "most pressing global social challenges.",
   url = "https://fosdem.org/events/day_one_event",
-  feedbackUrl = "https://fosdem.org/events/feedback_url",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
@@ -278,7 +273,6 @@ val day2Event3 = Event(
     "support " +
     "this global security effort.",
   url = "https://fosdem.org/events/day_one_event",
-  feedbackUrl = "https://fosdem.org/events/feedback_url",
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),

@@ -15,7 +15,6 @@ data class EventEntity(
   val isBookmarked: Boolean,
   val abstractText: String,
   val url: String,
-  val feedbackUrl: String,
   val day: DayEntity,
   val date: LocalDate,
   val room: RoomEntity,
