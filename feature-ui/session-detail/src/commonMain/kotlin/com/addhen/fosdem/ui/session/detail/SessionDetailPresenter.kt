@@ -63,7 +63,7 @@ class SessionDetailPresenter(
         SessionDetailUiEvent.GoToSession -> navigator.pop()
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {
           val localEvent = event.event
-          val text  =
+          val text =
             """
               <br>|Speaker: ${localEvent.speakers.joinToString { speaker -> speaker.name }}</br>
               <br>|Url: ${localEvent.url}</br>
