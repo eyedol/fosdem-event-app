@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS `events`(
   `description` TEXT,
   `track_name` TEXT,
   `track_type` TEXT,
+  `url` TEXT,
+  `feedback_url` TEXT,
   FOREIGN KEY (room_id) REFERENCES rooms(id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
@@ -41,7 +43,9 @@ INSERT OR REPLACE INTO events(
     `abstract_text`,
     `description`,
     `track_name`,
-    `track_type`
+    `track_type`,
+    `url`,
+    `feedback_url`
 ) VALUES(
   nullif(:id, 0),
   :date,
@@ -53,7 +57,9 @@ INSERT OR REPLACE INTO events(
   :abstract_text,
   :description,
   :track_name,
-  :track_type
+  :track_type,
+  :url,
+  :feedback_url
 );
 
 deleteAll:
@@ -124,7 +130,9 @@ SET
   abstract_text = :abstract_text,
   description = :description,
   track_name = :track_name,
-  track_type = :track_type
+  track_type = :track_type,
+  url = :url,
+  feedback_url = :feedback_url
 WHERE id = :id;
 
 changes:

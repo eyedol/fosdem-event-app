@@ -56,6 +56,8 @@ internal fun EventDto.Days.Rooms.Event.toEvent(dayEntity: DayEntity, roomEntity:
     isBookmarked = false,
     abstractText = abstract,
     description = description,
+    feedbackUrl = feedbackUrl,
+    url = url,
     track = TrackEntity(track, type),
     links = links.toLinks(),
     speakers = persons.toSpeakers(),

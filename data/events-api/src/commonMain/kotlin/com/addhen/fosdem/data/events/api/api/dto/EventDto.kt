@@ -52,6 +52,11 @@ data class EventDto(
         val track: String,
         @XmlElement(true)
         val type: String,
+        @XmlElement(true)
+        val url: String,
+        @XmlElement(true)
+        @XmlSerialName("feedback_url")
+        val feedbackUrl: String,
         @XmlChildrenName("link")
         val links: List<Link>,
         @XmlChildrenName("person")
