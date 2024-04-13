@@ -34,6 +34,10 @@ fun main() = application {
       backstack,
       navigator,
       { /* Implement opening of external links */ },
+      { /* Implement sharing of event details */ },
+      { _, _, _, _, _ ->
+        /* Implement registering an event to app calendar */
+      },
       Modifier,
     )
   }
