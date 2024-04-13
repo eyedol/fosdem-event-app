@@ -3,12 +3,14 @@
 
 package com.addhen.fosdem.data.core.api.network
 
+import com.addhen.fosdem.data.core.api.toAppError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.XmlDeclMode
@@ -33,7 +35,13 @@ class ApiService(val url: String, val httpClient: HttpClient) {
     dispatcher: CoroutineDispatcher,
     crossinline apiCall: suspend () -> T,
   ): T = withContext(dispatcher) {
-    apiCall.invoke()
+    try {
+      apiCall.invoke()
+    }catch (e: Throwable) {
+      coroutineContext.ensureActive()
+      throw e.toAppError()
+    }
+
   }
 
   companion object {

@@ -62,6 +62,7 @@ private val scheduleXML = """
     <start>09:30</start>
     <duration>00:25</duration>
     <room>Janson</room>
+    <url>https://fosdem.org/2024/schedule/event/fosdem-2024-3472-switching-the-fosdem-conference-management-system-to-pretalx/</url>
     <slug>keynotes_welcome</slug>
     <title>Welcome to FOSDEM 2023</title>
     <subtitle/>
@@ -88,6 +89,7 @@ private val scheduleXML = """
         <duration>00:50</duration>
         <room>Janson</room>
         <slug>celebrating_25_years_of_open_source</slug>
+        <url>https://fosdem.org/2024/schedule/event/fosdem-2024-3472-switching-the-fosdem-conference-management-system-to-pretalx/</url>
         <title>Celebrating 25 years of Open Source</title>
         <subtitle>Past, Present, and Future</subtitle>
         <track>Keynotes</track>

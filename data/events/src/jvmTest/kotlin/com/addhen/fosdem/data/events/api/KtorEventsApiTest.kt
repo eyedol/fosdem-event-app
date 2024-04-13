@@ -32,12 +32,19 @@ class KtorEventsApiTest {
   }
 
   @Test
-  fun `throws AppError#UnknownException as fetching schedules there is a malformed xml`() =
-    coroutineTestRule.runTest {
-      sut = createKtorEventsApiWithError(coroutineTestRule.testDispatcherProvider)
+  fun `throws AppError#UnknownException as fetching schedules there is a malformed xml`() {
+    val escapedDollarSign = "\$"
+    val expectedErrorMessage = """
+      com.addhen.fosdem.data.core.api.AppError${escapedDollarSign}UnknownException: nl.adaptivity.xmlutil.XmlException: javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,12]
+      Message: The processing instruction target matching "[xX][mM][lL]" is not allowed.
+    """.trimIndent()
+    sut = createKtorEventsApiWithError(coroutineTestRule.testDispatcherProvider)
 
-      val actual = assertThrows<AppError.UnknownException> { sut.fetchEvents() }
-
-      assertEquals("Malformed XML", actual.message)
+    val actual = assertThrows<AppError.UnknownException> {
+      coroutineTestRule.runTest { sut.fetchEvents() }
     }
+    
+    assertEquals(AppError.UnknownException::class, actual::class)
+    assertEquals(expectedErrorMessage, actual.message)
+  }
 }
