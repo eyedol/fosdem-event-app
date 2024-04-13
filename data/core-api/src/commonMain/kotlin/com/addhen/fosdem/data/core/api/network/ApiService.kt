@@ -37,11 +37,10 @@ class ApiService(val url: String, val httpClient: HttpClient) {
   ): T = withContext(dispatcher) {
     try {
       apiCall.invoke()
-    }catch (e: Throwable) {
+    } catch (e: Throwable) {
       coroutineContext.ensureActive()
       throw e.toAppError()
     }
-
   }
 
   companion object {

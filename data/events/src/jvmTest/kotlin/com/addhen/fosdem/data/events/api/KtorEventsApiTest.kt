@@ -43,7 +43,7 @@ class KtorEventsApiTest {
     val actual = assertThrows<AppError.UnknownException> {
       coroutineTestRule.runTest { sut.fetchEvents() }
     }
-    
+
     assertEquals(AppError.UnknownException::class, actual::class)
     assertEquals(expectedErrorMessage, actual.message)
   }
