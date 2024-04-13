@@ -11,10 +11,11 @@ dependencies {
   implementation(libs.sqldelight.sqlite)
   // Temp. Hardcoded here because it won't work with libs.versions.toml file
   // even declared as junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5"}
-  api(platform("org.junit:junit-bom:5.10.2"))
-  api(libs.junit.jupiter)
+  //api(platform("org.junit:junit-bom:5.10.2"))
+  api(libs.kotlin.test.junit5)
+  //api(libs.junit.jupiter)
   api(libs.ktor.client.mock)
   api(libs.coroutines.test)
-  api("app.cash.turbine:turbine:1.1.0")
+  //api("app.cash.turbine:turbine:1.1.0")
 }
 

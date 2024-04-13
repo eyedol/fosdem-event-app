@@ -46,8 +46,3 @@ kotlin {
     }
   }
 }
-
-// Needed for tests to run otherwise it errors
-tasks.withType<Test> {
-  useJUnitPlatform()
-}

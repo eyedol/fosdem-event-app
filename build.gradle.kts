@@ -52,4 +52,9 @@ subprojects {
       progressiveMode.set(true)
     }
   }
+
+  // Needed for tests to run otherwise it errors
+  tasks.withType<Test> {
+    useJUnitPlatform()
+  }
 }
