@@ -24,4 +24,7 @@ fun Project.configureJvmLicensesTasks() {
 
   val jvmJarTask = project.tasks.named("jvmJar")
   jvmJarTask.configure { dependsOn(copyArtifactsTask) }
+
+  val jvmTestTaks = project.tasks.named("jvmTest")
+  jvmTestTaks.configure { dependsOn(copyArtifactsTask) }
 }
