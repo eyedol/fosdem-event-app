@@ -60,8 +60,8 @@ jobs:
       - name: Check Spotless
         run: ./gradlew spotlessCheck --stacktrace
 
-      - name: Run Unit Tests
-        run: ./gradlew test --stacktrace
+      - name: Run JVM Unit Tests
+        run: ./gradlew jvmTest --stacktrace
 
       - name: Upload DevelRelease to deployGate
         run: ./gradlew uploadDeployGateAabDevelRelease --stacktrace
