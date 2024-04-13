@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.data.rooms.repository
 
-import com.addhen.fosdem.data.core.api.AppResult
 import com.addhen.fosdem.data.rooms.api.database.RoomsDao
 import com.addhen.fosdem.data.rooms.database.RoomsDbDao
 import com.addhen.fosdem.data.rooms.repository.mapper.toRoom
@@ -39,9 +38,8 @@ class RoomsDataRepositoryTest : BaseDatabaseTest() {
     val room = RoomEntity(1, "room1")
     database.roomsQueries.insert(room.id, room.name)
 
-    val result = repository.getRooms().first()
+    val actual = repository.getRooms().first()
 
-    assertEquals(true, result is AppResult.Success)
-    assertEquals(true, (result as AppResult.Success).data == listOf(room.toRoom()))
+    assertEquals(true, actual == listOf(room.toRoom()))
   }
 }
