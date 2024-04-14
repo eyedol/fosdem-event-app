@@ -1,7 +1,7 @@
 // Copyright 2024, Addhen Limited and the FOSDEM Event app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.fosdem.data.events
+package com.addhen.fosdem.test
 
 import java.io.IOException
 
@@ -14,5 +14,9 @@ object TestResourceUtil {
 
   fun readScheduleXml(): String {
     return readResource("schedules.xml")
+  }
+
+  fun readLicensesJson(): String {
+    return readResource("licenses.json")
   }
 }

@@ -6,6 +6,7 @@ package com.addhen.fosdem.data.events
 import com.addhen.fosdem.core.api.AppCoroutineDispatchers
 import com.addhen.fosdem.data.core.api.network.ApiService
 import com.addhen.fosdem.data.events.api.KtorEventsApi
+import com.addhen.fosdem.test.TestResourceUtil
 import com.addhen.fosdem.test.createHttpClient
 
 fun createKtorEventsApiWithEvents(dispatchers: AppCoroutineDispatchers): KtorEventsApi {
