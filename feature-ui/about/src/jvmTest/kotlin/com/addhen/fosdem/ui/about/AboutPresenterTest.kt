@@ -6,6 +6,9 @@ package com.addhen.fosdem.ui.about
 import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.Flavor
 import com.addhen.fosdem.core.api.screens.AboutScreen
+import com.addhen.fosdem.core.api.screens.LicensesScreen
+import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
@@ -22,8 +25,10 @@ class AboutPresenterTest {
     versionCode = 1,
   )
 
+  private val navigator = FakeNavigator(AboutScreen)
+
   private val sut = AboutPresenter(
-    navigator = FakeNavigator(AboutScreen),
+    navigator = navigator,
     applicationInfo = applicationInfo,
   )
 
@@ -36,4 +41,64 @@ class AboutPresenterTest {
       assertEquals(actualAboutUiState.versionName, expectedVersionName)
     }
   }
+
+  @Test
+  fun `given user navigate to Privacy Policy screen emits event to go to privacy policy screen`() =
+    runTest {
+      val expectedPPLink = "https://addhen.com/privacy-policy"
+      val expectedAboutItem = AboutUiEvent.GoToAboutItem(
+        AboutItem.PrivacyPolicy(expectedPPLink),
+      )
+
+      sut.test {
+        val actualAboutUiState = awaitItem()
+
+        actualAboutUiState.eventSink(expectedAboutItem)
+
+        assertEquals(UrlScreen(expectedPPLink), navigator.awaitNextScreen())
+      }
+    }
+
+  @Test
+  fun `given user navigate to Licenses screen emits event to go to license screen`() = runTest {
+    val expectedAboutItem = AboutUiEvent.GoToAboutItem(
+      AboutItem.License,
+    )
+
+    sut.test {
+      val actualAboutUiState = awaitItem()
+
+      actualAboutUiState.eventSink(expectedAboutItem)
+
+      assertEquals(LicensesScreen, navigator.awaitNextScreen())
+    }
+  }
+
+  @Test
+  fun `given user navigate to Link Screen emits event to go to link screen`() = runTest {
+    val expectedLink = "https://addhen.com"
+    val expectedAboutItem = AboutUiEvent.GoToLink(expectedLink)
+
+    sut.test {
+      val actualAboutUiState = awaitItem()
+
+      actualAboutUiState.eventSink(expectedAboutItem)
+
+      assertEquals(UrlScreen(expectedLink), navigator.awaitNextScreen())
+    }
+  }
+
+  @Test
+  fun `given user navigate to go to Session Screen emits event to go to session screen`() =
+    runTest {
+      val expectedAboutItem = AboutUiEvent.GoToSession
+
+      sut.test {
+        val actualAboutUiState = awaitItem()
+
+        actualAboutUiState.eventSink(expectedAboutItem)
+
+        assertEquals(SessionScreen, navigator.awaitNextScreen())
+      }
+    }
 }
