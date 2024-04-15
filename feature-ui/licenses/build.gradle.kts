@@ -37,5 +37,19 @@ kotlin {
         implementation(compose.materialIconsExtended)
       }
     }
+
+    val commonTest by getting {
+      dependencies {
+        implementation(projects.data.licenses)
+        implementation(libs.circuit.test)
+        implementation(libs.kotlinx.serialization)
+      }
+    }
+
+    jvmTest {
+      dependencies {
+        implementation(projects.testing)
+      }
+    }
   }
 }
