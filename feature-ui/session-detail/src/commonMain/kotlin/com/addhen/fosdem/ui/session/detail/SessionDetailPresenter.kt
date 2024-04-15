@@ -6,6 +6,7 @@ package com.addhen.fosdem.ui.session.detail
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import co.touchlab.kermit.Logger
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
@@ -27,6 +28,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.datetime.toInstant
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -55,6 +57,7 @@ class SessionDetailPresenter(
 ) : Presenter<SessionDetailUiState> {
   @Composable
   override fun present(): SessionDetailUiState {
+    val scope = rememberCoroutineScope()
     val uiMessageManager = remember { UiMessageManager() }
     val appString = LocalStrings.current
 
@@ -95,7 +98,11 @@ class SessionDetailPresenter(
             """.trimMargin()
           navigator.goTo(ShareScreen(text))
         }
-        is SessionDetailUiEvent.ToggleSessionBookmark -> {}
+        is SessionDetailUiEvent.ToggleSessionBookmark -> {
+          scope.launch {
+            repository.value.toggleBookmark(event.eventId)
+          }
+        }
         is SessionDetailUiEvent.ShowLink -> navigator.goTo(UrlScreen(event.url))
       }
     }
