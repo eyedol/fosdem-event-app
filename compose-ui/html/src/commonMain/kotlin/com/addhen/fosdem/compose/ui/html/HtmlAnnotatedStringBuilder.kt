@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 private const val CRLF = "\r\n"
@@ -57,14 +56,14 @@ internal class HtmlAnnotatedStringBuilder(
 
   fun handleLiOpenTag() {
     tag = HtmlTag.LI
-    var restLine = 1.8.em
+    var restLine = 30.sp
     if (isOlTagOpened) {
-      restLine = 2.em
+      restLine = 32.sp
     }
     builder.pushStyle(
       ParagraphStyle(
         textAlign = TextAlign.Start,
-        textIndent = TextIndent(firstLine = 1.em, restLine = restLine),
+        textIndent = TextIndent(firstLine = 16.sp, restLine = restLine),
         lineBreak = LineBreak.Paragraph,
       ),
     )
