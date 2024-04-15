@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
+import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.SessionList
@@ -49,6 +50,7 @@ import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
 import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentMap
 
 const val SessionTabTestTag = "SessionTab"
 const val SessionEmptyTestTag = "SessionEmptyTest"
@@ -148,7 +150,7 @@ internal fun SessionSheet(
 
         is SessionSheetUiState.ListSession -> {
           SessionList(
-            uiState = requireNotNull(uiState.sessionListUiStates[selectedDay]),
+            uiState = uiState.sessionListUiStates.toSessionListOrEmpty(selectedDay),
             scrollState = rememberLazyListState(),
             onSessionItemClick = onSessionItemClick,
             onBookmarkClick = onBookmarkClick,
@@ -263,4 +265,10 @@ private fun ExpandIndicator(
       Box(Modifier.size(width = width, height = height))
     }
   }
+}
+
+private fun Map<DayTab, SessionListUiState>.toSessionListOrEmpty(
+  selectedDay: DayTab,
+): SessionListUiState {
+  return this[selectedDay] ?: SessionListUiState(emptyMap<String, List<Event>>().toPersistentMap())
 }
