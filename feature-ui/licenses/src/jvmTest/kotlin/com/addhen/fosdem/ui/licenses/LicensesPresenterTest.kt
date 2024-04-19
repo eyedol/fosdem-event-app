@@ -58,6 +58,17 @@ class LicensesPresenterTest {
   }
 
   @Test
+  fun `should error when fetching licenses`() = coroutineTestRule.runTest {
+    val fakeLicenseApi = UnhappyPathLicensesApi(coroutineTestRule.testDispatcherProvider)
+    val repository = FakeLicensesDataRepository(fakeLicenseApi)
+    val sut = LicensesPresenter(navigator, repository)
+
+    sut.test {
+      assertEquals("Unhappy path", awaitError().message)
+    }
+  }
+
+  @Test
   fun `given user navigates to GoToLink event is emitted to navigate user to GoToLink`() =
     coroutineTestRule.runTest {
       val goToLink = LicensesUiEvent.GoToLink("https://example.com")
