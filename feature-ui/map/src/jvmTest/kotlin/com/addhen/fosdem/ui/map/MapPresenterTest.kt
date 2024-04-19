@@ -18,8 +18,6 @@ internal class MapPresenterTest {
   @RegisterExtension
   val coroutineTestRule = CoroutineTestRule()
 
-  private val navigator = FakeNavigator(MapScreen)
-
   private val sut = MapPresenter()
 
   @Test
