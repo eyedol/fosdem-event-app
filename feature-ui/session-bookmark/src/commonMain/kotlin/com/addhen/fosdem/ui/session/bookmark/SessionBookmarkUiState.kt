@@ -24,8 +24,6 @@ sealed interface SessionBookmarkUiEvent : CircuitUiEvent {
     val isBookmarked: Boolean,
   ) : SessionBookmarkUiEvent
 
-  data object FilterAllBookmarks : SessionBookmarkUiEvent
-
   data object FilterFirstDayBookmarks : SessionBookmarkUiEvent
 
   data object FilterSecondDayBookmarks : SessionBookmarkUiEvent

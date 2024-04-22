@@ -69,4 +69,4 @@ internal fun EventEntity.toEvent() = Event(
   attachments = attachments.toAttachments(),
 )
 
-internal fun List<EventEntity>.toEvent() = map { it.toEvent() }
+fun List<EventEntity>.toEvents() = map { it.toEvent() }

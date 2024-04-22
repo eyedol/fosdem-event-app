@@ -1,15 +1,15 @@
+// Copyright 2024, Addhen Limited and the FOSDEM Event app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.fosdem.ui.map
 
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
-import com.addhen.fosdem.core.api.screens.MapScreen
 import com.addhen.fosdem.test.CoroutineTestRule
-import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
-import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class MapPresenterTest {

@@ -12,6 +12,7 @@ import com.addhen.fosdem.data.events.createKtorEventsApiWithLiveEvents
 import com.addhen.fosdem.data.events.database.EventsDbDao
 import com.addhen.fosdem.data.events.repository.mapper.toDay
 import com.addhen.fosdem.data.events.repository.mapper.toEvent
+import com.addhen.fosdem.data.events.repository.mapper.toEvents
 import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
 import com.addhen.fosdem.data.sqldelight.api.entities.EventEntity
@@ -55,7 +56,7 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
   @Test
   fun `getEvents should return events from database`() = coroutineTestRule.runTest {
     val date = LocalDate.parse("2023-02-04")
-    val eventList = events.filter { it.day.date == date }.setDurationTime().toEvent()
+    val eventList = events.filter { it.day.date == date }.setDurationTime().toEvents()
     givenDaysAndEventsData(events)
 
     val result = repository.getEvents(date).first()

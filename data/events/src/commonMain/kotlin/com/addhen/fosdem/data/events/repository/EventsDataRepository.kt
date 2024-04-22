@@ -34,16 +34,16 @@ class EventsDataRepository(
   override fun getEvents(): Flow<List<Event>> {
     return database
       .getEvents()
-      .map { it.toEvent() }
+      .map { it.toEvents() }
   }
 
   override fun getAllBookmarkedEvents(): Flow<List<Event>> = database
     .getAllBookmarkedEvents()
-    .map { it.toEvent() }
+    .map { it.toEvents() }
 
   override fun getEvents(date: LocalDate): Flow<List<Event>> = database
     .getEvents(date)
-    .map { it.toEvent() }
+    .map { it.toEvents() }
 
   override fun getEvent(
     id: Long,

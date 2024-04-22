@@ -79,7 +79,6 @@ class SessionBookmarkPresenter(
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
 
-        SessionBookmarkUiEvent.FilterAllBookmarks -> TODO()
         SessionBookmarkUiEvent.FilterFirstDayBookmarks -> {
           selectedFilters = onDaySelected(selectedFilters, saturdayTab)
         }
