@@ -3,12 +3,16 @@
 
 package com.addhen.fosdem.model.api
 
+import com.addhen.fosdem.core.api.currentYear
 import com.addhen.fosdem.core.api.plus
 import com.addhen.fosdem.core.api.toLocalDateTime
 import kotlinx.collections.immutable.toPersistentMap
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.plus
 
 data class Event(
   val id: Long,
@@ -27,6 +31,9 @@ data class Event(
   val speakers: List<Speaker>,
   val attachments: List<Attachment>,
 )
+
+val saturday = firstSaturdayOfFebruary()
+val sunday = saturday.plus(1, DateTimeUnit.DAY)
 
 val link = Link(
   id = 1,
@@ -94,7 +101,7 @@ val attachment3 = Attachment(
 
 val day = Day(
   id = 1,
-  date = LocalDate.parse("2023-02-04"),
+  date = saturday,
 )
 
 val day2 = Day(
@@ -314,3 +321,11 @@ val Event.descriptionFullText: String
       else -> abstractText
     }
   }
+
+private fun firstSaturdayOfFebruary(): LocalDate {
+  var date = LocalDate(currentYear, 2, 1)
+  while (date.dayOfWeek != DayOfWeek.SATURDAY) {
+    date = date.plus(1, DateTimeUnit.DAY)
+  }
+  return date
+}

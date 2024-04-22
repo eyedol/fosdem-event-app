@@ -14,7 +14,6 @@ import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.test.CoroutineTestRule
-import com.addhen.fosdem.test.events
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
@@ -49,7 +48,27 @@ class SessionBookmarkPresenterTest {
   }
 
   @Test
-  fun `should show all bookmarked events`() = coroutineTestRule.runTest {
+  fun `should show all bookmarked events with no day selected`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(
+        day2Event3,
+      ).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+    }
+  }
+
+  @Test
+  fun `should show all bookmarked events with 2nd day selected`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
       listOf(

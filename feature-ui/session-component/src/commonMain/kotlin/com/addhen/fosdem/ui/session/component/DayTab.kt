@@ -6,13 +6,12 @@ package com.addhen.fosdem.ui.session.component
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
-import com.addhen.fosdem.core.api.currentYear
 import com.addhen.fosdem.core.api.timeZoneBrussels
 import com.addhen.fosdem.model.api.Day
+import com.addhen.fosdem.model.api.saturday
+import com.addhen.fosdem.model.api.sunday
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
@@ -50,17 +49,8 @@ data class DayTab(val id: Long, val date: LocalDate) {
   }
 }
 
-val saturday = firstSaturdayOfFebruary()
 val saturdayTab = DayTab(1, saturday)
-val sundayTab = DayTab(2, saturday.plus(1, DateTimeUnit.DAY))
+val sundayTab = DayTab(2, sunday)
 val dayTabs = listOf(saturdayTab, sundayTab).toPersistentList()
 
 fun Day.toDayTab() = DayTab(id, date)
-
-fun firstSaturdayOfFebruary(): LocalDate {
-  var date = LocalDate(currentYear, 2, 1)
-  while (date.dayOfWeek != DayOfWeek.SATURDAY) {
-    date = date.plus(1, DateTimeUnit.DAY)
-  }
-  return date
-}
