@@ -106,7 +106,7 @@ val day = Day(
 
 val day2 = Day(
   id = 2,
-  date = LocalDate.parse("2023-02-05"),
+  date = sunday,
 )
 
 val day1Event = Event(

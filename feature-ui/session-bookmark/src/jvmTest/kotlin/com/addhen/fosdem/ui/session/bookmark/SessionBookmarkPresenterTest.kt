@@ -71,15 +71,16 @@ class SessionBookmarkPresenterTest {
   fun `should show all bookmarked events with 2nd day selected`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(
-        day2Event3,
-      ).sortAndGroupedEventsItems(),
+      listOf(day2Event3).sortAndGroupedEventsItems(),
       isDayFirstSelected = false,
-      isDaySecondSelected = false,
+      isDaySecondSelected = true,
     )
     fakeRepository.addEvents(*events.toTypedArray())
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
+
+      actualLoadingSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
+
       val actualSessionUiState = awaitItem()
 
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)

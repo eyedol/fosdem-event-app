@@ -98,6 +98,8 @@ abstract class BaseBookmarkSessionUiPresenter(
     sessionFilters: SessionFilters,
     sessionItemMap: PersistentMap<String, List<Event>>,
   ): SessionBookmarkSheetUiState {
+    println("sessionItemMap: $sundayTab, $sessionItemMap")
+    println("sessionFilters: $sessionFilters")
     return SessionBookmarkSheetUiState.ListBookmark(
       sessionItemMap,
       isDayFirstSelected = sessionFilters.days.contains(saturdayTab),
