@@ -67,62 +67,70 @@ class SessionBookmarkPresenterTest {
   }
 
   @Test
-  fun `should show all 2nd day bookmarked events when 2nd day is selected`() = coroutineTestRule.runTest {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(day2Event3).sortAndGroupedEventsItems(),
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
-    )
-    val expectedSecondDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(day2Event3).sortAndGroupedEventsItems(),
-      isDayFirstSelected = false,
-      isDaySecondSelected = true,
-    )
-    fakeRepository.addEvents(*events.toTypedArray())
+  fun `should show all 2nd day bookmarked events when 2nd day is selected`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(day2Event3).sortAndGroupedEventsItems(),
+        isDayFirstSelected = false,
+        isDaySecondSelected = false,
+      )
+      val expectedSecondDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(day2Event3).sortAndGroupedEventsItems(),
+        isDayFirstSelected = false,
+        isDaySecondSelected = true,
+      )
+      fakeRepository.addEvents(*events.toTypedArray())
 
-    sut.test {
-      val actualLoadingSessionUiState = awaitItem() // Loading
-      val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
-      actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
-      awaitItem() // Not sure what this extra event is
-      val actualSecondDayBookmarkedSessions = awaitItem()
+      sut.test {
+        val actualLoadingSessionUiState = awaitItem() // Loading
+        val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
+        actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
+        awaitItem() // Not sure what this extra event is
+        val actualSecondDayBookmarkedSessions = awaitItem()
 
-      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
-      assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
-      assertEquals(expectedSecondDayBookmarkedSessions, actualSecondDayBookmarkedSessions.content)
+        assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+        assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
+        assertEquals(expectedSecondDayBookmarkedSessions, actualSecondDayBookmarkedSessions.content)
+      }
     }
-  }
 
   @Test
-  fun `should show all 1st day bookmarked events when 1st day is selected`() = coroutineTestRule.runTest {
-    val day1EventBookmarked = day1Event.copy(isBookmarked = true)
-    val day1Event2Bookmarked = day1Event2.copy(isBookmarked = true)
-    val events = listOf(day1EventBookmarked, day1Event2Bookmarked, day2Event1, day2Event2, day2Event3)
-    val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(day1EventBookmarked, day1Event2Bookmarked, day2Event3).sortAndGroupedEventsItems(),
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
-    )
-    val expectedFirstDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(day1EventBookmarked, day1Event2Bookmarked).sortAndGroupedEventsItems(),
-      isDayFirstSelected = true,
-      isDaySecondSelected = false,
-    )
-    fakeRepository.addEvents(*events.toTypedArray())
+  fun `should show all 1st day bookmarked events when 1st day is selected`() =
+    coroutineTestRule.runTest {
+      val day1EventBookmarked = day1Event.copy(isBookmarked = true)
+      val day1Event2Bookmarked = day1Event2.copy(isBookmarked = true)
+      val events = listOf(
+        day1EventBookmarked,
+        day1Event2Bookmarked,
+        day2Event1,
+        day2Event2,
+        day2Event3,
+      )
+      val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(day1EventBookmarked, day1Event2Bookmarked, day2Event3).sortAndGroupedEventsItems(),
+        isDayFirstSelected = false,
+        isDaySecondSelected = false,
+      )
+      val expectedFirstDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(day1EventBookmarked, day1Event2Bookmarked).sortAndGroupedEventsItems(),
+        isDayFirstSelected = true,
+        isDaySecondSelected = false,
+      )
+      fakeRepository.addEvents(*events.toTypedArray())
 
-    sut.test {
-      val actualLoadingSessionUiState = awaitItem() // Loading
-      val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
-      actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks)
-      awaitItem() // Not sure what this extra event is
-      val actualFirstDayBookmarkedSessions = awaitItem()
+      sut.test {
+        val actualLoadingSessionUiState = awaitItem() // Loading
+        val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
+        actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks)
+        awaitItem() // Not sure what this extra event is
+        val actualFirstDayBookmarkedSessions = awaitItem()
 
-      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
-      assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
-      assertEquals(expectedFirstDayBookmarkedSessions, actualFirstDayBookmarkedSessions.content)
+        assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+        assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
+        assertEquals(expectedFirstDayBookmarkedSessions, actualFirstDayBookmarkedSessions.content)
+      }
     }
-  }
 
   @Test
   fun `should show empty bookmark list`() = coroutineTestRule.runTest {
