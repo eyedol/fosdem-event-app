@@ -21,7 +21,6 @@ sealed interface SessionBookmarkUiEvent : CircuitUiEvent {
 
   data class ToggleSessionBookmark(
     val eventId: Long,
-    val isBookmarked: Boolean,
   ) : SessionBookmarkUiEvent
 
   data object FilterFirstDayBookmarks : SessionBookmarkUiEvent

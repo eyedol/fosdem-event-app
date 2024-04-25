@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
  * filter UI interactions.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-abstract class BaseBookmarkSessionUiPresenter(
+abstract class BaseSessionBookmarkPresenter(
   eventsRepository: EventsRepository,
 ) : Presenter<SessionBookmarkUiState> {
 

@@ -53,7 +53,7 @@ fun SessionBookmarkSheet(
   uiState: SessionBookmarkSheetUiState,
   scrollState: LazyListState,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
   contentPadding: PaddingValues,

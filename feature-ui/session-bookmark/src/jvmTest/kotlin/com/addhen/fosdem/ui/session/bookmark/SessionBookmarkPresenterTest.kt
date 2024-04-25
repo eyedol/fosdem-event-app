@@ -146,6 +146,31 @@ class SessionBookmarkPresenterTest {
     }
   }
 
+  @Test
+  fun `should successfully toggle event as bookmarked`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedEvent = day1Event.copy(isBookmarked = true)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(day2Event3).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+      actualSessionUiState.eventSink(
+        SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id),
+      )
+
+      expectNoEvents()
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
+    }
+  }
+
   class FakeEventsRepository : EventsRepository {
 
     private val events = mutableListOf<Event>()
@@ -177,5 +202,7 @@ class SessionBookmarkPresenterTest {
     fun addEvents(vararg newEvents: Event) = events.addAll(newEvents)
 
     fun clearEvents() = events.clear()
+
+    fun events(): List<Event> = events.toList()
   }
 }

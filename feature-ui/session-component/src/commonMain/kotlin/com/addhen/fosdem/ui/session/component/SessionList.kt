@@ -56,7 +56,7 @@ data class SessionListUiState(
 fun SessionList(
   uiState: SessionListUiState,
   scrollState: LazyListState,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onSessionItemClick: (Long) -> Unit,
   highlightQuery: SearchQuery = SearchQuery.Empty,
   shouldShowDayTitle: Boolean = false,
@@ -152,7 +152,7 @@ fun SessionList(
                     HapticFeedbackType(HAPTIC_LONG_PRESS),
                   )
                 }
-                onBookmarkClick(sessionItemLocal.id, isBookmarkedLocal)
+                onBookmarkClick(sessionItemLocal.id)
               },
               highlightQuery = highlightQuery,
               chipContent = {

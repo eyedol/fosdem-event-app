@@ -17,7 +17,7 @@ fun BookmarkList(
   scrollState: LazyListState,
   sessionItemMap: PersistentMap<String, List<Event>>,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkIconClick: (Long, Boolean) -> Unit,
+  onBookmarkIconClick: (Long) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) = SessionList(

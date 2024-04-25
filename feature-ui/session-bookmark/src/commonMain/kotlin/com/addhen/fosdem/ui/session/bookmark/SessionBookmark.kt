@@ -45,8 +45,8 @@ internal fun SessionBookmark(
     uiState = uiState,
     snackbarHostState = snackbarHostState,
     onSessionItemClick = { eventSink(SessionBookmarkUiEvent.GoToSessionDetails(it)) },
-    onBookmarkClick = { eventId, isBookmarked ->
-      eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    onBookmarkClick = { eventId ->
+      eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(eventId))
     },
     onBackClick = { eventSink(SessionBookmarkUiEvent.GoToPreviousScreen) },
     onDayFirstChipClick = { eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks) },
@@ -63,7 +63,7 @@ private fun SessionBookmarkScreen(
   uiState: SessionBookmarkUiState,
   snackbarHostState: SnackbarHostState,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onBackClick: () -> Unit,
   onDayFirstChipClick: () -> Unit,
   onDaySecondChipClick: () -> Unit,
