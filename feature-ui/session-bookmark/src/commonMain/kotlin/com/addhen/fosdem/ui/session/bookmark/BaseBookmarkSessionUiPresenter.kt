@@ -57,8 +57,8 @@ abstract class BaseBookmarkSessionUiPresenter(
     )
   }
 
-  protected fun tryEmit(sessionFilters: SessionFilters) =
-    this.sessionFilters.tryEmit(sessionFilters)
+  protected suspend fun tryEmit(sessionFilters: SessionFilters) =
+    this.sessionFilters.emit(sessionFilters)
 
   private fun obverseSearchUiState(
     sessionFilters: SessionFilters,
@@ -98,8 +98,6 @@ abstract class BaseBookmarkSessionUiPresenter(
     sessionFilters: SessionFilters,
     sessionItemMap: PersistentMap<String, List<Event>>,
   ): SessionBookmarkSheetUiState {
-    println("sessionItemMap: $sundayTab, $sessionItemMap")
-    println("sessionFilters: $sessionFilters")
     return SessionBookmarkSheetUiState.ListBookmark(
       sessionItemMap,
       isDayFirstSelected = sessionFilters.days.contains(saturdayTab),

@@ -70,7 +70,6 @@ class SessionBookmarkPresenter(
     val message by uiMessageManager.message.collectAsState(null)
 
     LaunchedEffect(selectedFilters) {
-      println("selectedFilters: $selectedFilters")
       tryEmit(selectedFilters)
     }
 

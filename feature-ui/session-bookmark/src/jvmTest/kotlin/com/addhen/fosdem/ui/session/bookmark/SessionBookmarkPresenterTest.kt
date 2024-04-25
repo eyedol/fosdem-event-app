@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.test.assertEquals
 
-@Suppress("CAST_NEVER_SUCCEEDS")
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionBookmarkPresenterTest {
 
@@ -68,23 +67,60 @@ class SessionBookmarkPresenterTest {
   }
 
   @Test
-  fun `should show all bookmarked events with 2nd day selected`() = coroutineTestRule.runTest {
+  fun `should show all 2nd day bookmarked events when 2nd day is selected`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+    val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(day2Event3).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    val expectedSecondDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
       listOf(day2Event3).sortAndGroupedEventsItems(),
       isDayFirstSelected = false,
       isDaySecondSelected = true,
     )
     fakeRepository.addEvents(*events.toTypedArray())
+
     sut.test {
-      val actualLoadingSessionUiState = awaitItem()
-
-      actualLoadingSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
-
-      val actualSessionUiState = awaitItem()
+      val actualLoadingSessionUiState = awaitItem() // Loading
+      val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
+      actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
+      awaitItem() // Not sure what this extra event is
+      val actualSecondDayBookmarkedSessions = awaitItem()
 
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
-      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
+      assertEquals(expectedSecondDayBookmarkedSessions, actualSecondDayBookmarkedSessions.content)
+    }
+  }
+
+  @Test
+  fun `should show all 1st day bookmarked events when 1st day is selected`() = coroutineTestRule.runTest {
+    val day1EventBookmarked = day1Event.copy(isBookmarked = true)
+    val day1Event2Bookmarked = day1Event2.copy(isBookmarked = true)
+    val events = listOf(day1EventBookmarked, day1Event2Bookmarked, day2Event1, day2Event2, day2Event3)
+    val expectedAllBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(day1EventBookmarked, day1Event2Bookmarked, day2Event3).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    val expectedFirstDayBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(day1EventBookmarked, day1Event2Bookmarked).sortAndGroupedEventsItems(),
+      isDayFirstSelected = true,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem() // Loading
+      val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
+      actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks)
+      awaitItem() // Not sure what this extra event is
+      val actualFirstDayBookmarkedSessions = awaitItem()
+
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedAllBookmarkedSessions, actualAllBookmarkedSessionUiState.content)
+      assertEquals(expectedFirstDayBookmarkedSessions, actualFirstDayBookmarkedSessions.content)
     }
   }
 
@@ -107,9 +143,7 @@ class SessionBookmarkPresenterTest {
     private val events = mutableListOf<Event>()
 
     private val tracks = mutableListOf<Track>()
-    override fun getEvents(): Flow<List<Event>> = flow {
-      emit(events)
-    }
+    override fun getEvents(): Flow<List<Event>> = flow { emit(events) }
 
     override fun getEvents(date: LocalDate): Flow<List<Event>> = flow {
       val event = events.filter { it.day.date == date }
@@ -120,13 +154,9 @@ class SessionBookmarkPresenterTest {
       emit(events.filter { it.isBookmarked })
     }
 
-    override fun getEvent(id: Long): Flow<Event> = flow {
-      emit(events.first { it.id == id })
-    }
+    override fun getEvent(id: Long): Flow<Event> = flow { emit(events.first { it.id == id }) }
 
-    override fun getTracks(): Flow<List<Track>> = flow {
-      emit(tracks)
-    }
+    override fun getTracks(): Flow<List<Track>> = flow { emit(tracks) }
 
     override suspend fun toggleBookmark(id: Long): Result<Unit> {
       val event = events.first { it.id == id }
@@ -134,16 +164,10 @@ class SessionBookmarkPresenterTest {
       return Result.success(Unit)
     }
 
-    override suspend fun refresh(): Result<Unit> {
-      return Result.success(Unit)
-    }
+    override suspend fun refresh(): Result<Unit> = Result.success(Unit)
 
-    fun addEvents(vararg newEvents: Event) {
-      events.addAll(newEvents)
-    }
+    fun addEvents(vararg newEvents: Event) = events.addAll(newEvents)
 
-    fun clearEvents() {
-      events.clear()
-    }
+    fun clearEvents() = events.clear()
   }
 }
