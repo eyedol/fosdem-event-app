@@ -66,7 +66,7 @@ fun SessionSearchSheet(
   uiState: SearchUiState,
   scrollState: LazyListState,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onDaySelected: (DayTab, Boolean) -> Unit = { _, _ -> },
   onSessionTrackSelected: (FilterTrack, Boolean) -> Unit = { _, _ -> },
   onSessionRoomSelected: (FilterRoom, Boolean) -> Unit = { _, _ -> },

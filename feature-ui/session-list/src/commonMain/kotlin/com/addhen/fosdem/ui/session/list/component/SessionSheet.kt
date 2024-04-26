@@ -75,7 +75,7 @@ internal fun SessionSheet(
   uiState: SessionSheetUiState,
   sessionScreenScrollState: SessionScreenScrollState,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {

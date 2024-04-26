@@ -20,7 +20,7 @@ data class SessionUiState(
 sealed interface SessionUiEvent : CircuitUiEvent {
   data class GoToSessionDetails(val eventId: Long) : SessionUiEvent
 
-  data class ToggleSessionBookmark(val eventId: Long, val isBookmarked: Boolean) : SessionUiEvent
+  data class ToggleSessionBookmark(val eventId: Long) : SessionUiEvent
 
   data object RefreshSession : SessionUiEvent
 

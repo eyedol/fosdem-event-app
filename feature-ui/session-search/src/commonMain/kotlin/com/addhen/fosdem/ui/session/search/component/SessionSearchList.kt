@@ -24,7 +24,7 @@ fun SearchList(
   sessionItemMap: PersistentMap<String, List<Event>>,
   searchQuery: SearchQuery,
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkIconClick: (Long, Boolean) -> Unit,
+  onBookmarkIconClick: (Long) -> Unit,
   contentPadding: PaddingValues,
   modifier: Modifier = Modifier,
 ) {

@@ -44,8 +44,8 @@ internal fun SessionSearch(
     uiState = uiState,
     onSearchQueryChanged = { eventSink(SessionSearchUiEvent.QuerySearch(it)) },
     onSessionItemClick = { eventSink(SessionSearchUiEvent.GoToSessionDetails(it)) },
-    onBookmarkClick = { eventId, isBookmarked ->
-      eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    onBookmarkClick = { eventId ->
+      eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId))
     },
     onDaySelected = { dayTab, isSelected ->
       eventSink(SessionSearchUiEvent.FilterDay(dayTab, isSelected))
@@ -67,7 +67,7 @@ private fun SessionSearchScreen(
   uiState: SessionSearchUiState,
   onSearchQueryChanged: (String) -> Unit = {},
   onSessionItemClick: (Long) -> Unit,
-  onBookmarkClick: (Long, Boolean) -> Unit,
+  onBookmarkClick: (Long) -> Unit,
   onDaySelected: (DayTab, Boolean) -> Unit,
   onSessionTrackSelected: (FilterTrack, Boolean) -> Unit,
   onSessionRoomSelected: (FilterRoom, Boolean) -> Unit,

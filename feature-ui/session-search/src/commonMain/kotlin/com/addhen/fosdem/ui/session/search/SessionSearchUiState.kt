@@ -22,7 +22,6 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
 
   data class ToggleSessionBookmark(
     val eventId: Long,
-    val isBookmarked: Boolean,
   ) : SessionSearchUiEvent
 
   data class FilterDay(

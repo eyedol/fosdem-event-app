@@ -76,8 +76,8 @@ internal fun Session(
     uiState = uiState,
     snackbarHostState = snackbarHostState,
     onSessionItemClick = { eventSink(SessionUiEvent.GoToSessionDetails(it)) },
-    onToggleSessionBookmark = { eventId, isBookmarked ->
-      eventSink(SessionUiEvent.ToggleSessionBookmark(eventId, isBookmarked))
+    onToggleSessionBookmark = { eventId ->
+      eventSink(SessionUiEvent.ToggleSessionBookmark(eventId))
     },
     onSearchClick = { eventSink(SessionUiEvent.BookSession) },
     onSessionRefreshClick = { eventSink(SessionUiEvent.RefreshSession) },
@@ -115,7 +115,7 @@ private fun SessionScreen(
   uiState: SessionUiState,
   snackbarHostState: SnackbarHostState,
   onSessionItemClick: (eventId: Long) -> Unit,
-  onToggleSessionBookmark: (eventId: Long, isBookmarked: Boolean) -> Unit,
+  onToggleSessionBookmark: (eventId: Long) -> Unit,
   onSearchClick: () -> Unit,
   onSessionRefreshClick: () -> Unit,
   onPerformSnackbarAction: () -> Unit,
