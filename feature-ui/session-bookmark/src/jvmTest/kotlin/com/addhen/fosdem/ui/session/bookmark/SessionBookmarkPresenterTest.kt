@@ -214,6 +214,7 @@ class SessionBookmarkPresenterTest {
     )
     fakeRepository.addEvents(*events.toTypedArray())
     val gotoSessionDetail = SessionBookmarkUiEvent.GoToSessionDetails(day2Event3.id)
+
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
       val actualSessionUiState = awaitItem()
@@ -223,6 +224,64 @@ class SessionBookmarkPresenterTest {
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
       assertEquals(SessionDetailScreen(day2Event3.id), fakeNavigator.awaitNextScreen())
+    }
+  }
+
+  @Test
+  fun `should show all bookmarked events and navigate to the previous screen`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(
+        day2Event3,
+      ).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    val gotoPreviousScreen = SessionBookmarkUiEvent.GoToPreviousScreen
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+
+      actualSessionUiState.eventSink(gotoPreviousScreen)
+
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      expectNoEvents()
+    }
+  }
+
+  @Test
+  fun `should show all bookmarked events and clear ui message`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(
+        day2Event3,
+      ).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    fakeRepository.shouldCauseAnError.set(true)
+    val clearMessage = SessionBookmarkUiEvent.ClearMessage
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+      actualSessionUiState.eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id))
+      val actualErrorUiState = awaitItem() // SessionBookmarkSheetUiState with error message
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      assertEquals("Error occurred while toggling bookmark", actualErrorUiState.message?.message)
+
+      actualSessionUiState.eventSink(clearMessage)
+
+      val actualMessageClearedSessionUiState = awaitItem()
+
+      assertEquals(actualMessageClearedSessionUiState.message, null)
+      assertEquals(expectedBookmarkedSessions, actualMessageClearedSessionUiState.content)
+      expectNoEvents()
     }
   }
 

@@ -97,6 +97,7 @@ class LicensesPresenterTest {
         val licenseUiState = awaitItem() // Loaded licenses
 
         licenseUiState.eventSink(navigateUp)
+        expectNoEvents()
       }
     }
 
