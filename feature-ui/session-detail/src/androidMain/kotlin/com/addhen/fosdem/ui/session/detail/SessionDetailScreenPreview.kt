@@ -17,9 +17,8 @@ private fun SessionDetailItemPreview() {
   val sessionDetailUiState = SessionDetailItemSectionUiState(
     event = day1Event,
   )
-  val uiState = ScreenDetailScreenUiState.Loaded(
+  val uiState = SessionDetailScreenUiState.Loaded(
     sessionDetailUiState = sessionDetailUiState,
-    viewBookmarkListRequestState = ViewBookmarkListRequestState.Requested,
   )
   AppTheme {
     Surface {

@@ -203,54 +203,56 @@ class SessionBookmarkPresenterTest {
   }
 
   @Test
-  fun `should show all bookmarked events and navigate to session detail`() = coroutineTestRule.runTest {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(
-        day2Event3,
-      ).sortAndGroupedEventsItems(),
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
-    )
-    fakeRepository.addEvents(*events.toTypedArray())
-    val gotoSessionDetail = SessionBookmarkUiEvent.GoToSessionDetails(day2Event3.id)
+  fun `should show all bookmarked events and navigate to session detail`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(
+          day2Event3,
+        ).sortAndGroupedEventsItems(),
+        isDayFirstSelected = false,
+        isDaySecondSelected = false,
+      )
+      fakeRepository.addEvents(*events.toTypedArray())
+      val gotoSessionDetail = SessionBookmarkUiEvent.GoToSessionDetails(day2Event3.id)
 
-    sut.test {
-      val actualLoadingSessionUiState = awaitItem()
-      val actualSessionUiState = awaitItem()
+      sut.test {
+        val actualLoadingSessionUiState = awaitItem()
+        val actualSessionUiState = awaitItem()
 
-      actualSessionUiState.eventSink(gotoSessionDetail)
+        actualSessionUiState.eventSink(gotoSessionDetail)
 
-      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
-      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
-      assertEquals(SessionDetailScreen(day2Event3.id), fakeNavigator.awaitNextScreen())
+        assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+        assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+        assertEquals(SessionDetailScreen(day2Event3.id), fakeNavigator.awaitNextScreen())
+      }
     }
-  }
 
   @Test
-  fun `should show all bookmarked events and navigate to the previous screen`() = coroutineTestRule.runTest {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
-      listOf(
-        day2Event3,
-      ).sortAndGroupedEventsItems(),
-      isDayFirstSelected = false,
-      isDaySecondSelected = false,
-    )
-    fakeRepository.addEvents(*events.toTypedArray())
-    val gotoPreviousScreen = SessionBookmarkUiEvent.GoToPreviousScreen
+  fun `should show all bookmarked events and navigate to the previous screen`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+        listOf(
+          day2Event3,
+        ).sortAndGroupedEventsItems(),
+        isDayFirstSelected = false,
+        isDaySecondSelected = false,
+      )
+      fakeRepository.addEvents(*events.toTypedArray())
+      val gotoPreviousScreen = SessionBookmarkUiEvent.GoToPreviousScreen
 
-    sut.test {
-      val actualLoadingSessionUiState = awaitItem()
-      val actualSessionUiState = awaitItem()
+      sut.test {
+        val actualLoadingSessionUiState = awaitItem()
+        val actualSessionUiState = awaitItem()
 
-      actualSessionUiState.eventSink(gotoPreviousScreen)
+        actualSessionUiState.eventSink(gotoPreviousScreen)
 
-      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
-      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
-      expectNoEvents()
+        assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+        assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+        expectNoEvents()
+      }
     }
-  }
 
   @Test
   fun `should show all bookmarked events and clear ui message`() = coroutineTestRule.runTest {
@@ -273,7 +275,10 @@ class SessionBookmarkPresenterTest {
       val actualErrorUiState = awaitItem() // SessionBookmarkSheetUiState with error message
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
-      assertEquals("Error occurred while toggling bookmark", actualErrorUiState.message?.message)
+      assertEquals(
+        "Error occurred while toggling bookmark",
+        actualErrorUiState.message?.message,
+      )
 
       actualSessionUiState.eventSink(clearMessage)
 

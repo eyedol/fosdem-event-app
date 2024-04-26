@@ -82,26 +82,17 @@ internal fun SessionDetail(
   )
 }
 
-sealed class ScreenDetailScreenUiState {
-  data object Loading : ScreenDetailScreenUiState()
+sealed class SessionDetailScreenUiState {
+  data object Loading : SessionDetailScreenUiState()
   data class Loaded(
     val sessionDetailUiState: SessionDetailItemSectionUiState,
-    val viewBookmarkListRequestState: ViewBookmarkListRequestState,
-  ) : ScreenDetailScreenUiState()
-
-  val shouldNavigateToBookmarkList: Boolean
-    get() = this is Loaded && viewBookmarkListRequestState is ViewBookmarkListRequestState.Requested
-}
-
-sealed class ViewBookmarkListRequestState {
-  data object NotRequested : ViewBookmarkListRequestState()
-  data object Requested : ViewBookmarkListRequestState()
+  ) : SessionDetailScreenUiState()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SessionItemDetailScreen(
-  uiState: ScreenDetailScreenUiState,
+  uiState: SessionDetailScreenUiState,
   onNavigationIconClick: () -> Unit,
   onBookmarkClick: (Long) -> Unit,
   onLinkClick: (url: String) -> Unit,
@@ -124,7 +115,7 @@ internal fun SessionItemDetailScreen(
     contentWindowInsets = ScaffoldDefaults.contentWindowInsets
       .exclude(WindowInsets.navigationBars),
     topBar = {
-      if (uiState is ScreenDetailScreenUiState.Loaded) {
+      if (uiState is SessionDetailScreenUiState.Loaded) {
         SessionDetailTopAppBar(
           title = uiState.sessionDetailUiState.event.title,
           onNavigationIconClick = onNavigationIconClick,
@@ -136,7 +127,7 @@ internal fun SessionItemDetailScreen(
       }
     },
     floatingActionButton = {
-      if (uiState is ScreenDetailScreenUiState.Loaded) {
+      if (uiState is SessionDetailScreenUiState.Loaded) {
         val event = uiState.sessionDetailUiState.event
         SessionBookmarkButton(
           eventId = event.id,
@@ -148,7 +139,7 @@ internal fun SessionItemDetailScreen(
     },
     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
   ) { innerPadding ->
-    if (uiState is ScreenDetailScreenUiState.Loaded) {
+    if (uiState is SessionDetailScreenUiState.Loaded) {
       SessionDetailItem(
         modifier = Modifier.fillMaxSize(),
         uiState = uiState.sessionDetailUiState,
@@ -160,7 +151,7 @@ internal fun SessionItemDetailScreen(
 
     AnimatedVisibility(
       modifier = Modifier.fillMaxSize(),
-      visible = (uiState is ScreenDetailScreenUiState.Loading),
+      visible = (uiState is SessionDetailScreenUiState.Loading),
       enter = fadeIn(),
       exit = fadeOut(),
     ) {

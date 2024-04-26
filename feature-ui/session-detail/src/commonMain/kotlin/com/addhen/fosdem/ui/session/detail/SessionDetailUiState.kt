@@ -10,7 +10,7 @@ import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
 data class SessionDetailUiState(
-  val sessionDetailScreenUiState: ScreenDetailScreenUiState,
+  val sessionDetailScreenUiState: SessionDetailScreenUiState,
   val eventSink: (SessionDetailUiEvent) -> Unit,
 ) : CircuitUiState
 

@@ -108,9 +108,8 @@ class SessionDetailPresenter(
     }
 
     val uiState by repository.value.getEvent(screen.eventId).map { event ->
-      ScreenDetailScreenUiState.Loaded(
+      SessionDetailScreenUiState.Loaded(
         sessionDetailUiState = SessionDetailItemSectionUiState(event),
-        viewBookmarkListRequestState = ViewBookmarkListRequestState.Requested,
       )
     }.catch {
       Logger.e(it) { "Error occurred" }
@@ -120,7 +119,7 @@ class SessionDetailPresenter(
           actionLabel = appString.tryAgain,
         ),
       )
-    }.collectAsRetainedState(ScreenDetailScreenUiState.Loading)
+    }.collectAsRetainedState(SessionDetailScreenUiState.Loading)
 
     return SessionDetailUiState(
       sessionDetailScreenUiState = uiState,

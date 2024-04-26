@@ -7,6 +7,7 @@ dependencies {
   implementation(projects.data.coreApi)
   implementation(projects.data.sqldelightApi)
   implementation(projects.data.modelApi)
+  implementation(projects.data.eventsApi)
   implementation(libs.kotlinx.datetime)
   implementation(libs.sqldelight.sqlite)
   api(libs.kotlin.test.junit5)
