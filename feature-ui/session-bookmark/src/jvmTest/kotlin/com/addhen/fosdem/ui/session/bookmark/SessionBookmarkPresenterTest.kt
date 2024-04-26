@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.bookmark
 
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
+import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.Track
@@ -198,6 +199,30 @@ class SessionBookmarkPresenterTest {
       assertEquals("Error occurred while toggling bookmark", actualErrorUiState.message?.message)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
       assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
+    }
+  }
+
+  @Test
+  fun `should show all bookmarked events and navigate to session detail`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(
+        day2Event3,
+      ).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    val gotoSessionDetail = SessionBookmarkUiEvent.GoToSessionDetails(day2Event3.id)
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+
+      actualSessionUiState.eventSink(gotoSessionDetail)
+
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      assertEquals(SessionDetailScreen(day2Event3.id), fakeNavigator.awaitNextScreen())
     }
   }
 
