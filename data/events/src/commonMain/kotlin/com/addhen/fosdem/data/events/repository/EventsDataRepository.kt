@@ -14,11 +14,13 @@ import com.addhen.fosdem.data.events.repository.mapper.toRoom
 import com.addhen.fosdem.data.events.repository.mapper.toTrack
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.Track
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withTimeout
 import kotlinx.datetime.LocalDate
 import me.tatarka.inject.annotations.Inject
+import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.minutes
 
 @Inject
@@ -55,10 +57,16 @@ class EventsDataRepository(
     withTimeout(3.minutes) {
       refreshEvents()
     }
+  }.onFailure {
+    coroutineContext.ensureActive()
+    throw it
   }
 
   override suspend fun toggleBookmark(id: Long) = runCatching {
     database.toggleBookmark(id)
+  }.onFailure {
+    coroutineContext.ensureActive()
+    throw it
   }
 
   private suspend fun refreshEvents() {

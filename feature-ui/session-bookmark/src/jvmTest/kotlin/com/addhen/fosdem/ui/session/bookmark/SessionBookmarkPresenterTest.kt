@@ -24,6 +24,7 @@ import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -143,6 +144,7 @@ class SessionBookmarkPresenterTest {
         SessionBookmarkSheetUiState.Empty(isDayFirstSelected = false, isDaySecondSelected = false),
         actualSessionUiState.content,
       )
+      ensureAllEventsConsumed()
     }
   }
 
@@ -165,9 +167,35 @@ class SessionBookmarkPresenterTest {
       )
 
       expectNoEvents()
+      ensureAllEventsConsumed()
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
       assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
+    }
+  }
+
+  @Test
+  fun `should fail to toggle event as bookmarked`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedBookmarkedEvent = day1Event.copy(isBookmarked = false)
+    val expectedBookmarkedSessions = SessionBookmarkSheetUiState.ListBookmark(
+      listOf(day2Event3).sortAndGroupedEventsItems(),
+      isDayFirstSelected = false,
+      isDaySecondSelected = false,
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    fakeRepository.shouldCauseAnError.set(true)
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+      actualSessionUiState.eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id))
+
+      assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
+      assertEquals("Error occurred while toggling bookmark", awaitItem().message?.message)
+      assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
+      ensureAllEventsConsumed()
     }
   }
 
@@ -176,6 +204,7 @@ class SessionBookmarkPresenterTest {
     private val events = mutableListOf<Event>()
 
     private val tracks = mutableListOf<Track>()
+    val shouldCauseAnError: AtomicBoolean = AtomicBoolean(false)
     override fun getEvents(): Flow<List<Event>> = flow { emit(events) }
 
     override fun getEvents(date: LocalDate): Flow<List<Event>> = flow {
@@ -192,6 +221,10 @@ class SessionBookmarkPresenterTest {
     override fun getTracks(): Flow<List<Track>> = flow { emit(tracks) }
 
     override suspend fun toggleBookmark(id: Long): Result<Unit> {
+      if (shouldCauseAnError.get()) {
+        shouldCauseAnError.set(false)
+        return Result.failure(RuntimeException("Error occurred while toggling bookmark"))
+      }
       val event = events.first { it.id == id }
       events.replaceAll { event.copy(isBookmarked = event.isBookmarked.not()) }
       return Result.success(Unit)
