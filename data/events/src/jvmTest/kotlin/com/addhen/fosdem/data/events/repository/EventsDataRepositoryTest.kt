@@ -137,7 +137,11 @@ class EventsDataRepositoryTest : BaseDatabaseTest() {
     fakeApi.setFailure(Throwable("Failed to add items to database"))
     val expected = eventsDbDao.getEvents().first()
 
-    repository.refresh()
+    // We need to limit the parallelism to 1 to avoid the test
+    // failing due to the use of `withTimeout` in the refresh method
+    withContext(Dispatchers.Default.limitedParallelism(1)) {
+      repository.refresh()
+    }
 
     assertTrue(expected.isEmpty())
   }
