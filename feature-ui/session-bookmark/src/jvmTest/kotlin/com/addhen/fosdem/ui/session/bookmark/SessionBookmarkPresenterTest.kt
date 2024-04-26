@@ -190,12 +190,14 @@ class SessionBookmarkPresenterTest {
       val actualLoadingSessionUiState = awaitItem()
       val actualSessionUiState = awaitItem()
       actualSessionUiState.eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id))
+      val actualErrorUiState = awaitItem()
 
+      ensureAllEventsConsumed()
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
-      assertEquals("Error occurred while toggling bookmark", awaitItem().message?.message)
+      assertEquals("Error occurred while toggling bookmark", actualErrorUiState.message?.message)
+      assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
       assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
-      ensureAllEventsConsumed()
     }
   }
 
