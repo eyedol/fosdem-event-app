@@ -41,7 +41,7 @@ class FakeEventsRepository : EventsRepository {
     if (shouldCauseAnError.get()) {
       shouldCauseAnError.set(false)
       return Result.failure(
-        RuntimeException("Error occurred while toggling bookmark with event id $id"),
+        RuntimeException("Error occurred while toggling bookmark with event id: $id"),
       )
     }
     val event = events.first { it.id == id }

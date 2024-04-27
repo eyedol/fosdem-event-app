@@ -106,7 +106,7 @@ class SessionDetailPresenter(
             repository.value.toggleBookmark(event.eventId)
               .onException {
                 Logger.e(it) {
-                  "Error occurred while toggling bookmark with event id ${event.eventId}"
+                  "Error occurred while toggling bookmark with event id: ${event.eventId}"
                 }
                 uiMessageManager.emitMessage(
                   UiMessage(it),

@@ -289,7 +289,7 @@ class SessionDetailPresenterTest {
           actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
         )
         assertEquals(
-          "Error occurred while toggling bookmark with event id ${day1Event.id}",
+          "Error occurred while toggling bookmark with event id: ${day1Event.id}",
           actualErrorUiState.message?.message,
         )
         assertEquals(
