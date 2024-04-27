@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.detail
 
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.day1Event
@@ -11,6 +12,7 @@ import com.addhen.fosdem.model.api.day1Event2
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
+import com.addhen.fosdem.model.api.descriptionFullText
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.fake.event.FakeEventsRepository
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
@@ -120,7 +122,8 @@ class SessionDetailPresenterTest {
   }
 
   @Test
-  fun `should navigate to open a link when a link is clicked`() = coroutineTestRule.runTest {
+  fun `given a session is successfully loaded should navigate to open a link when a link is clicked`() =
+    coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
     val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
@@ -150,4 +153,46 @@ class SessionDetailPresenterTest {
       assertEquals(UrlScreen(expectedUrl), navigator.awaitNextScreen())
     }
   }
+
+  @Test
+  fun `given a session is successfully loaded should navigate to share screen to share an event`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(
+          event = day1Event,
+        ),
+      )
+      val expectedText =
+        """
+                <br>|Title: ${day1Event.title}</br>
+                <br>|Schedule: ${day1Event.day.date}: ${day1Event.startAt} - ${day1Event.endAt}</br>
+                <br>|Room: ${day1Event.room.name}</br>
+                <br>|Speaker: ${day1Event.speakers.joinToString { speaker -> speaker.name }}</br>
+                <br>|Url: ${day1Event.url}</br>
+                <br>|---</br>
+                |Description: ${day1Event.descriptionFullText}
+            """.trimMargin()
+      val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShareSession(day1Event)
+      fakeRepository.addEvents(*events.toTypedArray())
+
+      sut.test {
+        val actualSessionDetailScreenUiStateLoading = awaitItem()
+        val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+        actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoading,
+          actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+        )
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoaded,
+          actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+        )
+        assertEquals(ShareScreen(expectedText), navigator.awaitNextScreen())
+      }
+    }
 }
