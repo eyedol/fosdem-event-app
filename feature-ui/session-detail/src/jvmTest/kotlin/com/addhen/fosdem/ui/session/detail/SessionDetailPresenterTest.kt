@@ -113,7 +113,7 @@ class SessionDetailPresenterTest {
       assertEquals("Try again", actualErrorUiState.message?.actionLabel)
 
       actualSessionDetailScreenUiStateLoading.eventSink(
-        SessionDetailUiEvent.ClearMessage(2)
+        SessionDetailUiEvent.ClearMessage(2),
       )
       expectNoEvents()
     }
@@ -150,5 +150,4 @@ class SessionDetailPresenterTest {
       assertEquals(UrlScreen(expectedUrl), navigator.awaitNextScreen())
     }
   }
-
 }
