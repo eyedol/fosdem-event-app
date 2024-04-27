@@ -66,7 +66,7 @@ class SessionDetailPresenter(
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
-        SessionDetailUiEvent.GoToSession -> navigator.pop()
+        SessionDetailUiEvent.GoToSessionList -> navigator.pop()
         is SessionDetailUiEvent.RegisterSessionToCalendar -> {
           val localEvent = event.event
           val text =

@@ -67,7 +67,7 @@ internal fun SessionDetail(
   SessionItemDetailScreen(
     uiState = viewState.sessionDetailScreenUiState,
     message = viewState.message,
-    onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSession) },
+    onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSessionList) },
     onBookmarkClick = { eventId ->
       eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId))
     },

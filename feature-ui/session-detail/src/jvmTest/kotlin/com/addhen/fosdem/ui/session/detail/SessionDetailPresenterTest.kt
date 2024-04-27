@@ -52,14 +52,8 @@ class SessionDetailPresenterTest {
 
   @Test
   fun `should successfully load session detail`() = coroutineTestRule.runTest {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-    val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-      sessionDetailUiState = SessionDetailItemSectionUiState(
-        event = day1Event,
-      ),
-    )
-    fakeRepository.addEvents(*events.toTypedArray())
+    val (expectedSessionDetailScreenUiStateLoading, expectedSessionDetailScreenUiStateLoaded) =
+      givenSessionDetailScreenUiState()
 
     sut.test {
       val actualSessionDetailScreenUiStateLoading = awaitItem()
@@ -129,16 +123,10 @@ class SessionDetailPresenterTest {
   @Test
   fun `successfully load an event and navigate to open a link when a link is clicked`() =
     coroutineTestRule.runTest {
-      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-        sessionDetailUiState = SessionDetailItemSectionUiState(
-          event = day1Event,
-        ),
-      )
+      val (expectedSessionDetailScreenUiStateLoading, expectedSessionDetailScreenUiStateLoaded) =
+        givenSessionDetailScreenUiState()
       val expectedUrl = "https://fosdem.org"
       val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShowLink(expectedUrl)
-      fakeRepository.addEvents(*events.toTypedArray())
 
       sut.test {
         val actualSessionDetailScreenUiStateLoading = awaitItem()
@@ -162,13 +150,8 @@ class SessionDetailPresenterTest {
   @Test
   fun `successfully load an event and navigate to share screen to share an event`() =
     coroutineTestRule.runTest {
-      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-        sessionDetailUiState = SessionDetailItemSectionUiState(
-          event = day1Event,
-        ),
-      )
+      val (expectedSessionDetailScreenUiStateLoading, expectedSessionDetailScreenUiStateLoaded) =
+        givenSessionDetailScreenUiState()
       val expectedText =
         """
                 <br>|Title: ${day1Event.title}</br>
@@ -180,7 +163,6 @@ class SessionDetailPresenterTest {
                 |Description: ${day1Event.descriptionFullText}
         """.trimMargin()
       val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShareSession(day1Event)
-      fakeRepository.addEvents(*events.toTypedArray())
 
       sut.test {
         val actualSessionDetailScreenUiStateLoading = awaitItem()
@@ -204,13 +186,8 @@ class SessionDetailPresenterTest {
   @Test
   fun `successfully load an event and navigate to calendar screen`() =
     coroutineTestRule.runTest {
-      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-        sessionDetailUiState = SessionDetailItemSectionUiState(
-          event = day1Event,
-        ),
-      )
+      val (expectedSessionDetailScreenUiStateLoading, expectedSessionDetailScreenUiStateLoaded) =
+        givenSessionDetailScreenUiState()
       val text =
         """
               <br>|Speaker: ${day1Event.speakers.joinToString { speaker -> speaker.name }}</br>
@@ -219,7 +196,6 @@ class SessionDetailPresenterTest {
               |Description: ${day1Event.descriptionFullText}
         """.trimIndent()
       val expectedSessionDetailUiEvent = SessionDetailUiEvent.RegisterSessionToCalendar(day1Event)
-      fakeRepository.addEvents(*events.toTypedArray())
 
       sut.test {
         val actualSessionDetailScreenUiStateLoading = awaitItem()
@@ -288,16 +264,12 @@ class SessionDetailPresenterTest {
   @Test
   fun `successfully load an event and fail to toggle a session as bookmarked`() =
     coroutineTestRule.runTest {
-      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
       val expectedBookmarkedEvent = day1Event.copy(isBookmarked = false)
-      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-        sessionDetailUiState = SessionDetailItemSectionUiState(
-          event = day1Event,
-        ),
-      )
+      val (
+        expectedSessionDetailScreenUiStateLoading,
+        expectedSessionDetailScreenUiStateLoaded,
+      ) = givenSessionDetailScreenUiState()
       val expectedSessionDetailUiEvent = SessionDetailUiEvent.ToggleSessionBookmark(day1Event.id)
-      fakeRepository.addEvents(*events.toTypedArray())
 
       sut.test {
         val actualSessionDetailScreenUiStateLoading = awaitItem()
@@ -326,4 +298,47 @@ class SessionDetailPresenterTest {
         )
       }
     }
+
+  @Test
+  fun `successfully load an event and navigate to previous screen`() = coroutineTestRule.runTest {
+    val (
+      expectedSessionDetailScreenUiStateLoading,
+      expectedSessionDetailScreenUiStateLoaded,
+    ) = givenSessionDetailScreenUiState()
+
+    val expectedSessionDetailUiEvent = SessionDetailUiEvent.GoToSessionList
+    sut.test {
+      val actualSessionDetailScreenUiStateLoading = awaitItem()
+      val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+      actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+      assertEquals(
+        expectedSessionDetailScreenUiStateLoading,
+        actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+      )
+
+      assertEquals(
+        expectedSessionDetailScreenUiStateLoaded,
+        actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+      )
+      expectNoEvents()
+    }
+  }
+
+  private fun givenSessionDetailScreenUiState():
+    Pair<SessionDetailScreenUiState.Loading, SessionDetailScreenUiState.Loaded> {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+    val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+      sessionDetailUiState = SessionDetailItemSectionUiState(
+        event = day1Event,
+      ),
+    )
+    fakeRepository.addEvents(*events.toTypedArray())
+    return Pair(
+      expectedSessionDetailScreenUiStateLoading,
+      expectedSessionDetailScreenUiStateLoaded,
+    )
+  }
 }
