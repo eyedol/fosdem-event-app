@@ -28,7 +28,12 @@ class FakeEventsRepository : EventsRepository {
     emit(events.filter { it.isBookmarked })
   }
 
-  override fun getEvent(id: Long): Flow<Event> = flow { emit(events.first { it.id == id }) }
+  override fun getEvent(id: Long): Flow<Event> = flow {
+    if (shouldCauseAnError.get()) {
+      throw RuntimeException("Error occurred while getting event with id: $id")
+    }
+    emit(events.first { it.id == id })
+  }
 
   override fun getTracks(): Flow<List<Track>> = flow { emit(tracks) }
 

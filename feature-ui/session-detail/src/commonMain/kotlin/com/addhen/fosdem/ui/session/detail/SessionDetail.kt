@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.compose.common.ui.api.LoadingText
+import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.detail.component.SessionBookmarkButton
@@ -64,6 +66,7 @@ internal fun SessionDetail(
 
   SessionItemDetailScreen(
     uiState = viewState.sessionDetailScreenUiState,
+    message = viewState.message,
     onNavigationIconClick = { eventSink(SessionDetailUiEvent.GoToSession) },
     onBookmarkClick = { eventId ->
       eventSink(SessionDetailUiEvent.ToggleSessionBookmark(eventId))
@@ -76,6 +79,9 @@ internal fun SessionDetail(
     },
     onShareClick = { event ->
       eventSink(SessionDetailUiEvent.ShareSession(event))
+    },
+    onMessageShown = { id ->
+      eventSink(SessionDetailUiEvent.ClearMessage(id))
     },
     snackbarHostState,
     modifier,
@@ -93,11 +99,13 @@ sealed class SessionDetailScreenUiState {
 @Composable
 internal fun SessionItemDetailScreen(
   uiState: SessionDetailScreenUiState,
+  message: UiMessage?,
   onNavigationIconClick: () -> Unit,
   onBookmarkClick: (Long) -> Unit,
   onLinkClick: (url: String) -> Unit,
   onCalendarRegistrationClick: (Event) -> Unit,
   onShareClick: (Event) -> Unit,
+  onMessageShown: (id: Long) -> Unit,
   snackbarHostState: SnackbarHostState,
   modifier: Modifier = Modifier,
 ) {
@@ -106,6 +114,12 @@ internal fun SessionItemDetailScreen(
   val expanded by remember {
     derivedStateOf { listState.firstVisibleItemIndex > 0 }
   }
+
+  SnackbarMessageEffect(
+    snackbarHostState = snackbarHostState,
+    message = message,
+    onMessageShown = onMessageShown,
+  )
 
   Scaffold(
     modifier = modifier

@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,6 +60,7 @@ class SessionDetailPresenter(
   override fun present(): SessionDetailUiState {
     val scope = rememberCoroutineScope()
     val uiMessageManager = remember { UiMessageManager() }
+    val message by uiMessageManager.message.collectAsState(null)
     val appString = LocalStrings.current
 
     fun eventSink(event: SessionDetailUiEvent) {
@@ -104,6 +106,10 @@ class SessionDetailPresenter(
           }
         }
         is SessionDetailUiEvent.ShowLink -> navigator.goTo(UrlScreen(event.url))
+
+        is SessionDetailUiEvent.ClearMessage -> scope.launch {
+          uiMessageManager.clearMessage(event.messageId)
+        }
       }
     }
 
@@ -113,16 +119,12 @@ class SessionDetailPresenter(
       )
     }.catch {
       Logger.e(it) { "Error occurred" }
-      uiMessageManager.emitMessage(
-        UiMessage(
-          it,
-          actionLabel = appString.tryAgain,
-        ),
-      )
+      uiMessageManager.emitMessage(UiMessage(it, actionLabel = appString.tryAgain))
     }.collectAsRetainedState(SessionDetailScreenUiState.Loading)
 
     return SessionDetailUiState(
       sessionDetailScreenUiState = uiState,
+      message = message,
       eventSink = ::eventSink,
     )
   }

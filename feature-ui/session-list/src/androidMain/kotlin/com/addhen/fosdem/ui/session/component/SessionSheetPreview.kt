@@ -45,7 +45,7 @@ private fun SessionSheetPreview() {
         uiState = uiState,
         sessionScreenScrollState = SessionScreenScrollState(),
         onSessionItemClick = { _ -> },
-        onBookmarkClick = { _, _ -> },
+        onBookmarkClick = { _ -> },
         contentPadding = PaddingValues(),
       )
     }

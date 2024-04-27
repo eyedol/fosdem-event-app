@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.detail
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.model.api.Event
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -11,6 +12,7 @@ import com.slack.circuit.runtime.CircuitUiState
 @Immutable
 data class SessionDetailUiState(
   val sessionDetailScreenUiState: SessionDetailScreenUiState,
+  val message: UiMessage?,
   val eventSink: (SessionDetailUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -26,4 +28,6 @@ sealed interface SessionDetailUiEvent : CircuitUiEvent {
   data class ShareSession(val event: Event) : SessionDetailUiEvent
 
   data class ShowLink(val url: String) : SessionDetailUiEvent
+
+  data class ClearMessage(val messageId: Long) : SessionDetailUiEvent
 }

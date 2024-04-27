@@ -6,6 +6,7 @@ package com.addhen.fosdem.ui.session.detail
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.model.api.day1Event
@@ -24,12 +25,14 @@ private fun SessionDetailItemPreview() {
     Surface {
       SessionItemDetailScreen(
         uiState = uiState,
+        message = UiMessage("Message"),
         onNavigationIconClick = { },
         onBookmarkClick = { _ -> },
         onLinkClick = {},
         onCalendarRegistrationClick = { _ -> },
         onShareClick = { _ -> },
         snackbarHostState = SnackbarHostState(),
+        onMessageShown = { },
       )
     }
   }

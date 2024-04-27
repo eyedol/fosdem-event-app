@@ -25,7 +25,7 @@ private fun SessionListPreview() {
       SessionList(
         uiState = uiState,
         scrollState = scrollState,
-        onBookmarkClick = { _, _ -> },
+        onBookmarkClick = { _ -> },
         onSessionItemClick = { _ -> },
         contentPadding = PaddingValues(),
       )

@@ -39,10 +39,11 @@ class SessionDetailPresenterTest {
   @AfterEach
   fun tearDown() {
     fakeRepository.clearEvents()
+    fakeRepository.shouldCauseAnError.set(false)
   }
 
   @Test
-  fun `should display session detail`() = coroutineTestRule.runTest {
+  fun `should successfully load session detail`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
     val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
@@ -65,6 +66,28 @@ class SessionDetailPresenterTest {
         expectedSessionDetailScreenUiStateLoaded,
         actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
       )
+    }
+  }
+
+  @Test
+  fun `should fail to load session detail`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+    fakeRepository.addEvents(*events.toTypedArray())
+    fakeRepository.shouldCauseAnError.set(true)
+
+    sut.test {
+      val actualSessionDetailScreenUiStateLoading = awaitItem()
+      val actualErrorUiState = awaitItem()
+      assertEquals(
+        expectedSessionDetailScreenUiStateLoading,
+        actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+      )
+      assertEquals(
+        "Error occurred while getting event with id: 1",
+        actualErrorUiState.message?.message,
+      )
+      assertEquals("Try again", actualErrorUiState.message?.actionLabel)
     }
   }
 }
