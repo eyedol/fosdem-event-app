@@ -3,9 +3,11 @@
 
 package com.addhen.fosdem.ui.session.detail
 
+import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.ShareScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
+import com.addhen.fosdem.core.api.timeZoneBrussels
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day1Event2
@@ -13,12 +15,15 @@ import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.descriptionFullText
+import com.addhen.fosdem.model.api.endAtLocalDateTime
+import com.addhen.fosdem.model.api.startAtLocalDateTime
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.fake.event.FakeEventsRepository
 import com.addhen.fosdem.ui.session.detail.component.SessionDetailItemSectionUiState
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -122,40 +127,40 @@ class SessionDetailPresenterTest {
   }
 
   @Test
-  fun `given a session is successfully loaded should navigate to open a link when a link is clicked`() =
+  fun `successfully load an event and navigate to open a link when a link is clicked`() =
     coroutineTestRule.runTest {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
-    val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
-      sessionDetailUiState = SessionDetailItemSectionUiState(
-        event = day1Event,
-      ),
-    )
-    val expectedUrl = "https://fosdem.org"
-    val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShowLink(expectedUrl)
-    fakeRepository.addEvents(*events.toTypedArray())
-
-    sut.test {
-      val actualSessionDetailScreenUiStateLoading = awaitItem()
-      val actualSessionDetailScreenUiStateLoaded = awaitItem()
-
-      actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
-
-      assertEquals(
-        expectedSessionDetailScreenUiStateLoading,
-        actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(
+          event = day1Event,
+        ),
       )
+      val expectedUrl = "https://fosdem.org"
+      val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShowLink(expectedUrl)
+      fakeRepository.addEvents(*events.toTypedArray())
 
-      assertEquals(
-        expectedSessionDetailScreenUiStateLoaded,
-        actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
-      )
-      assertEquals(UrlScreen(expectedUrl), navigator.awaitNextScreen())
+      sut.test {
+        val actualSessionDetailScreenUiStateLoading = awaitItem()
+        val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+        actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoading,
+          actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+        )
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoaded,
+          actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+        )
+        assertEquals(UrlScreen(expectedUrl), navigator.awaitNextScreen())
+      }
     }
-  }
 
   @Test
-  fun `given a session is successfully loaded should navigate to share screen to share an event`() =
+  fun `successfully load an event and navigate to share screen to share an event`() =
     coroutineTestRule.runTest {
       val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
       val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
@@ -173,7 +178,7 @@ class SessionDetailPresenterTest {
                 <br>|Url: ${day1Event.url}</br>
                 <br>|---</br>
                 |Description: ${day1Event.descriptionFullText}
-            """.trimMargin()
+        """.trimMargin()
       val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShareSession(day1Event)
       fakeRepository.addEvents(*events.toTypedArray())
 
@@ -193,6 +198,54 @@ class SessionDetailPresenterTest {
           actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
         )
         assertEquals(ShareScreen(expectedText), navigator.awaitNextScreen())
+      }
+    }
+
+  @Test
+  fun `successfully load an event and navigate to calendar screen`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(
+          event = day1Event,
+        ),
+      )
+      val text =
+        """
+              <br>|Speaker: ${day1Event.speakers.joinToString { speaker -> speaker.name }}</br>
+              <br>|Url: ${day1Event.url}</br>
+              <br>|---</br>
+              |Description: ${day1Event.descriptionFullText}
+        """.trimIndent()
+      val expectedSessionDetailUiEvent = SessionDetailUiEvent.RegisterSessionToCalendar(day1Event)
+      fakeRepository.addEvents(*events.toTypedArray())
+
+      sut.test {
+        val actualSessionDetailScreenUiStateLoading = awaitItem()
+        val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+        actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoading,
+          actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+        )
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoaded,
+          actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+        )
+        assertEquals(
+          CalendarScreen(
+            day1Event.title,
+            day1Event.room.name,
+            text,
+            day1Event.startAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
+            day1Event.endAtLocalDateTime.toInstant(timeZoneBrussels).toEpochMilliseconds(),
+          ),
+          navigator.awaitNextScreen(),
+        )
       }
     }
 }
