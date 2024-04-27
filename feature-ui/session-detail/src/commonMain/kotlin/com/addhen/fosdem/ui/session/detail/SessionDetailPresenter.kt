@@ -12,6 +12,7 @@ import co.touchlab.kermit.Logger
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.ShareScreen
@@ -103,6 +104,14 @@ class SessionDetailPresenter(
         is SessionDetailUiEvent.ToggleSessionBookmark -> {
           scope.launch {
             repository.value.toggleBookmark(event.eventId)
+              .onException {
+                Logger.e(it) {
+                  "Error occurred while toggling bookmark with event id ${event.eventId}"
+                }
+                uiMessageManager.emitMessage(
+                  UiMessage(it),
+                )
+              }
           }
         }
         is SessionDetailUiEvent.ShowLink -> navigator.goTo(UrlScreen(event.url))

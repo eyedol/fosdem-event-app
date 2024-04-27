@@ -248,4 +248,82 @@ class SessionDetailPresenterTest {
         )
       }
     }
+
+  @Test
+  fun `successfully load an event and toggle a session as bookmarked`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedBookmarkedEvent = day1Event.copy(isBookmarked = true)
+      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(
+          event = day1Event,
+        ),
+      )
+      val expectedSessionDetailUiEvent = SessionDetailUiEvent.ToggleSessionBookmark(day1Event.id)
+      fakeRepository.addEvents(*events.toTypedArray())
+
+      sut.test {
+        val actualSessionDetailScreenUiStateLoading = awaitItem()
+        val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+        actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoading,
+          actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+        )
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoaded,
+          actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+        )
+        assertEquals(
+          expectedBookmarkedEvent,
+          fakeRepository.events().first { it.id == day1Event.id },
+        )
+      }
+    }
+
+  @Test
+  fun `successfully load an event and fail to toggle a session as bookmarked`() =
+    coroutineTestRule.runTest {
+      val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+      val expectedBookmarkedEvent = day1Event.copy(isBookmarked = false)
+      val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+      val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+        sessionDetailUiState = SessionDetailItemSectionUiState(
+          event = day1Event,
+        ),
+      )
+      val expectedSessionDetailUiEvent = SessionDetailUiEvent.ToggleSessionBookmark(day1Event.id)
+      fakeRepository.addEvents(*events.toTypedArray())
+
+      sut.test {
+        val actualSessionDetailScreenUiStateLoading = awaitItem()
+        val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+        fakeRepository.shouldCauseAnError.set(true)
+        actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+        val actualErrorUiState = awaitItem()
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoading,
+          actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+        )
+
+        assertEquals(
+          expectedSessionDetailScreenUiStateLoaded,
+          actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+        )
+        assertEquals(
+          "Error occurred while toggling bookmark with event id ${day1Event.id}",
+          actualErrorUiState.message?.message,
+        )
+        assertEquals(
+          expectedBookmarkedEvent,
+          fakeRepository.events().first { it.id == day1Event.id },
+        )
+      }
+    }
 }

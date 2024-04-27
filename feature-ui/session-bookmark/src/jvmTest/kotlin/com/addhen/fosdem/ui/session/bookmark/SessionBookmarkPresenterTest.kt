@@ -314,7 +314,9 @@ class SessionBookmarkPresenterTest {
     override suspend fun toggleBookmark(id: Long): Result<Unit> {
       if (shouldCauseAnError.get()) {
         shouldCauseAnError.set(false)
-        return Result.failure(RuntimeException("Error occurred while toggling bookmark"))
+        return Result.failure(
+          RuntimeException("Error occurred while toggling bookmark with event id $id"),
+        )
       }
       val event = events.first { it.id == id }
       events.replaceAll { event.copy(isBookmarked = event.isBookmarked.not()) }
