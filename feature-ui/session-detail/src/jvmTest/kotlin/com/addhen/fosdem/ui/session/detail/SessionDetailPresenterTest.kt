@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.detail
 
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
+import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day1Event2
@@ -90,7 +91,7 @@ class SessionDetailPresenterTest {
       assertEquals("Try again", actualErrorUiState.message?.actionLabel)
     }
   }
-  
+
   @Test
   fun `should fail to load session detail and clear ui message`() = coroutineTestRule.runTest {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
@@ -115,6 +116,38 @@ class SessionDetailPresenterTest {
         SessionDetailUiEvent.ClearMessage(2)
       )
       expectNoEvents()
+    }
+  }
+
+  @Test
+  fun `should navigate to open a link when a link is clicked`() = coroutineTestRule.runTest {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    val expectedSessionDetailScreenUiStateLoading = SessionDetailScreenUiState.Loading
+    val expectedSessionDetailScreenUiStateLoaded = SessionDetailScreenUiState.Loaded(
+      sessionDetailUiState = SessionDetailItemSectionUiState(
+        event = day1Event,
+      ),
+    )
+    val expectedUrl = "https://fosdem.org"
+    val expectedSessionDetailUiEvent = SessionDetailUiEvent.ShowLink(expectedUrl)
+    fakeRepository.addEvents(*events.toTypedArray())
+
+    sut.test {
+      val actualSessionDetailScreenUiStateLoading = awaitItem()
+      val actualSessionDetailScreenUiStateLoaded = awaitItem()
+
+      actualSessionDetailScreenUiStateLoading.eventSink(expectedSessionDetailUiEvent)
+
+      assertEquals(
+        expectedSessionDetailScreenUiStateLoading,
+        actualSessionDetailScreenUiStateLoading.sessionDetailScreenUiState,
+      )
+
+      assertEquals(
+        expectedSessionDetailScreenUiStateLoaded,
+        actualSessionDetailScreenUiStateLoaded.sessionDetailScreenUiState,
+      )
+      assertEquals(UrlScreen(expectedUrl), navigator.awaitNextScreen())
     }
   }
 
