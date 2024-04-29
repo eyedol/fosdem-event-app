@@ -1,0 +1,13 @@
+name: "setup"
+description: "Setups JDK"
+author: "Henry Addo"
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Set Up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '21'
