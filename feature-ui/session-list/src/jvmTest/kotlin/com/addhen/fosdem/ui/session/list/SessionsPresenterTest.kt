@@ -154,6 +154,34 @@ class SessionsPresenterTest {
     }
   }
 
+  @Test
+  fun `should fail to bookmark event and show an error`() = coroutineTestRule.runTest {
+    givenEventList()
+    val expectedSessionUiStateList = SessionsSheetUiState.ListSession(
+      days = dayTabs,
+      sessionListUiStates = fakeRepository.events().groupAndMapEventsWithDays(),
+    )
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+      fakeRepository.shouldCauseAnError.set(true)
+      actualSessionUiState.eventSink(SessionUiEvent.ToggleSessionBookmark(day1Event.id))
+
+      val actualSessionUiStateError = awaitItem()
+
+      assertEquals(
+        SessionsSheetUiState.Loading(dayTabs),
+        actualLoadingSessionUiState.content,
+      )
+      assertEquals(expectedSessionUiStateList, actualSessionUiState.content)
+      assertEquals(
+        "Error occurred while toggling bookmark with event id: ${day1Event.id}",
+        actualSessionUiStateError.message?.message,
+      )
+    }
+  }
+
   private fun givenEventList() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     fakeRepository.addEvents(*events.toTypedArray())

@@ -104,7 +104,14 @@ class SessionsPresenter(
         }
 
         is SessionUiEvent.ToggleSessionBookmark -> {
-          scope.launch { repository.value.toggleBookmark(event.eventId) }
+          scope.launch {
+            repository.value
+              .toggleBookmark(event.eventId)
+              .onException {
+                Logger.e(it) { "Error occurred while toggling bookmark" }
+                uiMessageManager.emitMessage(UiMessage(it))
+              }
+          }
         }
 
         SessionUiEvent.GoToBookmarkSessions -> navigator.goTo(SessionBookmarkScreen)
