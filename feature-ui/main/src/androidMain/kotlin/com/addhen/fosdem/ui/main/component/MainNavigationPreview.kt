@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
 import com.addhen.fosdem.core.api.i18n.EnAppStrings
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.ui.main.buildNavigationItems
 
 @MultiThemePreviews
@@ -32,7 +32,7 @@ private fun MainNavigationPreview() {
       Scaffold(
         bottomBar = {
           MainNavigationBar(
-            selectedNavigation = SessionScreen,
+            selectedNavigation = SessionsScreen,
             navigationItems = navigationItems,
             onNavigationSelected = {},
             modifier = Modifier.fillMaxWidth(),

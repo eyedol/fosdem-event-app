@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.LicensesScreen
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -57,7 +57,7 @@ class AboutPresenter(
           navigator.goTo(UrlScreen(event.url))
         }
 
-        AboutUiEvent.GoToSession -> navigator.goTo(SessionScreen)
+        AboutUiEvent.GoToSession -> navigator.goTo(SessionsScreen)
       }
     }
 

@@ -25,7 +25,7 @@ import com.addhen.fosdem.android.app.di.ActivityComponent
 import com.addhen.fosdem.android.app.di.AppComponent
 import com.addhen.fosdem.android.app.di.UiComponent
 import com.addhen.fosdem.core.api.di.ActivityScope
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.ui.main.MainContent
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
     setContent {
-      val backstack = rememberSaveableBackStack(listOf(SessionScreen))
+      val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
       val navigator = rememberCircuitNavigator(backstack)
 
       component.mainContent(

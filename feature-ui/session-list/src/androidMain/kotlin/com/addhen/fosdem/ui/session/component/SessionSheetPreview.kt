@@ -13,7 +13,7 @@ import com.addhen.fosdem.model.api.day1Event
 import com.addhen.fosdem.model.api.day2
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.ui.session.list.component.SessionSheet
-import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
+import com.addhen.fosdem.ui.session.list.component.SessionsSheetUiState
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentMap
 
@@ -31,7 +31,7 @@ private fun SessionSheetPreview() {
   val dayTab = day.toDayTab()
   val dayTab2 = day2.toDayTab()
 
-  val uiState = SessionSheetUiState.ListSession(
+  val uiState = SessionsSheetUiState.ListSession(
     days = listOf(dayTab, dayTab2).toPersistentList(),
     sessionListUiStates = mapOf(
       dayTab to sessionListUiState,

@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.ui.session.component.SessionHeader
 import com.addhen.fosdem.ui.session.component.rememberSessionScreenScrollState
 import com.addhen.fosdem.ui.session.list.component.SessionSheet
@@ -54,8 +54,8 @@ const val SessionScreenTestTag = "SessionScreen"
 @Inject
 class SessionUiFactory : Ui.Factory {
   override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
-    is SessionScreen -> {
-      ui<SessionUiState> { state, modifier ->
+    is SessionsScreen -> {
+      ui<SessionsUiState> { state, modifier ->
         Session(state, modifier)
       }
     }
@@ -66,7 +66,7 @@ class SessionUiFactory : Ui.Factory {
 
 @Composable
 internal fun Session(
-  uiState: SessionUiState,
+  uiState: SessionsUiState,
   modifier: Modifier = Modifier,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
@@ -112,7 +112,7 @@ private fun sessionTopGradient() = if (!isSystemInDarkTheme()) {
 
 @Composable
 private fun SessionScreen(
-  uiState: SessionUiState,
+  uiState: SessionsUiState,
   snackbarHostState: SnackbarHostState,
   onSessionItemClick: (eventId: Long) -> Unit,
   onToggleSessionBookmark: (eventId: Long) -> Unit,

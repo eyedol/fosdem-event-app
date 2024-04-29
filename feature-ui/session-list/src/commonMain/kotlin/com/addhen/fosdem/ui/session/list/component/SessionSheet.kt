@@ -55,24 +55,24 @@ import kotlinx.collections.immutable.toPersistentMap
 const val SessionTabTestTag = "SessionTab"
 const val SessionEmptyTestTag = "SessionEmptyTest"
 
-sealed interface SessionSheetUiState {
+sealed interface SessionsSheetUiState {
   val days: PersistentList<DayTab>
 
-  data class Empty(override val days: PersistentList<DayTab>) : SessionSheetUiState
+  data class Empty(override val days: PersistentList<DayTab>) : SessionsSheetUiState
 
-  data class Error(override val days: PersistentList<DayTab>) : SessionSheetUiState
+  data class Error(override val days: PersistentList<DayTab>) : SessionsSheetUiState
 
-  data class Loading(override val days: PersistentList<DayTab>) : SessionSheetUiState
+  data class Loading(override val days: PersistentList<DayTab>) : SessionsSheetUiState
 
   data class ListSession(
     val sessionListUiStates: Map<DayTab, SessionListUiState>,
     override val days: PersistentList<DayTab>,
-  ) : SessionSheetUiState
+  ) : SessionsSheetUiState
 }
 
 @Composable
 internal fun SessionSheet(
-  uiState: SessionSheetUiState,
+  uiState: SessionsSheetUiState,
   sessionScreenScrollState: SessionScreenScrollState,
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long) -> Unit,
@@ -82,7 +82,7 @@ internal fun SessionSheet(
   var selectedDay by rememberSaveable(stateSaver = DayTab.Saver) {
     mutableStateOf(DayTab.selectDay(uiState.days))
   }
-  val isSessionList = uiState is SessionSheetUiState.ListSession
+  val isSessionList = uiState is SessionsSheetUiState.ListSession
   var showExpandIndicator by remember { mutableStateOf(isSessionList) }
   val corner by animateIntAsState(
     if (sessionScreenScrollState.isScreenLayoutCalculating ||
@@ -133,7 +133,7 @@ internal fun SessionSheet(
         }
       }
       when (uiState) {
-        is SessionSheetUiState.Empty -> {
+        is SessionsSheetUiState.Empty -> {
           SessionEmptyListView(
             title = LocalStrings.current.sessionEmpty,
             description = LocalStrings.current.sessionEmptyDescription,
@@ -148,7 +148,7 @@ internal fun SessionSheet(
           }
         }
 
-        is SessionSheetUiState.ListSession -> {
+        is SessionsSheetUiState.ListSession -> {
           SessionList(
             uiState = uiState.sessionListUiStates.toSessionListOrEmpty(selectedDay),
             scrollState = rememberLazyListState(),
@@ -165,10 +165,10 @@ internal fun SessionSheet(
           )
         }
 
-        is SessionSheetUiState.Error -> {
+        is SessionsSheetUiState.Error -> {
         }
 
-        is SessionSheetUiState.Loading -> {
+        is SessionsSheetUiState.Loading -> {
           SessionShimmerList(
             modifier = Modifier
               .weight(1f)

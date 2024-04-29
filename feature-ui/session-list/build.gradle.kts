@@ -49,5 +49,17 @@ kotlin {
         implementation(compose.components.resources)
       }
     }
+
+    val commonTest by getting {
+      dependencies {
+        implementation(libs.circuit.test)
+      }
+    }
+
+    jvmTest {
+      dependencies {
+        implementation(projects.testing)
+      }
+    }
   }
 }

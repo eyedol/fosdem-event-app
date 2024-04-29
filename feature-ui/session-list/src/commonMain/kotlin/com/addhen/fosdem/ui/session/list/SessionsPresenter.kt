@@ -18,7 +18,7 @@ import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
@@ -26,7 +26,7 @@ import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.SessionListUiState
 import com.addhen.fosdem.ui.session.component.dayTabs
 import com.addhen.fosdem.ui.session.component.toDayTab
-import com.addhen.fosdem.ui.session.list.component.SessionSheetUiState
+import com.addhen.fosdem.ui.session.list.component.SessionsSheetUiState
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
@@ -44,7 +44,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 class SessionUiPresenterFactory(
-  private val presenterFactory: (Navigator) -> SessionPresenter,
+  private val presenterFactory: (Navigator) -> SessionsPresenter,
 ) : Presenter.Factory {
   override fun create(
     screen: Screen,
@@ -52,19 +52,19 @@ class SessionUiPresenterFactory(
     context: CircuitContext,
   ): Presenter<*>? {
     return when (screen) {
-      is SessionScreen -> presenterFactory(navigator)
+      is SessionsScreen -> presenterFactory(navigator)
       else -> null
     }
   }
 }
 
 @Inject
-class SessionPresenter(
+class SessionsPresenter(
   @Assisted private val navigator: Navigator,
   private val repository: Lazy<EventsRepository>,
-) : Presenter<SessionUiState> {
+) : Presenter<SessionsUiState> {
   @Composable
-  override fun present(): SessionUiState {
+  override fun present(): SessionsUiState {
     val scope = rememberCoroutineScope()
     val days by rememberRetained { mutableStateOf(dayTabs) }
     var isRefreshing by rememberRetained { mutableStateOf(false) }
@@ -95,7 +95,7 @@ class SessionPresenter(
           actionLabel = appStrings.tryAgain,
         ),
       )
-    }.collectAsRetainedState(SessionSheetUiState.Loading(days))
+    }.collectAsRetainedState(SessionsSheetUiState.Loading(days))
 
     fun eventSink(event: SessionUiEvent) {
       when (event) {
@@ -115,7 +115,7 @@ class SessionPresenter(
       }
     }
 
-    return SessionUiState(
+    return SessionsUiState(
       isRefreshing = isRefreshing,
       content = events,
       message = message,
@@ -126,10 +126,10 @@ class SessionPresenter(
   private fun successSessionSheetUiSate(
     results: List<Event>,
     days: PersistentList<DayTab>,
-  ): SessionSheetUiState {
-    if (results.isEmpty()) return SessionSheetUiState.Empty(days)
+  ): SessionsSheetUiState {
+    if (results.isEmpty()) return SessionsSheetUiState.Empty(days)
     val sessionGroupedAndMapWithDays = groupAndMapEventsWithDays(results)
-    return SessionSheetUiState.ListSession(
+    return SessionsSheetUiState.ListSession(
       days = days,
       sessionListUiStates = sessionGroupedAndMapWithDays,
     )

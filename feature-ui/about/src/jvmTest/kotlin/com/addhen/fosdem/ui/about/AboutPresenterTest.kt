@@ -7,7 +7,7 @@ import com.addhen.fosdem.core.api.ApplicationInfo
 import com.addhen.fosdem.core.api.Flavor
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.LicensesScreen
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.core.api.screens.UrlScreen
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
@@ -98,7 +98,7 @@ class AboutPresenterTest {
 
         actualAboutUiState.eventSink(expectedAboutItem)
 
-        assertEquals(SessionScreen, navigator.awaitNextScreen())
+        assertEquals(SessionsScreen, navigator.awaitNextScreen())
       }
     }
 }

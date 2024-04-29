@@ -38,8 +38,8 @@ import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.MapScreen
-import com.addhen.fosdem.core.api.screens.SessionScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.ui.main.component.MainNavigationBar
 import com.addhen.fosdem.ui.main.component.MainNavigationDrawer
 import com.addhen.fosdem.ui.main.component.MainNavigationItem
@@ -143,7 +143,7 @@ fun Main(
 fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
   return listOf(
     MainNavigationItem(
-      screen = SessionScreen,
+      screen = SessionsScreen,
       label = strings.sessionTitle,
       contentDescription = strings.sessionContentDescription,
       iconImageVector = Icons.Outlined.CalendarMonth,

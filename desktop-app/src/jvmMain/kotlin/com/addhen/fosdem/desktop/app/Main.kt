@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
-import com.addhen.fosdem.core.api.screens.SessionScreen
+import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.desktop.app.di.AppComponent
 import com.addhen.fosdem.desktop.app.di.WindowComponent
 import com.addhen.fosdem.desktop.app.di.create
@@ -28,7 +28,7 @@ fun main() = application {
       WindowComponent.create(appComponent)
     }
 
-    val backstack = rememberSaveableBackStack(listOf(SessionScreen))
+    val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
     val navigator = rememberCircuitNavigator(backstack) { /* no-op */ }
     component.mainContent(
       backstack,
