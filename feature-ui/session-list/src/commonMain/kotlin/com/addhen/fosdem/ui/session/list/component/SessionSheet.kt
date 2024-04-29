@@ -60,8 +60,6 @@ sealed interface SessionsSheetUiState {
 
   data class Empty(override val days: PersistentList<DayTab>) : SessionsSheetUiState
 
-  data class Error(override val days: PersistentList<DayTab>) : SessionsSheetUiState
-
   data class Loading(override val days: PersistentList<DayTab>) : SessionsSheetUiState
 
   data class ListSession(
@@ -163,9 +161,6 @@ internal fun SessionSheet(
               end = contentPadding.calculateEndPadding(layoutDirection),
             ),
           )
-        }
-
-        is SessionsSheetUiState.Error -> {
         }
 
         is SessionsSheetUiState.Loading -> {

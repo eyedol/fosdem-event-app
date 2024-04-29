@@ -17,19 +17,31 @@ class FakeEventsRepository : EventsRepository {
 
   private val tracks = mutableListOf<Track>()
   val shouldCauseAnError: AtomicBoolean = AtomicBoolean(false)
-  override fun getEvents(): Flow<List<Event>> = flow { emit(events) }
+  override fun getEvents(): Flow<List<Event>> = flow {
+    if (shouldCauseAnError.get()) {
+      throw RuntimeException("Error occurred while getting events")
+    }
+    emit(events)
+  }
 
   override fun getEvents(date: LocalDate): Flow<List<Event>> = flow {
+    if (shouldCauseAnError.get()) {
+      throw RuntimeException("Error occurred while getting event by date: $date")
+    }
     val event = events.filter { it.day.date == date }
     emit(event)
   }
 
   override fun getAllBookmarkedEvents(): Flow<List<Event>> = flow {
+    if (shouldCauseAnError.get()) {
+      throw RuntimeException("Error occurred while getting all bookmarked events")
+    }
     emit(events.filter { it.isBookmarked })
   }
 
   override fun getEvent(id: Long): Flow<Event> = flow {
     if (shouldCauseAnError.get()) {
+      println("Error occurred while getting event with id: $id")
       throw RuntimeException("Error occurred while getting event with id: $id")
     }
     emit(events.first { it.id == id })
@@ -39,7 +51,6 @@ class FakeEventsRepository : EventsRepository {
 
   override suspend fun toggleBookmark(id: Long): Result<Unit> {
     if (shouldCauseAnError.get()) {
-      shouldCauseAnError.set(false)
       return Result.failure(
         RuntimeException("Error occurred while toggling bookmark with event id: $id"),
       )
@@ -53,7 +64,10 @@ class FakeEventsRepository : EventsRepository {
 
   fun addEvents(vararg newEvents: Event) = events.addAll(newEvents)
 
-  fun clearEvents() = events.clear()
+  fun clearEvents() {
+    events.clear()
+    shouldCauseAnError.set(false)
+  }
 
   fun events(): List<Event> = events.toList()
 }

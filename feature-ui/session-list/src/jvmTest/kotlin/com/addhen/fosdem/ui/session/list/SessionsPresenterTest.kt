@@ -45,10 +45,7 @@ class SessionsPresenterTest {
   private val sut = SessionsPresenter(navigator, repository)
 
   @AfterEach
-  fun tearDown() {
-    fakeRepository.clearEvents()
-    fakeRepository.shouldCauseAnError.set(false)
-  }
+  fun tearDown() = fakeRepository.clearEvents()
 
   @Test
   fun `should successfully show session list`() = coroutineTestRule.runTest {
@@ -60,7 +57,6 @@ class SessionsPresenterTest {
 
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
-
       val actualSessionUiStateList = awaitItem()
 
       assertEquals(
@@ -77,7 +73,6 @@ class SessionsPresenterTest {
 
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
-
       val actualSessionUiStateEmpty = awaitItem()
 
       assertEquals(
@@ -85,6 +80,28 @@ class SessionsPresenterTest {
         actualLoadingSessionUiState.content,
       )
       assertEquals(expectedSessionUiStateEmpty, actualSessionUiStateEmpty.content)
+    }
+  }
+
+  @Test
+  fun `should fail to sessions`() = coroutineTestRule.runTest {
+    givenEventList()
+    fakeRepository.shouldCauseAnError.set(true)
+    val expectedSessionUiStateError = SessionsSheetUiState.Loading(days = dayTabs)
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiStateError = awaitItem()
+
+      assertEquals(
+        SessionsSheetUiState.Loading(dayTabs),
+        actualLoadingSessionUiState.content,
+      )
+      assertEquals(expectedSessionUiStateError, actualSessionUiStateError.content)
+      assertEquals(
+        "Error occurred while getting events",
+        actualSessionUiStateError.message?.message,
+      )
     }
   }
 
