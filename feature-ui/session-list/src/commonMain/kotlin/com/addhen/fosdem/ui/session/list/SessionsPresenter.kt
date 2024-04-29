@@ -128,17 +128,15 @@ class SessionsPresenter(
     days: PersistentList<DayTab>,
   ): SessionsSheetUiState {
     if (results.isEmpty()) return SessionsSheetUiState.Empty(days)
-    val sessionGroupedAndMapWithDays = groupAndMapEventsWithDays(results)
+    val sessionGroupedAndMapWithDays = results.groupAndMapEventsWithDays()
     return SessionsSheetUiState.ListSession(
       days = days,
       sessionListUiStates = sessionGroupedAndMapWithDays,
     )
   }
 
-  private fun groupAndMapEventsWithDays(
-    events: List<Event>,
-  ): PersistentMap<DayTab, SessionListUiState> {
-    val groupEventsByDay = events.groupBy { it.day }
+  private fun List<Event>.groupAndMapEventsWithDays(): PersistentMap<DayTab, SessionListUiState> {
+    val groupEventsByDay = groupBy { it.day }
     val sessionsWithDays = mutableMapOf<DayTab, SessionListUiState>()
     groupEventsByDay.asSequence().forEach { (key, events) ->
       val sortedAndGroupEvents = events.sortAndGroupedEventsItems()
