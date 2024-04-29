@@ -79,7 +79,7 @@ internal fun Session(
     onToggleSessionBookmark = { eventId ->
       eventSink(SessionUiEvent.ToggleSessionBookmark(eventId))
     },
-    onSearchClick = { eventSink(SessionUiEvent.BookSession) },
+    onSearchClick = { eventSink(SessionUiEvent.GoToBookmarkSessions) },
     onSessionRefreshClick = { eventSink(SessionUiEvent.RefreshSession) },
     onPerformSnackbarAction = { eventSink(SessionUiEvent.RefreshSession) },
     onMessageShown = { eventSink(SessionUiEvent.ClearMessage) },

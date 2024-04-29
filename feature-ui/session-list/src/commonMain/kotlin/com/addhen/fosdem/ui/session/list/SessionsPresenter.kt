@@ -107,7 +107,7 @@ class SessionsPresenter(
           scope.launch { repository.value.toggleBookmark(event.eventId) }
         }
 
-        SessionUiEvent.BookSession -> navigator.goTo(SessionBookmarkScreen)
+        SessionUiEvent.GoToBookmarkSessions -> navigator.goTo(SessionBookmarkScreen)
         SessionUiEvent.RefreshSession -> isRefreshing = true
         SessionUiEvent.ClearMessage -> {
           scope.launch { uiMessageManager.clearMessage(message!!.id) }

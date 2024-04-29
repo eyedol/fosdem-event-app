@@ -24,7 +24,7 @@ sealed interface SessionUiEvent : CircuitUiEvent {
 
   data object RefreshSession : SessionUiEvent
 
-  data object BookSession : SessionUiEvent
+  data object GoToBookmarkSessions : SessionUiEvent
 
   data object ClearMessage : SessionUiEvent
 }

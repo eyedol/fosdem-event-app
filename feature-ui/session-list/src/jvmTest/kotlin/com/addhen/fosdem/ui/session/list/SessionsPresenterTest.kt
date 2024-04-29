@@ -119,18 +119,40 @@ class SessionsPresenterTest {
       sut.test {
         val actualLoadingSessionUiState = awaitItem()
         val actualSessionUiState = awaitItem()
+
+        actualSessionUiState.eventSink(SessionUiEvent.GoToSessionDetails(day2Event3.id))
+
         assertEquals(
           SessionsSheetUiState.Loading(dayTabs),
           actualLoadingSessionUiState.content,
         )
         assertEquals(expectedSessionUiStateList, actualSessionUiState.content)
-
-        actualSessionUiState.eventSink(SessionUiEvent.GoToSessionDetails(day2Event3.id))
-
         assertEquals(sessionDetailsScreen, navigator.awaitNextScreen())
         expectNoEvents()
       }
     }
+
+  @Test
+  fun `should successfully toggle event as bookmarked`() = coroutineTestRule.runTest {
+    givenEventList()
+    val expectedBookmarkedEvent = day1Event.copy(isBookmarked = true)
+    val expectedSessionUiStateList = SessionsSheetUiState.ListSession(
+      days = dayTabs,
+      sessionListUiStates = fakeRepository.events().groupAndMapEventsWithDays(),
+    )
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+      actualSessionUiState.eventSink(SessionUiEvent.ToggleSessionBookmark(day1Event.id))
+
+      expectNoEvents()
+      ensureAllEventsConsumed()
+      assertEquals(SessionsSheetUiState.Loading(dayTabs), actualLoadingSessionUiState.content)
+      assertEquals(expectedSessionUiStateList, actualSessionUiState.content)
+      assertEquals(expectedBookmarkedEvent, fakeRepository.events().first { it.id == day1Event.id })
+    }
+  }
 
   private fun givenEventList() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
