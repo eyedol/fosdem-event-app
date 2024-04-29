@@ -71,6 +71,23 @@ class SessionsPresenterTest {
     }
   }
 
+  @Test
+  fun `should successfully load and show an empty sessions`() = coroutineTestRule.runTest {
+    val expectedSessionUiStateEmpty = SessionsSheetUiState.Empty(days = dayTabs)
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+
+      val actualSessionUiStateEmpty = awaitItem()
+
+      assertEquals(
+        SessionsSheetUiState.Loading(dayTabs),
+        actualLoadingSessionUiState.content,
+      )
+      assertEquals(expectedSessionUiStateEmpty, actualSessionUiStateEmpty.content)
+    }
+  }
+
   private fun givenEventList() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     fakeRepository.addEvents(*events.toTypedArray())
