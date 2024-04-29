@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.ui.session.list
 
+import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -181,6 +182,32 @@ class SessionsPresenterTest {
       )
     }
   }
+
+  @Test
+  fun `should show all sessions and navigate to session bookmarks screen`() =
+    coroutineTestRule.runTest {
+      givenEventList()
+      val expectedSessionUiStateList = SessionsSheetUiState.ListSession(
+        days = dayTabs,
+        sessionListUiStates = fakeRepository.events().groupAndMapEventsWithDays(),
+      )
+      val sessionBookmarksScreen = SessionBookmarkScreen
+
+      sut.test {
+        val actualLoadingSessionUiState = awaitItem()
+        val actualSessionUiState = awaitItem()
+
+        actualSessionUiState.eventSink(SessionUiEvent.GoToBookmarkSessions)
+
+        assertEquals(
+          SessionsSheetUiState.Loading(dayTabs),
+          actualLoadingSessionUiState.content,
+        )
+        assertEquals(expectedSessionUiStateList, actualSessionUiState.content)
+        assertEquals(sessionBookmarksScreen, navigator.awaitNextScreen())
+        expectNoEvents()
+      }
+    }
 
   private fun givenEventList() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
