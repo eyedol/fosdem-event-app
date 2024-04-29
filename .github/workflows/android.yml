@@ -1,4 +1,4 @@
-name: Fosdem Event Android App
+name: FOSDEM Event Android App
 
 on:
   workflow_dispatch:
