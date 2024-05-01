@@ -26,5 +26,5 @@ sealed interface SessionUiEvent : CircuitUiEvent {
 
   data object GoToBookmarkSessions : SessionUiEvent
 
-  data object ClearMessage : SessionUiEvent
+  data class ClearMessage(val messageId: Long) : SessionUiEvent
 }

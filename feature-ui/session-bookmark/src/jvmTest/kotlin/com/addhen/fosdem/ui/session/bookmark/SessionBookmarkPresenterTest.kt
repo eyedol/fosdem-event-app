@@ -180,11 +180,11 @@ class SessionBookmarkPresenterTest {
       isDaySecondSelected = false,
     )
     fakeRepository.addEvents(*events.toTypedArray())
-    fakeRepository.shouldCauseAnError.set(true)
 
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
       val actualSessionUiState = awaitItem()
+      fakeRepository.shouldCauseAnError.set(true)
       actualSessionUiState.eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id))
       val actualErrorUiState = awaitItem()
 
@@ -263,13 +263,15 @@ class SessionBookmarkPresenterTest {
       isDaySecondSelected = false,
     )
     fakeRepository.addEvents(*events.toTypedArray())
-    fakeRepository.shouldCauseAnError.set(true)
     val clearMessage = SessionBookmarkUiEvent.ClearMessage
 
     sut.test {
       val actualLoadingSessionUiState = awaitItem()
+      fakeRepository.shouldCauseAnError.set(true)
       val actualSessionUiState = awaitItem()
-      actualSessionUiState.eventSink(SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id))
+      actualLoadingSessionUiState.eventSink(
+        SessionBookmarkUiEvent.ToggleSessionBookmark(day1Event.id),
+      )
       val actualErrorUiState = awaitItem() // SessionBookmarkSheetUiState with error message
       assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
       assertEquals(expectedBookmarkedSessions, actualSessionUiState.content)
@@ -282,7 +284,7 @@ class SessionBookmarkPresenterTest {
 
       val actualMessageClearedSessionUiState = awaitItem()
 
-      assertEquals(actualMessageClearedSessionUiState.message, null)
+      assertEquals(null, actualMessageClearedSessionUiState.message)
       assertEquals(expectedBookmarkedSessions, actualMessageClearedSessionUiState.content)
       expectNoEvents()
     }

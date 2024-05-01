@@ -82,7 +82,7 @@ internal fun Session(
     onSearchClick = { eventSink(SessionUiEvent.GoToBookmarkSessions) },
     onSessionRefreshClick = { eventSink(SessionUiEvent.RefreshSession) },
     onPerformSnackbarAction = { eventSink(SessionUiEvent.RefreshSession) },
-    onMessageShown = { eventSink(SessionUiEvent.ClearMessage) },
+    onMessageShown = { eventSink(SessionUiEvent.ClearMessage(it)) },
     contentPadding = PaddingValues(),
     modifier = modifier,
   )

@@ -28,6 +28,8 @@ import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -208,6 +210,62 @@ class SessionsPresenterTest {
         expectNoEvents()
       }
     }
+
+  @Test
+  fun `should show all sessions and refresh session list`() = coroutineTestRule.runTest {
+    givenEventList()
+    val expectedSessionUiStateList = SessionsSheetUiState.ListSession(
+      days = dayTabs,
+      sessionListUiStates = fakeRepository.events().groupAndMapEventsWithDays(),
+    )
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiState = awaitItem()
+
+      actualSessionUiState.eventSink(SessionUiEvent.RefreshSession)
+
+      val actualRefreshingSessionUiState = awaitItem()
+      val actualRefreshedSessionUiState = awaitItem()
+
+      assertEquals(
+        SessionsSheetUiState.Loading(dayTabs),
+        actualLoadingSessionUiState.content,
+      )
+      assertEquals(expectedSessionUiStateList, actualSessionUiState.content)
+      assertTrue(actualRefreshingSessionUiState.isRefreshing)
+      assertEquals(expectedSessionUiStateList, actualRefreshingSessionUiState.content)
+      assertFalse(actualRefreshedSessionUiState.isRefreshing)
+      assertEquals(expectedSessionUiStateList, actualRefreshedSessionUiState.content)
+      expectNoEvents()
+    }
+  }
+
+  @Test
+  fun `should fail to load sessions and clear shown error`() = coroutineTestRule.runTest {
+    givenEventList()
+    fakeRepository.shouldCauseAnError.set(true)
+    val expectedSessionUiStateError = SessionsSheetUiState.Loading(days = dayTabs)
+
+    sut.test {
+      val actualLoadingSessionUiState = awaitItem()
+      val actualSessionUiStateError = awaitItem()
+
+      assertEquals(
+        SessionsSheetUiState.Loading(dayTabs),
+        actualLoadingSessionUiState.content,
+      )
+      assertEquals(expectedSessionUiStateError, actualSessionUiStateError.content)
+      assertEquals(
+        "Error occurred while getting events",
+        actualSessionUiStateError.message?.message,
+      )
+      assertEquals("Try again", actualSessionUiStateError.message?.actionLabel)
+      fakeRepository.shouldCauseAnError.set(false)
+      actualSessionUiStateError.eventSink(SessionUiEvent.ClearMessage(1))
+      expectNoEvents()
+    }
+  }
 
   private fun givenEventList() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)

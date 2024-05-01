@@ -116,8 +116,8 @@ class SessionsPresenter(
 
         SessionUiEvent.GoToBookmarkSessions -> navigator.goTo(SessionBookmarkScreen)
         SessionUiEvent.RefreshSession -> isRefreshing = true
-        SessionUiEvent.ClearMessage -> {
-          scope.launch { uiMessageManager.clearMessage(message!!.id) }
+        is SessionUiEvent.ClearMessage -> {
+          scope.launch { uiMessageManager.clearMessage(event.messageId) }
         }
       }
     }
