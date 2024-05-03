@@ -3,6 +3,7 @@
 
 package com.addhen.fosdem.ui.session.search
 
+import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
@@ -325,6 +326,40 @@ class SessionSearchPresenterTest {
       Track("track2", "type2"),
     )
   }
+
+  @Test
+  fun `should load events, tracks and its associated rooms and go to an event detail`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.GoToSessionDetails(1),
+        )
+
+        assertEquals(SessionDetailScreen(1), navigator.awaitNextScreen())
+      }
+    }
 
   internal class FakeRoomsRepository : RoomsRepository {
     val shouldCauseAnError: AtomicBoolean = AtomicBoolean(false)
