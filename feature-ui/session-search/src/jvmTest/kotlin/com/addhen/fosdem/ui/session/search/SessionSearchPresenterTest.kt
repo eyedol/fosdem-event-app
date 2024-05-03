@@ -30,6 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.concurrent.atomic.AtomicBoolean
@@ -164,6 +165,53 @@ class SessionSearchPresenterTest {
         assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
         assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered1.content)
         assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      }
+    }
+
+  @Test
+  fun `should filter events by title`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val events = listOf(day2Event2)
+      val searchTerm = "Making the world a better place through Open Source"
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      val expectedSearchListFiltered = expectedSessionSearchList.copy(
+        sessionItemMap = events.sortAndGroupedEventsItems(),
+        query = SearchQuery(searchTerm),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.QuerySearch(searchTerm),
+        )
+
+        val actualSessionSearchListFiltered = expectMostRecentItem()
+
+        val actualSearchList = (actualSessionSearchListFiltered.content as SearchUiState.ListSearch)
+          .sessionItemMap["2024-02-04T10:002024-02-04T10:50"]
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+        assertTrue(actualSearchList?.size == 1)
+        assertTrue(actualSearchList?.first()?.title?.contains(searchTerm) ?: false)
       }
     }
 
