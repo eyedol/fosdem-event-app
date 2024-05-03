@@ -120,191 +120,198 @@ class SessionSearchPresenterTest {
 
   @Test
   fun `should filter events list by day`() = coroutineTestRule.runTest {
-      givenEventListAndRoomsAndTracks()
-      val events = listOf(day2Event1, day2Event2, day2Event3)
-      val day2Tab = dayTabs[1]
-      val expectedSearchSessionLoading = SearchUiState.Loading()
-      val expectedSessionSearchList = SearchUiState.ListSearch(
-        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
-        query = SearchQuery(""),
-        filterDayUiState = SearchFilterUiState(
-          items = dayTabs,
-        ),
-        filterRoomUiState = SearchFilterUiState(
-          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
-        ),
-        filterTrackUiState = SearchFilterUiState(
-          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
-        ),
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day2Event1, day2Event2, day2Event3)
+    val day2Tab = dayTabs[1]
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      filterDayUiState = SearchFilterUiState(
+        selectedItems = listOf(day2Tab).toPersistentList(),
+        selectedValues = day2Tab.title,
+        items = dayTabs,
+      ),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.FilterDay(day2Tab, isSelected = true),
       )
 
-      val expectedSearchListFiltered = expectedSessionSearchList.copy(
-        sessionItemMap = events.sortAndGroupedEventsItems(),
-        filterDayUiState = SearchFilterUiState(
-          selectedItems = listOf(day2Tab).toPersistentList(),
-          selectedValues = day2Tab.title,
-          items = dayTabs,
-        ),
-      )
+      // I don't understand why this emission occurred
+      val actualSessionSearchListFiltered1 = awaitItem()
+      // The emission that occurred as a result of the filter event
+      val actualSessionSearchListFiltered = awaitItem()
 
-      sut.test {
-        val actualSearchSessionLoading = awaitItem()
-        val actualSessionSearchUiState = awaitItem()
-
-        actualSessionSearchUiState.eventSink(
-          SessionSearchUiEvent.FilterDay(day2Tab, isSelected = true),
-        )
-
-        // I don't understand why this emission occurred
-        val actualSessionSearchListFiltered1 = awaitItem()
-        // The emission that occurred as a result of the filter event
-        val actualSessionSearchListFiltered = awaitItem()
-
-        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
-        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
-        assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered1.content)
-        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
-      }
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered1.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
     }
+  }
 
   @Test
   fun `should filter events by its title`() = coroutineTestRule.runTest {
-      givenEventListAndRoomsAndTracks()
-      val events = listOf(day2Event2)
-      val searchTerm = "Making the world a better place through Open Source"
-      val expectedSearchSessionLoading = SearchUiState.Loading()
-      val expectedSessionSearchList = SearchUiState.ListSearch(
-        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
-        query = SearchQuery(""),
-        filterDayUiState = SearchFilterUiState(
-          items = dayTabs,
-        ),
-        filterRoomUiState = SearchFilterUiState(
-          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
-        ),
-        filterTrackUiState = SearchFilterUiState(
-          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
-        ),
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day2Event2)
+    val searchTerm = "Making the world a better place through Open Source"
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      query = SearchQuery(searchTerm),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.QuerySearch(searchTerm),
       )
 
-      val expectedSearchListFiltered = expectedSessionSearchList.copy(
-        sessionItemMap = events.sortAndGroupedEventsItems(),
-        query = SearchQuery(searchTerm),
-      )
+      val actualSessionSearchListFiltered = expectMostRecentItem()
 
-      sut.test {
-        val actualSearchSessionLoading = awaitItem()
-        val actualSessionSearchUiState = awaitItem()
+      val actualSessionItemMap = (
+        actualSessionSearchListFiltered.content as SearchUiState.ListSearch
+        ).sessionItemMap
+      assertTrue(actualSessionItemMap.size == 1)
+      val actualSearchList = actualSessionItemMap.values.first()
 
-        actualSessionSearchUiState.eventSink(
-          SessionSearchUiEvent.QuerySearch(searchTerm),
-        )
-
-        val actualSessionSearchListFiltered = expectMostRecentItem()
-
-        val actualSearchList = (actualSessionSearchListFiltered.content as SearchUiState.ListSearch)
-          .sessionItemMap["2024-02-04T10:002024-02-04T10:50"]
-
-        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
-        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
-        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
-        assertTrue(actualSearchList?.size == 1)
-        assertTrue(actualSearchList?.first()?.title?.contains(searchTerm) ?: false)
-      }
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      assertTrue(actualSearchList.size == 1)
+      assertTrue(actualSearchList.first().title.contains(searchTerm))
     }
+  }
 
   @Test
   fun `should filter events by its abstract text`() = coroutineTestRule.runTest {
-      givenEventListAndRoomsAndTracks()
-      val events = listOf(day1Event2)
-      val searchTerm = "February 2023 marks the 25th Anniversary of Open Source"
-      val expectedSearchSessionLoading = SearchUiState.Loading()
-      val expectedSessionSearchList = SearchUiState.ListSearch(
-        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
-        query = SearchQuery(""),
-        filterDayUiState = SearchFilterUiState(
-          items = dayTabs,
-        ),
-        filterRoomUiState = SearchFilterUiState(
-          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
-        ),
-        filterTrackUiState = SearchFilterUiState(
-          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
-        ),
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day1Event2)
+    val searchTerm = "February 2023 marks the 25th Anniversary of Open Source"
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      query = SearchQuery(searchTerm),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.QuerySearch(searchTerm),
       )
 
-      val expectedSearchListFiltered = expectedSessionSearchList.copy(
-        sessionItemMap = events.sortAndGroupedEventsItems(),
-        query = SearchQuery(searchTerm),
-      )
+      val actualSessionSearchListFiltered = expectMostRecentItem()
 
-      sut.test {
-        val actualSearchSessionLoading = awaitItem()
-        val actualSessionSearchUiState = awaitItem()
+      val actualSessionItemMap = (
+        actualSessionSearchListFiltered.content as SearchUiState.ListSearch
+        ).sessionItemMap
+      assertTrue(actualSessionItemMap.size == 1)
+      val actualSearchList = actualSessionItemMap.values.first()
 
-        actualSessionSearchUiState.eventSink(
-          SessionSearchUiEvent.QuerySearch(searchTerm),
-        )
-
-        val actualSessionSearchListFiltered = expectMostRecentItem()
-
-        val actualSearchList = (actualSessionSearchListFiltered.content as SearchUiState.ListSearch)
-          .sessionItemMap["2024-02-03T10:002024-02-03T10:50"]
-
-        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
-        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
-        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
-        assertTrue(actualSearchList?.size == 1)
-        assertTrue(actualSearchList?.first()?.abstractText?.contains(searchTerm) ?: false)
-      }
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      assertTrue(actualSearchList.size == 1)
+      assertTrue(actualSearchList.first().abstractText.contains(searchTerm))
     }
+  }
 
   @Test
   fun `should filter events by its description`() = coroutineTestRule.runTest {
-      givenEventListAndRoomsAndTracks()
-      val events = listOf(day1Event)
-      val searchTerm = "Welcome to FOSDEM 2023!"
-      val expectedSearchSessionLoading = SearchUiState.Loading()
-      val expectedSessionSearchList = SearchUiState.ListSearch(
-        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
-        query = SearchQuery(""),
-        filterDayUiState = SearchFilterUiState(
-          items = dayTabs,
-        ),
-        filterRoomUiState = SearchFilterUiState(
-          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
-        ),
-        filterTrackUiState = SearchFilterUiState(
-          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
-        ),
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day1Event)
+    val searchTerm = "Welcome to FOSDEM 2023!"
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      query = SearchQuery(searchTerm),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.QuerySearch(searchTerm),
       )
 
-      val expectedSearchListFiltered = expectedSessionSearchList.copy(
-        sessionItemMap = events.sortAndGroupedEventsItems(),
-        query = SearchQuery(searchTerm),
-      )
+      val actualSessionSearchListFiltered = expectMostRecentItem()
 
-      sut.test {
-        val actualSearchSessionLoading = awaitItem()
-        val actualSessionSearchUiState = awaitItem()
-
-        actualSessionSearchUiState.eventSink(
-          SessionSearchUiEvent.QuerySearch(searchTerm),
-        )
-
-        val actualSessionSearchListFiltered = expectMostRecentItem()
-
-        val actualSessionItemMap = (actualSessionSearchListFiltered.content as SearchUiState.ListSearch)
-          .sessionItemMap
-        assertTrue(actualSessionItemMap.size == 1)
-        val actualSearchList = actualSessionItemMap.values.first()
-        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
-        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
-        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
-        assertTrue(actualSearchList.size == 1)
-        assertTrue(actualSearchList.first().description.contains(searchTerm))
-      }
+      val actualSessionItemMap = (
+        actualSessionSearchListFiltered.content as SearchUiState.ListSearch
+        ).sessionItemMap
+      assertTrue(actualSessionItemMap.size == 1)
+      val actualSearchList = actualSessionItemMap.values.first()
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      assertTrue(actualSearchList.size == 1)
+      assertTrue(actualSearchList.first().description.contains(searchTerm))
     }
+  }
 
   private fun givenEventListAndRoomsAndTracks() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
