@@ -328,7 +328,7 @@ class SessionSearchPresenterTest {
   }
 
   @Test
-  fun `should load events, tracks and its associated rooms and go to an event detail`() =
+  fun `should load events, tracks and its associated rooms and navigate to an event detail`() =
     coroutineTestRule.runTest {
       givenEventListAndRoomsAndTracks()
       val expectedSearchSessionLoading = SearchUiState.Loading()
@@ -358,6 +358,46 @@ class SessionSearchPresenterTest {
         )
 
         assertEquals(SessionDetailScreen(1), navigator.awaitNextScreen())
+      }
+    }
+
+  @Test
+  fun `should load events, tracks and its associated rooms and successfully bookmark an event`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val expectedBookmarkedEvent = day1Event.copy(isBookmarked = true)
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.ToggleSessionBookmark(day1Event.id),
+        )
+
+        expectNoEvents()
+        ensureAllEventsConsumed()
+        assertEquals(
+          expectedBookmarkedEvent,
+          fakeRepository.events().first { it.id == day1Event.id }
+        )
       }
     }
 
