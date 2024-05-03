@@ -25,8 +25,10 @@ import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -54,6 +56,12 @@ class SessionSearchPresenterTest {
     roomsRepository = roomRepository,
     eventsRepository = eventsRepository,
   )
+
+  @AfterEach
+  fun tearDown() {
+    fakeRepository.clearEvents()
+    fakeRoomsRepository.clearRooms()
+  }
 
   @Test
   fun `should load events, tracks and its associated rooms for search`() =
@@ -106,6 +114,56 @@ class SessionSearchPresenterTest {
 
         assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
         assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      }
+    }
+
+  @Test
+  fun `should filter events list by day`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val events = listOf(day2Event1, day2Event2, day2Event3)
+      val day2Tab = dayTabs[1]
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      val expectedSearchListFiltered = expectedSessionSearchList.copy(
+        sessionItemMap = events.sortAndGroupedEventsItems(),
+        filterDayUiState = SearchFilterUiState(
+          selectedItems = listOf(day2Tab).toPersistentList(),
+          selectedValues = day2Tab.title,
+          items = dayTabs,
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.FilterDay(day2Tab, isSelected = true),
+        )
+
+        // I don't understand why this emission occurred
+        val actualSessionSearchListFiltered1 = awaitItem()
+        // The emission that occurred as a result of the filter event
+        val actualSessionSearchListFiltered = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered1.content)
+        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
       }
     }
 
