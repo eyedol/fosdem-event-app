@@ -40,21 +40,21 @@ import kotlinx.coroutines.flow.map
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseSearchSessionUiPresenter(
-  eventsRepository: EventsRepository,
-  roomsRepository: RoomsRepository,
+  eventsRepository: Lazy<EventsRepository>,
+  roomsRepository: Lazy<RoomsRepository>,
 ) : Presenter<SessionSearchUiState> {
 
-  private val filterTracks = eventsRepository.getTracks().map { results ->
+  private val filterTracks = eventsRepository.value.getTracks().map { results ->
     results.map { it.toFilterTrack() }
   }
 
-  private val filterRooms = roomsRepository.getRooms().map { results ->
+  private val filterRooms = roomsRepository.value.getRooms().map { results ->
     results.map { it.toFilterRoom() }
   }
 
   private val events = combine(
-    eventsRepository.getEvents(saturdayTab.date),
-    eventsRepository.getEvents(sundayTab.date),
+    eventsRepository.value.getEvents(saturdayTab.date),
+    eventsRepository.value.getEvents(sundayTab.date),
   ) { saturdayEvents, sundayEvents ->
     saturdayEvents + sundayEvents
   }

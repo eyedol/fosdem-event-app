@@ -48,8 +48,8 @@ class SessionSearchUiPresenterFactory(
 @Inject
 class SessionSearchPresenter(
   @Assisted private val navigator: Navigator,
-  roomsRepository: RoomsRepository,
-  private val eventsRepository: EventsRepository,
+  roomsRepository: Lazy<RoomsRepository>,
+  private val eventsRepository: Lazy<EventsRepository>,
 ) : BaseSearchSessionUiPresenter(eventsRepository, roomsRepository) {
 
   @Composable
@@ -93,7 +93,7 @@ class SessionSearchPresenter(
         }
 
         is SessionSearchUiEvent.ToggleSessionBookmark -> {
-          scope.launch { eventsRepository.toggleBookmark(event.eventId) }
+          scope.launch { eventsRepository.value.toggleBookmark(event.eventId) }
         }
 
         is SessionSearchUiEvent.QuerySearch -> query = event.query
