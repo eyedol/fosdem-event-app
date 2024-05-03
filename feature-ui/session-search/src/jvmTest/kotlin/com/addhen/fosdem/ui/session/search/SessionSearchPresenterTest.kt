@@ -215,6 +215,53 @@ class SessionSearchPresenterTest {
       }
     }
 
+  @Test
+  fun `should filter events by abstract text`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val events = listOf(day1Event2)
+      val searchTerm = "February 2023 marks the 25th Anniversary of Open Source"
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      val expectedSearchListFiltered = expectedSessionSearchList.copy(
+        sessionItemMap = events.sortAndGroupedEventsItems(),
+        query = SearchQuery(searchTerm),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.QuerySearch(searchTerm),
+        )
+
+        val actualSessionSearchListFiltered = expectMostRecentItem()
+
+        val actualSearchList = (actualSessionSearchListFiltered.content as SearchUiState.ListSearch)
+          .sessionItemMap["2024-02-03T10:002024-02-03T10:50"]
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+        assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+        assertTrue(actualSearchList?.size == 1)
+        assertTrue(actualSearchList?.first()?.abstractText?.contains(searchTerm) ?: false)
+      }
+    }
+
   private fun givenEventListAndRoomsAndTracks() {
     val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
     fakeRepository.addEvents(*events.toTypedArray())
