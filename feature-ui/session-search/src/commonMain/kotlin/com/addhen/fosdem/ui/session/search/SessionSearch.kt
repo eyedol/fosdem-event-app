@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.ui.session.component.DayTab
@@ -38,12 +39,16 @@ internal fun SessionSearch(
   uiState: SessionSearchUiState,
   modifier: Modifier = Modifier,
 ) {
+  val localFocusManager = LocalFocusManager.current
   val eventSink = uiState.eventSink
 
   SessionSearchScreen(
     uiState = uiState,
     onSearchQueryChanged = { eventSink(SessionSearchUiEvent.QuerySearch(it)) },
-    onSessionItemClick = { eventSink(SessionSearchUiEvent.GoToSessionDetails(it)) },
+    onSessionItemClick = {
+      localFocusManager.clearFocus()
+      eventSink(SessionSearchUiEvent.GoToSessionDetails(it))
+    },
     onBookmarkClick = { eventId ->
       eventSink(SessionSearchUiEvent.ToggleSessionBookmark(eventId))
     },

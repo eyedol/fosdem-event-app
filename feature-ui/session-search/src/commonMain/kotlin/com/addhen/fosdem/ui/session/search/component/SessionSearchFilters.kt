@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 const val SearchFilterTestTag = "SearchFilter"
 
-data class SearchFilterUiState<T>(
+data class SearchFilterUiState<out T>(
   val selectedItems: ImmutableList<T> = emptyList<T>().toImmutableList(),
   val items: ImmutableList<T> = emptyList<T>().toImmutableList(),
   val isSelected: Boolean = false,

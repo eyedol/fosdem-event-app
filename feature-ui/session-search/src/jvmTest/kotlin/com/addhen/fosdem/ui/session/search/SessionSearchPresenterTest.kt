@@ -7,11 +7,28 @@ import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
 import com.addhen.fosdem.data.rooms.api.repository.RoomsRepository
 import com.addhen.fosdem.model.api.Room
+import com.addhen.fosdem.model.api.Track
+import com.addhen.fosdem.model.api.day1Event
+import com.addhen.fosdem.model.api.day1Event2
+import com.addhen.fosdem.model.api.day2Event1
+import com.addhen.fosdem.model.api.day2Event2
+import com.addhen.fosdem.model.api.day2Event3
+import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.fake.event.FakeEventsRepository
+import com.addhen.fosdem.ui.session.component.FilterRoom
+import com.addhen.fosdem.ui.session.component.FilterTrack
+import com.addhen.fosdem.ui.session.component.SearchQuery
+import com.addhen.fosdem.ui.session.component.dayTabs
+import com.addhen.fosdem.ui.session.search.component.SearchFilterUiState
+import com.addhen.fosdem.ui.session.search.component.SearchUiState
 import com.slack.circuit.test.FakeNavigator
+import com.slack.circuit.test.test
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -38,6 +55,73 @@ class SessionSearchPresenterTest {
     eventsRepository = eventsRepository,
   )
 
+  @Test
+  fun `should load events, tracks and its associated rooms for search`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      }
+    }
+
+  @Test
+  fun `should load empty events, tracks and its associated rooms for search`() =
+    coroutineTestRule.runTest {
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.Empty(
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      }
+    }
+
+  private fun givenEventListAndRoomsAndTracks() {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    fakeRepository.addEvents(*events.toTypedArray())
+    fakeRoomsRepository.addRooms(
+      Room(1, "room1"),
+      Room(2, "room2"),
+    )
+    fakeRepository.addTracks(
+      Track("track1", "type1"),
+      Track("track2", "type2"),
+    )
+  }
+
   internal class FakeRoomsRepository : RoomsRepository {
     val shouldCauseAnError: AtomicBoolean = AtomicBoolean(false)
     private val rooms = mutableListOf<Room>()
@@ -52,6 +136,8 @@ class SessionSearchPresenterTest {
     fun addRooms(vararg room: Room) {
       rooms.addAll(room)
     }
+
+    fun rooms() = rooms.toList()
 
     fun clearRooms() {
       rooms.clear()

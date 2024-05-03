@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalFocusManager
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -55,7 +54,6 @@ class SessionSearchPresenter(
   @Composable
   override fun present(): SessionSearchUiState {
     val scope = rememberCoroutineScope()
-    val localFocusManager = LocalFocusManager.current
     var query by rememberSaveable { mutableStateOf("") }
 
     var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
@@ -76,7 +74,6 @@ class SessionSearchPresenter(
     fun eventSink(event: SessionSearchUiEvent) {
       when (event) {
         is SessionSearchUiEvent.GoToSessionDetails -> {
-          localFocusManager.clearFocus()
           navigator.goTo(SessionDetailScreen(event.eventId))
         }
 

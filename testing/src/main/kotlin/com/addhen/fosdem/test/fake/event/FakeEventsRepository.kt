@@ -66,8 +66,13 @@ class FakeEventsRepository : EventsRepository {
 
   fun clearEvents() {
     events.clear()
+    tracks.clear()
     shouldCauseAnError.set(false)
   }
 
   fun events(): List<Event> = events.toList()
+
+  fun tracks(): List<Track> = tracks.toList()
+
+  fun addTracks(vararg newTracks: Track) = tracks.addAll(newTracks)
 }
