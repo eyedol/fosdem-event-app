@@ -96,7 +96,7 @@ class SessionSearchPresenterTest {
     }
 
   @Test
-  fun `should load empty events, tracks and its associated rooms for search`() =
+  fun `given no event is loaded should show empty view`() =
     coroutineTestRule.runTest {
       val expectedSearchSessionLoading = SearchUiState.Loading()
       val expectedSessionSearchList = SearchUiState.Empty(
@@ -421,6 +421,54 @@ class SessionSearchPresenterTest {
       assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
       assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
       assertTrue(actualSearchList.size == 1)
+    }
+  }
+
+  @Test
+  fun `should filter events by a title that does not exist and should show empty search view`() =
+    coroutineTestRule.runTest {
+    givenEventListAndRoomsAndTracks()
+    val searchTerm = "adkdladkaddld"
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+    val expectedSessionSearchEmpty = SearchUiState.Empty(
+      query = SearchQuery(searchTerm),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.QuerySearch(searchTerm),
+      )
+
+      val actualSessionSearchListFiltered = expectMostRecentItem()
+
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals( expectedSessionSearchEmpty, actualSessionSearchListFiltered.content)
     }
   }
 
