@@ -14,6 +14,7 @@ import com.addhen.fosdem.model.api.day1Event2
 import com.addhen.fosdem.model.api.day2Event1
 import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
+import com.addhen.fosdem.model.api.room3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.fake.event.FakeEventsRepository
@@ -311,6 +312,60 @@ class SessionSearchPresenterTest {
       assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
       assertTrue(actualSearchList.size == 1)
       assertTrue(actualSearchList.first().description.contains(searchTerm))
+    }
+  }
+
+  @Test
+  fun `should filter events list by room`() = coroutineTestRule.runTest {
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day2Event3)
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        selectedItems = listOf(FilterRoom(room3.id, room3.name)).toPersistentList(),
+        selectedValues = room3.name,
+      ),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.FilterSessionRoom(
+          FilterRoom(room3.id, room3.name),
+          isSelected = true,
+        ),
+      )
+
+      val actualSessionSearchListFiltered = expectMostRecentItem()
+
+      val actualSessionItemMap = (
+        actualSessionSearchListFiltered.content as SearchUiState.ListSearch
+        ).sessionItemMap
+      assertTrue(actualSessionItemMap.size == 1)
+      val actualSearchList = actualSessionItemMap.values.first()
+
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      assertTrue(actualSearchList.size == 1)
     }
   }
 

@@ -81,6 +81,11 @@ val room2 = Room(
   name = "Janson",
 )
 
+val room3 = Room(
+  id = 3,
+  name = "dev room",
+)
+
 val link3 = Link(
   id = 3,
   url = "https://link3.come",
@@ -283,7 +288,7 @@ val day2Event3 = Event(
   day = day2,
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
-  room = room2,
+  room = room3,
   track = Track("Main Track", "maintrack"),
   attachments = listOf(attachment2),
 )
