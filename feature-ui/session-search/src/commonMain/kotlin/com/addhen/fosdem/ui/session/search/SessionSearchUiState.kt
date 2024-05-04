@@ -44,4 +44,6 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
   data class QuerySearch(val query: String) : SessionSearchUiEvent
 
   data class ClearMessage(val messageId: Long) : SessionSearchUiEvent
+
+  data object TryAgain : SessionSearchUiEvent
 }

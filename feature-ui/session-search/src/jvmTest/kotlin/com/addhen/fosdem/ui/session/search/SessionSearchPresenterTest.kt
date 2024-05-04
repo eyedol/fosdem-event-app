@@ -660,6 +660,25 @@ class SessionSearchPresenterTest {
       }
     }
 
+  @Test
+  fun `should fail to load events as getting rooms failed`() = coroutineTestRule.runTest {
+    givenEventListAndRoomsAndTracks()
+    fakeRoomsRepository.shouldCauseAnError.set(true)
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchError = awaitItem()
+
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(
+        "Error occurred while getting rooms",
+        actualSessionSearchError.message?.message,
+      )
+      assertEquals("Try again", actualSessionSearchError.message?.actionLabel)
+    }
+  }
+
   internal class FakeRoomsRepository : RoomsRepository {
     val shouldCauseAnError: AtomicBoolean = AtomicBoolean(false)
     private val rooms = mutableListOf<Room>()
