@@ -4,6 +4,7 @@
 package com.addhen.fosdem.ui.session.search
 
 import androidx.compose.runtime.Immutable
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
 import com.addhen.fosdem.ui.session.component.FilterTrack
@@ -14,6 +15,7 @@ import com.slack.circuit.runtime.CircuitUiState
 @Immutable
 data class SessionSearchUiState(
   val content: SearchUiState,
+  val message: UiMessage? = null,
   val eventSink: (SessionSearchUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -40,4 +42,6 @@ sealed interface SessionSearchUiEvent : CircuitUiEvent {
   ) : SessionSearchUiEvent
 
   data class QuerySearch(val query: String) : SessionSearchUiEvent
+
+  data class ClearMessage(val messageId: Long) : SessionSearchUiEvent
 }

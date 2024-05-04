@@ -5,10 +5,12 @@ package com.addhen.fosdem.ui.session.search
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
+import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
@@ -61,6 +63,8 @@ internal fun SessionSearch(
     onSessionRoomSelected = { room, isSelected ->
       eventSink(SessionSearchUiEvent.FilterSessionRoom(room, isSelected))
     },
+    snackbarHostState = SnackbarHostState(),
+    onMessageShown = { eventSink(SessionSearchUiEvent.ClearMessage(it)) },
     modifier = modifier,
   )
 }
@@ -70,6 +74,8 @@ const val SearchScreenTestTag = "SearchScreenTestTag"
 @Composable
 private fun SessionSearchScreen(
   uiState: SessionSearchUiState,
+  snackbarHostState: SnackbarHostState,
+  onMessageShown: (Long) -> Unit,
   onSearchQueryChanged: (String) -> Unit = {},
   onSessionItemClick: (Long) -> Unit,
   onBookmarkClick: (Long) -> Unit,
@@ -79,6 +85,13 @@ private fun SessionSearchScreen(
   modifier: Modifier,
 ) {
   val scrollState = rememberLazyListState()
+
+  SnackbarMessageEffect(
+    snackbarHostState = snackbarHostState,
+    message = uiState.message,
+    onMessageShown = onMessageShown,
+  )
+
   Scaffold(
     modifier = modifier.testTag(SearchScreenTestTag),
     topBar = {

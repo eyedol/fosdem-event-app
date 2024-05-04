@@ -5,11 +5,17 @@ package com.addhen.fosdem.ui.session.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
+import com.addhen.fosdem.compose.common.ui.api.UiMessage
+import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
 import com.addhen.fosdem.data.events.api.repository.EventsRepository
@@ -55,6 +61,8 @@ class SessionSearchPresenter(
   override fun present(): SessionSearchUiState {
     val scope = rememberCoroutineScope()
     var query by rememberSaveable { mutableStateOf("") }
+    val uiMessageManager = remember { UiMessageManager() }
+    val message by uiMessageManager.message.collectAsState(null)
 
     var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
       mutableStateOf(SessionFilters())
@@ -89,14 +97,23 @@ class SessionSearchPresenter(
           selectedFilters = onTrackSelected(selectedFilters, event.track, event.isSelected)
         }
 
-        is SessionSearchUiEvent.ToggleSessionBookmark -> {
-          scope.launch { eventsRepository.value.toggleBookmark(event.eventId) }
+        is SessionSearchUiEvent.ToggleSessionBookmark -> scope.launch {
+          eventsRepository.value
+            .toggleBookmark(event.eventId)
+            .onException {
+              Logger.e(it) { "Error occurred while toggling bookmark" }
+              uiMessageManager.emitMessage(UiMessage(it))
+            }
         }
 
         is SessionSearchUiEvent.QuerySearch -> query = event.query
+
+        is SessionSearchUiEvent.ClearMessage -> scope.launch {
+          uiMessageManager.clearMessage(event.messageId)
+        }
       }
     }
 
-    return SessionSearchUiState(searchUiState, ::eventSink)
+    return SessionSearchUiState(searchUiState, message, ::eventSink)
   }
 }

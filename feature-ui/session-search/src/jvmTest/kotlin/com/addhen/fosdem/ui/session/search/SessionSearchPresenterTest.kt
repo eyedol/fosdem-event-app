@@ -396,7 +396,7 @@ class SessionSearchPresenterTest {
         ensureAllEventsConsumed()
         assertEquals(
           expectedBookmarkedEvent,
-          fakeRepository.events().first { it.id == day1Event.id }
+          fakeRepository.events().first { it.id == day1Event.id },
         )
       }
     }
