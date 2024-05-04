@@ -41,13 +41,17 @@ class FakeEventsRepository : EventsRepository {
 
   override fun getEvent(id: Long): Flow<Event> = flow {
     if (shouldCauseAnError.get()) {
-      println("Error occurred while getting event with id: $id")
       throw RuntimeException("Error occurred while getting event with id: $id")
     }
     emit(events.first { it.id == id })
   }
 
-  override fun getTracks(): Flow<List<Track>> = flow { emit(tracks) }
+  override fun getTracks(): Flow<List<Track>> = flow {
+    if (shouldCauseAnError.get()) {
+      throw RuntimeException("Error occurred while getting tracks")
+    }
+    emit(tracks)
+  }
 
   override suspend fun toggleBookmark(id: Long): Result<Unit> {
     if (shouldCauseAnError.get()) {
