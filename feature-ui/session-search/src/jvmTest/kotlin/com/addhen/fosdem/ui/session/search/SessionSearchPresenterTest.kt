@@ -16,6 +16,7 @@ import com.addhen.fosdem.model.api.day2Event2
 import com.addhen.fosdem.model.api.day2Event3
 import com.addhen.fosdem.model.api.room3
 import com.addhen.fosdem.model.api.sortAndGroupedEventsItems
+import com.addhen.fosdem.model.api.track2
 import com.addhen.fosdem.test.CoroutineTestRule
 import com.addhen.fosdem.test.fake.event.FakeEventsRepository
 import com.addhen.fosdem.ui.session.component.FilterRoom
@@ -350,6 +351,60 @@ class SessionSearchPresenterTest {
       actualSessionSearchUiState.eventSink(
         SessionSearchUiEvent.FilterSessionRoom(
           FilterRoom(room3.id, room3.name),
+          isSelected = true,
+        ),
+      )
+
+      val actualSessionSearchListFiltered = expectMostRecentItem()
+
+      val actualSessionItemMap = (
+        actualSessionSearchListFiltered.content as SearchUiState.ListSearch
+        ).sessionItemMap
+      assertTrue(actualSessionItemMap.size == 1)
+      val actualSearchList = actualSessionItemMap.values.first()
+
+      assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+      assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+      assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
+      assertTrue(actualSearchList.size == 1)
+    }
+  }
+
+  @Test
+  fun `should filter events list by track`() = coroutineTestRule.runTest {
+    givenEventListAndRoomsAndTracks()
+    val events = listOf(day2Event2)
+    val expectedSearchSessionLoading = SearchUiState.Loading()
+    val expectedSessionSearchList = SearchUiState.ListSearch(
+      sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+      query = SearchQuery(""),
+      filterDayUiState = SearchFilterUiState(
+        items = dayTabs,
+      ),
+      filterRoomUiState = SearchFilterUiState(
+        items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+      ),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+      ),
+    )
+
+    val expectedSearchListFiltered = expectedSessionSearchList.copy(
+      sessionItemMap = events.sortAndGroupedEventsItems(),
+      filterTrackUiState = SearchFilterUiState(
+        items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        selectedItems = listOf(FilterTrack(track2.name, track2.type)).toPersistentList(),
+        selectedValues = track2.name,
+      ),
+    )
+
+    sut.test {
+      val actualSearchSessionLoading = awaitItem()
+      val actualSessionSearchUiState = awaitItem()
+
+      actualSessionSearchUiState.eventSink(
+        SessionSearchUiEvent.FilterSessionTrack(
+          FilterTrack(track2.name, track2.type),
           isSelected = true,
         ),
       )

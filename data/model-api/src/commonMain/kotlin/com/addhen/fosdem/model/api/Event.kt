@@ -114,6 +114,13 @@ val day2 = Day(
   date = sunday,
 )
 
+val track3 = Track(
+  name = "Main Track3",
+  type = "maintrack3",
+)
+
+val track2 = Track("Main Track2", "maintrack2")
+
 val day1Event = Event(
   id = 1,
   startAt = LocalTime.parse("09:30"),
@@ -258,7 +265,7 @@ val day2Event2 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
   room = room2,
-  track = Track("Main Track", "maintrack"),
+  track = track2,
   attachments = listOf(attachment2),
 )
 
@@ -289,7 +296,7 @@ val day2Event3 = Event(
   links = listOf(link2),
   speakers = listOf(speaker2, speaker3),
   room = room3,
-  track = Track("Main Track", "maintrack"),
+  track = track3,
   attachments = listOf(attachment2),
 )
 
