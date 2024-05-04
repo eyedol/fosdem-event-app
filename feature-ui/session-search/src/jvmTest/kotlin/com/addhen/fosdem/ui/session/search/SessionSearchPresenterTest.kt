@@ -33,6 +33,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -560,7 +561,7 @@ class SessionSearchPresenterTest {
     }
 
   @Test
-  fun `should load events, tracks and its associated rooms and fails to bookmark an event`() =
+  fun `should load events, tracks and its associated rooms and fail to bookmark an event`() =
     coroutineTestRule.runTest {
       givenEventListAndRoomsAndTracks()
       val expectedBookmarkedEvent = day1Event.copy(isBookmarked = false)
@@ -591,10 +592,67 @@ class SessionSearchPresenterTest {
           SessionSearchUiEvent.ToggleSessionBookmark(day1Event.id),
         )
 
-        val actualSessionSearchListFiltered = expectMostRecentItem()
+        val actualSessionSearchError = expectMostRecentItem()
         expectNoEvents()
         ensureAllEventsConsumed()
-        assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered.content)
+        assertEquals(
+          "Error occurred while toggling bookmark with event id: ${day1Event.id}",
+          actualSessionSearchError.message?.message,
+        )
+        assertNull(actualSessionSearchError.message?.actionLabel)
+        assertEquals(expectedSessionSearchList, actualSessionSearchError.content)
+        assertEquals(
+          expectedBookmarkedEvent,
+          fakeRepository.events().first { it.id == day1Event.id },
+        )
+      }
+    }
+
+  @Test
+  fun `Load events, tracks, and their associated rooms, and clear bookmark failure message`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      val expectedBookmarkedEvent = day1Event.copy(isBookmarked = false)
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
+
+        fakeRepository.shouldCauseAnError.set(true)
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.ToggleSessionBookmark(day1Event.id),
+        )
+
+        val actualSessionSearchError = awaitItem()
+        assertEquals(
+          "Error occurred while toggling bookmark with event id: ${day1Event.id}",
+          actualSessionSearchError.message?.message,
+        )
+        assertNull(actualSessionSearchError.message?.actionLabel)
+
+        actualSessionSearchUiState.eventSink(
+          SessionSearchUiEvent.ClearMessage(day1Event.id),
+        )
+
+        expectNoEvents()
+        ensureAllEventsConsumed()
         assertEquals(
           expectedBookmarkedEvent,
           fakeRepository.events().first { it.id == day1Event.id },
