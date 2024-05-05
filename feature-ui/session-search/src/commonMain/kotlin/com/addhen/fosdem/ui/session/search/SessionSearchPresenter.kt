@@ -75,15 +75,14 @@ class SessionSearchPresenter(
       .catch {
         Logger.e(it) { "Error occurred" }
         uiMessageManager.emitMessage(UiMessage(it, actionLabel = appStrings.tryAgain))
-      }
-      .collectAsRetainedState(SearchUiState.Loading())
+      }.collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {
       selectedFilters = onQueryChanged(selectedFilters, query)
     }
 
     LaunchedEffect(selectedFilters) {
-      tryEmit(selectedFilters)
+      emit(selectedFilters)
     }
 
     fun eventSink(event: SessionSearchUiEvent) {
@@ -119,8 +118,11 @@ class SessionSearchPresenter(
           uiMessageManager.clearMessage(event.messageId)
         }
 
-        is SessionSearchUiEvent.TryAgain -> scope.launch {
-          selectedFilters = selectedFilters.copy(days = selectedFilters.days)
+        is SessionSearchUiEvent.TryAgain -> {
+          // TODO: Implement a way to cause a retry functionality.
+          // Attempted to do a `selectedFilters = SessionFilters()` but it doesn't emit
+          // the filters to cause a reload because of how SessionSearchPresenter#searchFilters
+          // MutableSharedFlow is configured.
         }
       }
     }

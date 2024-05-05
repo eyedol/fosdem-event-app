@@ -113,7 +113,8 @@ abstract class BaseSearchSessionUiPresenter(
     return searchFilters.copy(searchQuery = query)
   }
 
-  protected fun tryEmit(searchFilters: SessionFilters) = this.searchFilters.tryEmit(searchFilters)
+  protected suspend fun emit(searchFilters: SessionFilters) =
+    this.searchFilters.emit(searchFilters)
 
   private fun obverseSearchUiState(
     days: PersistentList<DayTab>,

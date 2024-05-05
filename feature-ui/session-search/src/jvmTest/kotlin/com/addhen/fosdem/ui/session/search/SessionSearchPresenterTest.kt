@@ -35,6 +35,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.concurrent.atomic.AtomicBoolean
@@ -473,19 +474,6 @@ class SessionSearchPresenterTest {
       }
     }
 
-  private fun givenEventListAndRoomsAndTracks() {
-    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
-    fakeRepository.addEvents(*events.toTypedArray())
-    fakeRoomsRepository.addRooms(
-      Room(1, "room1"),
-      Room(2, "room2"),
-    )
-    fakeRepository.addTracks(
-      Track("track1", "type1"),
-      Track("track2", "type2"),
-    )
-  }
-
   @Test
   fun `should load events, tracks and its associated rooms and navigate to an event detail`() =
     coroutineTestRule.runTest {
@@ -696,6 +684,54 @@ class SessionSearchPresenterTest {
       )
       assertEquals("Try again", actualSessionSearchError.message?.actionLabel)
     }
+  }
+
+  @Test
+  @Disabled("Retry logic is not implemented yet")
+  fun `should load events but getting tracks fails and tries the request again`() =
+    coroutineTestRule.runTest {
+      givenEventListAndRoomsAndTracks()
+      fakeRepository.shouldCauseAnError.set(true)
+      val expectedSearchSessionLoading = SearchUiState.Loading()
+      val expectedSessionSearchList = SearchUiState.ListSearch(
+        sessionItemMap = fakeRepository.events().sortAndGroupedEventsItems(),
+        query = SearchQuery(""),
+        filterDayUiState = SearchFilterUiState(
+          items = dayTabs,
+        ),
+        filterRoomUiState = SearchFilterUiState(
+          items = fakeRoomsRepository.rooms().map { FilterRoom(it.id, it.name) }.toImmutableList(),
+        ),
+        filterTrackUiState = SearchFilterUiState(
+          items = fakeRepository.tracks().map { FilterTrack(it.name, it.type) }.toImmutableList(),
+        ),
+      )
+
+      sut.test {
+        val actualSearchSessionLoading = awaitItem()
+        val actualSessionSearchUiState = awaitItem()
+
+        fakeRepository.shouldCauseAnError.set(false)
+        actualSessionSearchUiState.eventSink(SessionSearchUiEvent.TryAgain)
+
+        val actualSessionSearchUiStateTryAgain = awaitItem()
+
+        assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
+        assertEquals(expectedSessionSearchList, actualSessionSearchUiStateTryAgain.content)
+      }
+    }
+
+  private fun givenEventListAndRoomsAndTracks() {
+    val events = listOf(day1Event, day1Event2, day2Event1, day2Event2, day2Event3)
+    fakeRepository.addEvents(*events.toTypedArray())
+    fakeRoomsRepository.addRooms(
+      Room(1, "room1"),
+      Room(2, "room2"),
+    )
+    fakeRepository.addTracks(
+      Track("track1", "type1"),
+      Track("track2", "type2"),
+    )
   }
 
   internal class FakeRoomsRepository : RoomsRepository {

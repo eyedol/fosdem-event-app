@@ -64,6 +64,7 @@ internal fun SessionSearch(
       eventSink(SessionSearchUiEvent.FilterSessionRoom(room, isSelected))
     },
     snackbarHostState = SnackbarHostState(),
+    onSnackbarActionPerformed = { eventSink(SessionSearchUiEvent.TryAgain) },
     onMessageShown = { eventSink(SessionSearchUiEvent.ClearMessage(it)) },
     modifier = modifier,
   )
@@ -75,6 +76,7 @@ const val SearchScreenTestTag = "SearchScreenTestTag"
 private fun SessionSearchScreen(
   uiState: SessionSearchUiState,
   snackbarHostState: SnackbarHostState,
+  onSnackbarActionPerformed: () -> Unit,
   onMessageShown: (Long) -> Unit,
   onSearchQueryChanged: (String) -> Unit = {},
   onSessionItemClick: (Long) -> Unit,
@@ -89,6 +91,7 @@ private fun SessionSearchScreen(
   SnackbarMessageEffect(
     snackbarHostState = snackbarHostState,
     message = uiState.message,
+    onSnackbarActionPerformed = onSnackbarActionPerformed,
     onMessageShown = onMessageShown,
   )
 
