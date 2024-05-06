@@ -32,6 +32,21 @@ This is yet another app for the FOSDEM conference, but this one provides a multi
 > Disclaimer: The name FOSDEM and the logo are registered trademarks of FOSDEM.
 
 
+## 🛠️ Teck stack
+1. [Kotlin](https://kotlinlang.org/)
+2. [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
+3. [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) KMP
+4. [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+5. [Circuit](https://slackhq.github.io/circuit/)
+6. [Ktor](https://ktor.io/)
+7. [SqlDelight](https://cashapp.github.io/sqldelight/2.0.1/)
+8. [Kotlin Inject](https://github.com/evant/kotlin-inject)
+9. [Kotlinx Serialization](https://kotlinlang.org/docs/serialization.html)
+10. [KSoup](https://github.com/MohamedRejeb/Ksoup)
+11. [Lyricist](https://github.com/adrielcafe/lyricist)
+12. [DeployGate](https://deploygate.com)
+13. [Github Actions](https://docs.github.com/en/actions)
+
 ## ✍️ Author
 
 👤 **Henry Addo**
