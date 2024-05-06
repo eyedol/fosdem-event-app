@@ -6,8 +6,31 @@
 
 
 <div style="display: inline-block"  align="center">
-<h1>FOSDEM Event App - unofficial</h1>
+	<h1>FOSDEM Event App - unofficial</h1>
+	<p>
+		<img src="https://img.shields.io/github/v/release/eyedol/fosdem?style=flat" alt="Latest App Versions">
+  		<a href="https://f-droid.org/en/packages/com.addhen.fosdem.android.app">
+<img src="https://img.shields.io/f-droid/v/com.addhen.fosdem.android.app?style=flat" />
+</a>
+<br />
+<a href="https://kotlinlang.org">
+<img alt="Kotlin version badge" src="https://img.shields.io/badge/dynamic/toml?url=https://raw.githubusercontent.com/eyedol/fosdem/trunk/gradle/libs.versions.toml&query=versions.kotlin&style=flat&logo=kotlin&label=Kotlin">
+</a>
+
+<a href="https://f-droid.org/en/packages/com.addhen.fosdem.android.app/"><img <img alt="F-Droid Version" src="https://img.shields.io/f-droid/v/com.addhen.fosdem.android.app">
+</a>
+<br />
+<img alt="Android Platform" src="https://img.shields.io/badge/platform-android-6EDB8D?style=flat">
+<img alt="Static Badge" src="https://img.shields.io/badge/platform-desktop-DB413D?style=flat">
+
 </div>
+
+[FOSDEM](https://fosdem.org/) is a free annual event held in **Brussels, Belgium** for software developers to meet, share ideas and collaborate.
+
+This is a multi-platform client app to check the various sessions the event has to offer.
+
+> Disclaimer: The name FOSDEM and the logo are registered trademarks of FOSDEM.
+
 
 ## ✍️ Author
 
