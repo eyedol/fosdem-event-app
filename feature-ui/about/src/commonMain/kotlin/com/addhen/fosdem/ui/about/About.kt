@@ -34,7 +34,9 @@ import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
 
-const val AboutScreenTestTag = "SessionDetailScreen"
+const val AboutScreenTestTag = "AboutScreen"
+
+private const val PRIVACY_POLICY_URL = "https://eyedol.github.io/fosdem/privacy-policy.html"
 
 @Inject
 class AboutUiFactory : Ui.Factory {
@@ -128,7 +130,7 @@ private fun AboutScreen(
             onAboutItemClick(AboutItem.License)
           },
           onPrivacyPolicyItemClick = {
-            onAboutItemClick(AboutItem.PrivacyPolicy(""))
+            onAboutItemClick(AboutItem.PrivacyPolicy(PRIVACY_POLICY_URL))
           },
           licenseLabel = appStrings.licenseTitle,
           privacyPolicy = appStrings.privacyPolicyTitle,
