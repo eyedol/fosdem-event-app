@@ -27,7 +27,7 @@
 
 [FOSDEM](https://fosdem.org/) is a free annual event held in **Brussels, Belgium** for software developers to meet, share ideas and collaborate.
 
-This is a multi-platform client app to check the various sessions the event has to offer.
+This is yet another app for the FOSDEM conference, but this one provides a multi-platform client app.
 
 > Disclaimer: The name FOSDEM and the logo are registered trademarks of FOSDEM.
 
