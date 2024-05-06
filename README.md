@@ -32,6 +32,14 @@ This is yet another app for the FOSDEM conference, but this one provides a multi
 > Disclaimer: The name FOSDEM and the logo are registered trademarks of FOSDEM.
 
 
+## Try it out
+
+### Development version
+
+You can test the development app through DeployGate.
+
+[<img src="https://dply.me/qgph1r/button/large" alt="Try it on your device via DeployGate">](https://dply.me/qgph1r#install)
+
 ## 🛠️ Teck stack
 1. [Kotlin](https://kotlinlang.org/)
 2. [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
