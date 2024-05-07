@@ -46,6 +46,16 @@ You can test the development app through DeployGate.
 12. [DeployGate](https://deploygate.com) – Development build distributions 
 13. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
 
+
+## 🫡 Credits
+This project had a lot of inspiration, borrowed a lot of code and ideas from a lot of other people's work. Especially the following projects helped a lot to make this project come to live:
+
+- [DroidKaigi conference-app-2023](https://github.com/DroidKaigi/conference-app-2023) – Borrowed a lot of their code and UIs
+- [Tivi App](https://github.com/chrisbanes/tivi) – Borrowed a lot of their code to architect the app
+- [FOSDEM companion android](https://github.com/cbeyls/fosdem-companion-android?tab=readme-ov-file) – Lots of inspiration in figuring out how to work with FOSDEM XML-based data
+- [NYTimes-KMP](https://github.com/xxfast/NYTimes-KMP) – Used it to figure out how to add WearOS support
+
+
 ## ✍️ Author
 
 👤 **Henry Addo**
