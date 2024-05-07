@@ -32,19 +32,19 @@ You can test the development app through DeployGate.
 [<img src="https://dply.me/qgph1r/button/large" alt="Try it on your device via DeployGate">](https://dply.me/qgph1r#install)
 
 ## 🛠️ Teck stack
-1. [Kotlin](https://kotlinlang.org/)
-2. [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
-3. [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) KMP
-4. [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
-5. [Circuit](https://slackhq.github.io/circuit/)
-6. [Ktor](https://ktor.io/)
-7. [SqlDelight](https://cashapp.github.io/sqldelight/2.0.1/)
-8. [Kotlin Inject](https://github.com/evant/kotlin-inject)
-9. [Kotlinx Serialization](https://kotlinlang.org/docs/serialization.html)
-10. [KSoup](https://github.com/MohamedRejeb/Ksoup)
-11. [Lyricist](https://github.com/adrielcafe/lyricist)
-12. [DeployGate](https://deploygate.com)
-13. [Github Actions](https://docs.github.com/en/actions)
+1. [Kotlin](https://kotlinlang.org/) – Programming language
+2. [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) – Async calls
+3. [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) KMP – Multiplatfrom support
+4. [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) – Multiplatform UI support
+5. [Circuit](https://slackhq.github.io/circuit/) – Multiplatform UI architecture
+6. [Ktor](https://ktor.io/) – Network calls
+7. [SqlDelight](https://cashapp.github.io/sqldelight/2.0.1/) – Local storage
+8. [Kotlin Inject](https://github.com/evant/kotlin-inject) – Dependency injection
+9. [Kotlinx Serialization](https://kotlinlang.org/docs/serialization.html) – Serializations
+10. [KSoup](https://github.com/MohamedRejeb/Ksoup) – HTML parser
+11. [Lyricist](https://github.com/adrielcafe/lyricist) – Localization & i18 support
+12. [DeployGate](https://deploygate.com) – Development build distributions 
+13. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
 
 ## ✍️ Author
 
