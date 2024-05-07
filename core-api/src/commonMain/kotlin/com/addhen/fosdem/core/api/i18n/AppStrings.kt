@@ -59,6 +59,7 @@ data class AppStrings(
   val taglineDevRooms: String,
   val taglineHackers: String,
   val taglineTalks: String,
+  val fosdemDisclaimer: String,
 )
 
 object Locales {
