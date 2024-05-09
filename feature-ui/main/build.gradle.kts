@@ -18,19 +18,19 @@ android {
 kotlin {
   sourceSets {
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation(libs.androidx.activity.compose)
       }
     }
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.ktor.client.okhttp)
       }
     }
 
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.data.eventsApi)
         implementation(projects.data.modelApi)

@@ -22,7 +22,7 @@ kotlin {
   }
 
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.data.modelApi)
         implementation(projects.data.coreApi)

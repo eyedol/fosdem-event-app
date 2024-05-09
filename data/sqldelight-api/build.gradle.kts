@@ -12,7 +12,7 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(libs.kotlinx.datetime)
         implementation(libs.kotlinx.coroutines.core)
@@ -22,19 +22,19 @@ kotlin {
       }
     }
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation(libs.sqldelight.android)
       }
     }
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.sqldelight.sqlite)
       }
     }
 
-    val iosMain by getting {
+    iosMain {
       dependencies {
         implementation(libs.sqldelight.native)
       }

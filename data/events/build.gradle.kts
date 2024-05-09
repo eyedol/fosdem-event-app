@@ -21,7 +21,7 @@ kotlin {
   }
 
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.coreApi)
         implementation(projects.data.coreApi)
@@ -35,8 +35,7 @@ kotlin {
       }
     }
 
-    val commonTest by getting {
-    }
+    commonTest {}
 
     // Because Java has great tools for testing. The idea is to test common code on
     // the JVM and if something requires platform specific, test is on the specific platform.

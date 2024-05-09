@@ -12,7 +12,7 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.coreApi)
         implementation(projects.composeUi.html)
@@ -30,7 +30,7 @@ kotlin {
       }
     }
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation(libs.compose.ui.tooling.preview)
         implementation(libs.androidx.activity.compose)

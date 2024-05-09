@@ -17,7 +17,7 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(libs.ktor.client.core)
         implementation(libs.ktor.client.logging)
@@ -33,7 +33,7 @@ kotlin {
       }
     }
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation(libs.xml.util.serialization.android)
         implementation(libs.sqldelight.android)
@@ -41,7 +41,7 @@ kotlin {
       }
     }
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.xml.util.serialization.jvm)
         implementation(libs.ktor.client.okhttp)
@@ -49,7 +49,7 @@ kotlin {
       }
     }
 
-    val iosMain by getting {
+    iosMain {
       dependencies {
         implementation(libs.sqldelight.native)
         implementation(libs.ktor.client.darwin)

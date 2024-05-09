@@ -16,13 +16,13 @@ android {
 kotlin {
   sourceSets {
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.compose.ui.tooling.preview)
       }
     }
 
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.data.coreApi)
         implementation(projects.data.modelApi)
@@ -38,7 +38,7 @@ kotlin {
       }
     }
 
-    val commonTest by getting {
+    commonTest {
       dependencies {
         implementation(projects.data.licenses)
         implementation(libs.circuit.test)

@@ -17,7 +17,7 @@ android.namespace = "com.addhen.fosdem.data.sqldelight.database"
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.coreApi)
         implementation(projects.data.sqldelightApi)
@@ -28,19 +28,19 @@ kotlin {
       }
     }
 
-    val androidMain by getting {
+    androidMain {
       dependencies {
         implementation(libs.sqldelight.android)
       }
     }
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.sqldelight.sqlite)
       }
     }
 
-    val iosMain by getting {
+    iosMain {
       dependencies {
         implementation(libs.sqldelight.native)
       }

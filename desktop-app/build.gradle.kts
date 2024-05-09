@@ -14,7 +14,7 @@ plugins {
 
 kotlin {
   sourceSets {
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(projects.composeUi.commonApi)
         implementation(projects.featureUi.about)

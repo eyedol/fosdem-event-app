@@ -11,7 +11,7 @@ android.namespace = "com.addhen.fosdem.model.api"
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.coreApi)
         implementation(libs.kotlinx.datetime)

@@ -16,13 +16,13 @@ android {
 kotlin {
   sourceSets {
 
-    val jvmMain by getting {
+    jvmMain {
       dependencies {
         implementation(libs.compose.ui.tooling.preview)
       }
     }
 
-    val commonMain by getting {
+    commonMain {
       dependencies {
         implementation(projects.data.modelApi)
         implementation(projects.coreApi)
