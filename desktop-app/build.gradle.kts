@@ -13,11 +13,6 @@ plugins {
 }
 
 kotlin {
-  // Makes it possible to run the app from the IDE run menu
-  jvm {
-    withJava()
-  }
-
   sourceSets {
     val jvmMain by getting {
       dependencies {

@@ -3,7 +3,6 @@
 
 package com.addhen.fosdem.core.api.screens
 
-/**
- * Copied from https://github.com/realityexpander/NoteAppKMM
- */
-actual typealias CommonParcelize = kotlinx.parcelize.Parcelize
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+actual annotation class Parcelize actual constructor()

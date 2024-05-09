@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 // Copyright 2023, Addhen Limited and the FOSDEM app project contributors
@@ -52,6 +53,22 @@ kotlin {
       dependencies {
         implementation(libs.sqldelight.native)
         implementation(libs.ktor.client.darwin)
+      }
+    }
+  }
+
+  targets.configureEach {
+    val isAndroidTarget = platformType == KotlinPlatformType.androidJvm
+    compilations.configureEach {
+      compileTaskProvider.configure {
+        compilerOptions {
+          if (isAndroidTarget) {
+            freeCompilerArgs.addAll(
+              "-P",
+              "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.addhen.fosdem.core.api.screens.Parcelize",
+            )
+          }
+        }
       }
     }
   }

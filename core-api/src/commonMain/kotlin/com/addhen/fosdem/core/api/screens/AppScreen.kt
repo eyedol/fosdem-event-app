@@ -5,40 +5,40 @@ package com.addhen.fosdem.core.api.screens
 
 import com.slack.circuit.runtime.screen.Screen
 
-@CommonParcelize
+@Parcelize
 data object SessionsScreen : AppScreen(name = "Sessions()")
 
-@CommonParcelize
+@Parcelize
 data class SessionDetailScreen(val eventId: Long) : AppScreen(name = "SessionDetail()") {
   override val arguments get() = mapOf("id" to eventId)
 }
 
-@CommonParcelize
+@Parcelize
 data object SessionBookmarkScreen : AppScreen(name = "SessionBookmark()")
 
-@CommonParcelize
+@Parcelize
 data object SessionSearchScreen : AppScreen(name = "SessionSearch()")
 
-@CommonParcelize
+@Parcelize
 data object MapScreen : AppScreen(name = "Map()")
 
-@CommonParcelize
+@Parcelize
 data object AboutScreen : AppScreen(name = "About()")
 
-@CommonParcelize
+@Parcelize
 data object LicensesScreen : AppScreen(name = "Licenses()")
 
-@CommonParcelize
+@Parcelize
 data class UrlScreen(val url: String) : AppScreen(name = "UrlScreen()") {
   override val arguments get() = mapOf("url" to url)
 }
 
-@CommonParcelize
+@Parcelize
 data class ShareScreen(val info: String) : AppScreen(name = "ShareScreen()") {
   override val arguments get() = mapOf("info" to info)
 }
 
-@CommonParcelize
+@Parcelize
 data class CalendarScreen(
   val title: String,
   val room: String,

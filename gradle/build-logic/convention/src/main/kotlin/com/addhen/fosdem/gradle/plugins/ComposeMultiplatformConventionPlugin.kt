@@ -3,38 +3,26 @@
 
 package com.addhen.fosdem.gradle.plugins
 
-import com.addhen.fosdem.gradle.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.jetbrains.compose.ComposeExtension
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 class ComposeMultiplatformConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) = with(target) {
     pluginManager.apply("org.jetbrains.compose")
+    pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
     configureCompose()
   }
 }
 
 fun Project.configureCompose() {
-  compose {
-    kotlinCompilerPlugin.set(libs.findVersion("compose-compiler").get().requiredVersion)
-  }
-
-  val composeVersion = libs.findVersion("compose-multiplatform").get().requiredVersion
-  configurations.configureEach {
-    resolutionStrategy.eachDependency {
-      val group = requested.group
-
-      when {
-        group.startsWith("org.jetbrains.compose") && !group.endsWith("compiler") -> {
-          useVersion(composeVersion)
-        }
-      }
-    }
+  composeCompiler {
+    // Enable 'strong skipping'
+    enableStrongSkippingMode.set(true)
   }
 }
 
-fun Project.compose(block: ComposeExtension.() -> Unit) {
-  extensions.configure<ComposeExtension>(block)
+fun Project.composeCompiler(block: ComposeCompilerGradlePluginExtension.() -> Unit) {
+  extensions.configure<ComposeCompilerGradlePluginExtension>(block)
 }
