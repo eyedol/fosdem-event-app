@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.map
 abstract class BaseSearchSessionUiPresenter(
   eventsRepository: Lazy<EventsRepository>,
   roomsRepository: Lazy<RoomsRepository>,
-) : Presenter<SessionSearchUiState> {
+) {
 
   private val filterTracks = eventsRepository.value.getTracks().map { results ->
     results.map { it.toFilterTrack() }

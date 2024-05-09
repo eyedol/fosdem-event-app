@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseSessionBookmarkPresenter(
   eventsRepository: EventsRepository,
-) : Presenter<SessionBookmarkUiState> {
+) {
 
   private val events = eventsRepository.getAllBookmarkedEvents()
 

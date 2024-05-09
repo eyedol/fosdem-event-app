@@ -55,7 +55,7 @@ class SessionBookmarkUiPresenterFactory(
 class SessionBookmarkPresenter(
   @Assisted private val navigator: Navigator,
   private val eventsRepository: Lazy<EventsRepository>,
-) : BaseSessionBookmarkPresenter(eventsRepository.value) {
+) : BaseSessionBookmarkPresenter(eventsRepository.value), Presenter<SessionBookmarkUiState> {
   @Composable
   override fun present(): SessionBookmarkUiState {
     val scope = rememberCoroutineScope()
