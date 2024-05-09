@@ -27,45 +27,51 @@ import kotlinx.collections.immutable.toImmutableList
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
-typealias MainContent = @Composable (
-  backstack: SaveableBackStack,
-  navigator: Navigator,
-  onOpenUrl: (String) -> Unit,
-  openShare: (String) -> Unit,
-  onCalendarShare: (String, String, String, Long, Long) -> Unit,
-  modifier: Modifier,
-) -> Unit
+interface AppContent {
+
+  @Composable
+  fun Content(
+    backstack: SaveableBackStack,
+    navigator: Navigator,
+    onOpenUrl: (String) -> Unit,
+    onShare: (String) -> Unit,
+    onCalendarShare: (String, String, String, Long, Long) -> Unit,
+    modifier: Modifier
+  )
+}
 
 @Inject
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Composable
-fun MainContent(
-  @Assisted backstack: SaveableBackStack,
-  @Assisted navigator: Navigator,
-  @Assisted onOpenUrl: (String) -> Unit,
-  @Assisted onShare: (String) -> Unit,
-  @Assisted onCalendarShare: (String, String, String, Long, Long) -> Unit,
-  circuitConfig: Circuit,
-  @Assisted modifier: Modifier = Modifier,
-) {
-  val appNavigator: Navigator = remember(navigator) {
-    AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
-  }
+class MainContent(private val circuitConfig: Circuit): AppContent {
 
-  ProvideStrings {
-    CompositionLocalProvider(
-      LocalNavigator provides appNavigator,
-      LocalWindowSizeClass provides calculateWindowSizeClass(),
-    ) {
-      CircuitCompositionLocals(circuitConfig) {
-        AppTheme(
-          useDynamicColors = false,
-        ) {
-          Main(
-            backstack = backstack,
-            navigator = appNavigator,
-            modifier = modifier,
-          )
+  @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+  @Composable
+  override fun Content(
+    backstack: SaveableBackStack,
+    navigator: Navigator,
+    onOpenUrl: (String) -> Unit,
+    onShare: (String) -> Unit,
+    onCalendarShare: (String, String, String, Long, Long) -> Unit,
+    modifier: Modifier
+  ) {
+    val appNavigator: Navigator = remember(navigator) {
+      AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
+    }
+
+    ProvideStrings {
+      CompositionLocalProvider(
+        LocalNavigator provides appNavigator,
+        LocalWindowSizeClass provides calculateWindowSizeClass(),
+      ) {
+        CircuitCompositionLocals(circuitConfig) {
+          AppTheme(
+            useDynamicColors = false,
+          ) {
+            Main(
+              backstack = backstack,
+              navigator = appNavigator,
+              modifier = modifier,
+            )
+          }
         }
       }
     }

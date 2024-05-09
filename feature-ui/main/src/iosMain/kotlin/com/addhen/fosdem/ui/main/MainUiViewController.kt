@@ -25,7 +25,7 @@ fun MainUiViewController(
   val navigator = rememberCircuitNavigator(backstack, onRootPop = { /* no-op */ })
   val uiViewController = LocalUIViewController.current
 
-  mainContent(
+  mainContent.Content(
     backstack,
     navigator,
     { url ->

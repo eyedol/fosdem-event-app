@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
       val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
       val navigator = rememberCircuitNavigator(backstack)
 
-      component.mainContent(
+      component.mainContent.Content(
         backstack,
         navigator,
         { url -> launchUrl(url) },

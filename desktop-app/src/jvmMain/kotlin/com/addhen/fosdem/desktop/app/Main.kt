@@ -30,7 +30,7 @@ fun main() = application {
 
     val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
     val navigator = rememberCircuitNavigator(backstack) { /* no-op */ }
-    component.mainContent(
+    component.mainContent.Content(
       backstack,
       navigator,
       { /* Implement opening of external links */ },
