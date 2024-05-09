@@ -35,11 +35,7 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-      ).forEach { target ->
-        target.binaries.framework {
-          baseName = path.substring(1).replace(':', '-')
-        }
-      }
+      )
 
       targets.withType<KotlinNativeTarget>().configureEach {
         binaries.all {

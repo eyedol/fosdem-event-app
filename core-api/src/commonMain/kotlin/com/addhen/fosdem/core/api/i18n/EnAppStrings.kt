@@ -62,5 +62,5 @@ val EnAppStrings = AppStrings(
   taglineDevRooms = "devrooms",
   taglineHackers = "8000+ hackers",
   taglineTalks = "800+ talks",
-  fosdemDisclaimer = "The name FOSDEM and the logo are registered trademarks of FOSDEM."
+  fosdemDisclaimer = "The name FOSDEM and the logo are registered trademarks of FOSDEM.",
 )
