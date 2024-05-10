@@ -12,10 +12,10 @@ import com.addhen.fosdem.data.events.di.EventsDataBinds
 import com.addhen.fosdem.data.licenses.di.LicencesDataBinds
 import com.addhen.fosdem.data.rooms.di.RoomsDataBinds
 import com.addhen.fosdem.data.sqldelight.database.di.SqlDelightDatabaseComponent
-import kotlin.experimental.ExperimentalNativeApi
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import platform.Foundation.NSBundle
+import kotlin.experimental.ExperimentalNativeApi
 
 interface DataComponent :
   CoreApiBinds,
@@ -35,13 +35,13 @@ abstract class AppComponent : DataComponent {
   fun provideApplicationId(): ApplicationInfo = ApplicationInfo(
     packageName = NSBundle.mainBundle.bundleIdentifier ?: error("No bundle ID found"),
     debugBuild = Platform.isDebugBinary,
-    flavor = if (Platform.isDebugBinary) Flavor.Devel else  Flavor.Prod,
+    flavor = if (Platform.isDebugBinary) Flavor.Devel else Flavor.Prod,
     versionName = NSBundle.mainBundle.infoDictionary
       ?.get("CFBundleShortVersionString") as? String
       ?: "",
     versionCode = (NSBundle.mainBundle.infoDictionary?.get("CFBundleVersion") as? String)
       ?.toIntOrNull()
-      ?: 0
+      ?: 0,
   )
   companion object
 }

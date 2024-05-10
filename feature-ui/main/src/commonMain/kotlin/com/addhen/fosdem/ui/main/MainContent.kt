@@ -24,7 +24,6 @@ import com.slack.circuit.runtime.screen.PopResult
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 interface AppContent {
@@ -36,12 +35,12 @@ interface AppContent {
     onOpenUrl: (String) -> Unit,
     onShare: (String) -> Unit,
     onCalendarShare: (String, String, String, Long, Long) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
   )
 }
 
 @Inject
-class MainContent(private val circuitConfig: Circuit): AppContent {
+class MainContent(private val circuitConfig: Circuit) : AppContent {
 
   @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
   @Composable
@@ -51,7 +50,7 @@ class MainContent(private val circuitConfig: Circuit): AppContent {
     onOpenUrl: (String) -> Unit,
     onShare: (String) -> Unit,
     onCalendarShare: (String, String, String, Long, Long) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
   ) {
     val appNavigator: Navigator = remember(navigator) {
       AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)

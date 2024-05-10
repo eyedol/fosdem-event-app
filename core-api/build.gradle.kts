@@ -57,6 +57,9 @@ kotlin {
     }
   }
 
+  val parcelizeAnnotation = "com.addhen.fosdem.core.api.screens.Parcelize"
+  val jbPlugin = "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=$parcelizeAnnotation"
+
   targets.configureEach {
     val isAndroidTarget = platformType == KotlinPlatformType.androidJvm
     compilations.configureEach {
@@ -65,7 +68,7 @@ kotlin {
           if (isAndroidTarget) {
             freeCompilerArgs.addAll(
               "-P",
-              "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.addhen.fosdem.core.api.screens.Parcelize",
+              jbPlugin,
             )
           }
         }

@@ -20,7 +20,6 @@ import com.addhen.fosdem.ui.session.component.toFilterRoom
 import com.addhen.fosdem.ui.session.component.toFilterTrack
 import com.addhen.fosdem.ui.session.search.component.SearchFilterUiState
 import com.addhen.fosdem.ui.session.search.component.SearchUiState
-import com.slack.circuit.runtime.presenter.Presenter
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap

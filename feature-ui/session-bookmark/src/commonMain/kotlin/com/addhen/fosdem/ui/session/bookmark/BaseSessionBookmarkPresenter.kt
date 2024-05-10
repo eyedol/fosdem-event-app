@@ -12,7 +12,6 @@ import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.saturdayTab
 import com.addhen.fosdem.ui.session.component.sundayTab
 import com.addhen.fosdem.ui.session.component.toDayTab
-import com.slack.circuit.runtime.presenter.Presenter
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi

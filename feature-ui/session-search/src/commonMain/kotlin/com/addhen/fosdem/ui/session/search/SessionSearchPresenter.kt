@@ -57,7 +57,8 @@ class SessionSearchPresenter(
   @Assisted private val navigator: Navigator,
   roomsRepository: Lazy<RoomsRepository>,
   private val eventsRepository: Lazy<EventsRepository>,
-) : BaseSearchSessionUiPresenter(eventsRepository, roomsRepository), Presenter<SessionSearchUiState> {
+) : BaseSearchSessionUiPresenter(eventsRepository, roomsRepository),
+  Presenter<SessionSearchUiState> {
 
   @Composable
   override fun present(): SessionSearchUiState {
