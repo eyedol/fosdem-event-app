@@ -23,13 +23,17 @@ This is yet another app for the FOSDEM conference, but this one provides a multi
 > Disclaimer: The name FOSDEM and the logo are registered trademarks of FOSDEM.
 
 
-## Try it out
+## 💪 Try it out
 
 ### Development version
+
+#### Android
 
 You can test the development app through DeployGate.
 
 [<img src="https://dply.me/qgph1r/button/large" alt="Try it on your device via DeployGate">](https://dply.me/qgph1r#install)
+
+#### Desktop
 
 ## 🛠️ Teck stack
 1. [Kotlin](https://kotlinlang.org/) – Programming language
@@ -45,6 +49,10 @@ You can test the development app through DeployGate.
 11. [Lyricist](https://github.com/adrielcafe/lyricist) – Localization & i18 support
 12. [DeployGate](https://deploygate.com) – Development build distributions 
 13. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
+
+## 👩‍💻 Development
+To locally build this project requires no additional setup other than having a [kotlin mulitplatform development environment](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) setup.
+
 
 
 ## 🫡 Credits
