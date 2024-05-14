@@ -61,10 +61,11 @@ You can test the development app through DeployGate.
 7. [SqlDelight](https://cashapp.github.io/sqldelight/2.0.1/) – Local storage
 8. [Kotlin Inject](https://github.com/evant/kotlin-inject) – Dependency injection
 9. [Kotlinx Serialization](https://kotlinlang.org/docs/serialization.html) – Serializations
-10. [KSoup](https://github.com/MohamedRejeb/Ksoup) – HTML parser
-11. [Lyricist](https://github.com/adrielcafe/lyricist) – Localization & i18 support
-12. [DeployGate](https://deploygate.com) – Development build distributions 
-13. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
+10. [xmlutil](https://github.com/pdvrieze/xmlutil) - XML parsing
+11. [KSoup](https://github.com/MohamedRejeb/Ksoup) – HTML parser
+12. [Lyricist](https://github.com/adrielcafe/lyricist) – Localization & i18 support
+13. [DeployGate](https://deploygate.com) – Development build distributions
+14. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
 
 ## 👩‍💻 Development
 To locally build this project requires no additional setup other than having a [kotlin mulitplatform development environment](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) setup.
