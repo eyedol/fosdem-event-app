@@ -33,7 +33,23 @@ You can test the development app through DeployGate.
 
 [<img src="https://dply.me/qgph1r/button/large" alt="Try it on your device via DeployGate">](https://dply.me/qgph1r#install)
 
+
+### Sample Demo
+#### Android
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/images/android-demo-dark.gif" />
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/images/android-demo-light.gif" />
+  <img alt="app-cover-readme-file" src="docs/assets/images/android-demo-light.gif" />
+</picture>
+
 #### Desktop
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/images/desktop-demo-dark.gif" />
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/images/desktop-demo-light.gif" />
+  <img alt="app-cover-readme-file" src="docs/assets/images/desktop-demo-light.gif" />
+</picture>
 
 ## 🛠️ Teck stack
 1. [Kotlin](https://kotlinlang.org/) – Programming language
