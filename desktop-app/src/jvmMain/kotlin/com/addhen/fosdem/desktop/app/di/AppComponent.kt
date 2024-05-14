@@ -26,15 +26,16 @@ interface DataComponent :
 @Component
 @ApplicationScope
 abstract class AppComponent : DataComponent {
-
   @ApplicationScope
   @Provides
-  fun provideApplicationId(): ApplicationInfo = ApplicationInfo(
-    packageName = "com.addhen.fosdem.desktop",
-    debugBuild = true,
-    flavor = Flavor.Prod,
-    versionName = "1.0.0",
-    versionCode = 1,
-  )
+  fun provideApplicationId(): ApplicationInfo =
+    ApplicationInfo(
+      packageName = "com.addhen.fosdem.desktop.app",
+      debugBuild = true,
+      flavor = Flavor.Prod,
+      versionName = "0.1.0",
+      versionCode = 1,
+    )
+
   companion object
 }
