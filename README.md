@@ -9,9 +9,9 @@
 	<h1>FOSDEM Event App - unofficial</h1>
 </div>
 
-![Latest App Verion](https://img.shields.io/github/v/release/eyedol/fosdem?style=flat)
+![Latest App Verion](https://img.shields.io/github/v/release/eyedol/fosdem-event-app?style=flat)
 [![F-Droid Version](https://img.shields.io/f-droid/v/com.addhen.fosdem.android.app)](https://f-droid.org/en/packages/com.addhen.fosdem.android.app)
-[![Kotlin Version](https://img.shields.io/badge/dynamic/toml?url=https://raw.githubusercontent.com/eyedol/fosdem/trunk/gradle/libs.versions.toml&query=versions.kotlin&style=flat&logo=kotlin&label=Kotlin)](https://kotlinlang.org)
+[![Kotlin Version](https://img.shields.io/badge/dynamic/toml?url=https://raw.githubusercontent.com/eyedol/fosdem-event-app/main/gradle/libs.versions.toml&query=versions.kotlin&style=flat&logo=kotlin&label=Kotlin)](https://kotlinlang.org)
 ![Android Platform](https://img.shields.io/badge/platform-android-6EDB8D?style=flat)
 ![Desktop](https://img.shields.io/badge/platform-desktop-DB413D?style=flat)
 
