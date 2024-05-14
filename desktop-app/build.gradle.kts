@@ -1,6 +1,7 @@
 // Copyright 2023, Addhen Limited and the FOSDEM Event app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
+
 import com.addhen.fosdem.gradle.plugins.addKspDependencyForAllTargets
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
