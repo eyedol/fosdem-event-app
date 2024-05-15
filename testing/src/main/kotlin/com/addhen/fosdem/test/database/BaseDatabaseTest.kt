@@ -10,8 +10,6 @@ import com.addhen.fosdem.data.sqldelight.api.Days
 import com.addhen.fosdem.data.sqldelight.api.Events
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.toLocalDate
-import kotlinx.datetime.toLocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
@@ -23,17 +21,20 @@ abstract class BaseDatabaseTest {
   @BeforeEach
   fun setUp() {
     sqlDriver = TestSqlDriverFactory.createDriver()
-    database = Database(
-      driver = sqlDriver,
-      daysAdapter = Days.Adapter(
-        dateAdapter = LocalDateColumnAdapter,
-      ),
-      eventsAdapter = Events.Adapter(
-        start_timeAdapter = LocalTimeColumnAdapter,
-        durationAdapter = LocalTimeColumnAdapter,
-        dateAdapter = LocalDateColumnAdapter,
-      ),
-    )
+    database =
+      Database(
+        driver = sqlDriver,
+        daysAdapter =
+          Days.Adapter(
+            dateAdapter = LocalDateColumnAdapter,
+          ),
+        eventsAdapter =
+          Events.Adapter(
+            start_timeAdapter = LocalTimeColumnAdapter,
+            durationAdapter = LocalTimeColumnAdapter,
+            dateAdapter = LocalDateColumnAdapter,
+          ),
+      )
   }
 
   @AfterEach
@@ -43,11 +44,13 @@ abstract class BaseDatabaseTest {
 }
 
 internal object LocalDateColumnAdapter : ColumnAdapter<LocalDate, String> {
-  override fun decode(databaseValue: String): LocalDate = databaseValue.toLocalDate()
+  override fun decode(databaseValue: String): LocalDate = databaseValue.let { LocalDate.parse(it) }
+
   override fun encode(value: LocalDate): String = value.toString()
 }
 
 internal object LocalTimeColumnAdapter : ColumnAdapter<LocalTime, String> {
-  override fun decode(databaseValue: String): LocalTime = databaseValue.toLocalTime()
+  override fun decode(databaseValue: String): LocalTime = databaseValue.let { LocalTime.parse(it) }
+
   override fun encode(value: LocalTime): String = value.toString()
 }
