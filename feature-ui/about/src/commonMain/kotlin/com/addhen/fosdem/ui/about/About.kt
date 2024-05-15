@@ -37,7 +37,7 @@ import me.tatarka.inject.annotations.Inject
 const val AboutScreenTestTag = "AboutScreen"
 
 private const val PRIVACY_POLICY_URL =
-  "https://eyedol.github.io/fosdem-event-app/privacy-policy.htm"
+  "https://eyedol.github.io/fosdem-event-app/privacy-policy.html"
 
 @Inject
 class AboutUiFactory : Ui.Factory {
