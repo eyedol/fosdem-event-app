@@ -25,15 +25,15 @@ abstract class BaseDatabaseTest {
       Database(
         driver = sqlDriver,
         daysAdapter =
-          Days.Adapter(
-            dateAdapter = LocalDateColumnAdapter,
-          ),
+        Days.Adapter(
+          dateAdapter = LocalDateColumnAdapter,
+        ),
         eventsAdapter =
-          Events.Adapter(
-            start_timeAdapter = LocalTimeColumnAdapter,
-            durationAdapter = LocalTimeColumnAdapter,
-            dateAdapter = LocalDateColumnAdapter,
-          ),
+        Events.Adapter(
+          start_timeAdapter = LocalTimeColumnAdapter,
+          durationAdapter = LocalTimeColumnAdapter,
+          dateAdapter = LocalDateColumnAdapter,
+        ),
       )
   }
 
