@@ -36,19 +36,24 @@ import me.tatarka.inject.annotations.Inject
 
 const val AboutScreenTestTag = "AboutScreen"
 
-private const val PRIVACY_POLICY_URL = "https://eyedol.github.io/fosdem/privacy-policy.html"
+private const val PRIVACY_POLICY_URL =
+  "https://eyedol.github.io/fosdem-event-app/privacy-policy.html"
 
 @Inject
 class AboutUiFactory : Ui.Factory {
-  override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
-    is AboutScreen -> {
-      ui<AboutUiState> { state, modifier ->
-        About(state, modifier)
+  override fun create(
+    screen: Screen,
+    context: CircuitContext,
+  ): Ui<*>? =
+    when (screen) {
+      is AboutScreen -> {
+        ui<AboutUiState> { state, modifier ->
+          About(state, modifier)
+        }
       }
-    }
 
-    else -> null
-  }
+      else -> null
+    }
 }
 
 @Composable
@@ -83,9 +88,10 @@ private fun AboutScreen(
   val layoutDirection = LocalLayoutDirection.current
   val appStrings = LocalStrings.current
   Scaffold(
-    modifier = Modifier
-      .testTag(AboutScreenTestTag)
-      .then(modifier),
+    modifier =
+      Modifier
+        .testTag(AboutScreenTestTag)
+        .then(modifier),
     topBar = {
       TopAppBar(
         title = {
@@ -107,12 +113,13 @@ private fun AboutScreen(
       )
     },
     snackbarHost = { SnackbarHost(snackbarHostState) },
-    contentWindowInsets = WindowInsets(
-      left = contentPadding.calculateLeftPadding(layoutDirection),
-      top = contentPadding.calculateTopPadding(),
-      right = contentPadding.calculateRightPadding(layoutDirection),
-      bottom = contentPadding.calculateBottomPadding(),
-    ),
+    contentWindowInsets =
+      WindowInsets(
+        left = contentPadding.calculateLeftPadding(layoutDirection),
+        top = contentPadding.calculateTopPadding(),
+        right = contentPadding.calculateRightPadding(layoutDirection),
+        bottom = contentPadding.calculateBottomPadding(),
+      ),
     content = { padding ->
       LazyColumn(
         Modifier
