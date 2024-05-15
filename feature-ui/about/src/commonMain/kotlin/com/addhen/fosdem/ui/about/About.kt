@@ -89,9 +89,9 @@ private fun AboutScreen(
   val appStrings = LocalStrings.current
   Scaffold(
     modifier =
-      Modifier
-        .testTag(AboutScreenTestTag)
-        .then(modifier),
+    Modifier
+      .testTag(AboutScreenTestTag)
+      .then(modifier),
     topBar = {
       TopAppBar(
         title = {
@@ -114,12 +114,12 @@ private fun AboutScreen(
     },
     snackbarHost = { SnackbarHost(snackbarHostState) },
     contentWindowInsets =
-      WindowInsets(
-        left = contentPadding.calculateLeftPadding(layoutDirection),
-        top = contentPadding.calculateTopPadding(),
-        right = contentPadding.calculateRightPadding(layoutDirection),
-        bottom = contentPadding.calculateBottomPadding(),
-      ),
+    WindowInsets(
+      left = contentPadding.calculateLeftPadding(layoutDirection),
+      top = contentPadding.calculateTopPadding(),
+      right = contentPadding.calculateRightPadding(layoutDirection),
+      bottom = contentPadding.calculateBottomPadding(),
+    ),
     content = { padding ->
       LazyColumn(
         Modifier
