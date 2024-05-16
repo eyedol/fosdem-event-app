@@ -39,6 +39,8 @@ Open the `ios-app/Fosdem` project in Xcode. Then [build and run](https://develop
 **Tests**
 
 `./gradlew jvmTest` which runs all tests on the JVM. This is the minimum required for testing.
+
+Run to see all supported tasks:
 `./gradlew tasks`
 
 
