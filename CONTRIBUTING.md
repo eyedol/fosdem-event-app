@@ -50,6 +50,8 @@ To import into Android Studio or IntelliJ IDEA, just open up the `root` of the p
 that it is a Gradle project and import it. It's important that you make sure that all building and test operations
 are delegated to Gradle under [Gradle Settings](https://www.jetbrains.com/help/idea/gradle-settings.html).
 
+**Note**: You may need to install the pre-commit hook to ensure that the code style is consistent. To do this, run `./install_hooks.sh`.
+
 ### Pull Requests
 
 Contributions are made using Github [pull requests](https://help.github.com/en/articles/about-pull-requests):
