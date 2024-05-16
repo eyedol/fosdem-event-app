@@ -70,7 +70,7 @@ You can test the development app through DeployGate.
 ## 👩‍💻 Development
 To locally build this project requires no additional setup other than having a [kotlin mulitplatform development environment](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) setup.
 
-
+See the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details on how to build or contribute to this project.
 
 ## 🫡 Credits
 This project had a lot of inspiration, borrowed a lot of code and ideas from a lot of other people's work. Especially the following projects helped a lot to make this project come to live:
