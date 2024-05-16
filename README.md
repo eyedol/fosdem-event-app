@@ -51,6 +51,14 @@ You can test the development app through DeployGate.
   <img alt="app-cover-readme-file" src="docs/assets/images/desktop-demo-light.gif" />
 </picture>
 
+#### iOS
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/images/ios-demo-dark.gif" />
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/images/ios-demo-light.gif" />
+  <img alt="app-cover-readme-file" src="docs/assets/images/ios-demo-light.gif" />
+</picture>
+
 ## 🛠️ Teck stack
 1. [Kotlin](https://kotlinlang.org/) – Programming language
 2. [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) – Async calls
