@@ -5,9 +5,9 @@ package com.addhen.fosdem.data.sqldelight.database
 
 import app.cash.sqldelight.ColumnAdapter
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toLocalDate
 
 internal object LocalDateColumnAdapter : ColumnAdapter<LocalDate, String> {
-  override fun decode(databaseValue: String): LocalDate = databaseValue.toLocalDate()
+  override fun decode(databaseValue: String): LocalDate = databaseValue.let { LocalDate.parse(it) }
+
   override fun encode(value: LocalDate): String = value.toString()
 }
