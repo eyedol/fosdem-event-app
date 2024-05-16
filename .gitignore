@@ -77,3 +77,8 @@ gradle.xml
 
 # Kotlin
 .kotlin/
+
+# iOS
+.DS_Store
+xcuserdata
+DerivedData
