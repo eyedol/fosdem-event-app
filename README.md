@@ -76,9 +76,9 @@ You can test the development app through DeployGate.
 14. [Github Actions](https://docs.github.com/en/actions) – CI/CD suppport
 
 ## 👩‍💻 Development
-To locally build this project requires no additional setup other than having a [kotlin mulitplatform development environment](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) setup.
-The project requires whatever JDK version is currently defined libs.versions.toml.
-If you use [sdkman](https://sdkman.io) there is a `.sdkmanrc` file that will automatically set the JDK version to the one defined in the project.
+To build this project locally, no additional setup is required other than having a [kotlin multiplatform development environment](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) setup.
+The project requires whatever JDK version is currently defined in `libs.versions.toml`.
+If you are using [sdkman](https://sdkman.io), there is a `.sdkmanrc` file that will automatically set the JDK version to the one defined in the project.
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details on how to build or contribute to this project.
 
