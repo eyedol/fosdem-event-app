@@ -34,21 +34,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
 
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v4.0.2
-        with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/transforms-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android-app/build.gradle') }}
-
-      - name: Get Dependencies
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: ./gradlew androidDependencies --stacktrace
-
       - name: Decrypt secrets
         run: ./scripts/decrypt-secrets.sh
         env:
@@ -121,18 +106,7 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Set up JDK 21
-        uses: ./.github/actions/setup
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v4.0.2
-        with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/transforms-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-          key: build-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('android-app/build.gradle') }}
+      - uses: ./.github/actions/setup
 
       - name: Lint
         run: ./gradlew lint --stacktrace
