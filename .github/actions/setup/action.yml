@@ -38,7 +38,7 @@ runs:
       run: echo "KOTLIN_VERSION=$(grep -oE 'kotlin\s*=\s*"[0-9.]*"' gradle/libs.versions.toml | grep -oE '[0-9.]+')" >> $GITHUB_OUTPUT
 
     - name: Cache Konan # Kotlin native dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.konan
