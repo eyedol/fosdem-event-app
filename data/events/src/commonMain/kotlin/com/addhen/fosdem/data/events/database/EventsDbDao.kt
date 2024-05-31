@@ -35,7 +35,6 @@ class EventsDbDao(
   private val appDatabase: Database,
   private val backgroundDispatcher: AppCoroutineDispatchers,
 ) : EventsDao {
-
   override fun getEvents(): Flow<List<EventEntity>> {
     return appDatabase.eventsQueries.selectAll(eventQueriesMapper).asFlow()
       .mapToList(backgroundDispatcher.io).map { it.updateWithRelatedData() }
@@ -62,32 +61,32 @@ class EventsDbDao(
       .mapToOne(backgroundDispatcher.io).map { it.withRelatedData() }
   }
 
-  override suspend fun toggleBookmark(eventId: Long) = withContext(backgroundDispatcher.io) {
-    appDatabase.eventsQueries.toggleBookmark(eventId)
-  }
+  override suspend fun toggleBookmark(eventId: Long) =
+    withContext(backgroundDispatcher.io) {
+      appDatabase.eventsQueries.toggleBookmark(eventId)
+    }
 
-  override suspend fun deleteRelatedData() = withContext(backgroundDispatcher.databaseRead) {
-    // Delete attachments table and its event_attachments linked table to aid in regenerating its
-    // ID as the data received from the API does not contain the IDs of the attachments. So we
-    // always need to start afresh to facilitating in the event the attachments associated with
-    // an event changes.
-    appDatabase.attachmentsQueries.delete()
-    // Manually deleting event_speakers data because we're not deleting from the speakers as it comes
-    // with its own IDs from the API. So we usually update an existing data or insert new data for it.
-    // Hence we delete everything in the linked event_speakers table to make it easier to manage it. We just do a
-    // simple insert for it.
-    appDatabase.event_speakersQueries.delete()
-    // Same treatment for links and event_links as we do for attachments and event_attachments.
-    appDatabase.linksQueries.delete()
-  }
+  override suspend fun deleteRelatedData() =
+    withContext(backgroundDispatcher.databaseRead) {
+      // Delete attachments table and its event_attachments linked table to aid in regenerating its
+      // ID as the data received from the API does not contain the IDs of the attachments. So we
+      // always need to start afresh to facilitating in the event the attachments associated with
+      // an event changes.
+      appDatabase.attachmentsQueries.delete()
+      // Manually deleting event_speakers data because we're not deleting from the speakers as it comes
+      // with its own IDs from the API. So we usually update an existing data or insert new data for it.
+      // Hence we delete everything in the linked event_speakers table to make it easier to manage it. We just do a
+      // simple insert for it.
+      appDatabase.event_speakersQueries.delete()
+      // Same treatment for links and event_links as we do for attachments and event_attachments.
+      appDatabase.linksQueries.delete()
+    }
 
   override suspend fun insert(events: List<EventEntity>) =
     withContext(backgroundDispatcher.databaseWrite) {
       events.forEach { eventEntity ->
-        // Insert room
-        val lastRoomRowId = selInsertRoom(eventEntity.room)
         // Insert event
-        upsertEvent(eventEntity, lastRoomRowId)
+        upsertEvent(eventEntity)
       }
     }
 
@@ -98,9 +97,10 @@ class EventsDbDao(
       }
     }
 
-  override suspend fun getDays(): List<DayEntity> = withContext(backgroundDispatcher.databaseRead) {
-    appDatabase.daysQueries.selectAll().executeAsList().toDays()
-  }
+  override suspend fun getDays(): List<DayEntity> =
+    withContext(backgroundDispatcher.databaseRead) {
+      appDatabase.daysQueries.selectAll().executeAsList().toDays()
+    }
 
   private fun selInsertRoom(roomEntity: RoomEntity): Long {
     // Select room id if room exists else insert and return id of the room.
@@ -158,7 +158,8 @@ class EventsDbDao(
       id = id,
       title = title,
       date = date,
-      room = RoomEntity(
+      room =
+      RoomEntity(
         id = id__,
         name = name ?: "",
       ),
@@ -180,39 +181,45 @@ class EventsDbDao(
 
   private fun Days.toDay() = DayEntity(id = id, date = date)
 
-  private fun Links.toLink() = LinkEntity(
-    id = id,
-    url = url,
-    text = text,
-  )
+  private fun Links.toLink() =
+    LinkEntity(
+      id = id,
+      url = url,
+      text = text,
+    )
 
-  private fun Speakers.toSpeaker() = SpeakerEntity(
-    id = id,
-    name = name,
-  )
+  private fun Speakers.toSpeaker() =
+    SpeakerEntity(
+      id = id,
+      name = name,
+    )
 
-  private fun Attachments.toAttachment() = AttachmentEntity(
-    id = id,
-    type = type ?: "",
-    url = url ?: "",
-    name = name ?: "",
-  )
+  private fun Attachments.toAttachment() =
+    AttachmentEntity(
+      id = id,
+      type = type ?: "",
+      url = url ?: "",
+      name = name ?: "",
+    )
 
   private fun EventEntity.withRelatedData(): EventEntity {
-    val speakers = appDatabase.event_speakersQueries
-      .selectSpeakers(date, id)
-      .executeAsList()
-      .map { it.toSpeaker() }
+    val speakers =
+      appDatabase.event_speakersQueries
+        .selectSpeakers(date, id)
+        .executeAsList()
+        .map { it.toSpeaker() }
 
-    val links = appDatabase.event_linksQueries
-      .selectLinks(date, id)
-      .executeAsList()
-      .map { it.toLink() }
+    val links =
+      appDatabase.event_linksQueries
+        .selectLinks(date, id)
+        .executeAsList()
+        .map { it.toLink() }
 
-    val attachments = appDatabase.event_attachmentsQueries
-      .selectAttachments(date, id)
-      .executeAsList()
-      .map { it.toAttachment() }
+    val attachments =
+      appDatabase.event_attachmentsQueries
+        .selectAttachments(date, id)
+        .executeAsList()
+        .map { it.toAttachment() }
 
     return copy(
       speakers = speakers,
@@ -225,12 +232,11 @@ class EventsDbDao(
     return map { it.withRelatedData() }
   }
 
-  private suspend fun upsertEvent(
-    entity: EventEntity,
-    lastRoomRowId: Long,
-  ) {
+  private suspend fun upsertEvent(entity: EventEntity) {
     // Update event if exists else insert
     appDatabase.transactionWithContext(backgroundDispatcher.databaseWrite) {
+      // Insert room
+      val lastRoomRowId = selInsertRoom(entity.room)
       appDatabase.eventsQueries.updateById(
         lastRoomRowId,
         entity.date,
