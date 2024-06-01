@@ -27,7 +27,6 @@ import kotlinx.collections.immutable.toImmutableList
 import me.tatarka.inject.annotations.Inject
 
 interface AppContent {
-
   @Composable
   fun Content(
     backstack: SaveableBackStack,
@@ -41,7 +40,6 @@ interface AppContent {
 
 @Inject
 class MainContent(private val circuitConfig: Circuit) : AppContent {
-
   @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
   @Composable
   override fun Content(
@@ -52,9 +50,10 @@ class MainContent(private val circuitConfig: Circuit) : AppContent {
     onCalendarShare: (String, String, String, Long, Long) -> Unit,
     modifier: Modifier,
   ) {
-    val appNavigator: Navigator = remember(navigator) {
-      AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
-    }
+    val appNavigator: Navigator =
+      remember(navigator) {
+        AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
+      }
 
     ProvideStrings {
       CompositionLocalProvider(
@@ -83,18 +82,29 @@ private class AppNavigator(
   private val onShare: (String) -> Unit,
   private val onCalendarShare: (String, String, String, Long, Long) -> Unit,
 ) : Navigator {
-  override fun goTo(screen: Screen) {
-    when (screen) {
-      is UrlScreen -> onOpenUrl(screen.url)
-      is ShareScreen -> onShare(screen.info)
-      is CalendarScreen -> onCalendarShare(
-        screen.title,
-        screen.room,
-        screen.description,
-        screen.startAtMillSeconds,
-        screen.endAtMillSeconds,
-      )
-      else -> navigator.goTo(screen)
+  override fun goTo(screen: Screen): Boolean {
+    return when (screen) {
+      is UrlScreen -> {
+        onOpenUrl(screen.url)
+        true
+      }
+      is ShareScreen -> {
+        onShare(screen.info)
+        true
+      }
+      is CalendarScreen -> {
+        onCalendarShare(
+          screen.title,
+          screen.room,
+          screen.description,
+          screen.startAtMillSeconds,
+          screen.endAtMillSeconds,
+        )
+        true
+      }
+      else -> {
+        navigator.goTo(screen)
+      }
     }
   }
 
@@ -108,8 +118,7 @@ private class AppNavigator(
     newRoot: Screen,
     saveState: Boolean,
     restoreState: Boolean,
-  ): ImmutableList<Screen> =
-    navigator.resetRoot(newRoot, saveState, restoreState).toImmutableList()
+  ): ImmutableList<Screen> = navigator.resetRoot(newRoot, saveState, restoreState).toImmutableList()
 }
 
 val LocalNavigator = staticCompositionLocalOf<Navigator> { Navigator.NoOp }
