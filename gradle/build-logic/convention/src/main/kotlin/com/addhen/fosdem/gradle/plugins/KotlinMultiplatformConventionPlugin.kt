@@ -3,7 +3,9 @@
 
 package com.addhen.fosdem.gradle.plugins
 
+import com.addhen.fosdem.gradle.configureIosLicensesTasks
 import com.addhen.fosdem.gradle.configureKotlin
+import com.addhen.fosdem.gradle.configureLicensee
 import com.addhen.fosdem.gradle.configureSpotless
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,56 +19,60 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 class KotlinMultiplatformConventionPlugin : Plugin<Project> {
-
-  override fun apply(target: Project) = with(target) {
-    with(pluginManager) {
-      apply("org.jetbrains.kotlin.multiplatform")
-    }
-
-    extensions.configure<KotlinMultiplatformExtension> {
-      applyDefaultHierarchyTemplate()
-
-      jvm()
-      if (pluginManager.hasPlugin("com.android.library")) {
-        androidTarget()
+  override fun apply(target: Project) =
+    with(target) {
+      with(pluginManager) {
+        apply("org.jetbrains.kotlin.multiplatform")
       }
 
-      listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64(),
-      )
+      extensions.configure<KotlinMultiplatformExtension> {
+        applyDefaultHierarchyTemplate()
 
-      targets.withType<KotlinNativeTarget>().configureEach {
-        binaries.all {
-          // Add linker flag for SQLite. See:
-          // https://github.com/touchlab/SQLiter/issues/77
-          linkerOpts("-lsqlite3")
+        jvm()
+        if (pluginManager.hasPlugin("com.android.library")) {
+          androidTarget()
         }
 
-        compilations.configureEach {
-          compileTaskProvider.configure {
-            compilerOptions {
-              // Various opt-ins
-              freeCompilerArgs.addAll(
-                "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
-                "-opt-in=kotlinx.cinterop.BetaInteropApi",
-                "-Xexpect-actual-classes",
-              )
+        listOf(
+          iosX64(),
+          iosArm64(),
+          iosSimulatorArm64(),
+        )
+
+        targets.withType<KotlinNativeTarget>().configureEach {
+          binaries.all {
+            // Add linker flag for SQLite. See:
+            // https://github.com/touchlab/SQLiter/issues/77
+            linkerOpts("-lsqlite3")
+          }
+
+          compilations.configureEach {
+            compileTaskProvider.configure {
+              compilerOptions {
+                // Various opt-ins
+                freeCompilerArgs.addAll(
+                  "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
+                  "-opt-in=kotlinx.cinterop.BetaInteropApi",
+                  "-Xexpect-actual-classes",
+                )
+              }
             }
           }
         }
-      }
 
-      configureSpotless()
-      configureKotlin()
+        configureSpotless()
+        configureKotlin()
+
+        if (path == ":ios-shared") {
+          configureLicensee()
+          configureIosLicensesTasks()
+        }
+      }
     }
-  }
 }
 
-fun Project.addKspDependencyForAllTargets(
-  dependencyNotation: Any,
-) = addKspDependencyForAllTargets("", dependencyNotation)
+fun Project.addKspDependencyForAllTargets(dependencyNotation: Any) =
+  addKspDependencyForAllTargets("", dependencyNotation)
 
 private fun Project.addKspDependencyForAllTargets(
   configurationNameSuffix: String,
