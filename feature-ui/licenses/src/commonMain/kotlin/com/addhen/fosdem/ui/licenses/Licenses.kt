@@ -147,7 +147,7 @@ private fun LicensesScreen(
                 }
               },
               modifier = Modifier.clickable {
-                onLinkClick("artifact")
+                onLinkClick(artifact.scm?.url ?: "")
               },
             )
           }
