@@ -13,16 +13,17 @@ fun Project.configureAndroidLicensesTasks() {
   androidComponents {
     onVariants { variant ->
       val capitalizedVariantName = variant.name.capitalized()
-      val copyArtifactsTask = tasks.register<AssetCopyTask>(
-        "copy${capitalizedVariantName}LicenseeOutputToAndroidAssets",
-      ) {
-        inputFile.set(
-          layout.buildDirectory
-            .file("reports/licensee/android$capitalizedVariantName/artifacts.json"),
-        )
-        outputFilename.set("licenses.json")
-        dependsOn("licenseeAndroid$capitalizedVariantName")
-      }
+      val copyArtifactsTask =
+        tasks.register<AssetCopyTask>(
+          "copy${capitalizedVariantName}LicenseeOutputToAndroidAssets",
+        ) {
+          inputFile.set(
+            layout.buildDirectory
+              .file("reports/licensee/android$capitalizedVariantName/artifacts.json"),
+          )
+          outputFilename.set("licenses.json")
+          dependsOn("licenseeAndroid$capitalizedVariantName")
+        }
 
       variant.sources.assets
         ?.addGeneratedSourceDirectory(copyArtifactsTask, AssetCopyTask::outputDirectory)
