@@ -40,7 +40,7 @@ typealias MainUiViewController = () -> UIViewController
 @Inject
 @Suppress("ktlint:standard:function-naming")
 fun MainUiViewController(
-  mainContent: MainContent
+  mainContent: MainContent,
 ): UIViewController = ComposeUIViewController {
   val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
   val navigator = rememberCircuitNavigator(backstack, onRootPop = { /* no-op */ })
@@ -88,46 +88,55 @@ private fun UIViewController.saveEventToCalendar(
             }
           }
           this.eventStore = eventStore
-            val event = EKEvent.eventWithEventStore(eventStore).apply {
-              this.title = title
-              this.location = room
-              this.notes = description
-              this.startDate = Instant.fromEpochMilliseconds(startAtMillSeconds).toNSDate()
-              this.endDate = Instant.fromEpochMilliseconds(endAtMillSeconds).toNSDate()
-            }
-            this.event = event
+          val event = EKEvent.eventWithEventStore(eventStore).apply {
+            this.title = title
+            this.location = room
+            this.notes = description
+            this.startDate = Instant.fromEpochMilliseconds(startAtMillSeconds).toNSDate()
+            this.endDate = Instant.fromEpochMilliseconds(endAtMillSeconds).toNSDate()
           }
-          eventEditViewController.eventStore = eventStore
-          presentViewController(eventEditViewController, true, null)
-        } else {
-          val settingsUrl = NSURL(string = UIApplicationOpenSettingsURLString)
-          val alert = UIAlertController.alertControllerWithTitle(
-            title = "Calendar Access Denied",
-            message = "Please allow access to the calendar in the settings",
-            preferredStyle = UIAlertControllerStyleAlert,
-          )
-          alert.addAction(
-            UIAlertAction.actionWithTitle("Settings", style = UIAlertActionStyleDefault) {
-              UIApplication.sharedApplication.openURL(settingsUrl)
-            }
-          )
-          alert.addAction(
-            UIAlertAction.actionWithTitle(
-              "Cancel",
-              style = UIAlertActionStyleCancel,
-              handler = null
-            )
-          )
-          presentModalViewController(alert, true)
+          this.event = event
         }
+        eventEditViewController.eventStore = eventStore
+        presentViewController(eventEditViewController, true, null)
+      } else {
+        val settingsUrl = NSURL(string = UIApplicationOpenSettingsURLString)
+        val alert = UIAlertController.alertControllerWithTitle(
+          title = "Calendar Access Denied",
+          message = "Please allow access to the calendar in the settings",
+          preferredStyle = UIAlertControllerStyleAlert,
+        )
+        alert.addAction(
+          UIAlertAction.actionWithTitle("Settings", style = UIAlertActionStyleDefault) {
+            UIApplication.sharedApplication.openURL(settingsUrl)
+          },
+        )
+        alert.addAction(
+          UIAlertAction.actionWithTitle(
+            "Cancel",
+            style = UIAlertActionStyleCancel,
+            handler = null,
+          ),
+        )
+        presentModalViewController(alert, true)
+      }
     }
   }
 }
 
-internal inline fun afterTimeout(milliseconds: Long, crossinline action: () -> Unit): () -> Unit {
+internal inline fun afterTimeout(
+  milliseconds: Long,
+  crossinline action: () -> Unit,
+): () -> Unit {
   var stillRun = true
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, milliseconds * NSEC_PER_MSEC.toLong()), dispatch_get_main_queue()) {
-    if(!stillRun) return@dispatch_after
+  dispatch_after(
+    dispatch_time(
+      DISPATCH_TIME_NOW,
+      milliseconds * NSEC_PER_MSEC.toLong(),
+    ),
+    dispatch_get_main_queue(),
+  ) {
+    if (!stillRun) return@dispatch_after
     action()
   }
   return { stillRun = false }
