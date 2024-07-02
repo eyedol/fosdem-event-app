@@ -6,6 +6,8 @@ package com.addhen.fosdem.ui.main
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.LocalUIViewController
 import androidx.compose.ui.window.ComposeUIViewController
+import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
@@ -45,6 +47,7 @@ fun MainUiViewController(
   val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
   val navigator = rememberCircuitNavigator(backstack, onRootPop = { /* no-op */ })
   val uiViewController = LocalUIViewController.current
+  val appStrings = LocalStrings.current
 
   mainContent.Content(
     backstack,
@@ -56,6 +59,7 @@ fun MainUiViewController(
     { /* Implement sharing of event details */ },
     { title, room, description, startAtMillSeconds, endAtMillSeconds ->
       uiViewController.saveEventToCalendar(
+        appStrings,
         title,
         room,
         description,
@@ -68,6 +72,7 @@ fun MainUiViewController(
 }
 
 private fun UIViewController.saveEventToCalendar(
+  appStrings: AppStrings,
   title: String,
   room: String,
   description: String,
@@ -102,8 +107,8 @@ private fun UIViewController.saveEventToCalendar(
       } else {
         val settingsUrl = NSURL(string = UIApplicationOpenSettingsURLString)
         val alert = UIAlertController.alertControllerWithTitle(
-          title = "Calendar Access Denied",
-          message = "Please allow access to the calendar in the settings",
+          title = appStrings.calendarPermissionDeniedTitle,
+          message = appStrings.calendarPermissionDeniedMessage,
           preferredStyle = UIAlertControllerStyleAlert,
         )
         alert.addAction(

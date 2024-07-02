@@ -63,4 +63,9 @@ val EnAppStrings = AppStrings(
   taglineHackers = "8000+ hackers",
   taglineTalks = "800+ talks",
   fosdemDisclaimer = "The name FOSDEM and the logo are registered trademarks of FOSDEM.",
+  calendarPermissionDeniedTitle = "Calendar permission denied",
+  calendarPermissionDeniedMessage = "To add sessions to your calendar, you need to grant the " +
+    "app permission to access your calendar.",
+  settingsTitle = "Settings",
+  settingsCancelButton = "Cancel",
 )
