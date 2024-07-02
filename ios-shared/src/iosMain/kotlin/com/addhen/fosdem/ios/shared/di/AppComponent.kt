@@ -28,7 +28,6 @@ interface DataComponent :
 @Component
 @ApplicationScope
 abstract class AppComponent : DataComponent {
-
   @OptIn(ExperimentalNativeApi::class)
   @ApplicationScope
   @Provides
@@ -43,5 +42,6 @@ abstract class AppComponent : DataComponent {
       ?.toIntOrNull()
       ?: 0,
   )
+
   companion object
 }
