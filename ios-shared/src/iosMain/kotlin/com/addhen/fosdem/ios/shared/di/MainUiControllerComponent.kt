@@ -14,7 +14,6 @@ import platform.UIKit.UIViewController
 abstract class MainUiControllerComponent(
   @Component val appComponent: AppComponent,
 ) : UiComponent {
-
   abstract val uiViewControllerFactory: () -> UIViewController
 
   @Provides
