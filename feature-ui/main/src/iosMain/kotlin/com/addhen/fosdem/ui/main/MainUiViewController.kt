@@ -112,13 +112,16 @@ private fun UIViewController.saveEventToCalendar(
           preferredStyle = UIAlertControllerStyleAlert,
         )
         alert.addAction(
-          UIAlertAction.actionWithTitle("Settings", style = UIAlertActionStyleDefault) {
+          UIAlertAction.actionWithTitle(
+            appStrings.settingsTitle,
+            style = UIAlertActionStyleDefault,
+          ) {
             UIApplication.sharedApplication.openURL(settingsUrl)
           },
         )
         alert.addAction(
           UIAlertAction.actionWithTitle(
-            "Cancel",
+            appStrings.settingsCancelButton,
             style = UIAlertActionStyleCancel,
             handler = null,
           ),
