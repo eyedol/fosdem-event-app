@@ -20,6 +20,7 @@
 		605C22532BEAD19800DA4820 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		605C22552BEAD19800DA4820 /* Fosdem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fosdem.entitlements; sourceTree = "<group>"; };
 		605C22572BEAD19800DA4820 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		606BFB3F2C387C0700D7F77D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +53,7 @@
 		605C224E2BEAD19700DA4820 /* Fosdem */ = {
 			isa = PBXGroup;
 			children = (
+				606BFB3F2C387C0700D7F77D /* Info.plist */,
 				605C224F2BEAD19700DA4820 /* FosdemApp.swift */,
 				605C22512BEAD19700DA4820 /* ContentView.swift */,
 				605C22532BEAD19800DA4820 /* Assets.xcassets */,
@@ -301,8 +303,10 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../ios-shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Fosdem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "FODEM Event App";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Needed to be able to write a session info to the calendar";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -353,8 +357,10 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../ios-shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Fosdem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "FODEM Event App";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Needed to be able to write a session info to the calendar";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

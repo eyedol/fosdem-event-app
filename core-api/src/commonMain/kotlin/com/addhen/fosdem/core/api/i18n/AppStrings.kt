@@ -60,6 +60,10 @@ data class AppStrings(
   val taglineHackers: String,
   val taglineTalks: String,
   val fosdemDisclaimer: String,
+  val calendarPermissionDeniedTitle: String,
+  val calendarPermissionDeniedMessage: String,
+  val settingsTitle: String,
+  val settingsCancelButton: String,
 )
 
 object Locales {
