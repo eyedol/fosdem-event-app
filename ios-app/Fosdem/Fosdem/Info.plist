@@ -4,7 +4,9 @@
 <dict>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
-	<key>NSCalendarsFullAccessUsageDescription</key>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
 	<string>Needed to be able to write a session info to the calendar</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Needed to be able to read the calendar</string>
 </dict>
 </plist>
