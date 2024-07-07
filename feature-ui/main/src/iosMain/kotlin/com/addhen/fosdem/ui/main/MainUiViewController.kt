@@ -11,6 +11,8 @@ import com.addhen.fosdem.core.api.i18n.AppStrings
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toNSDate
 import me.tatarka.inject.annotations.Inject
@@ -20,8 +22,15 @@ import platform.EventKit.EKEventStore
 import platform.EventKitUI.EKEventEditViewAction
 import platform.EventKitUI.EKEventEditViewController
 import platform.EventKitUI.EKEventEditViewDelegateProtocol
+import platform.Foundation.NSAttributedString
+import platform.Foundation.NSString
 import platform.Foundation.NSURL
+import platform.Foundation.NSUTF8StringEncoding
+import platform.Foundation.dataUsingEncoding
 import platform.SafariServices.SFSafariViewController
+import platform.UIKit.NSCharacterEncodingDocumentAttribute
+import platform.UIKit.NSDocumentTypeDocumentAttribute
+import platform.UIKit.NSHTMLTextDocumentType
 import platform.UIKit.UIAlertAction
 import platform.UIKit.UIAlertActionStyleCancel
 import platform.UIKit.UIAlertActionStyleDefault
@@ -30,6 +39,7 @@ import platform.UIKit.UIAlertControllerStyleAlert
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UIKit.UIViewController
+import platform.UIKit.create
 import platform.darwin.DISPATCH_TIME_NOW
 import platform.darwin.NSEC_PER_MSEC
 import platform.darwin.NSObject
@@ -96,7 +106,7 @@ private fun UIViewController.saveEventToCalendar(
           val event = EKEvent.eventWithEventStore(eventStore).apply {
             this.title = title
             this.location = room
-            this.notes = description
+            this.notes = parseHtml(description)
             this.startDate = Instant.fromEpochMilliseconds(startAtMillSeconds).toNSDate()
             this.endDate = Instant.fromEpochMilliseconds(endAtMillSeconds).toNSDate()
           }
@@ -130,6 +140,23 @@ private fun UIViewController.saveEventToCalendar(
       }
     }
   }
+}
+
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
+private fun parseHtml(html: String): String {
+  val data = (html as NSString).dataUsingEncoding(NSUTF8StringEncoding) ?: return html
+  val options: Map<Any?, *> = mapOf(
+    NSDocumentTypeDocumentAttribute to NSHTMLTextDocumentType,
+    NSCharacterEncodingDocumentAttribute to NSUTF8StringEncoding,
+  )
+  val attributedString =
+    NSAttributedString.create(
+      data = data,
+      options = options,
+      documentAttributes = null,
+      error = null,
+    )
+  return attributedString?.string ?: html
 }
 
 internal inline fun afterTimeout(
