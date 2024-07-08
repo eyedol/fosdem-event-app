@@ -31,6 +31,7 @@ import platform.SafariServices.SFSafariViewController
 import platform.UIKit.NSCharacterEncodingDocumentAttribute
 import platform.UIKit.NSDocumentTypeDocumentAttribute
 import platform.UIKit.NSHTMLTextDocumentType
+import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIAlertAction
 import platform.UIKit.UIAlertActionStyleCancel
 import platform.UIKit.UIAlertActionStyleDefault
@@ -66,7 +67,7 @@ fun MainUiViewController(
       val safari = SFSafariViewController(NSURL(string = url))
       uiViewController.presentViewController(safari, animated = true, completion = null)
     },
-    { /* Implement sharing of event details */ },
+    { info -> uiViewController.shareInfo(info) },
     { title, room, description, startAtMillSeconds, endAtMillSeconds ->
       uiViewController.saveEventToCalendar(
         appStrings,
@@ -79,6 +80,16 @@ fun MainUiViewController(
     },
     Modifier,
   )
+}
+
+private fun UIViewController.shareInfo(shareInfo: String) {
+  if (shareInfo.isEmpty()) return
+  val parsedHtmlInfo = parseHtml(shareInfo)
+  val activityViewController = UIActivityViewController(
+    activityItems = listOf(parsedHtmlInfo),
+    applicationActivities = null,
+  )
+  presentViewController(activityViewController, animated = true, completion = null)
 }
 
 private fun UIViewController.saveEventToCalendar(
