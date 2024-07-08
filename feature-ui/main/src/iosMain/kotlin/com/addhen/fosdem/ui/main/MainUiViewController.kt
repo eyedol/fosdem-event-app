@@ -69,7 +69,7 @@ fun MainUiViewController(
     },
     { info -> uiViewController.shareInfo(info) },
     { title, room, description, startAtMillSeconds, endAtMillSeconds ->
-      uiViewController.saveEventToCalendar(
+      uiViewController.launchCalendar(
         appStrings,
         title,
         room,
@@ -92,7 +92,7 @@ private fun UIViewController.shareInfo(shareInfo: String) {
   presentViewController(activityViewController, animated = true, completion = null)
 }
 
-private fun UIViewController.saveEventToCalendar(
+private fun UIViewController.launchCalendar(
   appStrings: AppStrings,
   title: String,
   room: String,
