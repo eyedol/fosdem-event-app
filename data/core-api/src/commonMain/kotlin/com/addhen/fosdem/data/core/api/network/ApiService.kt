@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.serializer
-import nl.adaptivity.xmlutil.XmlDeclMode
 import nl.adaptivity.xmlutil.serialization.XML
 
 class ApiService(val url: String, val httpClient: HttpClient) {
@@ -47,7 +46,6 @@ class ApiService(val url: String, val httpClient: HttpClient) {
 
     val DEFAULT_XML: XML = XML {
       repairNamespaces = true
-      xmlDeclMode = XmlDeclMode.None
       indentString = ""
       autoPolymorphic = false
       defaultPolicy { ignoreUnknownChildren() }
