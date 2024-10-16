@@ -28,7 +28,7 @@ lyricist = "1.7.0"
 composeLintChecks = "1.4.1"
 browser = "1.8.0"
 benasherUUid = "0.8.4"
-licensee = "1.11.0"
+licensee = "1.12.0"
 ksoup = "0.4.0"
 deployGate = "2.8.0"
 
