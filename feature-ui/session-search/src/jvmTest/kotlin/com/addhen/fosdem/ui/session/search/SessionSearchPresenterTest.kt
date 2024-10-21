@@ -160,14 +160,11 @@ class SessionSearchPresenterTest {
         SessionSearchUiEvent.FilterDay(day2Tab, isSelected = true),
       )
 
-      // I don't understand why this emission occurred
-      val actualSessionSearchListFiltered1 = awaitItem()
       // The emission that occurred as a result of the filter event
       val actualSessionSearchListFiltered = awaitItem()
 
       assertEquals(expectedSearchSessionLoading, actualSearchSessionLoading.content)
       assertEquals(expectedSessionSearchList, actualSessionSearchUiState.content)
-      assertEquals(expectedSessionSearchList, actualSessionSearchListFiltered1.content)
       assertEquals(expectedSearchListFiltered, actualSessionSearchListFiltered.content)
     }
   }
