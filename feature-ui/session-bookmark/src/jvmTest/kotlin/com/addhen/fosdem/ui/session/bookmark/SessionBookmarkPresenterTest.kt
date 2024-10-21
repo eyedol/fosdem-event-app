@@ -83,7 +83,6 @@ class SessionBookmarkPresenterTest {
         val actualLoadingSessionUiState = awaitItem() // Loading
         val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
         actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterSecondDayBookmarks)
-        awaitItem() // Not sure what this extra event is
         val actualSecondDayBookmarkedSessions = awaitItem()
 
         assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
@@ -120,7 +119,6 @@ class SessionBookmarkPresenterTest {
         val actualLoadingSessionUiState = awaitItem() // Loading
         val actualAllBookmarkedSessionUiState = awaitItem() // Bookmark list
         actualAllBookmarkedSessionUiState.eventSink(SessionBookmarkUiEvent.FilterFirstDayBookmarks)
-        awaitItem() // Not sure what this extra event is
         val actualFirstDayBookmarkedSessions = awaitItem()
 
         assertEquals(SessionBookmarkSheetUiState.Loading(), actualLoadingSessionUiState.content)
