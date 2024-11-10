@@ -29,7 +29,7 @@ composeLintChecks = "1.4.2"
 browser = "1.8.0"
 benasherUUid = "0.8.4"
 licensee = "1.12.0"
-ksoup = "0.4.0"
+ksoup = "0.4.1"
 deployGate = "2.9.0"
 
 [plugins]
