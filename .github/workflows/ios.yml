@@ -22,53 +22,49 @@ jobs:
       TERM: dumb
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/setup
 
-      - name: Cleanup Disk space in runner
-        run: .github/scripts/mac-disk-cleanup.sh
+    - name: Cleanup Disk space in runner
+      run: .github/scripts/mac-disk-cleanup.sh
 
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
 
-      - run: brew install swiftlint
+    - run: brew install swiftlint
 
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-disabled: true
+    - uses: gradle/actions/setup-gradle@v4
+      with:
+        cache-disabled: true
 
-      - uses: actions/cache@v4
-        with:
-          path: ios-app/Tivi/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+    - uses: actions/cache@v4
+      with:
+        path: ios-app/Tivi/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
 
-      - name: Run Fastlane Lint lane
-        run: bundle exec fastlane ios lint
+    - name: Run Fastlane Lint lane
+      run: bundle exec fastlane ios lint
 
-      - name: Build iOS application
-        run: bundle exec fastlane ios build_qa
+    - name: Build iOS application
+      run: bundle exec fastlane ios build_qa
 
-      - name: Upload build outputs
-        if: always()
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-qa-build-outputs
-          path: |
-            *.ipa
-            *.dSYM.zip
+    - name: Upload build outputs
+      if: always()
+      continue-on-error: true
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-qa-build-outputs
+        path: |
+          *.ipa
+          *.dSYM.zip
 
-      - name: Upload build logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-qa-logs
-          path: |
-            **/fastlane-buildlog
-
-  ios-release:
-    runs-on: macos-14
-    timeout-minutes: 60
+    - name: Upload build logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-qa-logs
+        path: |
+          **/fastlane-buildlog
