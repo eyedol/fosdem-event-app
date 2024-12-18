@@ -45,7 +45,7 @@ abstract class AppComponent(
       packageName = application.packageName,
       debugBuild = false,
       flavor = if ("prod" == BuildConfig.FLAVOR) Flavor.Prod else Flavor.Devel,
-      versionName = packageInfo.versionName,
+      versionName = packageInfo.versionName ?: "",
       versionCode = packageInfo.versionCode,
     )
   }
