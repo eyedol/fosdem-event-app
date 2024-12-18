@@ -28,6 +28,7 @@ kotlin {
         implementation(projects.data.eventsApi)
         implementation(projects.data.modelApi)
         implementation(projects.data.sqldelightApi)
+        implementation(libs.ktor.client.core)
         implementation(libs.kotlinx.datetime)
         implementation(libs.sqldelight.coroutines)
         implementation(libs.sqldelight.primitive)
