@@ -32,18 +32,15 @@ jobs:
       with:
         bundler-cache: true
 
-    - run: brew install swiftlint
-
     - uses: gradle/actions/setup-gradle@v4
       with:
         cache-disabled: true
 
-    - uses: actions/cache@v4
+    - uses: maxim-lobanov/setup-xcode@v1
       with:
-        path: ios-app/Tivi/Pods
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-pods-
+        xcode-version: '16.0'
+
+    - run: brew install swiftlint
 
     - name: Run Fastlane Lint lane
       run: bundle exec fastlane ios lint
