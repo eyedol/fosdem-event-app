@@ -1,0 +1,117 @@
+skip_docs
+
+platform :ios do
+  ios_bundle_ids = [
+    "com.addhen.fosdem.ios.Fosdem"
+  ]
+
+  before_all do |lane|
+    cleanup_ci_keychain if is_ci
+    xcodes(select_for_current_build_only: true) if is_ci
+  end
+
+  after_all do |lane|
+    cleanup_ci_keychain if is_ci
+  end
+
+  error do |lane, exception|
+    cleanup_ci_keychain if is_ci
+  end
+
+  lane :certs do |options|
+    app_store_connect_api_key
+    match(app_identifier: ios_bundle_ids)
+  end
+
+  lane :recreate_certs do |options|
+    app_store_connect_api_key
+
+    match_nuke(
+      app_identifier: ios_bundle_ids,
+      type: "appstore"
+    )
+
+    match(app_identifier: ios_bundle_ids)
+  end
+
+  lane :lint do
+    swiftlint(
+      mode: :lint,
+      raise_if_swiftlint_error: true,
+      config_file: ".swiftlint.yml"
+    )
+  end
+
+  lane :lint_fix do
+    swiftlint(
+      mode: :fix,
+      config_file: ".swiftlint.yml"
+    )
+  end
+
+  private_lane :build_fosdem do |options|
+    setup_ci if is_ci
+
+    skip_certs = env_nil_or_blank('MATCH_PASSWORD')
+
+    certs(type: 'appstore') unless skip_certs
+
+    increment_build_number(
+      xcodeproj: "ios-app/Fosdem/Fosdem.xcodeproj",
+      build_number: ENV['FOSDEM_BUILD_NUMBER']
+    ) unless env_nil_or_blank('FOSDEM_BUILD_NUMBER')
+
+    build_app(
+      workspace: "ios-app/Fosdem/Fosdem.xcworkspace",
+      scheme: options[:scheme],
+      buildlog_path: "build/fastlane-buildlog",
+      skip_package_ipa: skip_certs,
+      skip_codesigning: skip_certs
+    )
+  end
+
+  lane :build_qa do
+    build_fosdem(scheme: "Fosdem QA")
+  end
+
+  lane :build_prod do
+    build_fosde(scheme: "Fosdem Prod")
+  end
+
+  lane :build_all do
+    build_qa
+    build_prod
+  end
+
+  lane :screenshots do
+    capture_screenshots(
+      workspace: "ios-app/Fosdem/Fosdem.xcworkspace",
+      scheme: "UITests",
+      headless: false,
+      skip_open_summary: true
+    )
+  end
+
+  lane :publish_qa do
+    app_store_connect_api_key
+    upload_to_testflight(app_identifier: "com.addhen.fosdem.ios.Fosdem")
+  end
+
+  lane :publish_prod do
+    app_store_connect_api_key
+    upload_to_testflight(app_identifier: "com.addhen.fosdem.ios.Fosdem")
+  end
+end
+
+def cleanup_ci_keychain(name = "fastlane_tmp_keychain")
+  if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
+    puts "CI keychain exists. Deleting it and restoring the default keychain"
+    delete_keychain(name: name)
+    sh("security default-keychain -s ~/Library/Keychains/login.keychain-db")
+  end
+end
+
+def env_nil_or_blank(name)
+  value = ENV[name]
+  return value.nil? || value.empty?
+end
