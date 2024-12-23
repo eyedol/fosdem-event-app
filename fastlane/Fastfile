@@ -62,7 +62,7 @@ platform :ios do
     ) unless env_nil_or_blank('FOSDEM_BUILD_NUMBER')
 
     build_app(
-      workspace: "ios-app/Fosdem/Fosdem.xcworkspace",
+      project: "ios-app/Fosdem/Fosdem.xcodeproj",
       scheme: options[:scheme],
       buildlog_path: "build/fastlane-buildlog",
       skip_package_ipa: skip_certs,
