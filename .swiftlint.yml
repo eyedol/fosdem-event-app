@@ -1,3 +1,6 @@
+included:
+  - ios-app/Fosdem
+
 cyclomatic_complexity:
   warning: 15
   error: 20
