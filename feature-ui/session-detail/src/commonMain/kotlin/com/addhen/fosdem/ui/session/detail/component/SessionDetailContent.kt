@@ -43,11 +43,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.read_more_label
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionItemDetailReadMoreButtonTestTag = "SessionItemDetailReadMoreButtonTestTag"
 
@@ -72,7 +75,7 @@ fun SessionDetailContent(
   }
   Column(modifier = modifier) {
     DescriptionSection(
-      readMore = appStrings.readMoreLabel,
+      readMore = stringResource(Res.string.read_more_label),
       description = description,
       onLinkClick = onLinkClick,
     )

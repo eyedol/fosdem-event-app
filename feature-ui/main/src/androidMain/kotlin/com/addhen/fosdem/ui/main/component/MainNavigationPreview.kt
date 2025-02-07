@@ -26,7 +26,7 @@ import com.addhen.fosdem.ui.main.buildNavigationItems
 @Composable
 private fun MainNavigationPreview() {
   val strings = EnAppStrings
-  val navigationItems = remember(strings) { buildNavigationItems(strings) }
+  val navigationItems = remember(strings) { buildNavigationItems() }
   AppTheme {
     Surface {
       Scaffold(

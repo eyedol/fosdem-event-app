@@ -30,6 +30,13 @@ kotlin {
       }
     }
 
+    iosMain {
+      dependencies {
+        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        implementation(compose.components.resources)
+      }
+    }
+
     androidMain {
       dependencies {
         implementation(libs.compose.ui.tooling.preview)
@@ -47,4 +54,9 @@ android {
       resources.srcDirs("src/commonMain/resources")
     }
   }
+}
+
+compose.resources {
+  publicResClass = true
+  packageOfResClass = "com.addhen.fosdem.compose.common.ui.api"
 }

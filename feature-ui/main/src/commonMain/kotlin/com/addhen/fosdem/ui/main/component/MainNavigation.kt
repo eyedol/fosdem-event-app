@@ -29,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.PersistentList
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Immutable
 data class MainNavigationItem(
   val screen: Screen,
-  val label: String,
-  val contentDescription: String,
+  val label: StringResource,
+  val contentDescription: StringResource,
   val iconImageVector: ImageVector,
   val selectedImageVector: ImageVector? = null,
 )
@@ -58,7 +60,7 @@ internal fun MainNavigationBar(
             selected = selectedNavigation == item.screen,
           )
         },
-        label = { Text(text = item.label) },
+        label = { Text(text = stringResource(item.label)) },
         selected = selectedNavigation == item.screen,
         onClick = { onNavigationSelected(item.screen) },
       )
@@ -83,7 +85,7 @@ internal fun MainNavigationRail(
           )
         },
         alwaysShowLabel = false,
-        label = { Text(text = item.label) },
+        label = { Text(text = stringResource(item.label)) },
         selected = selectedNavigation == item.screen,
         onClick = { onNavigationSelected(item.screen) },
       )
@@ -109,10 +111,10 @@ internal fun MainNavigationDrawer(
         icon = {
           Icon(
             imageVector = item.iconImageVector,
-            contentDescription = item.contentDescription,
+            contentDescription = stringResource(item.contentDescription),
           )
         },
-        label = { Text(text = item.label) },
+        label = { Text(text = stringResource(item.label)) },
         selected = selectedNavigation == item.screen,
         onClick = { onNavigationSelected(item.screen) },
       )
@@ -126,13 +128,13 @@ private fun MainNavigationItemIcon(item: MainNavigationItem, selected: Boolean) 
     Crossfade(targetState = selected) { selectedTarget ->
       Icon(
         imageVector = if (selectedTarget) item.selectedImageVector else item.iconImageVector,
-        contentDescription = item.contentDescription,
+        contentDescription = stringResource(item.contentDescription),
       )
     }
   } else {
     Icon(
       imageVector = item.iconImageVector,
-      contentDescription = item.contentDescription,
+      contentDescription = stringResource(item.contentDescription),
     )
   }
 }
