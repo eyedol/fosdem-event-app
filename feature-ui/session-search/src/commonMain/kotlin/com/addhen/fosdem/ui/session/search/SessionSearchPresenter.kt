@@ -14,8 +14,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.compose.common.ui.api.try_again
 import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
@@ -32,6 +34,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 @Inject
 class SessionSearchUiPresenterFactory(
@@ -66,7 +69,7 @@ class SessionSearchPresenter(
     var query by rememberSaveable { mutableStateOf("") }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appStrings = LocalStrings.current
+    val tryAgain = stringResource(Res.string.try_again)
 
     var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
       mutableStateOf(SessionFilters())
@@ -75,7 +78,7 @@ class SessionSearchPresenter(
     val searchUiState by observeSearchFiltersAction
       .catch {
         Logger.e(it) { "Error occurred" }
-        uiMessageManager.emitMessage(UiMessage(it, actionLabel = appStrings.tryAgain))
+        uiMessageManager.emitMessage(UiMessage(it, actionLabel = tryAgain))
       }.collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {

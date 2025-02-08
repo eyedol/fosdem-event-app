@@ -32,7 +32,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.open_source_licenses
 import com.addhen.fosdem.core.api.screens.LicensesScreen
 import com.addhen.fosdem.ui.licenses.component.Preference
 import com.addhen.fosdem.ui.licenses.component.PreferenceHeader
@@ -41,6 +42,7 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 const val LicensesScreenTestTag = "LicensesScreen"
 
@@ -87,7 +89,7 @@ private fun LicensesScreen(
 ) {
   val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
   val layoutDirection = LocalLayoutDirection.current
-  val appStrings = LocalStrings.current
+
   Scaffold(
     modifier = Modifier
       .testTag(LicensesScreenTestTag)
@@ -96,7 +98,7 @@ private fun LicensesScreen(
       TopAppBar(
         title = {
           Text(
-            text = appStrings.openSourceLicenses,
+            text = stringResource(Res.string.open_source_licenses),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Medium,
           )
@@ -105,7 +107,7 @@ private fun LicensesScreen(
           IconButton(onClick = onNavigationIconClick) {
             Icon(
               imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-              contentDescription = LocalStrings.current.openSourceLicenses,
+              contentDescription = stringResource(Res.string.open_source_licenses),
             )
           }
         },

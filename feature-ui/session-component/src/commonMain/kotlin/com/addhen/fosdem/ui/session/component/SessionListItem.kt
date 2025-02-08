@@ -39,11 +39,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.add_to_bookmarks_title
+import com.addhen.fosdem.compose.common.ui.api.remove_from_bookmarks_title
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Event
 import kotlin.math.max
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionListItemTestTag = "SessionListItem"
 const val SessionListItemBookmarkIconTestTag = "SessionListItemBookmarkIconTestTag"
@@ -58,7 +61,7 @@ fun SessionListItem(
   highlightQuery: SearchQuery,
   modifier: Modifier = Modifier,
 ) {
-  val appStrings = LocalStrings.current
+
   Column(
     modifier.testTag(SessionListItemTestTag),
   ) {
@@ -85,9 +88,9 @@ fun SessionListItem(
             Icons.Outlined.BookmarkBorder
           },
           contentDescription = if (isBookmarked) {
-            appStrings.addToBookmarksTitle
+           stringResource(Res.string.add_to_bookmarks_title)
           } else {
-            appStrings.removeFromBookmarksTitle
+            stringResource(Res.string.remove_from_bookmarks_title)
           },
           modifier = Modifier.padding(top = 4.dp),
         )

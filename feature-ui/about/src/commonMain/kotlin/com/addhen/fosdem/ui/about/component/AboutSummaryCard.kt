@@ -18,14 +18,19 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.date_description
+import com.addhen.fosdem.compose.common.ui.api.date_title
+import com.addhen.fosdem.compose.common.ui.api.place_description
+import com.addhen.fosdem.compose.common.ui.api.place_link
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AboutSummaryCard(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-  val appStrings = LocalStrings.current
+
   Card(
     shape = RoundedCornerShape(12.dp),
     modifier = modifier,
@@ -43,13 +48,13 @@ fun AboutSummaryCard(
     ) {
       AboutSummaryCardRow(
         leadingIcon = Icons.Outlined.Schedule,
-        label = appStrings.dateTitle,
-        content = appStrings.dateDescription,
+        label = stringResource(Res.string.date_title),
+        content = stringResource(Res.string.date_description),
       )
       AboutSummaryCardRow(
         leadingIcon = Icons.Outlined.Place,
-        label = appStrings.placeDescription,
-        content = appStrings.placeLink,
+        label = stringResource(Res.string.place_description),
+        content = stringResource(Res.string.place_link),
         onLinkClick = onLinkClick,
         url = "https://www.openstreetmap.org/?mlat=50.81238&mlon=4.38073#map=18/50.81238/4.38073",
       )

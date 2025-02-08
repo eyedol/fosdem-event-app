@@ -6,8 +6,10 @@ package com.addhen.fosdem.ui.session.search.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.day_title
 import com.addhen.fosdem.ui.session.component.DayTab
+import org.jetbrains.compose.resources.stringResource
 
 const val FilterDayChipTestTag = "FilterDayChip"
 
@@ -20,7 +22,7 @@ fun FilterDayChip(
   DropdownFilterChip(
     searchFilterUiState = searchFilterUiState,
     onSelected = onDaySelected,
-    filterChipLabelDefaultText = LocalStrings.current.dayTitle,
+    filterChipLabelDefaultText = stringResource(Res.string.day_title),
     dropdownMenuItemText = { dayTab -> dayTab.title },
     modifier = modifier.testTag(FilterDayChipTestTag),
   )

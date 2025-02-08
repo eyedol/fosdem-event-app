@@ -10,20 +10,22 @@ import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.outlined.PrivacyTip
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 const val AboutOthersLicenseItemTestTag = "AboutOthersLicenseItem"
 const val AboutOthersPrivacyPolicyItemTestTag = "AboutOthersPrivacyPolicyItem"
 
 fun LazyListScope.aboutOthers(
-  licenseLabel: String,
-  privacyPolicy: String,
+  licenseLabel: StringResource,
+  privacyPolicy: StringResource,
   onLicenseItemClick: () -> Unit,
   onPrivacyPolicyItemClick: () -> Unit,
 ) {
   item {
     AboutContentColumn(
       leadingIcon = Icons.Outlined.FileCopy,
-      label = licenseLabel,
+      label = stringResource(licenseLabel),
       testTag = AboutOthersLicenseItemTestTag,
       onClickAction = onLicenseItemClick,
       modifier = Modifier
@@ -35,7 +37,7 @@ fun LazyListScope.aboutOthers(
   item {
     AboutContentColumn(
       leadingIcon = Icons.Outlined.PrivacyTip,
-      label = privacyPolicy,
+      label = stringResource(privacyPolicy),
       testTag = AboutOthersPrivacyPolicyItemTestTag,
       onClickAction = onPrivacyPolicyItemClick,
       modifier = Modifier

@@ -21,6 +21,8 @@ import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
+import fosdem_events_app.feature_ui.about.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AboutDetail(
@@ -28,7 +30,7 @@ fun AboutDetail(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-  val appStrings = LocalStrings.current
+
   val conferenceInfo = LocalConferenceInfo.current
   Column(
     modifier = modifier,
@@ -57,7 +59,7 @@ fun AboutDetail(
       }
     }
     Text(
-      text = appStrings.aboutFosdem,
+      text = stringResource(Res.string.about_fosdem),
       style = MaterialTheme.typography.bodyLarge,
       modifier = Modifier
         .padding(

@@ -14,7 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.add_to_bookmarks_title
+import com.addhen.fosdem.compose.common.ui.api.remove_from_bookmarks_title
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionDetailBookmarkIconTestTag = "SessionItemDetailBookmarkIcon"
 
@@ -26,7 +29,6 @@ internal fun SessionBookmarkButton(
   expanded: Boolean,
   modifier: Modifier = Modifier,
 ) {
-  val appStrings = LocalStrings.current
 
   ExtendedFloatingActionButton(
     onClick = { onBookmarkClick(eventId) },
@@ -37,16 +39,16 @@ internal fun SessionBookmarkButton(
           else -> Icons.Default.BookmarkBorder
         },
         contentDescription = when {
-          isBookmarked -> appStrings.removeFromBookmarksTitle
-          else -> appStrings.addToBookmarksTitle
+          isBookmarked -> stringResource(Res.string.remove_from_bookmarks_title)
+          else -> stringResource(Res.string.add_to_bookmarks_title)
         },
       )
     },
     text = {
       Text(
         when {
-          isBookmarked -> appStrings.removeFromBookmarksTitle
-          else -> appStrings.addToBookmarksTitle
+          isBookmarked -> stringResource(Res.string.remove_from_bookmarks_title)
+          else -> stringResource(Res.string.add_to_bookmarks_title)
         },
       )
     },

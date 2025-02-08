@@ -24,6 +24,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.about_title
+import com.addhen.fosdem.compose.common.ui.api.license_title
+import com.addhen.fosdem.compose.common.ui.api.privacy_policy_title
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.ui.about.component.AboutDetail
 import com.addhen.fosdem.ui.about.component.AboutFooterLinks
@@ -33,6 +37,7 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 const val AboutScreenTestTag = "AboutScreen"
 
@@ -86,7 +91,7 @@ private fun AboutScreen(
 ) {
   val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
   val layoutDirection = LocalLayoutDirection.current
-  val appStrings = LocalStrings.current
+
   Scaffold(
     modifier =
     Modifier
@@ -97,13 +102,13 @@ private fun AboutScreen(
         title = {
           if (scrollBehavior.state.overlappedFraction == 0f) {
             Text(
-              text = appStrings.aboutTitle,
+              text = stringResource(Res.string.about_title),
               style = MaterialTheme.typography.headlineLarge,
               fontWeight = FontWeight.Medium,
             )
           } else {
             Text(
-              text = appStrings.aboutTitle,
+              text = stringResource(Res.string.about_title),
               style = MaterialTheme.typography.titleLarge,
               modifier = Modifier.alpha(scrollBehavior.state.overlappedFraction),
             )
@@ -139,8 +144,8 @@ private fun AboutScreen(
           onPrivacyPolicyItemClick = {
             onAboutItemClick(AboutItem.PrivacyPolicy(PRIVACY_POLICY_URL))
           },
-          licenseLabel = appStrings.licenseTitle,
-          privacyPolicy = appStrings.privacyPolicyTitle,
+          licenseLabel = Res.string.license_title,
+          privacyPolicy = Res.string.privacy_policy_title,
         )
         item {
           AboutFooterLinks(

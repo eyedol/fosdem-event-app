@@ -34,7 +34,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
 import com.addhen.fosdem.core.api.screens.SessionsScreen
@@ -46,8 +45,8 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
-import me.tatarka.inject.annotations.Inject
 import kotlin.math.roundToInt
+import me.tatarka.inject.annotations.Inject
 
 const val SessionScreenTestTag = "SessionScreen"
 
@@ -124,7 +123,6 @@ private fun SessionScreen(
   contentPadding: PaddingValues = PaddingValues(),
 ) {
   val density = LocalDensity.current
-  val appStrings = LocalStrings.current
   val windowSizeClass = LocalWindowSizeClass.current
   val state = rememberSessionScreenScrollState()
   val layoutDirection = LocalLayoutDirection.current
@@ -165,7 +163,6 @@ private fun SessionScreen(
         isRefreshing = uiState.isRefreshing,
         onRefreshClick = onSessionRefreshClick,
         onBookmarkClicks = onSearchClick,
-        appStrings = appStrings,
         titleIcon = {},
       )
     },

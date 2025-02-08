@@ -19,7 +19,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.search_not_found
+import com.addhen.fosdem.compose.common.ui.api.search_not_found_description
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
 import com.addhen.fosdem.ui.session.component.FilterRoom
@@ -30,6 +32,7 @@ import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import com.addhen.fosdem.ui.session.search.component.SearchUiState.ListSearch
 import com.addhen.fosdem.ui.session.search.component.SearchUiState.Loading
 import kotlinx.collections.immutable.PersistentMap
+import org.jetbrains.compose.resources.stringResource
 
 const val SearchScreenEmptyBodyTestTag = "SearchScreenEmptySearchResultBody"
 
@@ -120,11 +123,11 @@ fun SessionSearchSheet(
       )
 
       is SearchUiState.Empty -> {
-        val message = LocalStrings.current.searchNotFound(uiState.query.queryText)
+        val message = stringResource(Res.string.search_not_found, uiState.query.queryText)
         localFocusManager.clearFocus()
         SessionEmptyListView(
           title = message,
-          description = LocalStrings.current.searchNotFoundDescription,
+          description = stringResource(Res.string.search_not_found_description),
           modifier = Modifier.testTag(SearchScreenEmptyBodyTestTag),
         ) {
           Text(text = "\uD83D\uDD75️\u200D♂️")

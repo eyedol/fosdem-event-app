@@ -32,6 +32,7 @@ kotlin {
         implementation(compose.foundation)
         implementation(compose.material)
         implementation(compose.materialIconsExtended)
+        implementation(compose.components.resources)
       }
     }
   }

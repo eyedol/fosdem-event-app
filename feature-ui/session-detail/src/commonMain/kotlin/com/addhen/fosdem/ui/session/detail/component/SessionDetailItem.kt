@@ -10,8 +10,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.date_title
+import com.addhen.fosdem.compose.common.ui.api.room_title
+import com.addhen.fosdem.compose.common.ui.api.track_title
 import com.addhen.fosdem.model.api.Event
+import org.jetbrains.compose.resources.stringResource
 
 data class SessionDetailItemSectionUiState(
   val event: Event,
@@ -25,7 +29,6 @@ internal fun SessionDetailItem(
   onLinkClick: (String) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val appStrings = LocalStrings.current
 
   LazyColumn(
     state = listState,
@@ -34,9 +37,9 @@ internal fun SessionDetailItem(
   ) {
     item {
       SessionDetailSummaryCard(
-        dateTitle = appStrings.dateTitle,
-        roomTitle = appStrings.roomTitle,
-        trackTitle = appStrings.trackTitle,
+        dateTitle = stringResource(Res.string.date_title),
+        roomTitle = stringResource(Res.string.room_title),
+        trackTitle = stringResource(Res.string.track_title),
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp),
         sessionItem = uiState.event,
       )

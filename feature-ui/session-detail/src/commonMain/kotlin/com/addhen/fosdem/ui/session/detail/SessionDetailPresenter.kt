@@ -9,9 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.compose.common.ui.api.try_again
 import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.toInstant
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 @Inject
 class SessionDetailUiPresenterFactory(
@@ -62,7 +64,7 @@ class SessionDetailPresenter(
     val scope = rememberCoroutineScope()
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appString = LocalStrings.current
+    val tryAgain = stringResource(Res.string.try_again)
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
@@ -128,7 +130,7 @@ class SessionDetailPresenter(
       )
     }.catch {
       Logger.e(it) { "Error occurred" }
-      uiMessageManager.emitMessage(UiMessage(it, actionLabel = appString.tryAgain))
+      uiMessageManager.emitMessage(UiMessage(it, actionLabel = tryAgain))
     }.collectAsRetainedState(SessionDetailScreenUiState.Loading)
 
     return SessionDetailUiState(

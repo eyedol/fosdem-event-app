@@ -12,9 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
+import com.addhen.fosdem.compose.common.ui.api.try_again
 import com.addhen.fosdem.core.api.onException
 import com.addhen.fosdem.core.api.screens.SessionBookmarkScreen
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
@@ -41,6 +42,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 @Inject
 class SessionUiPresenterFactory(
@@ -70,7 +72,7 @@ class SessionsPresenter(
     var isRefreshing by rememberRetained { mutableStateOf(false) }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appStrings = LocalStrings.current
+    val tryAgain = stringResource(Res.string.try_again)
 
     LaunchedEffect(isRefreshing) {
       if (isRefreshing) {
@@ -78,7 +80,7 @@ class SessionsPresenter(
         results.onException {
           Logger.e(it) { "Error occurred refreshing events" }
           uiMessageManager.emitMessage(
-            UiMessage(it, actionLabel = appStrings.tryAgain),
+            UiMessage(it, actionLabel = tryAgain),
           )
         }
         isRefreshing = false
@@ -92,7 +94,7 @@ class SessionsPresenter(
       uiMessageManager.emitMessage(
         UiMessage(
           it,
-          actionLabel = appStrings.tryAgain,
+          actionLabel = tryAgain,
         ),
       )
     }.collectAsRetainedState(SessionsSheetUiState.Loading(days))

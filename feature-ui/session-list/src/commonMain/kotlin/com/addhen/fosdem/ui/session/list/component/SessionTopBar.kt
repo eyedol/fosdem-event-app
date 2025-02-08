@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.bookmark_content_description
 import com.addhen.fosdem.ui.session.component.RefreshButton
+import org.jetbrains.compose.resources.stringResource
 
 const val SearchButtonTestTag = "SearchButton"
 const val SessionRefreshButtonTestTag = "SessionRefreshButton"
@@ -24,7 +26,6 @@ const val SessionRefreshButtonTestTag = "SessionRefreshButton"
 @OptIn(ExperimentalMaterial3Api::class)
 fun SessionTopArea(
   isRefreshing: Boolean,
-  appStrings: AppStrings,
   onRefreshClick: () -> Unit,
   onBookmarkClicks: () -> Unit,
   titleIcon: @Composable () -> Unit,
@@ -40,7 +41,7 @@ fun SessionTopArea(
       ) {
         Icon(
           imageVector = Icons.Default.Bookmarks,
-          contentDescription = appStrings.bookmarkContentDescription,
+          contentDescription = stringResource(Res.string.bookmark_content_description),
         )
       }
       RefreshButton(

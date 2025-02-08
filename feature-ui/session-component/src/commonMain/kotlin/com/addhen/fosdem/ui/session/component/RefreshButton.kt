@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.refresh
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RefreshButton(
@@ -40,7 +42,7 @@ fun RefreshButton(
       } else {
         Icon(
           imageVector = Icons.Default.Refresh,
-          contentDescription = LocalStrings.current.refresh,
+          contentDescription = stringResource(Res.string.refresh),
         )
       }
     }
