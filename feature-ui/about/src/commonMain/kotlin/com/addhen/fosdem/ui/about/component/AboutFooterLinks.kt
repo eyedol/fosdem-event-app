@@ -16,14 +16,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.app_version
+import com.addhen.fosdem.compose.common.ui.api.fosdem_disclaimer
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AboutFooterLinks(
   versionName: String?,
   modifier: Modifier = Modifier,
 ) {
-  val appString = LocalStrings.current
   Column(
     verticalArrangement = Arrangement.Top,
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -32,7 +34,7 @@ fun AboutFooterLinks(
       .padding(top = 24.dp, bottom = 16.dp),
   ) {
     Text(
-      text = appString.appVersion,
+      text = stringResource(Res.string.app_version),
       style = MaterialTheme.typography.labelLarge,
     )
     if (versionName != null) {
@@ -45,7 +47,7 @@ fun AboutFooterLinks(
     Spacer(modifier = Modifier.height(8.dp))
     Text(
       modifier = Modifier.padding(horizontal = 12.dp),
-      text = appString.fosdemDisclaimer,
+      text = stringResource(Res.string.fosdem_disclaimer),
       style = MaterialTheme.typography.labelSmall,
       textAlign = TextAlign.Center,
     )

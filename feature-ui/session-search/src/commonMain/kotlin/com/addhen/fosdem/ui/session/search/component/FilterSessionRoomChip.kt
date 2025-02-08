@@ -6,8 +6,10 @@ package com.addhen.fosdem.ui.session.search.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.room_title
 import com.addhen.fosdem.ui.session.component.FilterRoom
+import org.jetbrains.compose.resources.stringResource
 
 const val FilterSessionRoomChipTestTag = "FilterSessionTypeChip"
 
@@ -21,11 +23,9 @@ fun FilterSessionRoomChip(
   DropdownFilterChip(
     searchFilterUiState = searchFilterUiState,
     onSelected = onSessionRoomSelected,
-    filterChipLabelDefaultText = LocalStrings.current.roomTitle,
+    filterChipLabelDefaultText = stringResource(Res.string.room_title),
     onFilterChipClick = onFilterSessionRoomChipClicked,
-    dropdownMenuItemText = { sessionRoom ->
-      sessionRoom.name
-    },
+    dropdownMenuItemText = { sessionRoom -> sessionRoom.name },
     modifier = modifier.testTag(FilterSessionRoomChipTestTag),
   )
 }

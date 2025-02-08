@@ -18,7 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.bookmarked_item_empty
+import com.addhen.fosdem.compose.common.ui.api.bookmarked_item_not_found
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.Empty
 import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiState.ListBookmark
@@ -26,6 +28,7 @@ import com.addhen.fosdem.ui.session.bookmark.component.SessionBookmarkSheetUiSta
 import com.addhen.fosdem.ui.session.component.SessionEmptyListView
 import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentMap
+import org.jetbrains.compose.resources.stringResource
 
 sealed interface SessionBookmarkSheetUiState {
   val isDayFirstSelected: Boolean
@@ -60,7 +63,7 @@ fun SessionBookmarkSheet(
   modifier: Modifier = Modifier,
 ) {
   val layoutDirection = LocalLayoutDirection.current
-  val appString = LocalStrings.current
+
   Column(
     modifier = modifier.fillMaxSize(),
   ) {
@@ -83,8 +86,8 @@ fun SessionBookmarkSheet(
     when (uiState) {
       is Empty -> {
         SessionEmptyListView(
-          title = appString.bookmarkedItemEmpty,
-          description = appString.bookmarkedItemNotFound,
+          title = stringResource(Res.string.bookmarked_item_empty),
+          description = stringResource(Res.string.bookmarked_item_not_found),
           modifier = Modifier.padding(padding),
         ) {
           Icon(

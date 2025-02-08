@@ -32,12 +32,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
+import com.addhen.fosdem.compose.common.ui.api.tagline_beer
+import com.addhen.fosdem.compose.common.ui.api.tagline_dev_rooms
+import com.addhen.fosdem.compose.common.ui.api.tagline_free_software
+import com.addhen.fosdem.compose.common.ui.api.tagline_hackers
+import com.addhen.fosdem.compose.common.ui.api.tagline_lightning_talks
+import com.addhen.fosdem.compose.common.ui.api.tagline_open_source
+import com.addhen.fosdem.compose.common.ui.api.tagline_talks
 import com.addhen.fosdem.compose.common.ui.api.theme.logoColors
 import com.addhen.fosdem.compose.common.ui.api.theme.tagColors
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.stringResource
 
 @Immutable
 data class Tag(val title: String, val color: Color)
@@ -131,14 +139,13 @@ private fun TagItem(tag: Tag) {
 
 @Composable
 private fun tags(): PersistentList<Tag> {
-  val appStrings = LocalStrings.current
   return listOf(
-    Tag(appStrings.taglineBeer, tagColors().tagColorMain),
-    Tag(appStrings.taglineOpenSource, tagColors().tagColorAlt),
-    Tag(appStrings.taglineFreeSoftware, tagColors().tagColorMain),
-    Tag(appStrings.taglineLightningTalks, tagColors().tagColorAlt),
-    Tag(appStrings.taglineDevRooms, tagColors().tagColorMain),
-    Tag(appStrings.taglineTalks, tagColors().tagColorAlt),
-    Tag(appStrings.taglineHackers, tagColors().tagColorMain),
+    Tag(stringResource(Res.string.tagline_beer), tagColors().tagColorMain),
+    Tag(stringResource(Res.string.tagline_open_source), tagColors().tagColorAlt),
+    Tag(stringResource(Res.string.tagline_free_software), tagColors().tagColorMain),
+    Tag(stringResource(Res.string.tagline_lightning_talks), tagColors().tagColorAlt),
+    Tag(stringResource(Res.string.tagline_dev_rooms), tagColors().tagColorMain),
+    Tag(stringResource(Res.string.tagline_talks), tagColors().tagColorAlt),
+    Tag(stringResource(Res.string.tagline_hackers), tagColors().tagColorMain),
   ).toPersistentList()
 }

@@ -42,12 +42,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.addhen.fosdem.compose.common.ui.api.ClickableLinkText
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.attachment_title
+import com.addhen.fosdem.compose.common.ui.api.link_title
+import com.addhen.fosdem.compose.common.ui.api.read_more_label
+import com.addhen.fosdem.compose.common.ui.api.speaker_title
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Speaker
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionItemDetailReadMoreButtonTestTag = "SessionItemDetailReadMoreButtonTestTag"
 
@@ -60,7 +65,6 @@ fun SessionDetailContent(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-  val appStrings = LocalStrings.current
   val descriptionText = uiState.event.description
   val abstractText = uiState.event.abstractText
   val description = when {
@@ -72,21 +76,21 @@ fun SessionDetailContent(
   }
   Column(modifier = modifier) {
     DescriptionSection(
-      readMore = appStrings.readMoreLabel,
+      readMore = stringResource(Res.string.read_more_label),
       description = description,
       onLinkClick = onLinkClick,
     )
 
     if (uiState.event.speakers.isNotEmpty()) {
       SpeakerSection(
-        appStrings.speakerTitle,
+        stringResource(Res.string.speaker_title),
         uiState.event.speakers.toPersistentList(),
       )
     }
 
     if (uiState.event.links.isNotEmpty()) {
       MaterialSection(
-        appStrings.linkTitle,
+        stringResource(Res.string.link_title),
         uiState.event.links.map { ClickableTextData(it.text, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )
@@ -94,7 +98,7 @@ fun SessionDetailContent(
 
     if (uiState.event.attachments.isNotEmpty()) {
       MaterialSection(
-        appStrings.attachmentTitle,
+        stringResource(Res.string.attachment_title),
         uiState.event.attachments.map { ClickableTextData(it.name, it.url) }.toPersistentList(),
         onLinkClick = onLinkClick,
       )

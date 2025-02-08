@@ -19,8 +19,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.about_fosdem
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AboutDetail(
@@ -28,7 +30,6 @@ fun AboutDetail(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-  val appStrings = LocalStrings.current
   val conferenceInfo = LocalConferenceInfo.current
   Column(
     modifier = modifier,
@@ -57,7 +58,7 @@ fun AboutDetail(
       }
     }
     Text(
-      text = appStrings.aboutFosdem,
+      text = stringResource(Res.string.about_fosdem),
       style = MaterialTheme.typography.bodyLarge,
       modifier = Modifier
         .padding(

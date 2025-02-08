@@ -6,8 +6,11 @@ package com.addhen.fosdem.ui.main
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.LocalUIViewController
 import androidx.compose.ui.window.ComposeUIViewController
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
-import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.calendar_permission_denied_message
+import com.addhen.fosdem.compose.common.ui.api.calendar_permission_denied_title
+import com.addhen.fosdem.compose.common.ui.api.settings_cancel_button
+import com.addhen.fosdem.compose.common.ui.api.settings_title
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
@@ -16,6 +19,7 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toNSDate
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
 import platform.EventKit.EKEventStore
@@ -58,7 +62,12 @@ fun MainUiViewController(
   val backstack = rememberSaveableBackStack(listOf(SessionsScreen))
   val navigator = rememberCircuitNavigator(backstack, onRootPop = { /* no-op */ })
   val uiViewController = LocalUIViewController.current
-  val appStrings = LocalStrings.current
+  val calendarPermissionDeniedTitle = stringResource(Res.string.calendar_permission_denied_title)
+  val settingsCancelButton = stringResource(Res.string.settings_cancel_button)
+  val calendarPermissionDeniedMessage = stringResource(
+    Res.string.calendar_permission_denied_message,
+  )
+  val settingsTitle = stringResource(Res.string.settings_title)
 
   mainContent.Content(
     backstack,
@@ -70,7 +79,10 @@ fun MainUiViewController(
     { info -> uiViewController.shareInfo(info) },
     { title, room, description, startAtMillSeconds, endAtMillSeconds ->
       uiViewController.launchCalendar(
-        appStrings,
+        settingsCancelButton,
+        calendarPermissionDeniedTitle,
+        calendarPermissionDeniedMessage,
+        settingsTitle,
         title,
         room,
         description,
@@ -93,7 +105,10 @@ private fun UIViewController.shareInfo(shareInfo: String) {
 }
 
 private fun UIViewController.launchCalendar(
-  appStrings: AppStrings,
+  settingsCancelButton: String,
+  calendarPermissionDeniedTitle: String,
+  calendarPermissionDeniedMessage: String,
+  settingsTitle: String,
   title: String,
   room: String,
   description: String,
@@ -128,13 +143,13 @@ private fun UIViewController.launchCalendar(
       } else {
         val settingsUrl = NSURL(string = UIApplicationOpenSettingsURLString)
         val alert = UIAlertController.alertControllerWithTitle(
-          title = appStrings.calendarPermissionDeniedTitle,
-          message = appStrings.calendarPermissionDeniedMessage,
+          title = calendarPermissionDeniedTitle,
+          message = calendarPermissionDeniedMessage,
           preferredStyle = UIAlertControllerStyleAlert,
         )
         alert.addAction(
           UIAlertAction.actionWithTitle(
-            appStrings.settingsTitle,
+            settingsTitle,
             style = UIAlertActionStyleDefault,
           ) {
             UIApplication.sharedApplication.openURL(settingsUrl)
@@ -142,7 +157,7 @@ private fun UIViewController.launchCalendar(
         )
         alert.addAction(
           UIAlertAction.actionWithTitle(
-            appStrings.settingsCancelButton,
+            settingsCancelButton,
             style = UIAlertActionStyleCancel,
             handler = null,
           ),

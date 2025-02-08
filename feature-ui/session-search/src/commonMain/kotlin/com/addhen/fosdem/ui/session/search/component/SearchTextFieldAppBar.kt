@@ -34,7 +34,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.search_term_place_holder
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +73,6 @@ private fun SearchTextField(
 ) {
   val focusRequester = remember { FocusRequester() }
   val keyboardController = LocalSoftwareKeyboardController.current
-  val appStrings = LocalStrings.current
   var query by remember { mutableStateOf(searchQuery) }
 
   BasicTextField(
@@ -100,7 +101,7 @@ private fun SearchTextField(
         placeholder = {
           if (searchQuery.isBlank()) {
             Text(
-              text = appStrings.searchTermPlaceHolder,
+              text = stringResource(Res.string.search_term_place_holder),
               style = MaterialTheme.typography.bodyLarge,
               color = MaterialTheme.colorScheme.onSurface,
             )

@@ -31,10 +31,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.AppIcons
 import com.addhen.fosdem.compose.common.ui.api.CalendarAddOn
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.add_to_calendar_title
+import com.addhen.fosdem.compose.common.ui.api.share_title
 import com.addhen.fosdem.model.api.Event
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,13 +122,13 @@ fun SessionDetailTopAppBar(
       IconButton(onClick = { onShareClick(event) }) {
         Icon(
           imageVector = Icons.Filled.Share,
-          contentDescription = LocalStrings.current.shareTitle,
+          contentDescription = stringResource(Res.string.share_title),
         )
       }
       IconButton(onClick = { onCalendarRegistrationClick(event) }) {
         Icon(
           imageVector = AppIcons.Filled.CalendarAddOn,
-          contentDescription = LocalStrings.current.addToCalendarTitle,
+          contentDescription = stringResource(Res.string.add_to_calendar_title),
         )
       }
     },

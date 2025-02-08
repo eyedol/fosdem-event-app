@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.onException
@@ -70,7 +69,6 @@ class SessionsPresenter(
     var isRefreshing by rememberRetained { mutableStateOf(false) }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appStrings = LocalStrings.current
 
     LaunchedEffect(isRefreshing) {
       if (isRefreshing) {
@@ -78,7 +76,7 @@ class SessionsPresenter(
         results.onException {
           Logger.e(it) { "Error occurred refreshing events" }
           uiMessageManager.emitMessage(
-            UiMessage(it, actionLabel = appStrings.tryAgain),
+            UiMessage(it),
           )
         }
         isRefreshing = false
@@ -89,12 +87,7 @@ class SessionsPresenter(
       successSessionSheetUiSate(events, days)
     }.catch {
       Logger.e(it) { "Error occurred" }
-      uiMessageManager.emitMessage(
-        UiMessage(
-          it,
-          actionLabel = appStrings.tryAgain,
-        ),
-      )
+      uiMessageManager.emitMessage(UiMessage(it))
     }.collectAsRetainedState(SessionsSheetUiState.Loading(days))
 
     fun eventSink(event: SessionUiEvent) {

@@ -40,7 +40,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.drag_handle_content_description
+import com.addhen.fosdem.compose.common.ui.api.session_empty
+import com.addhen.fosdem.compose.common.ui.api.session_empty_description
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.component.DayTab
@@ -51,6 +54,7 @@ import com.addhen.fosdem.ui.session.component.SessionScreenScrollState
 import com.addhen.fosdem.ui.session.component.SessionShimmerList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentMap
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionTabTestTag = "SessionTab"
 const val SessionEmptyTestTag = "SessionEmptyTest"
@@ -133,8 +137,8 @@ internal fun SessionSheet(
       when (uiState) {
         is SessionsSheetUiState.Empty -> {
           SessionEmptyListView(
-            title = LocalStrings.current.sessionEmpty,
-            description = LocalStrings.current.sessionEmptyDescription,
+            title = stringResource(Res.string.session_empty),
+            description = stringResource(Res.string.session_empty_description),
             modifier = Modifier.testTag(SessionEmptyTestTag),
           ) {
             Icon(
@@ -244,7 +248,7 @@ private fun ExpandIndicator(
   color: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
   modifier: Modifier,
 ) {
-  val dragHandleDescription = LocalStrings.current.dragHandleContentDescription
+  val dragHandleDescription = stringResource(Res.string.drag_handle_content_description)
   Box(
     modifier
       .semantics(mergeDescendants = true) {

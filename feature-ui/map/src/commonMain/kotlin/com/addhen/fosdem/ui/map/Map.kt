@@ -16,7 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.map_title
 import com.addhen.fosdem.core.api.screens.MapScreen
 import com.addhen.fosdem.ui.map.component.MapContentBox
 import com.slack.circuit.runtime.CircuitContext
@@ -24,6 +25,7 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 const val MapScreenTestTag = "MapScreen"
 
@@ -60,7 +62,7 @@ private fun MapScreen(
   contentPadding: PaddingValues,
 ) {
   val layoutDirection = LocalLayoutDirection.current
-  val appStrings = LocalStrings.current
+
   Scaffold(
     modifier = Modifier
       .testTag(MapScreenTestTag)
@@ -69,7 +71,7 @@ private fun MapScreen(
       TopAppBar(
         title = {
           Text(
-            text = appStrings.mapTitle,
+            text = stringResource(Res.string.map_title),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Medium,
           )

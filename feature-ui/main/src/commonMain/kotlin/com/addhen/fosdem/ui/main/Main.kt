@@ -33,9 +33,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
-import com.addhen.fosdem.core.api.i18n.AppStrings
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.about_content_description
+import com.addhen.fosdem.compose.common.ui.api.about_title
+import com.addhen.fosdem.compose.common.ui.api.map_content_description
+import com.addhen.fosdem.compose.common.ui.api.map_title
+import com.addhen.fosdem.compose.common.ui.api.search_content_description
+import com.addhen.fosdem.compose.common.ui.api.search_title
+import com.addhen.fosdem.compose.common.ui.api.session_content_description
+import com.addhen.fosdem.compose.common.ui.api.session_title
 import com.addhen.fosdem.core.api.screens.AboutScreen
 import com.addhen.fosdem.core.api.screens.MapScreen
 import com.addhen.fosdem.core.api.screens.SessionSearchScreen
@@ -68,8 +75,7 @@ fun Main(
     derivedStateOf { backstack.last().screen }
   }
 
-  val strings = LocalStrings.current
-  val navigationItems = remember(strings) { buildNavigationItems(strings) }
+  val navigationItems = remember { buildNavigationItems() }
 
   Scaffold(
     bottomBar = {
@@ -140,33 +146,33 @@ fun Main(
   }
 }
 
-fun buildNavigationItems(strings: AppStrings): List<MainNavigationItem> {
+fun buildNavigationItems(): List<MainNavigationItem> {
   return listOf(
     MainNavigationItem(
       screen = SessionsScreen,
-      label = strings.sessionTitle,
-      contentDescription = strings.sessionContentDescription,
+      label = Res.string.session_title,
+      contentDescription = Res.string.session_content_description,
       iconImageVector = Icons.Outlined.CalendarMonth,
       selectedImageVector = Icons.Filled.CalendarMonth,
     ),
     MainNavigationItem(
       screen = SessionSearchScreen,
-      label = strings.searchTitle,
-      contentDescription = strings.searchContentDescription,
+      label = Res.string.search_title,
+      contentDescription = Res.string.search_content_description,
       iconImageVector = Icons.Outlined.Search,
       selectedImageVector = Icons.Filled.Search,
     ),
     MainNavigationItem(
       screen = MapScreen,
-      label = strings.mapTitle,
-      contentDescription = strings.mapContentDescription,
+      label = Res.string.map_title,
+      contentDescription = Res.string.map_content_description,
       iconImageVector = Icons.Outlined.Map,
       selectedImageVector = Icons.Filled.Map,
     ),
     MainNavigationItem(
       screen = AboutScreen,
-      label = strings.aboutTitle,
-      contentDescription = strings.aboutContentDescription,
+      label = Res.string.about_title,
+      contentDescription = Res.string.about_content_description,
       iconImageVector = Icons.Outlined.Info,
       selectedImageVector = Icons.Filled.Info,
     ),

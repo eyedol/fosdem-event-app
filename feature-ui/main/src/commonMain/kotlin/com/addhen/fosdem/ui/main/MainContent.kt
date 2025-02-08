@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
-import com.addhen.fosdem.compose.common.ui.api.ProvideStrings
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.core.api.screens.CalendarScreen
 import com.addhen.fosdem.core.api.screens.ShareScreen
@@ -54,22 +53,19 @@ class MainContent(private val circuitConfig: Circuit) : AppContent {
       remember(navigator) {
         AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
       }
-
-    ProvideStrings {
-      CompositionLocalProvider(
-        LocalNavigator provides appNavigator,
-        LocalWindowSizeClass provides calculateWindowSizeClass(),
-      ) {
-        CircuitCompositionLocals(circuitConfig) {
-          AppTheme(
-            useDynamicColors = false,
-          ) {
-            Main(
-              backstack = backstack,
-              navigator = appNavigator,
-              modifier = modifier,
-            )
-          }
+    CompositionLocalProvider(
+      LocalNavigator provides appNavigator,
+      LocalWindowSizeClass provides calculateWindowSizeClass(),
+    ) {
+      CircuitCompositionLocals(circuitConfig) {
+        AppTheme(
+          useDynamicColors = false,
+        ) {
+          Main(
+            backstack = backstack,
+            navigator = appNavigator,
+            modifier = modifier,
+          )
         }
       }
     }

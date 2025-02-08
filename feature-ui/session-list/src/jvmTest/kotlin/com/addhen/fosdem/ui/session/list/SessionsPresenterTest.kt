@@ -260,7 +260,6 @@ class SessionsPresenterTest {
         "Error occurred while getting events",
         actualSessionUiStateError.message?.message,
       )
-      assertEquals("Try again", actualSessionUiStateError.message?.actionLabel)
       fakeRepository.shouldCauseAnError.set(false)
       actualSessionUiStateError.eventSink(SessionUiEvent.ClearMessage(1))
       expectNoEvents()

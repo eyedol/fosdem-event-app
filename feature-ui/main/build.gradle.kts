@@ -47,6 +47,7 @@ kotlin {
         implementation(libs.ktor.client.logging)
         implementation(libs.ktor.client.content.negotiation)
         implementation(libs.ktor.client.serialization)
+        implementation(compose.components.resources)
         implementation(compose.foundation)
         implementation(compose.material)
         implementation(compose.materialIconsExtended)

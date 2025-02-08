@@ -13,7 +13,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.onException
@@ -66,7 +65,6 @@ class SessionSearchPresenter(
     var query by rememberSaveable { mutableStateOf("") }
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appStrings = LocalStrings.current
 
     var selectedFilters by rememberSaveable(stateSaver = SessionFilters.Saver) {
       mutableStateOf(SessionFilters())
@@ -75,7 +73,7 @@ class SessionSearchPresenter(
     val searchUiState by observeSearchFiltersAction
       .catch {
         Logger.e(it) { "Error occurred" }
-        uiMessageManager.emitMessage(UiMessage(it, actionLabel = appStrings.tryAgain))
+        uiMessageManager.emitMessage(UiMessage(it))
       }.collectAsRetainedState(SearchUiState.Loading())
 
     LaunchedEffect(query) {

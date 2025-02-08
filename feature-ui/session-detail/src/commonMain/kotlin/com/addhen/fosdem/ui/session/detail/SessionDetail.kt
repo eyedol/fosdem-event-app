@@ -27,8 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import com.addhen.fosdem.compose.common.ui.api.LoadingText
+import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.SnackbarMessageEffect
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
+import com.addhen.fosdem.compose.common.ui.api.try_again
 import com.addhen.fosdem.core.api.screens.SessionDetailScreen
 import com.addhen.fosdem.model.api.Event
 import com.addhen.fosdem.ui.session.detail.component.SessionBookmarkButton
@@ -40,6 +42,7 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import me.tatarka.inject.annotations.Inject
+import org.jetbrains.compose.resources.stringResource
 
 const val SessionDetailScreenTestTag = "SessionDetailScreen"
 
@@ -118,6 +121,7 @@ internal fun SessionItemDetailScreen(
   SnackbarMessageEffect(
     snackbarHostState = snackbarHostState,
     message = message,
+    actionLabel = stringResource(Res.string.try_again),
     onMessageShown = onMessageShown,
   )
 

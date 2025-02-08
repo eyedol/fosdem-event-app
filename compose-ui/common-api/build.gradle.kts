@@ -26,7 +26,6 @@ kotlin {
         implementation(libs.benasher.uuid)
         api(compose.material3)
         api(libs.compose.material3.windowsizeclass)
-        api(libs.lyricist.library)
       }
     }
 
@@ -47,4 +46,9 @@ android {
       resources.srcDirs("src/commonMain/resources")
     }
   }
+}
+
+compose.resources {
+  publicResClass = true
+  packageOfResClass = "com.addhen.fosdem.compose.common.ui.api"
 }

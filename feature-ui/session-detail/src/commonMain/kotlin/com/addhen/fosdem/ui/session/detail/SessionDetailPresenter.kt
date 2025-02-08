@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager
 import com.addhen.fosdem.core.api.onException
@@ -62,7 +61,6 @@ class SessionDetailPresenter(
     val scope = rememberCoroutineScope()
     val uiMessageManager = remember { UiMessageManager() }
     val message by uiMessageManager.message.collectAsState(null)
-    val appString = LocalStrings.current
 
     fun eventSink(event: SessionDetailUiEvent) {
       when (event) {
@@ -128,7 +126,7 @@ class SessionDetailPresenter(
       )
     }.catch {
       Logger.e(it) { "Error occurred" }
-      uiMessageManager.emitMessage(UiMessage(it, actionLabel = appString.tryAgain))
+      uiMessageManager.emitMessage(UiMessage(it))
     }.collectAsRetainedState(SessionDetailScreenUiState.Loading)
 
     return SessionDetailUiState(
