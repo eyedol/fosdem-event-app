@@ -64,7 +64,9 @@ fun MainUiViewController(
   val uiViewController = LocalUIViewController.current
   val calendarPermissionDeniedTitle = stringResource(Res.string.calendar_permission_denied_title)
   val settingsCancelButton = stringResource(Res.string.settings_cancel_button)
-  val calendarPermissionDeniedMessage = stringResource(Res.string.calendar_permission_denied_message)
+  val calendarPermissionDeniedMessage = stringResource(
+    Res.string.calendar_permission_denied_message,
+  )
   val settingsTitle = stringResource(Res.string.settings_title)
 
   mainContent.Content(
