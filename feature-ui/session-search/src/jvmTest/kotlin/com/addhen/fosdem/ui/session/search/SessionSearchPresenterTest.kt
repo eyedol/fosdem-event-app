@@ -33,7 +33,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -584,7 +583,7 @@ class SessionSearchPresenterTest {
           "Error occurred while toggling bookmark with event id: ${day1Event.id}",
           actualSessionSearchError.message?.message,
         )
-        assertNull(actualSessionSearchError.message?.actionLabel)
+
         assertEquals(expectedSessionSearchList, actualSessionSearchError.content)
         assertEquals(
           expectedBookmarkedEvent,
@@ -630,7 +629,6 @@ class SessionSearchPresenterTest {
           "Error occurred while toggling bookmark with event id: ${day1Event.id}",
           actualSessionSearchError.message?.message,
         )
-        assertNull(actualSessionSearchError.message?.actionLabel)
 
         actualSessionSearchUiState.eventSink(
           SessionSearchUiEvent.ClearMessage(day1Event.id),
@@ -660,7 +658,6 @@ class SessionSearchPresenterTest {
         "Error occurred while getting rooms",
         actualSessionSearchError.message?.message,
       )
-      assertEquals("Try again", actualSessionSearchError.message?.actionLabel)
     }
   }
 
@@ -679,7 +676,6 @@ class SessionSearchPresenterTest {
         "Error occurred while getting tracks",
         actualSessionSearchError.message?.message,
       )
-      assertEquals("Try again", actualSessionSearchError.message?.actionLabel)
     }
   }
 

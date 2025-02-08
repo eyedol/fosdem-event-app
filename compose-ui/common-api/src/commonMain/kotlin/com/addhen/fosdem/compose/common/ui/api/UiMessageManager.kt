@@ -19,6 +19,7 @@ import kotlinx.coroutines.sync.withLock
 fun SnackbarMessageEffect(
   snackbarHostState: SnackbarHostState,
   message: UiMessage?,
+  actionLabel: String? = null,
   onSnackbarActionPerformed: () -> Unit = {},
   onMessageShown: (id: Long) -> Unit,
 ) {
@@ -26,7 +27,7 @@ fun SnackbarMessageEffect(
     LaunchedEffect(it) {
       val snackBarResult = snackbarHostState.showSnackbar(
         message = it.message,
-        actionLabel = it.actionLabel,
+        actionLabel = actionLabel,
       )
 
       onMessageShown(it.id)
@@ -37,18 +38,15 @@ fun SnackbarMessageEffect(
 
 data class UiMessage(
   val message: String,
-  val actionLabel: String? = null,
   val id: Long = uuid4().mostSignificantBits,
 )
 
 fun UiMessage(
   t: Throwable,
-  actionLabel: String? = null,
   id: Long = uuid4().mostSignificantBits,
 ): UiMessage = UiMessage(
   message = t.message ?: "Error occurred: $t",
   id = id,
-  actionLabel = actionLabel,
 )
 
 class UiMessageManager {

@@ -89,7 +89,6 @@ class SessionDetailPresenterTest {
         "Error occurred while getting event with id: 1",
         actualErrorUiState.message?.message,
       )
-      assertEquals("Try again", actualErrorUiState.message?.actionLabel)
     }
   }
 
@@ -111,7 +110,6 @@ class SessionDetailPresenterTest {
         "Error occurred while getting event with id: 1",
         actualErrorUiState.message?.message,
       )
-      assertEquals("Try again", actualErrorUiState.message?.actionLabel)
 
       actualSessionDetailScreenUiStateLoading.eventSink(
         SessionDetailUiEvent.ClearMessage(2),
