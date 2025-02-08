@@ -29,7 +29,6 @@ internal fun SessionBookmarkButton(
   expanded: Boolean,
   modifier: Modifier = Modifier,
 ) {
-
   ExtendedFloatingActionButton(
     onClick = { onBookmarkClick(eventId) },
     icon = {

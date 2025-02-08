@@ -24,7 +24,6 @@ kermit = "2.0.5"
 xmlUtilSerialization = "0.90.3"
 kotlinxSerialization = "1.8.0"
 coroutines = "1.10.1"
-lyricist = "1.7.0"
 composeLintChecks = "1.4.2"
 browser = "1.8.0"
 benasherUUid = "0.8.4"
@@ -99,8 +98,6 @@ composeCompiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler
 licensee-gradlePlugin = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-lyricist-core = { module = "cafe.adriel.lyricist:lyricist-core", version.ref = "lyricist" }
-lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 compose-ui-tooling = { group = "org.jetbrains.compose.ui", name = "ui-tooling", version.ref = "compose-multiplatform" }
 compose-animation-graphics = { group = "org.jetbrains.compose.animation", name = " animation-graphics", version.ref = "compose-multiplatform" }

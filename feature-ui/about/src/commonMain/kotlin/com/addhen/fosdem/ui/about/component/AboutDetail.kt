@@ -19,8 +19,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.LocalConferenceInfo
+import com.addhen.fosdem.compose.common.ui.api.Res
+import com.addhen.fosdem.compose.common.ui.api.about_fosdem
 import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
-import fosdem_events_app.feature_ui.about.generated.resources.Res
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

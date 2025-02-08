@@ -29,7 +29,6 @@ internal fun SessionDetailItem(
   onLinkClick: (String) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-
   LazyColumn(
     state = listState,
     modifier = modifier,

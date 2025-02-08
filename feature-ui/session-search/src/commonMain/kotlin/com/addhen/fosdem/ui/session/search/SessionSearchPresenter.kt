@@ -13,7 +13,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.UiMessage
 import com.addhen.fosdem.compose.common.ui.api.UiMessageManager

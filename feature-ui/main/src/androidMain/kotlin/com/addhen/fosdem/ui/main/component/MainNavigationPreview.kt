@@ -18,15 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.addhen.fosdem.compose.common.ui.api.theme.AppTheme
 import com.addhen.fosdem.compose.common.ui.api.theme.MultiThemePreviews
-import com.addhen.fosdem.core.api.i18n.EnAppStrings
 import com.addhen.fosdem.core.api.screens.SessionsScreen
 import com.addhen.fosdem.ui.main.buildNavigationItems
 
 @MultiThemePreviews
 @Composable
 private fun MainNavigationPreview() {
-  val strings = EnAppStrings
-  val navigationItems = remember(strings) { buildNavigationItems() }
+  val navigationItems = remember { buildNavigationItems() }
   AppTheme {
     Surface {
       Scaffold(

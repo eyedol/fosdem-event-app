@@ -45,8 +45,8 @@ import com.addhen.fosdem.compose.common.ui.api.remove_from_bookmarks_title
 import com.addhen.fosdem.compose.common.ui.api.theme.iconColors
 import com.addhen.fosdem.compose.common.ui.api.theme.md_theme_light_outline
 import com.addhen.fosdem.model.api.Event
-import kotlin.math.max
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.max
 
 const val SessionListItemTestTag = "SessionListItem"
 const val SessionListItemBookmarkIconTestTag = "SessionListItemBookmarkIconTestTag"
@@ -61,7 +61,6 @@ fun SessionListItem(
   highlightQuery: SearchQuery,
   modifier: Modifier = Modifier,
 ) {
-
   Column(
     modifier.testTag(SessionListItemTestTag),
   ) {
@@ -88,7 +87,7 @@ fun SessionListItem(
             Icons.Outlined.BookmarkBorder
           },
           contentDescription = if (isBookmarked) {
-           stringResource(Res.string.add_to_bookmarks_title)
+            stringResource(Res.string.add_to_bookmarks_title)
           } else {
             stringResource(Res.string.remove_from_bookmarks_title)
           },

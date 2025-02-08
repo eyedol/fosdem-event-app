@@ -28,7 +28,6 @@ kotlin {
         implementation(libs.kotlinx.datetime)
         api(libs.kotlininject.runtime)
         api(libs.circuit.runtime)
-        api(libs.lyricist.core)
         api(libs.touchlab.kermit)
       }
     }

@@ -37,6 +37,7 @@ import com.addhen.fosdem.compose.common.ui.api.imageVectorResource
 import com.addhen.fosdem.compose.common.ui.api.tagline_beer
 import com.addhen.fosdem.compose.common.ui.api.tagline_dev_rooms
 import com.addhen.fosdem.compose.common.ui.api.tagline_free_software
+import com.addhen.fosdem.compose.common.ui.api.tagline_hackers
 import com.addhen.fosdem.compose.common.ui.api.tagline_lightning_talks
 import com.addhen.fosdem.compose.common.ui.api.tagline_open_source
 import com.addhen.fosdem.compose.common.ui.api.tagline_talks
@@ -145,6 +146,6 @@ private fun tags(): PersistentList<Tag> {
     Tag(stringResource(Res.string.tagline_lightning_talks), tagColors().tagColorAlt),
     Tag(stringResource(Res.string.tagline_dev_rooms), tagColors().tagColorMain),
     Tag(stringResource(Res.string.tagline_talks), tagColors().tagColorAlt),
-    Tag(stringResource(Res.string.taglineHackers), tagColors().tagColorMain),
+    Tag(stringResource(Res.string.tagline_hackers), tagColors().tagColorMain),
   ).toPersistentList()
 }

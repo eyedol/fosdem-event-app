@@ -33,7 +33,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.LocalWindowSizeClass
 import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.about_content_description
@@ -76,8 +75,7 @@ fun Main(
     derivedStateOf { backstack.last().screen }
   }
 
-  val strings = LocalStrings.current
-  val navigationItems = remember(strings) { buildNavigationItems() }
+  val navigationItems = remember { buildNavigationItems() }
 
   Scaffold(
     bottomBar = {

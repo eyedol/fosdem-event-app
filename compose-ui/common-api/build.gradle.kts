@@ -26,14 +26,6 @@ kotlin {
         implementation(libs.benasher.uuid)
         api(compose.material3)
         api(libs.compose.material3.windowsizeclass)
-        api(libs.lyricist.library)
-      }
-    }
-
-    iosMain {
-      dependencies {
-        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-        implementation(compose.components.resources)
       }
     }
 
