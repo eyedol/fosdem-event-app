@@ -26,7 +26,6 @@ fun AboutFooterLinks(
   versionName: String?,
   modifier: Modifier = Modifier,
 ) {
-
   Column(
     verticalArrangement = Arrangement.Top,
     horizontalAlignment = Alignment.CenterHorizontally,

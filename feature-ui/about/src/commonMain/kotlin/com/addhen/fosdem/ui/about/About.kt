@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import com.addhen.fosdem.compose.common.ui.api.ImageVectorResource
-import com.addhen.fosdem.compose.common.ui.api.LocalStrings
 import com.addhen.fosdem.compose.common.ui.api.Res
 import com.addhen.fosdem.compose.common.ui.api.about_title
 import com.addhen.fosdem.compose.common.ui.api.license_title

@@ -30,7 +30,6 @@ fun AboutSummaryCard(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-
   Card(
     shape = RoundedCornerShape(12.dp),
     modifier = modifier,
