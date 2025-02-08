@@ -53,21 +53,21 @@ class MainContent(private val circuitConfig: Circuit) : AppContent {
       remember(navigator) {
         AppNavigator(navigator, onOpenUrl, onShare, onCalendarShare)
       }
-      CompositionLocalProvider(
-        LocalNavigator provides appNavigator,
-        LocalWindowSizeClass provides calculateWindowSizeClass(),
-      ) {
-        CircuitCompositionLocals(circuitConfig) {
-          AppTheme(
-            useDynamicColors = false,
-          ) {
-            Main(
-              backstack = backstack,
-              navigator = appNavigator,
-              modifier = modifier,
-            )
-          }
+    CompositionLocalProvider(
+      LocalNavigator provides appNavigator,
+      LocalWindowSizeClass provides calculateWindowSizeClass(),
+    ) {
+      CircuitCompositionLocals(circuitConfig) {
+        AppTheme(
+          useDynamicColors = false,
+        ) {
+          Main(
+            backstack = backstack,
+            navigator = appNavigator,
+            modifier = modifier,
+          )
         }
+      }
     }
   }
 }
