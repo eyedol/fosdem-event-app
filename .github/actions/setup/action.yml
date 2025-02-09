@@ -3,9 +3,6 @@ description: "Setups App Version, JDK and Gradle for the project"
 author: "Henry Addo"
 
 inputs:
-  java-version:
-    description: "Java version"
-    default: "21"
   java-distribution:
     description: "Java distribution"
     default: "zulu"
@@ -25,7 +22,7 @@ runs:
       uses: actions/setup-java@v4
       with:
         distribution: ${{ inputs.java-distribution }}
-        java-version: ${{ inputs.java-version }}
+        java-version-file: .github/.java-version
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
