@@ -16,6 +16,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.addhen.fosdem.compose.common.ui.api.Res
@@ -23,6 +25,10 @@ import com.addhen.fosdem.compose.common.ui.api.date_description
 import com.addhen.fosdem.compose.common.ui.api.date_title
 import com.addhen.fosdem.compose.common.ui.api.place_description
 import com.addhen.fosdem.compose.common.ui.api.place_link
+import com.addhen.fosdem.model.api.formatWithDayName
+import com.addhen.fosdem.model.api.saturday
+import com.addhen.fosdem.model.api.sunday
+import com.slack.circuit.retained.rememberRetained
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -30,6 +36,10 @@ fun AboutSummaryCard(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
+
+  val saturdayText by rememberRetained { mutableStateOf(saturday.formatWithDayName()) }
+  val sundayText by rememberRetained { mutableStateOf(sunday.formatWithDayName()) }
+
   Card(
     shape = RoundedCornerShape(12.dp),
     modifier = modifier,
@@ -48,7 +58,7 @@ fun AboutSummaryCard(
       AboutSummaryCardRow(
         leadingIcon = Icons.Outlined.Schedule,
         label = stringResource(Res.string.date_title),
-        content = stringResource(Res.string.date_description),
+        content = stringResource(Res.string.date_description, saturdayText, sundayText),
       )
       AboutSummaryCardRow(
         leadingIcon = Icons.Outlined.Place,

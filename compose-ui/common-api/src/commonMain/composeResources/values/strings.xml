@@ -32,7 +32,7 @@
   <string name="place_description">ULB Solbosch Campus, Brussels, Belgium</string>
   <string name="place_link">OpenStreetMap</string>
   <string name="app_version">App Version</string>
-  <string name="date_description">03.02.2024(Saturday) - 04.02.2024(Sunday) 2 days</string>
+  <string name="date_description">%1$s - %2$s 2 days</string>
   <string name="license_title">License</string>
   <string name="privacy_policy_title">Privacy Policy</string>
   <string name="search_not_found">Nothing matched your search criteria "%1$s"</string>
