@@ -337,7 +337,7 @@ val Event.descriptionFullText: String
 fun LocalDate.formatWithDayName(): String {
   return dayOfMonth.toString().padStart(2, '0') +
     ".${monthNumber.toString().padStart(2, '0')}" +
-    ".${year}(${dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }})"
+    ".$year(${dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }})"
 }
 
 private fun firstSaturdayOfFebruary(): LocalDate {

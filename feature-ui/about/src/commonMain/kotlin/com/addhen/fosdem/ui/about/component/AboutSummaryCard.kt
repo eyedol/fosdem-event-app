@@ -36,7 +36,6 @@ fun AboutSummaryCard(
   modifier: Modifier = Modifier,
   onLinkClick: (url: String) -> Unit,
 ) {
-
   val saturdayText by rememberRetained { mutableStateOf(saturday.formatWithDayName()) }
   val sundayText by rememberRetained { mutableStateOf(sunday.formatWithDayName()) }
 
