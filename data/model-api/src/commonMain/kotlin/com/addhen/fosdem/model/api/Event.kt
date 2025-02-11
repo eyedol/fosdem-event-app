@@ -334,6 +334,12 @@ val Event.descriptionFullText: String
     }
   }
 
+fun LocalDate.formatWithDayName(): String {
+  return dayOfMonth.toString().padStart(2, '0') +
+    ".${monthNumber.toString().padStart(2, '0')}" +
+    ".$year(${dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }})"
+}
+
 private fun firstSaturdayOfFebruary(): LocalDate {
   var date = LocalDate(currentYear, 2, 1)
   while (date.dayOfWeek != DayOfWeek.SATURDAY) {

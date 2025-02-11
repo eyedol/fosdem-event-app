@@ -30,6 +30,7 @@ kotlin {
         implementation(libs.circuit.runtime)
         implementation(libs.circuit.foundation)
         implementation(libs.circuit.overlay)
+        implementation(libs.kotlinx.datetime)
         implementation(compose.components.resources)
         implementation(compose.foundation)
         implementation(compose.material)
