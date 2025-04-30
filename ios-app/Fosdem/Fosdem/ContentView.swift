@@ -5,12 +5,12 @@
 //  Created by Henry Addo on 5/7/24.
 //
 
-import SwiftUI
 import FosdemKt
+import SwiftUI
 
 struct ContentView: View {
     private let component: MainUiControllerComponent
-    
+
     init(component: MainUiControllerComponent) {
         self.component = component
     }
@@ -22,11 +22,11 @@ struct ContentView: View {
 
 struct ComposeView: UIViewControllerRepresentable {
     private let component: MainUiControllerComponent
-    
+
     init(component: MainUiControllerComponent) {
         self.component = component
     }
-    
+
     func makeUIViewController(context _: Context) -> UIViewController {
         return component.uiViewControllerFactory()
     }
