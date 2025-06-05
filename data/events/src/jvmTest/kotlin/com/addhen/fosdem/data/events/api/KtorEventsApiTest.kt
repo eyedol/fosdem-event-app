@@ -35,8 +35,7 @@ class KtorEventsApiTest {
   fun `throws AppError#UnknownException as fetching schedules there is a malformed xml`() {
     val escapedDollarSign = "\$"
     val expectedErrorMessage = """
-      com.addhen.fosdem.data.core.api.AppError${escapedDollarSign}UnknownException: nl.adaptivity.xmlutil.XmlException: javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,12]
-      Message: The processing instruction target matching "[xX][mM][lL]" is not allowed.
+      com.addhen.fosdem.data.core.api.AppError${escapedDollarSign}UnknownException: nl.adaptivity.xmlutil.XmlException: 1:7 - Unexpected START_DOCUMENT in state START_DOC
     """.trimIndent()
     sut = createKtorEventsApiWithError(coroutineTestRule.testDispatcherProvider)
 

@@ -30,7 +30,6 @@ kotlin {
 
     androidMain {
       dependencies {
-        implementation(libs.xml.util.serialization.android)
         implementation(libs.sqldelight.android)
         implementation(libs.ktor.client.okhttp)
       }
@@ -38,7 +37,6 @@ kotlin {
 
     jvmMain {
       dependencies {
-        implementation(libs.xml.util.serialization.jvm)
         implementation(libs.ktor.client.okhttp)
         implementation(libs.sqldelight.sqlite)
       }
