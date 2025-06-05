@@ -61,12 +61,13 @@ class EventsDbDao(
       .mapToOne(backgroundDispatcher.io).map { it.withRelatedData() }
   }
 
-  override suspend fun toggleBookmark(eventId: Long) =
+  override suspend fun toggleBookmark(eventId: Long) {
     withContext(backgroundDispatcher.io) {
       appDatabase.eventsQueries.toggleBookmark(eventId)
     }
+  }
 
-  override suspend fun deleteRelatedData() =
+  override suspend fun deleteRelatedData() {
     withContext(backgroundDispatcher.databaseRead) {
       // Delete attachments table and its event_attachments linked table to aid in regenerating its
       // ID as the data received from the API does not contain the IDs of the attachments. So we
@@ -81,6 +82,7 @@ class EventsDbDao(
       // Same treatment for links and event_links as we do for attachments and event_attachments.
       appDatabase.linksQueries.delete()
     }
+  }
 
   override suspend fun insert(events: List<EventEntity>) =
     withContext(backgroundDispatcher.databaseWrite) {

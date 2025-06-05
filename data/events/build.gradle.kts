@@ -43,7 +43,6 @@ kotlin {
     jvmTest {
       dependencies {
         implementation(projects.testing)
-        implementation(libs.xml.util.serialization.jvm)
         implementation(libs.kotlinx.serialization.core)
         implementation(libs.xml.util.serialization)
       }

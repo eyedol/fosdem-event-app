@@ -57,7 +57,7 @@ import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import kotlinx.collections.immutable.toPersistentList
 
 @Composable
@@ -134,8 +134,8 @@ fun Main(
         NavigableCircuitContent(
           navigator = navigator,
           backStack = backstack,
-          decoration = remember(navigator) {
-            GestureNavigationDecoration(onBackInvoked = navigator::pop)
+          decoratorFactory = remember(navigator) {
+            GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
           },
           modifier = Modifier
             .weight(1f)
