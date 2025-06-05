@@ -1,7 +1,7 @@
 [versions]
 minSdk = "25"
-targetSdk = "35"
-compileSdk = "35"
+targetSdk = "36"
+compileSdk = "36"
 jdk = "21"
 compose-multiplatform = "1.8.1"
 moduleGraphAssertion = "2.8.0"
