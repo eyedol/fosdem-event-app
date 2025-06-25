@@ -5,13 +5,13 @@
 //  Created by Henry Addo on 5/7/24.
 //
 
-import SwiftUI
 import FosdemKt
+import SwiftUI
 
 @main
 struct FosdemApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+
     var body: some Scene {
         WindowGroup {
             let uiComponent = createMainUiControllerComponent(
